@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\thunder;
+namespace WebComplete\thunder\router;
 
 class Route
 {
@@ -13,15 +13,21 @@ class Route
      * @var string
      */
     private $method;
+    /**
+     * @var array
+     */
+    private $params;
 
     /**
      * @param string $class
      * @param string $method
+     * @param array $params
      */
-    public function __construct(string $class, string $method)
+    public function __construct(string $class, string $method, array $params)
     {
         $this->class = $class;
         $this->method = $method;
+        $this->params = $params;
     }
 
     /**
@@ -54,5 +60,21 @@ class Route
     public function setMethod(string $method)
     {
         $this->method = $method;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
+    /**
+     * @param array $params
+     */
+    public function setParams(array $params)
+    {
+        $this->params = $params;
     }
 }

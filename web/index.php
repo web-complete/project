@@ -1,3 +1,3 @@
 <?php
 
-echo 'Application index here';
+echo 'WebApplication index here';

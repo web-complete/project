@@ -10,7 +10,7 @@ class ErrorHandler
 
     public static function init()
     {
-        (new Run())->pushHandler(\DEV
+        (new Run())->pushHandler(\ENV === 'dev'
             ? new PrettyPageHandler()
             : function () {
                 echo 'Error 500';

@@ -1,9 +1,10 @@
 <?php
 
-namespace WebComplete\thunder;
+namespace WebComplete\thunder\router;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+use WebComplete\thunder\router\exception\Exception;
 use WebComplete\thunder\router\exception\NotAllowedException;
 use WebComplete\thunder\router\exception\NotFoundException;
 
@@ -28,6 +29,7 @@ class Router
      * @param string $uri
      *
      * @return Route
+     * @throws \WebComplete\thunder\router\exception\Exception
      * @throws \WebComplete\thunder\router\exception\NotAllowedException
      * @throws \WebComplete\thunder\router\exception\NotFoundException
      */
@@ -44,7 +46,13 @@ class Router
                 throw new NotAllowedException('Route not allowed');
                 break;
             case Dispatcher::FOUND:
-                $route = new Route($routeInfo[1], $routeInfo[2]);
+                if (!isset($routeInfo[1][0])) {
+                    throw new Exception('Controller class name expected');
+                }
+                if (!isset($routeInfo[1][1])) {
+                    throw new Exception('Action method name expected');
+                }
+                $route = new Route($routeInfo[1][0], $routeInfo[1][1], $routeInfo[2]);
                 break;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\thunder;
+namespace WebComplete\thunder\exception;
 
 class Exception extends \Exception
 {
