@@ -3,13 +3,21 @@
 namespace WebComplete\thunder;
 
 use DI\ContainerBuilder;
+use DI\Scope;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Templating\Loader\FilesystemLoader;
+use Symfony\Component\Templating\PhpEngine;
+use Symfony\Component\Templating\TemplateNameParser;
 use WebComplete\core\package\PackageManager;
+use WebComplete\core\utils\alias\AliasHelper;
+use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\container\ContainerAdapter;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\core\utils\helpers\ClassHelper;
 use WebComplete\thunder\ErrorHandler\ErrorHandler;
 use WebComplete\thunder\router\Router;
+use WebComplete\thunder\view\View;
+use WebComplete\thunder\view\ViewInterface;
 
 class Application
 {
@@ -33,6 +41,7 @@ class Application
             $this->config['definitions'] ?? []
         );
         $this->initContainer($definitions);
+        $this->afterInit();
     }
 
     /**
@@ -48,9 +57,12 @@ class Application
      */
     protected function init(): array
     {
+
         $definitions = [
+            AliasService::class => new AliasService($this->config['aliases'] ?? []),
             Router::class => new Router($this->config['routes'] ?? []),
             Request::class => Request::createFromGlobals(),
+            ViewInterface::class => \DI\object(View::class)->scope(Scope::PROTOTYPE)
         ];
 
         $pm = new PackageManager(new ClassHelper());
@@ -60,6 +72,11 @@ class Application
         }
 
         return $definitions;
+    }
+
+    protected function afterInit()
+    {
+        AliasHelper::setInstance($this->container->get(AliasService::class));
     }
 
     /**

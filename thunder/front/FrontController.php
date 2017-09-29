@@ -58,7 +58,7 @@ class FrontController
     public function dispatch(): Response
     {
         $method = $this->request->getMethod();
-        $uri = $this->request->getPathInfo();
+        $uri = $this->request->getRequestUri();
 
         try {
             $route = $this->router->dispatch($method, $uri);
@@ -101,6 +101,7 @@ class FrontController
     public function process404(Exception $e = null): Response
     {
         // TODO customizable
+        echo 'TODO 404';
         return $this->response;
     }
 
@@ -112,6 +113,7 @@ class FrontController
     public function process403(Exception $e = null): Response
     {
         // TODO customizable
+        echo 'TODO 403';
         return $this->response;
     }
 
@@ -123,6 +125,7 @@ class FrontController
     public function process500(Exception $e = null): Response
     {
         // TODO customizable
+        echo 'TODO 500';
         return $this->response;
     }
 }
