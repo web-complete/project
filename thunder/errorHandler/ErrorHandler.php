@@ -39,4 +39,5 @@ class ErrorHandler
     {
         $this->errorPagePath = $errorPagePath;
     }
+
 }

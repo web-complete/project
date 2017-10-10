@@ -62,17 +62,20 @@ class FrontController
     }
 
     /**
+     * @param string|null $method
+     * @param string|null $uri
+     *
      * @return Response
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
-     * @throws \Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Exception
      */
-    public function dispatch(): Response
+    public function dispatch($method = null, $uri = null): Response
     {
-        $method = $this->request->getMethod();
-        $uri = $this->request->getRequestUri();
+        $method = $method ?? $this->request->getMethod();
+        $uri = $uri ?? $this->request->getRequestUri();
 
         try {
             $route = $this->router->dispatch($method, $uri);

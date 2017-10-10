@@ -69,7 +69,7 @@ abstract class AbstractController
      *
      * @return ResponseRedirect
      */
-    public function redirect(string $url, int $code, array $headers = []): ResponseRedirect
+    public function redirect(string $url, int $code = 301, array $headers = []): ResponseRedirect
     {
         return new ResponseRedirect($url, $code, $headers);
     }
