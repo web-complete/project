@@ -2,9 +2,12 @@
 
 namespace WebComplete\thunder\controller;
 
+use WebComplete\thunder\controller\response\ResponseHtml;
+use WebComplete\thunder\controller\response\ResponseJson;
+use WebComplete\thunder\controller\response\ResponseRedirect;
 use WebComplete\thunder\view\ViewInterface;
 
-class AbstractController
+abstract class AbstractController
 {
 
     protected $layout;
@@ -27,23 +30,47 @@ class AbstractController
      * @param $templatePath
      * @param array $vars
      *
-     * @return string
+     * @return ResponseHtml
      * @throws \Exception
      */
-    public function render($templatePath, array $vars = []): string
+    public function html($templatePath, array $vars = []): ResponseHtml
     {
-        return $this->view->layout($this->layout)->render($templatePath, $vars);
+        $html = $this->view->layout($this->layout)->render($templatePath, $vars);
+        return new ResponseHtml($html);
     }
 
     /**
      * @param $templatePath
      * @param array $vars
      *
-     * @return string
+     * @return ResponseHtml
      * @throws \Exception
      */
-    public function partial($templatePath, array $vars = []): string
+    public function htmlPartial($templatePath, array $vars = []): ResponseHtml
     {
-        return $this->view->layout()->render($templatePath, $vars);
+        $html = $this->view->layout()->render($templatePath, $vars);
+        return new ResponseHtml($html);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return ResponseJson
+     */
+    public function json(array $data): ResponseJson
+    {
+        return new ResponseJson($data);
+    }
+
+    /**
+     * @param string $url
+     * @param int $code
+     * @param array $headers
+     *
+     * @return ResponseRedirect
+     */
+    public function redirect(string $url, int $code, array $headers = []): ResponseRedirect
+    {
+        return new ResponseRedirect($url, $code, $headers);
     }
 }

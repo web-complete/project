@@ -4,10 +4,9 @@ namespace WebComplete\thunder;
 
 use DI\ContainerBuilder;
 use DI\Scope;
+use Symfony\Component\Cache\Simple\FilesystemCache;
+use Symfony\Component\Cache\Simple\NullCache;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
-use Symfony\Component\Templating\PhpEngine;
-use Symfony\Component\Templating\TemplateNameParser;
 use WebComplete\core\package\PackageManager;
 use WebComplete\core\utils\alias\AliasHelper;
 use WebComplete\core\utils\alias\AliasService;
@@ -48,7 +47,9 @@ class Application
      */
     protected function initErrorHandler()
     {
-        ErrorHandler::init();
+        $errorHandler = new ErrorHandler();
+        $errorHandler->register();
+        $errorHandler->setErrorPagePath($this->config['errorPagePath'] ?? '');
     }
 
     /**
@@ -57,7 +58,6 @@ class Application
      */
     protected function init(): array
     {
-
         $definitions = [
             AliasService::class => new AliasService($this->config['aliases'] ?? []),
             Router::class => new Router($this->config['routes'] ?? []),
@@ -65,10 +65,11 @@ class Application
             ViewInterface::class => \DI\object(View::class)->scope(Scope::PROTOTYPE)
         ];
 
-        $pm = new PackageManager(new ClassHelper());
+        $pmCache = \ENV === 'dev' ? new NullCache() : new FilesystemCache();
+        $packageManager = new PackageManager(new ClassHelper(), $pmCache);
         $packageLocations = $this->config['packageLocations'] ?? [];
         foreach ($packageLocations as $location) {
-            $pm->registerAll($location, $definitions);
+            $packageManager->registerAll($location, $definitions);
         }
 
         return $definitions;

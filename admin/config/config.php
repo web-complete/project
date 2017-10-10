@@ -14,6 +14,7 @@ return [
     ],
     'definitions' => [
         'db' => 'mysql://root@127.0.0.1/sandbox?charset=UTF-8',
+        'errorController' => \DI\object(\WebComplete\admin\controllers\ErrorController::class),
         Doctrine\DBAL\Connection::class => \DI\factory(function () {
             return \Doctrine\DBAL\DriverManager::getConnection(
                 ['url' => \DI\get('db')],

@@ -1,5 +1,5 @@
 <?php
-
+/** @var $content */
 ?>
 
 <div>header</div>
