@@ -12,6 +12,6 @@ class AppController extends AbstractAdminController
      */
     public function index()
     {
-        return $this->html('@admin/views/App/index.php', ['name' => 'World']);
+        return $this->responseHtml('@admin/views/App/index.php', ['name' => 'World']);
     }
 }

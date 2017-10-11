@@ -8,8 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\thunder\controller\AbstractController;
 use WebComplete\thunder\controller\response\ControllerResponseInterface;
+use WebComplete\thunder\controller\response\ResponseAccessDenied;
 use WebComplete\thunder\controller\response\ResponseHtml;
 use WebComplete\thunder\controller\response\ResponseJson;
+use WebComplete\thunder\controller\response\ResponseNotFound;
 use WebComplete\thunder\controller\response\ResponseRedirect;
 use WebComplete\thunder\router\Route;
 use WebComplete\thunder\router\Router;
@@ -154,6 +156,8 @@ class FrontController
      *
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     protected function processResult($result)
     {
@@ -175,6 +179,12 @@ class FrontController
                     $result->getCode(),
                     $result->getHeaders()
                 );
+            }
+            if ($result instanceof ResponseNotFound) {
+                $this->processError(null, 404);
+            }
+            if ($result instanceof ResponseAccessDenied) {
+                $this->processError(null, 403);
             }
         }
     }

@@ -8,34 +8,34 @@ class ErrorController extends AbstractErrorController
 {
 
     /**
-     * @param \Exception $exception
+     * @param \Exception|null $exception
      *
      * @return mixed
      * @throws \Exception
      */
-    public function action403(\Exception $exception)
+    public function action403(\Exception $exception = null)
     {
         return 'action 403';
     }
 
     /**
-     * @param \Exception $exception
+     * @param \Exception|null $exception
      *
      * @return mixed
      * @throws \Exception
      */
-    public function action404(\Exception $exception)
+    public function action404(\Exception $exception = null)
     {
         return 'action 404';
     }
 
     /**
-     * @param \Exception $exception
+     * @param \Exception|null $exception
      *
      * @return mixed
      * @throws \Exception
      */
-    public function action500(\Exception $exception)
+    public function action500(\Exception $exception = null)
     {
         return 'action 500';
     }
