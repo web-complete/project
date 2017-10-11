@@ -3,6 +3,7 @@
 namespace tests\integration;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use tests\ThunderTestCase;
 use WebComplete\thunder\Application;
 use WebComplete\thunder\front\FrontController;
@@ -11,25 +12,20 @@ class ApplicationTest extends ThunderTestCase
 {
 
     /**
-     * @return Application
      */
-    public function testCreateApplication(): \WebComplete\thunder\Application
+    public function testCreateApplication()
     {
-        defined('ENV')
-        or define('ENV', 'prod');
-
-        $config = require __DIR__ . '/../include/app/config/config.php';
-        $application = new \WebComplete\thunder\Application($config);
+        \defined('ENV')
+        or \define('ENV', 'prod');
+        $application = $this->createApplication();
         $this->assertInstanceOf(Application::class, $application);
-        return $application;
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testDispatchController(Application $application)
+    public function testDispatchController()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/index');
         $this->assertEquals('index string', $response->getContent());
@@ -37,33 +33,30 @@ class ApplicationTest extends ThunderTestCase
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testHtmlResponseWithLayout(Application $application)
+    public function testHtmlResponseWithLayout()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/layout');
         $this->assertEquals('<div>header</div>content<div>footer</div>', $response->getContent());
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testHtmlResponseWithPartial(Application $application)
+    public function testHtmlResponseWithPartial()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/partial');
         $this->assertEquals('partial', $response->getContent());
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testJsonResponse(Application $application)
+    public function testJsonResponse()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/json');
         $this->assertEquals('{"a":"b"}', $response->getContent());
@@ -71,11 +64,10 @@ class ApplicationTest extends ThunderTestCase
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testRedirectResponse(Application $application)
+    public function testRedirectResponse()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         /** @var RedirectResponse $response */
         $response = $front->dispatch('GET', '/some/redirect');
@@ -85,57 +77,76 @@ class ApplicationTest extends ThunderTestCase
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testRouteNotFound(Application $application)
+    public function testRouteNotFound()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/not-exists');
-        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals('error 404', $response->getContent());
         $this->assertEquals(404, $response->getStatusCode());
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testContentNotFound(Application $application)
+    public function testContentNotFound()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/not-found');
-        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals('error 404', $response->getContent());
         $this->assertEquals(404, $response->getStatusCode());
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testAccessDenied(Application $application)
+    public function testAccessDenied()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/access-denied');
-        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals('error 403', $response->getContent());
         $this->assertEquals(403, $response->getStatusCode());
     }
 
     /**
-     * @depends testCreateApplication
-     * @param Application $application
      */
-    public function testSystemError(Application $application)
+    public function testSystemError()
     {
+        $application = $this->createApplication();
         $front = $application->getContainer()->get(FrontController::class);
         $response = $front->dispatch('GET', '/some/system-error');
-        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals('error 500', $response->getContent());
         $this->assertEquals(500, $response->getStatusCode());
     }
 
+    /**
+     */
+    public function testOnlyPost()
+    {
+        $application = $this->createApplication();
+        $front = $application->getContainer()->get(FrontController::class);
+        $response = $front->dispatch('GET', '/some/only-post');
+        $this->assertEquals('error 403', $response->getContent());
+        $this->assertEquals(403, $response->getStatusCode());
+        $response = $front->dispatch('POST', '/some/only-post');
+        $this->assertEquals('only post', $response->getContent());
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     // TODO test post request
     // TODO test post/get/files/headers in controller + view vars + get controller in layout
+
+    /**
+     * @return Application
+     */
+    protected function createApplication(): Application
+    {
+        $config = require __DIR__ . '/../include/app/config/config.php';
+        return new Application($config);
+    }
 }

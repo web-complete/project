@@ -48,4 +48,9 @@ class SomeController extends AbstractController
     {
         throw new \RuntimeException('some');
     }
+
+    public function actionOnlyPost()
+    {
+        return 'only post';
+    }
 }

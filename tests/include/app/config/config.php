@@ -14,6 +14,7 @@ return [
         ['GET', '/some/not-found', [\tests\app\controllers\SomeController::class, 'actionNotFound']],
         ['GET', '/some/access-denied', [\tests\app\controllers\SomeController::class, 'actionAccessDenied']],
         ['GET', '/some/system-error', [\tests\app\controllers\SomeController::class, 'actionSystemError']],
+        ['POST', '/some/only-post', [\tests\app\controllers\SomeController::class, 'actionOnlyPost']],
     ],
     'packageLocations' => [
     ],
