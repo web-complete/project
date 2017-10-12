@@ -2,7 +2,7 @@
 
 namespace tests\app\controllers;
 
-use WebComplete\thunder\controller\AbstractErrorController;
+use WebComplete\mvc\controller\AbstractErrorController;
 
 class ErrorController extends AbstractErrorController
 {

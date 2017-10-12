@@ -1,22 +1,16 @@
 <?php
 
-namespace WebComplete\thunder\front;
+namespace WebComplete\mvc\front;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use WebComplete\core\utils\container\ContainerInterface;
+use WebComplete\mvc\controller\AbstractController;
+use WebComplete\mvc\router\Route;
+use WebComplete\mvc\router\Router;
+use WebComplete\mvc\router\exception\NotAllowedException;
+use WebComplete\mvc\router\exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WebComplete\core\utils\container\ContainerInterface;
-use WebComplete\thunder\controller\AbstractController;
-use WebComplete\thunder\controller\response\ControllerResponseInterface;
-use WebComplete\thunder\controller\response\ResponseAccessDenied;
-use WebComplete\thunder\controller\response\ResponseHtml;
-use WebComplete\thunder\controller\response\ResponseJson;
-use WebComplete\thunder\controller\response\ResponseNotFound;
-use WebComplete\thunder\controller\response\ResponseRedirect;
-use WebComplete\thunder\router\Route;
-use WebComplete\thunder\router\Router;
-use WebComplete\thunder\router\exception\NotAllowedException;
-use WebComplete\thunder\router\exception\NotFoundException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class FrontController
 {
@@ -49,18 +43,18 @@ class FrontController
      * @param Router $router
      * @param Request $request
      * @param Response $response
-     * @param ContainerInterface $controllerContainer
+     * @param ContainerInterface $controllerResolver
      */
     public function __construct(
         Router $router,
         Request $request,
         Response $response,
-        ContainerInterface $controllerContainer
+        ContainerInterface $controllerResolver
     ) {
         $this->router = $router;
         $this->request = $request;
         $this->response = $response;
-        $this->controllerContainer = $controllerContainer;
+        $this->controllerContainer = $controllerResolver;
     }
 
     /**
@@ -81,35 +75,36 @@ class FrontController
 
         try {
             $route = $this->router->dispatch($method, $uri);
-            return $this->processRoute($route);
+            $this->processRoute($route);
         } catch (NotFoundException $e) {
-            return $this->processError($e, 404);
+            $this->processError($e, 404);
         } catch (NotAllowedException $e) {
-            return $this->processError($e, 403);
+            $this->processError($e, 403);
         } catch (\Exception $e) {
-            if (\ENV === 'prod') {
-                return $this->processError($e, 500);
+            if (\ENV === 'dev') {
+                throw $e;
             }
-            throw $e;
+            $this->processError($e, 500);
         }
+        $this->response->prepare($this->request);
+        return $this->response;
     }
 
     /**
      * @param Route $route
      *
-     * @return Response
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      */
-    public function processRoute(Route $route): Response
+    public function processRoute(Route $route)
     {
         $controllerClass = $route->getClass();
         $actionMethod = $route->getMethod();
+        /** @var AbstractController $controller */
         $controller = $this->controllerContainer->get($controllerClass);
         $this->processController($controller, $actionMethod, $route->getParams());
-        return $this->response;
     }
 
     /**
@@ -117,7 +112,8 @@ class FrontController
      * @param string $actionMethod
      * @param array $params
      *
-     * @return Response
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      */
@@ -125,30 +121,27 @@ class FrontController
         AbstractController $controller,
         string $actionMethod,
         array $params = []
-    ): Response {
+    ) {
         $result = \call_user_func_array([$controller, $actionMethod], $params);
         $this->processResult($result);
-        return $this->response;
     }
 
     /**
      * @param \Exception|null $exception
      * @param int $code
      *
-     * @return Response
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function processError(\Exception $exception = null, int $code): Response
+    public function processError(\Exception $exception = null, int $code)
     {
-        $this->response->setStatusCode($code);
-        if ($controller = $this->controllerContainer->get(self::ERROR_CONTROLLER_KEY)) {
-            return $this->processController($controller, self::$errorActions[$code], [$exception]);
-        }
         $this->response->setContent('Page not found');
-        return $this->response;
+        if ($controller = $this->controllerContainer->get(self::ERROR_CONTROLLER_KEY)) {
+            $this->processController($controller, self::$errorActions[$code], [$exception]);
+        }
+        $this->response->setStatusCode($code);
     }
 
     /**
@@ -162,43 +155,19 @@ class FrontController
     protected function processResult($result)
     {
         if (\is_string($result)) {
+            $this->response->setStatusCode(200);
             $this->response->headers->set('content-type', 'text/html');
             $this->response->setContent($result);
-        } elseif ($result instanceof ControllerResponseInterface) {
-            if ($result instanceof ResponseHtml) {
-                $this->response->headers->set('content-type', 'text/html');
-                $this->response->setContent($result->getContent());
-            }
-            if ($result instanceof ResponseJson) {
-                $this->response->headers->set('content-type', 'application/json');
-                $this->response->setContent(\json_encode($result->getContent()));
-            }
-            if ($result instanceof ResponseRedirect) {
-                $this->response = $this->createRedirectResponse(
-                    $result->getUrl(),
-                    $result->getCode(),
-                    $result->getHeaders()
-                );
-            }
-            if ($result instanceof ResponseNotFound) {
-                $this->processError(null, 404);
-            }
-            if ($result instanceof ResponseAccessDenied) {
-                $this->processError(null, 403);
+        } elseif (\is_array($result)) {
+            $this->response->setStatusCode(200);
+            $this->response->headers->set('content-type', 'application/json');
+            $this->response->setContent(\json_encode($result));
+        } elseif ($result instanceof Response) {
+            if ($result instanceof RedirectResponse) {
+                $this->response = $result;
+            } elseif ($result->getStatusCode() !== 200) {
+                $this->processError(null, $result->getStatusCode());
             }
         }
-    }
-
-    /**
-     * @param string $url
-     * @param int $code
-     * @param array $headers
-     *
-     * @return RedirectResponse
-     * @throws \InvalidArgumentException
-     */
-    protected function createRedirectResponse(string $url, int $code, array $headers = []): RedirectResponse
-    {
-        return new RedirectResponse($url, $code, $headers);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\thunder;
+namespace WebComplete\mvc;
 
 use DI\ContainerBuilder;
 use DI\Scope;
@@ -13,10 +13,10 @@ use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\container\ContainerAdapter;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\core\utils\helpers\ClassHelper;
-use WebComplete\thunder\ErrorHandler\ErrorHandler;
-use WebComplete\thunder\router\Router;
-use WebComplete\thunder\view\View;
-use WebComplete\thunder\view\ViewInterface;
+use WebComplete\mvc\ErrorHandler\ErrorHandler;
+use WebComplete\mvc\router\Router;
+use WebComplete\mvc\view\View;
+use WebComplete\mvc\view\ViewInterface;
 
 class Application
 {
@@ -58,8 +58,9 @@ class Application
      */
     protected function init(): array
     {
+        $aliasService = new AliasService($this->config['aliases'] ?? []);
         $definitions = [
-            AliasService::class => new AliasService($this->config['aliases'] ?? []),
+            AliasService::class => $aliasService,
             Router::class => new Router($this->config['routes'] ?? []),
             Request::class => Request::createFromGlobals(),
             ViewInterface::class => \DI\object(View::class)->scope(Scope::PROTOTYPE)
@@ -69,7 +70,7 @@ class Application
         $packageManager = new PackageManager(new ClassHelper(), $pmCache);
         $packageLocations = $this->config['packageLocations'] ?? [];
         foreach ($packageLocations as $location) {
-            $packageManager->registerAll($location, $definitions);
+            $packageManager->registerAll($aliasService->get($location), $definitions);
         }
 
         return $definitions;

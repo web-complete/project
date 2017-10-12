@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\thunder\controller;
+namespace WebComplete\mvc\controller;
 
 abstract class AbstractErrorController extends AbstractController
 {

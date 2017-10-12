@@ -1,9 +1,9 @@
 <?php
 
-namespace WebComplete\thunder\view;
+namespace WebComplete\mvc\view;
 
 use WebComplete\core\utils\alias\AliasService;
-use WebComplete\thunder\controller\AbstractController;
+use WebComplete\mvc\controller\AbstractController;
 
 class View implements ViewInterface
 {

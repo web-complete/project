@@ -3,12 +3,12 @@
 namespace tests\unit\controller;
 
 use Mvkasatkin\mocker\Mocker;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use tests\SomeController;
 use tests\ThunderTestCase;
-use WebComplete\thunder\controller\response\ResponseHtml;
-use WebComplete\thunder\controller\response\ResponseJson;
-use WebComplete\thunder\controller\response\ResponseRedirect;
-use WebComplete\thunder\view\View;
+use WebComplete\mvc\view\View;
 
 class AbstractControllerTest extends ThunderTestCase
 {
@@ -20,9 +20,11 @@ class AbstractControllerTest extends ThunderTestCase
             Mocker::method('layout', 1)->with(['someLayout'])->returnsSelf(),
             Mocker::method('render', 1)->with(['template1', ['a' => 'b']])->returns('some html')
         ]);
-        $controller = new SomeController($view);
-        $response = $controller->responseHtml('template1', ['a' => 'b']);
-        $this->assertInstanceOf(ResponseHtml::class, $response);
+        $request = new Request();
+        $response = new Response();
+        $controller = new SomeController($request, $response, $view);
+        $response = Mocker::invoke($controller, 'responseHtml', ['template1', ['a' => 'b']]);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function testHtmlPartial()
@@ -32,26 +34,57 @@ class AbstractControllerTest extends ThunderTestCase
             Mocker::method('layout', 1)->with([null])->returnsSelf(),
             Mocker::method('render', 1)->with(['template1', ['a' => 'b']])->returns('some html')
         ]);
-        $controller = new SomeController($view);
-        $response = $controller->responseHtmlPartial('template1', ['a' => 'b']);
-        $this->assertInstanceOf(ResponseHtml::class, $response);
+        $request = new Request();
+        $response = new Response();
+        $controller = new SomeController($request, $response, $view);
+        $response = Mocker::invoke($controller, 'responseHtmlPartial', ['template1', ['a' => 'b']]);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function testJson()
     {
         /** @var View $view */
         $view = Mocker::create(View::class);
-        $controller = new SomeController($view);
-        $response = $controller->responseJson(['a' => 'b']);
-        $this->assertInstanceOf(ResponseJson::class, $response);
+        $request = new Request();
+        $response = new Response();
+        $controller = new SomeController($request, $response, $view);
+        $response = Mocker::invoke($controller, 'responseJson', [['a' => 'b']]);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function testRedirect()
     {
         /** @var View $view */
         $view = Mocker::create(View::class);
-        $controller = new SomeController($view);
-        $response = $controller->responseRedirect('aaa');
-        $this->assertInstanceOf(ResponseRedirect::class, $response);
+        $request = new Request();
+        $response = new Response();
+        $controller = new SomeController($request, $response, $view);
+        $response = Mocker::invoke($controller, 'responseRedirect', ['aaa']);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertEquals(302, $response->getStatusCode());
+    }
+
+    public function testNotFound()
+    {
+        /** @var View $view */
+        $view = Mocker::create(View::class);
+        $request = new Request();
+        $response = new Response();
+        $controller = new SomeController($request, $response, $view);
+        $response = Mocker::invoke($controller, 'responseNotFound');
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
+    public function testAccessDenied()
+    {
+        /** @var View $view */
+        $view = Mocker::create(View::class);
+        $request = new Request();
+        $response = new Response();
+        $controller = new SomeController($request, $response, $view);
+        $response = Mocker::invoke($controller, 'responseAccessDenied');
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(403, $response->getStatusCode());
     }
 }

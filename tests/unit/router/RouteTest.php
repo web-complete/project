@@ -3,7 +3,7 @@
 namespace tests\unit\router;
 
 use tests\ThunderTestCase;
-use WebComplete\thunder\router\Route;
+use WebComplete\mvc\router\Route;
 
 class RouteTest extends ThunderTestCase
 {

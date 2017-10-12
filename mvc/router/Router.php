@@ -1,12 +1,12 @@
 <?php
 
-namespace WebComplete\thunder\router;
+namespace WebComplete\mvc\router;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use WebComplete\thunder\router\exception\Exception;
-use WebComplete\thunder\router\exception\NotAllowedException;
-use WebComplete\thunder\router\exception\NotFoundException;
+use WebComplete\mvc\router\exception\Exception;
+use WebComplete\mvc\router\exception\NotAllowedException;
+use WebComplete\mvc\router\exception\NotFoundException;
 
 class Router
 {
@@ -29,9 +29,9 @@ class Router
      * @param string $uri
      *
      * @return Route
-     * @throws \WebComplete\thunder\router\exception\Exception
-     * @throws \WebComplete\thunder\router\exception\NotAllowedException
-     * @throws \WebComplete\thunder\router\exception\NotFoundException
+     * @throws \WebComplete\mvc\router\exception\Exception
+     * @throws \WebComplete\mvc\router\exception\NotAllowedException
+     * @throws \WebComplete\mvc\router\exception\NotFoundException
      */
     public function dispatch(string $method, string $uri): Route
     {

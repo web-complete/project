@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\thunder\ErrorHandler;
+namespace WebComplete\mvc\ErrorHandler;
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
@@ -39,5 +39,4 @@ class ErrorHandler
     {
         $this->errorPagePath = $errorPagePath;
     }
-
 }

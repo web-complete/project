@@ -2,7 +2,7 @@
 
 namespace tests;
 
-use WebComplete\thunder\controller\AbstractController;
+use WebComplete\mvc\controller\AbstractController;
 
 class SomeController extends AbstractController
 {

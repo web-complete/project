@@ -7,10 +7,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use tests\ThunderTestCase;
 use WebComplete\core\utils\container\ContainerInterface;
-use WebComplete\thunder\controller\AbstractController;
-use WebComplete\thunder\front\FrontController;
-use WebComplete\thunder\router\Route;
-use WebComplete\thunder\router\Router;
+use WebComplete\mvc\controller\AbstractController;
+use WebComplete\mvc\front\FrontController;
+use WebComplete\mvc\router\Route;
+use WebComplete\mvc\router\Router;
 
 class FrontControllerTest extends ThunderTestCase
 {

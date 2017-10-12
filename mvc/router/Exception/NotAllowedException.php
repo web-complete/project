@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\thunder\router\exception;
+namespace WebComplete\mvc\router\exception;
 
 class NotAllowedException extends Exception
 {

@@ -15,7 +15,7 @@
   "autoload": {
     "psr-4": {
       "WebComplete\\admin\\": "admin",
-      "WebComplete\\thunder\\": "thunder"
+      "WebComplete\\mvc\\": "mvc"
     }
   }
 }

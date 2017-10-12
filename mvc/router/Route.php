@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\thunder\router;
+namespace WebComplete\mvc\router;
 
 class Route
 {

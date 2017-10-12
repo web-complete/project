@@ -1,8 +1,8 @@
 <?php
 
-namespace WebComplete\thunder\view;
+namespace WebComplete\mvc\view;
 
-use WebComplete\thunder\controller\AbstractController;
+use WebComplete\mvc\controller\AbstractController;
 
 interface ViewInterface
 {
@@ -34,5 +34,4 @@ interface ViewInterface
      * @return AbstractController|null
      */
     public function getController();
-
 }
