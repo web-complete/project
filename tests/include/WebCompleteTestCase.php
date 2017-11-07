@@ -5,7 +5,7 @@ namespace tests;
 use Mvkasatkin\mocker\Mocker;
 use PHPUnit\Framework\TestCase;
 
-class ThunderTestCase extends TestCase
+class WebCompleteTestCase extends TestCase
 {
 
     public function setUp()
