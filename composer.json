@@ -10,7 +10,8 @@
   },
   "autoload": {
     "psr-4": {
-      "WebComplete\\admin\\": "admin"
+      "WebComplete\\admin\\": "admin",
+      "WebComplete\\extra\\": "extra"
     }
   }
 }

@@ -9,17 +9,17 @@ return [
     'routes' => [
         ['GET', '/admin/', [\WebComplete\admin\controllers\AppController::class, 'index']],
     ],
-    'packageLocations' => [
-        __DIR__ . '/../packages',
+    'cubesLocations' => [
+        __DIR__ . '/../cubes',
     ],
     'definitions' => [
         'db' => 'mysql://root@127.0.0.1/sandbox?charset=UTF-8',
         'errorController' => \DI\object(\WebComplete\admin\controllers\ErrorController::class),
-        Doctrine\DBAL\Connection::class => \DI\factory(function () {
+        Doctrine\DBAL\Connection::class => function () {
             return \Doctrine\DBAL\DriverManager::getConnection(
                 ['url' => \DI\get('db')],
                 new \Doctrine\DBAL\Configuration()
             );
-        }),
+        },
     ]
 ];
