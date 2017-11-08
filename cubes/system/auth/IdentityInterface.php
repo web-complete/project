@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\auth;
+namespace cubes\system\auth;
 
 interface IdentityInterface
 {

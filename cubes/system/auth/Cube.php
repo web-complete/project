@@ -1,8 +1,8 @@
 <?php
 
-namespace cubes\user;
+namespace cubes\system\auth;
 
-use cubes\user\migrations\UserMigration;
+use cubes\system\auth\migrations\AuthMigration;
 use WebComplete\core\cube\AbstractCube;
 
 class Cube extends AbstractCube
@@ -15,13 +15,12 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[UserRepositoryInterface::class] = \DI\object(UserRepositoryDb::class);
     }
 
     public function getMigrations(): array
     {
         return [
-            '001_001' => UserMigration::class
+            '000_001' => AuthMigration::class
         ];
     }
 }

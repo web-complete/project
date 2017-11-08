@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\auth\migrations;
+namespace cubes\system\auth\migrations;
 
 use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\migration\MigrationInterface;

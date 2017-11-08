@@ -1,11 +1,10 @@
 <?php
 
-namespace cubes\user;
+namespace cubes\system\user;
 
 use Doctrine\DBAL\Connection;
 use WebComplete\core\condition\ConditionDbParser;
 use WebComplete\core\entity\AbstractEntityRepositoryDb;
-use WebComplete\core\factory\ObjectFactory;
 use WebComplete\core\utils\hydrator\HydratorInterface;
 
 class UserRepositoryDb extends AbstractEntityRepositoryDb implements UserRepositoryInterface

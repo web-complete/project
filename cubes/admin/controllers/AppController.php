@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\admin\controllers;
+namespace cubes\admin\controllers;
 
 class AppController extends AbstractAdminController
 {

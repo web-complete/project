@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\admin\controllers;
+namespace cubes\admin\controllers;
 
 use WebComplete\mvc\controller\AbstractController;
 

@@ -3,12 +3,12 @@
 use Symfony\Component\Console\Application;
 
 (function () {
-    require __DIR__ . '/../vendor/autoload.php';
+    require __DIR__ . '/vendor/autoload.php';
 
     defined('ENV') or define('ENV', 'dev');
 
     /** @var array[] $config */
-    $config = require __DIR__ . '/../admin/config/config.php';
+    $config = require __DIR__ . '/config/config.php';
     $application = new \WebComplete\mvc\Application($config, false);
     $container = $application->getContainer();
 

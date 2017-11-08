@@ -1,9 +1,9 @@
 <?php
 
-namespace cubes\user\migrations;
+namespace cubes\system\user\migrations;
 
-use cubes\user\User;
-use cubes\user\UserService;
+use cubes\system\user\User;
+use cubes\system\user\UserService;
 use Doctrine\DBAL\Connection;
 use WebComplete\core\utils\migration\MigrationInterface;
 

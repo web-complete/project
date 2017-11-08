@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\user;
+namespace cubes\system\user;
 
 use WebComplete\core\factory\ObjectFactory;
 
