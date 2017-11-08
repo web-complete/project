@@ -17,6 +17,10 @@ return [
     'routes' => [
         ['GET', '/admin/', [AppController::class, 'index']],
     ],
+    'commands' => [
+        \WebComplete\core\utils\migration\commands\MigrationUpCommand::class,
+        \WebComplete\core\utils\migration\commands\MigrationDownCommand::class,
+    ],
     'cubesLocations' => [
         __DIR__ . '/../../cubes',
     ],
