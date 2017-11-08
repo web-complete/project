@@ -1,0 +1,9 @@
+- tests in cubes
+- password crypt
+- authentication by password
+- authentication by token
+- current / logout ( no session in admin )
+- bearer auth
+- assets
+- login page
+- admin home + vue
