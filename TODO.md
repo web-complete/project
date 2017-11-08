@@ -7,3 +7,4 @@
 - assets
 - login page
 - admin home + vue
+- layout + navigation + route + state(models?)
