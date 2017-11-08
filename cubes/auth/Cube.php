@@ -1,7 +1,8 @@
 <?php
 
-namespace WebComplete\extra\cubes\auth;
+namespace cubes\auth;
 
+use cubes\auth\migrations\AuthMigration;
 use WebComplete\core\cube\AbstractCube;
 
 class Cube extends AbstractCube
@@ -14,5 +15,12 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            '000_001' => AuthMigration::class
+        ];
     }
 }

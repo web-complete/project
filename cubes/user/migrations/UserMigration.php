@@ -1,7 +1,9 @@
 <?php
 
-namespace WebComplete\extra\cubes\user;
+namespace cubes\user\migrations;
 
+use cubes\user\User;
+use cubes\user\UserService;
 use Doctrine\DBAL\Connection;
 use WebComplete\core\utils\migration\MigrationInterface;
 
@@ -12,13 +14,19 @@ class UserMigration implements MigrationInterface
      * @var Connection
      */
     private $db;
+    /**
+     * @var UserService
+     */
+    private $userService;
 
     /**
      * @param Connection $db
+     * @param UserService $userService
      */
-    public function __construct(Connection $db)
+    public function __construct(Connection $db, UserService $userService)
     {
         $this->db = $db;
+        $this->userService = $userService;
     }
 
     public function up()
@@ -33,22 +41,34 @@ class UserMigration implements MigrationInterface
               `last_name` varchar(50) DEFAULT NULL,
               `sex` ENUM(\'M\', \'F\') DEFAULT \'M\',
               `last_visit` timestamp NULL DEFAULT NULL,
-              `f_active` tinyint(1) UNSIGNED DEFAULT 1
+              `f_active` tinyint(1) UNSIGNED DEFAULT 1,
+              `roles` varchar(500),
               `created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               `updated_on` TIMESTAMP NULL DEFAULT NULL,
-              PRIMARY KEY(`id`),
-              UNIQUE(`class`)
+              PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 
         $this->db->exec($sql);
         $this->db->exec('CREATE UNIQUE INDEX user_idx1 ON `user` (`login`)');
         $this->db->exec('CREATE UNIQUE INDEX user_idx2 ON `user` (`email`)');
         $this->db->exec('CREATE UNIQUE INDEX user_idx3 ON `user` (`token`)');
+
+        $this->createAdmin();
     }
 
     public function down()
     {
         $sql = 'DROP TABLE IF EXISTS `user`';
         $this->db->exec($sql);
+    }
+
+    protected function createAdmin()
+    {
+        /** @var User $user */
+        $user = $this->userService->create();
+        $user->setLogin('admin');
+        $user->setPassword('123qwe');
+        $user->setRoles(['admin']);
+        $this->userService->save($user);
     }
 }

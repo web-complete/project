@@ -1,4 +1,6 @@
+/tmp
 /vendor
 /tests/logs
 composer.lock
 .idea/
+/cubes/auth/storage
