@@ -3,6 +3,8 @@
 namespace cubes\system\user;
 
 use WebComplete\core\entity\AbstractEntity;
+use WebComplete\core\utils\helpers\SecurityHelper;
+use WebComplete\mvc\ApplicationConfig;
 
 class User extends AbstractEntity
 {
@@ -19,6 +21,24 @@ class User extends AbstractEntity
     protected $roles = [];
     protected $created_on;
     protected $updated_on;
+    /**
+     * @var SecurityHelper
+     */
+    private $securityHelper;
+    /**
+     * @var ApplicationConfig
+     */
+    private $config;
+
+    /**
+     * @param SecurityHelper $securityHelper
+     * @param ApplicationConfig $config
+     */
+    public function __construct(SecurityHelper $securityHelper, ApplicationConfig $config)
+    {
+        $this->securityHelper = $securityHelper;
+        $this->config = $config;
+    }
 
     /**
      * @return mixed
@@ -65,7 +85,17 @@ class User extends AbstractEntity
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = $this->securityHelper->cryptPassword($password, $this->config['salt']);
+    }
+
+    /**
+     * @param string $password
+     *
+     * @return bool
+     */
+    public function checkPassword(string $password): bool
+    {
+        return $this->getPassword() === $this->securityHelper->cryptPassword($password, $this->config['salt']);
     }
 
     /**

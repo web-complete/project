@@ -1,5 +1,4 @@
-- password crypt
-- authentication by password
+- test user
 - authentication by token
 - current / logout ( no session in admin )
 - bearer auth
@@ -7,3 +6,7 @@
 - login page
 - admin home + vue
 - layout + navigation + route + state(models?)
+
+- images
+- files
+- tags
