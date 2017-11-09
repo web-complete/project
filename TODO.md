@@ -1,4 +1,3 @@
-- tests in cubes
 - password crypt
 - authentication by password
 - authentication by token
