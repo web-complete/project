@@ -11,11 +11,9 @@ interface IdentityInterface
     public function getId();
 
     /**
-     * Check access rights by rbac permission
-     * @param string $permissionName
-     * @param null $ruleParams
+     * @param string $password
      *
      * @return bool
      */
-    public function can(string $permissionName, $ruleParams = null): bool;
+    public function checkPassword(string $password): bool;
 }

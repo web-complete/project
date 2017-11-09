@@ -14,4 +14,11 @@
             <directory suffix="Test.php">./tests/application</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./cubes</directory>
+        </whitelist>
+    </filter>
+
 </phpunit>

@@ -20,14 +20,6 @@ interface IdentityServiceInterface
 
     /**
      * @param IdentityInterface $identity
-     * @param string $password
-     *
-     * @return bool
-     */
-    public function checkPassword(IdentityInterface $identity, string $password): bool;
-
-    /**
-     * @param IdentityInterface $identity
      */
     public function login(IdentityInterface $identity);
 

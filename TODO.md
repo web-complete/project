@@ -1,12 +1,9 @@
-- test user
-- authentication by token
-- current / logout ( no session in admin )
-- bearer auth
-- assets
 - login page
 - admin home + vue
 - layout + navigation + route + state(models?)
 
+- logger
 - images
 - files
 - tags
+- minify assets

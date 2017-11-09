@@ -2,42 +2,64 @@
 
 namespace cubes\system\user;
 
+use cubes\system\auth\IdentityInterface;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\utils\helpers\SecurityHelper;
+use WebComplete\core\utils\typecast\Cast;
 use WebComplete\mvc\ApplicationConfig;
+use WebComplete\rbac\exception\RbacException;
+use WebComplete\rbac\Rbac;
 
-class User extends AbstractEntity
+class User extends AbstractEntity implements IdentityInterface
 {
 
-    protected $login;
-    protected $email;
-    protected $password;
-    protected $token;
-    protected $first_name;
-    protected $last_name;
-    protected $sex;
-    protected $last_visit;
-    protected $f_active;
-    protected $roles = [];
-    protected $created_on;
-    protected $updated_on;
+    /**
+     * @return array
+     */
+    public static function fields(): array
+    {
+        return [
+            'login' => Cast::STRING,
+            'email' => Cast::STRING,
+            'password' => Cast::STRING,
+            'token' => Cast::STRING,
+            'first_name' => Cast::STRING,
+            'last_name' => Cast::STRING,
+            'sex' => Cast::STRING,
+            'last_visit' => Cast::STRING,
+            'f_active' => Cast::BOOL,
+            'roles' => [Cast::STRING],
+            'created_on' => Cast::STRING,
+            'updated_on' => Cast::STRING,
+        ];
+    }
+
     /**
      * @var SecurityHelper
      */
-    private $securityHelper;
+    protected $securityHelper;
     /**
      * @var ApplicationConfig
      */
-    private $config;
+    protected $config;
+    /**
+     * @var Rbac
+     */
+    protected $rbac;
 
     /**
      * @param SecurityHelper $securityHelper
      * @param ApplicationConfig $config
+     * @param Rbac $rbac
      */
-    public function __construct(SecurityHelper $securityHelper, ApplicationConfig $config)
-    {
+    public function __construct(
+        SecurityHelper $securityHelper,
+        ApplicationConfig $config,
+        Rbac $rbac
+    ) {
         $this->securityHelper = $securityHelper;
         $this->config = $config;
+        $this->rbac = $rbac;
     }
 
     /**
@@ -45,7 +67,7 @@ class User extends AbstractEntity
      */
     public function getLogin()
     {
-        return $this->login;
+        return $this->getField('login');
     }
 
     /**
@@ -53,7 +75,7 @@ class User extends AbstractEntity
      */
     public function setLogin($login)
     {
-        $this->login = $login;
+        $this->setField('login', $login);
     }
 
     /**
@@ -61,7 +83,7 @@ class User extends AbstractEntity
      */
     public function getEmail()
     {
-        return $this->email;
+        return $this->getField('email');
     }
 
     /**
@@ -69,7 +91,7 @@ class User extends AbstractEntity
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->setField('email', $email);
     }
 
     /**
@@ -77,7 +99,7 @@ class User extends AbstractEntity
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->getField('password');
     }
 
     /**
@@ -85,7 +107,8 @@ class User extends AbstractEntity
      */
     public function setPassword($password)
     {
-        $this->password = $this->securityHelper->cryptPassword($password, $this->config['salt']);
+        $hash = $this->securityHelper->cryptPassword($password, $this->config['salt']);
+        $this->setField('password', $hash);
     }
 
     /**
@@ -103,7 +126,7 @@ class User extends AbstractEntity
      */
     public function getToken()
     {
-        return $this->token;
+        return $this->getField('token');
     }
 
     /**
@@ -111,7 +134,7 @@ class User extends AbstractEntity
      */
     public function setToken($token)
     {
-        $this->token = $token;
+        $this->setField('token', $token);
     }
 
     /**
@@ -119,7 +142,7 @@ class User extends AbstractEntity
      */
     public function getFirstName()
     {
-        return $this->first_name;
+        return $this->getField('first_name');
     }
 
     /**
@@ -127,7 +150,7 @@ class User extends AbstractEntity
      */
     public function setFirstName($firstName)
     {
-        $this->first_name = $firstName;
+        $this->setField('first_name', $firstName);
     }
 
     /**
@@ -135,7 +158,7 @@ class User extends AbstractEntity
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->getField('last_name');
     }
 
     /**
@@ -143,7 +166,7 @@ class User extends AbstractEntity
      */
     public function setLastName($lastName)
     {
-        $this->last_name = $lastName;
+        $this->setField('last_name', $lastName);
     }
 
     /**
@@ -151,7 +174,7 @@ class User extends AbstractEntity
      */
     public function getSex()
     {
-        return $this->sex;
+        return $this->getField('sex');
     }
 
     /**
@@ -159,7 +182,7 @@ class User extends AbstractEntity
      */
     public function setSex($sex)
     {
-        $this->sex = $sex;
+        $this->setField('sex', $sex);
     }
 
     /**
@@ -167,7 +190,7 @@ class User extends AbstractEntity
      */
     public function getLastVisit()
     {
-        return $this->last_visit;
+        return $this->getField('last_visit');
     }
 
     /**
@@ -175,7 +198,7 @@ class User extends AbstractEntity
      */
     public function setLastVisit($lastVisit)
     {
-        $this->last_visit = $lastVisit;
+        $this->setField('last_visit', $lastVisit);
     }
 
     /**
@@ -183,7 +206,7 @@ class User extends AbstractEntity
      */
     public function getFActive(): bool
     {
-        return (bool)$this->f_active;
+        return $this->getField('f_active');
     }
 
     /**
@@ -191,7 +214,7 @@ class User extends AbstractEntity
      */
     public function setFActive($fActive)
     {
-        $this->f_active = (int)$fActive;
+        $this->setField('f_active', $fActive);
     }
 
     /**
@@ -199,7 +222,7 @@ class User extends AbstractEntity
      */
     public function getRoles(): array
     {
-        return \is_array($this->roles) ? $this->roles : [];
+        return $this->getField('roles');
     }
 
     /**
@@ -207,7 +230,7 @@ class User extends AbstractEntity
      */
     public function setRoles(array $roles)
     {
-        $this->roles = $roles;
+        $this->setField('roles', $roles);
     }
 
     /**
@@ -215,7 +238,7 @@ class User extends AbstractEntity
      */
     public function getCreatedOn()
     {
-        return $this->created_on;
+        return $this->getField('created_on');
     }
 
     /**
@@ -223,7 +246,7 @@ class User extends AbstractEntity
      */
     public function getUpdatedOn()
     {
-        return $this->updated_on;
+        return $this->getField('updated_on');
     }
 
     /**
@@ -231,6 +254,23 @@ class User extends AbstractEntity
      */
     public function setUpdatedOn($updatedOn)
     {
-        $this->updated_on = $updatedOn;
+        $this->setField('updated_on', $updatedOn);
+    }
+
+    /**
+     * Check access rights by rbac permission
+     *
+     * @param string $permissionName
+     * @param null $ruleParams
+     *
+     * @return bool
+     */
+    public function can(string $permissionName, $ruleParams = null): bool
+    {
+        try {
+            return $this->rbac->checkAccess($this->getId(), $permissionName, $ruleParams);
+        } catch (RbacException $e) {
+            return false;
+        }
     }
 }

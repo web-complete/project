@@ -2,11 +2,17 @@
 
 namespace cubes\system\user;
 
+use cubes\system\auth\IdentityInterface;
+use cubes\system\auth\IdentityServiceInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
-class UserService extends AbstractEntityService implements UserRepositoryInterface
+class UserService extends AbstractEntityService implements UserRepositoryInterface, IdentityServiceInterface
 {
 
+    /**
+     * @var UserRepositoryInterface
+     */
+    protected $repository;
     /**
      * @var User|null
      */
@@ -32,7 +38,7 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     /**
      * @param User $user
      */
-    public function login(User $user)
+    public function login(IdentityInterface $user)
     {
         $this->currentUser = $user;
     }
@@ -42,5 +48,15 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     public function logout()
     {
         $this->currentUser = null;
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return User|IdentityInterface|null
+     */
+    public function findByToken(string $token)
+    {
+        return $this->repository->findByToken($token);
     }
 }

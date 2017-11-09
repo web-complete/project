@@ -13,6 +13,7 @@ return [
         '@app' => \dirname(__DIR__, 1),
         '@web' => \dirname(__DIR__, 1) . '/web',
         '@admin' => \dirname(__DIR__, 1) . '/cubes/admin',
+        '@storage' => \dirname(__DIR__, 1) . '/storage',
     ],
     'routes' => [
         ['GET', '/admin/', [AppController::class, 'index']],
@@ -37,7 +38,7 @@ return [
         CacheInterface::class => \DI\object(NullCache::class),
         ResourceInterface::class => function (\DI\Container $di) {
             $aliasService = $di->get(\WebComplete\core\utils\alias\AliasService::class);
-            $rbacDataFile = $aliasService->get('@app/cubes/system/auth/storage/rbac.data');
+            $rbacDataFile = $aliasService->get('@storage/rbac.data');
             return new \WebComplete\rbac\resource\FileResource($rbacDataFile);
         }
     ],

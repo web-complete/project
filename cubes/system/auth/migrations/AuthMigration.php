@@ -39,6 +39,7 @@ class AuthMigration implements MigrationInterface
 
     public function up()
     {
+        $this->rbac->clear();
         $permissions = [];
         foreach ($this->permissions as $permissionName => $description) {
             $permissions[$permissionName] = $this->rbac->createPermission($permissionName, $description);

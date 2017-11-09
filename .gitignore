@@ -1,6 +1,8 @@
-/tmp
-/vendor
-/tests/logs
+/tmp/
+/tests/logs/
 composer.lock
 .idea/
-/cubes/auth/storage
+/cubes/auth/storage/
+/vendor/
+/runtime/
+/storage/
