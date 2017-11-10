@@ -1,6 +1,6 @@
 <?php
 
-namespace WebComplete\fileDb;
+namespace WebComplete\microDb;
 
 class Exception extends \Exception
 {

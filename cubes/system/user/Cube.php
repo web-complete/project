@@ -15,7 +15,7 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[UserRepositoryInterface::class] = \DI\object(UserRepositoryDb::class);
+        $definitions[UserRepositoryInterface::class] = \DI\object(UserRepositoryMicro::class);
     }
 
     public function getMigrations(): array

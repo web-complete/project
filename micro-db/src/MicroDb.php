@@ -1,8 +1,8 @@
 <?php
 
-namespace WebComplete\fileDb;
+namespace WebComplete\microDb;
 
-class Client
+class MicroDb
 {
 
     const EXTENSION = 'fdb';
@@ -15,15 +15,35 @@ class Client
      * @var string
      */
     protected $dbName;
+    /**
+     * @var string
+     */
+    protected $type;
+    /**
+     * @var Factory
+     */
+    protected $factory;
 
     /**
      * @param string $storageDir
      * @param string $dbName
+     * @param string $type file or memory
+     * @param Factory $factory
      */
-    public function __construct(string $storageDir, string $dbName)
+    public function __construct(string $storageDir, string $dbName, string $type = 'file', Factory $factory = null)
     {
         $this->storageDir = \rtrim($storageDir, '/');
         $this->dbName = $this->normalize($dbName);
+        $this->setType($type);
+        $this->factory = $factory ?? new Factory();
+    }
+
+    /**
+     * @param string $type file or memory
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
     }
 
     /**
@@ -34,7 +54,8 @@ class Client
     public function getCollection(string $collectionName): Collection
     {
         $collectionFile = $this->getCollectionFilePath($collectionName);
-        return $this->createCollectionObject($collectionFile);
+        $storage = $this->factory->storage($collectionFile, $this->type);
+        return $this->factory->collection($storage);
     }
 
     /**
@@ -49,17 +70,6 @@ class Client
     }
 
     /**
-     * Factory method
-     * @param string $collectionFile
-     *
-     * @return Collection
-     */
-    protected function createCollectionObject(string $collectionFile): Collection
-    {
-        return new Collection($collectionFile);
-    }
-
-    /**
      * @param string $value
      *
      * @return string
@@ -67,7 +77,7 @@ class Client
     private function normalize(string $value): string
     {
         return \preg_replace(
-            '/^[a-z0-9\-]/',
+            '/[^a-z0-9\-]/',
             '',
             \strtolower(\str_replace('_', '-', $value))
         );

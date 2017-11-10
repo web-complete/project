@@ -22,6 +22,7 @@ class AppTestCase extends \PHPUnit\Framework\TestCase
         $this->cloneContainer();
         $this->db->beginTransaction();
         $this->config = $this->container->get(ApplicationConfig::class);
+        \WebComplete\microDb\StorageMemory::clear();
     }
 
     public function tearDown()
