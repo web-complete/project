@@ -10,10 +10,6 @@ class Collection
      * @var string
      */
     protected $file;
-    /**
-     * @var array
-     */
-    protected $data = [];
 
     /**
      * @param string $file
@@ -33,47 +29,37 @@ class Collection
 
     }
 
-    public function deleteAll(Closure $filter = null, Closure $sort = null, int $limit = null, int $offset = null)
+    public function delete(Closure $filter)
     {
 
     }
 
-    public function deleteOne(Closure $filter = null, Closure $sort = null)
+    public function update(Closure $filter, array $data, bool $partial = false)
     {
 
     }
 
-    public function updateAll()
+    public function insert(array $item)
     {
 
     }
 
-    public function updateOne()
+    public function insertBatch(array $items)
     {
 
     }
 
-    public function insertAll()
+    public function drop()
     {
 
     }
 
-    public function insertOne()
+    protected function load(bool $lock = false): array
     {
 
     }
 
-    public function remove()
-    {
-
-    }
-
-    protected function load()
-    {
-
-    }
-
-    protected function save()
+    protected function save(array $collectionData)
     {
 
     }
