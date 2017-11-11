@@ -2,8 +2,9 @@
 
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Simple\NullCache;
-use cubes\admin\controllers\AppController;
-use cubes\admin\controllers\ErrorController;
+use admin\controllers\AppController;
+use admin\controllers\ErrorController;
+use Symfony\Component\Filesystem\Filesystem;
 use WebComplete\core\utils\migration\MigrationRegistryInterface;
 use WebComplete\core\utils\migration\MigrationRegistryMysql;
 use WebComplete\microDb\MicroDb;
@@ -13,15 +14,15 @@ return [
     'aliases' => [
         '@app' => \dirname(__DIR__, 1),
         '@web' => \dirname(__DIR__, 1) . '/web',
-        '@admin' => \dirname(__DIR__, 1) . '/cubes/admin',
+        '@admin' => \dirname(__DIR__, 1) . '/admin',
         '@storage' => \dirname(__DIR__, 1) . '/storage',
         '@runtime' => \dirname(__DIR__, 1) . '/runtime',
     ],
     'routes' => [
-        ['GET', '/admin/', [AppController::class, 'index']],
+        ['GET', '/admin', [AppController::class, 'index']],
     ],
     'commands' => [
-        \cubes\admin\commands\AdminInitCommand::class,
+        \admin\commands\AdminInitCommand::class,
         \WebComplete\core\utils\migration\commands\MigrationUpCommand::class,
         \WebComplete\core\utils\migration\commands\MigrationDownCommand::class,
     ],
@@ -48,6 +49,14 @@ return [
             $aliasService = $di->get(\WebComplete\core\utils\alias\AliasService::class);
             $storageDir = $aliasService->get('@storage/micro-db');
             return new MicroDb($storageDir, 'app');
+        },
+        \WebComplete\mvc\assets\AssetManager::class => function (\DI\Container $di) {
+            $aliasService = $di->get(\WebComplete\core\utils\alias\AliasService::class);
+            return new \WebComplete\mvc\assets\AssetManager(
+                new Filesystem(),
+                $aliasService->get('@web'),
+                'assets'
+            );
         }
     ],
     'salt' => 'SomeSecretWord',

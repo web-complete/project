@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\admin\controllers;
+namespace admin\controllers;
 
 use WebComplete\mvc\controller\AbstractErrorController;
 
