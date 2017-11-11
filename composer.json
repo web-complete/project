@@ -11,8 +11,7 @@
   },
   "autoload": {
     "psr-4": {
-      "cubes\\": "cubes",
-      "WebComplete\\microDb\\": "micro-db/src"
+      "cubes\\": "cubes"
     }
   }
 }

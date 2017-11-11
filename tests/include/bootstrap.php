@@ -11,4 +11,4 @@ $config = require __DIR__ . '/../../config/config.php';
 global $application;
 $application = new \WebComplete\mvc\Application($config, false);
 $microDb = $application->getContainer()->get(\WebComplete\microDb\MicroDb::class);
-$microDb->setType('memory');
+$microDb->setType('runtime');

@@ -36,7 +36,7 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     }
 
     /**
-     * @param User $user
+     * @param User|IdentityInterface $user
      */
     public function login(IdentityInterface $user)
     {
