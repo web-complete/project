@@ -27,6 +27,7 @@ return [
         \WebComplete\core\utils\migration\commands\MigrationDownCommand::class,
     ],
     'cubesLocations' => [
+        __DIR__ . '/../admin',
         __DIR__ . '/../cubes',
     ],
     'definitions' => [

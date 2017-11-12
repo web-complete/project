@@ -1,0 +1,23 @@
+.button,
+.redactor-toolbar li a:hover,
+.redactor-dropdown a:hover,
+#redactor-modal footer button.redactor-modal-action-btn,
+.nav > ul > li._active > span,
+.nav > ul > li > ul > li._active > a::before,
+.login__button,
+#to-top {
+    background-color: #F1A800;
+}
+
+.button:hover,
+.login__button:hover,
+#redactor-modal footer button.redactor-modal-action-btn:hover {
+    background: #e77e15;
+}
+
+a.help:hover,
+.catalog-tree .jstree-icon,
+.header ._logout:hover {
+    color: #F1A800;
+}
+

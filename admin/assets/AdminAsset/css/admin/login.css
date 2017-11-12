@@ -1,0 +1,73 @@
+.loginWrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #eee;
+}
+.login {
+    margin: 150px auto 0;
+    padding: 20px 30px 30px 30px;
+    background: #fff;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    position: relative;
+    top: 0;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+.login.on-start {
+    top: -30px;
+    visibility: hidden;
+    opacity: 0;
+}
+.login.on-end {
+    top: 30px;
+    visibility: hidden;
+    opacity: 0;
+}
+.login__input {
+    height: 30px;
+    margin-bottom: 5px;
+    padding: 0 15px;
+    display: block;
+    width: 100%;
+    background: #eee;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+.login.hasErrors .login__input {
+    background: rgba(255, 0, 0, 0.12);
+}
+.login__button {
+    margin-top: 10px;
+    padding: 0 20px;
+    background: #F1A800;
+    height: 30px;
+    display: block;
+    float: right;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+.login__button:hover {
+    background: #e77e15;
+}
+.login #logo {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 420px) { /* xxs */
+    .login {
+        box-shadow: none;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+}
