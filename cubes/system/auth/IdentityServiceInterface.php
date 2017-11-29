@@ -2,6 +2,9 @@
 
 namespace cubes\system\auth;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 interface IdentityServiceInterface
 {
     /**
@@ -24,8 +27,11 @@ interface IdentityServiceInterface
     public function login(IdentityInterface $identity);
 
     /**
+     * @param SessionInterface|null $session
+     *
+     * @return
      */
-    public function logout();
+    public function logout($session);
 
     /**
      * @return IdentityInterface|null

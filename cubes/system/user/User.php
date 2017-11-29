@@ -122,6 +122,19 @@ class User extends AbstractEntity implements IdentityInterface
     }
 
     /**
+     * @return null|string
+     * @throws \RuntimeException
+     */
+    public function getMaskedToken()
+    {
+        if ($token = $this->getToken()) {
+            return $this->securityHelper->maskToken($token);
+        }
+
+        return null;
+    }
+
+    /**
      * @return mixed
      */
     public function getToken()

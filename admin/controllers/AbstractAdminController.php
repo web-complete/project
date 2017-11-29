@@ -6,39 +6,40 @@ use admin\assets\AdminAsset;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WebComplete\mvc\controller\AbstractController;
 use WebComplete\mvc\view\ViewInterface;
 
 abstract class AbstractAdminController extends AbstractController
 {
+
     /**
      * @var AdminAsset
      */
     private $adminAsset;
-    /**
-     * @var UserService
-     */
-    protected $userService;
 
     /**
      * @param Request $request
      * @param Response $response
      * @param ViewInterface $view
-     * @param AdminAsset $adminAsset
      * @param UserService $userService
+     * @param AdminAsset $adminAsset
+     *
+     * @throws \RuntimeException
      */
     public function __construct(
         Request $request,
         Response $response,
         ViewInterface $view,
-        AdminAsset $adminAsset,
-        UserService $userService
+        UserService $userService,
+        AdminAsset $adminAsset
     ) {
-        parent::__construct($request, $response, $view);
+        parent::__construct($request, $response, $view, $userService);
         $this->adminAsset = $adminAsset;
-        $this->userService = $userService;
     }
 
+    /**
+     * @return bool
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     */
     public function beforeAction(): bool
     {
         $this->view->getAssetManager()->registerAsset($this->adminAsset);

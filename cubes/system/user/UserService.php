@@ -4,7 +4,10 @@ namespace cubes\system\user;
 
 use cubes\system\auth\IdentityInterface;
 use cubes\system\auth\IdentityServiceInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntityService;
+use WebComplete\core\utils\helpers\SecurityHelper;
 
 class UserService extends AbstractEntityService implements UserRepositoryInterface, IdentityServiceInterface
 {
@@ -17,14 +20,21 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
      * @var User|null
      */
     protected $currentUser;
+    /**
+     * @var SecurityHelper
+     */
+    protected $securityHelper;
 
     /**
      * @param UserRepositoryInterface $repository
+     * @param SecurityHelper $securityHelper
      */
     public function __construct(
-        UserRepositoryInterface $repository
+        UserRepositoryInterface $repository,
+        SecurityHelper $securityHelper
     ) {
         parent::__construct($repository);
+        $this->securityHelper = $securityHelper;
     }
 
     /**
@@ -44,9 +54,19 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     }
 
     /**
+     * @param SessionInterface|null $session
      */
-    public function logout()
+    public function logout($session)
     {
+        if ($this->currentUser) {
+            $this->currentUser->setToken(null);
+            $this->save($this->currentUser);
+        }
+
+        if ($session) {
+            $session->clear();
+        }
+
         $this->currentUser = null;
     }
 
@@ -58,5 +78,42 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     public function findByToken(string $token)
     {
         return $this->repository->findByToken($token);
+    }
+
+    /**
+     * @param $login
+     * @param $password
+     * @param SessionInterface|null $session
+     *
+     * @return User|null
+     * @throws \RuntimeException
+     */
+    public function authByLoginPassword($login, $password, SessionInterface $session = null)
+    {
+        if (!$login || !$password) {
+            return null;
+        }
+
+        /** @var User $user */
+        if (!$user = $this->findOne(new Condition(['login' => $login]))) {
+            return null;
+        }
+
+        if (!$user->checkPassword($password)) {
+            return null;
+        }
+
+        if (!$token = $user->getToken()) {
+            $token = $this->securityHelper->generateRandomString(50);
+            $user->setToken($token);
+            $this->save($user);
+        }
+
+        $this->login($user);
+        if ($session) {
+            $session->set('userId', $user->getId());
+        }
+
+        return $user;
     }
 }

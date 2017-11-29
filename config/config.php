@@ -1,10 +1,13 @@
 <?php
 
+use admin\controllers\AuthController;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Simple\NullCache;
-use admin\controllers\AppController;
+use admin\controllers\IndexController;
 use admin\controllers\ErrorController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use WebComplete\core\utils\migration\MigrationRegistryInterface;
 use WebComplete\core\utils\migration\MigrationRegistryMysql;
 use WebComplete\microDb\MicroDb;
@@ -19,8 +22,9 @@ return [
         '@runtime' => \dirname(__DIR__, 1) . '/runtime',
     ],
     'routes' => [
-        ['POST', '/admin/auth', [AppController::class, 'actionAuth']],
-        ['GET', '/admin', [AppController::class, 'actionIndex']],
+        ['GET', '/admin/login', [AuthController::class, 'actionLogin']],
+        ['POST', '/admin/auth', [AuthController::class, 'actionAuth']],
+        ['GET', '/admin', [IndexController::class, 'actionIndex']],
     ],
     'commands' => [
         \admin\commands\AdminInitCommand::class,
@@ -34,6 +38,11 @@ return [
     'definitions' => [
         'db' => require 'db.php',
         'errorController' => \DI\object(ErrorController::class),
+        Request::class => function () {
+            $request = Request::createFromGlobals();
+            $request->setSession(new Session());
+            return $request;
+        },
         MigrationRegistryInterface::class => \DI\object(MigrationRegistryMysql::class),
         CacheInterface::class => \DI\object(NullCache::class),
         Doctrine\DBAL\Connection::class => function (\DI\Container $di) {
