@@ -11,16 +11,6 @@ class Cube extends AbstractCube
 {
 
     /**
-     * @param ContainerInterface $container
-     */
-    public function bootstrap(ContainerInterface $container)
-    {
-        $assetManager = $container->get(AssetManager::class);
-        $asset = $container->get(AdminAsset::class);
-        $assetManager->registerAsset($asset);
-    }
-
-    /**
      * @param $definitions
      *
      * @return void

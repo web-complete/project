@@ -19,7 +19,8 @@ return [
         '@runtime' => \dirname(__DIR__, 1) . '/runtime',
     ],
     'routes' => [
-        ['GET', '/admin', [AppController::class, 'index']],
+        ['POST', '/admin/auth', [AppController::class, 'actionAuth']],
+        ['GET', '/admin', [AppController::class, 'actionIndex']],
     ],
     'commands' => [
         \admin\commands\AdminInitCommand::class,

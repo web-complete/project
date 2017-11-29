@@ -40,6 +40,7 @@ class AdminAsset extends AbstractAsset
             \ENV === 'prod' ? 'js/lib/vue.js' : 'js/lib/vue.min.js',
             'js/lib/vue-router.js',
             'js/lib/vuex.js',
+            'js/lib/jquery-3.2.1.min.js',
             'js/admin/App.js',
             'js/admin/VuePageLogin.js',
         ];

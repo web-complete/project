@@ -5,6 +5,7 @@ namespace cubes\system\user\tests;
 use cubes\system\user\User;
 use Mvkasatkin\mocker\Mocker;
 use WebComplete\core\utils\helpers\SecurityHelper;
+use WebComplete\core\utils\helpers\StringHelper;
 use WebComplete\mvc\ApplicationConfig;
 use WebComplete\rbac\Rbac;
 
@@ -13,7 +14,7 @@ class UserTest extends \AppTestCase
 
     public function testUserPassword()
     {
-        $helper = new SecurityHelper();
+        $helper = new SecurityHelper(new StringHelper());
         $config = $this->container->get(ApplicationConfig::class);
         $user = $this->container->make(User::class);
         $user->setPassword('123password');
@@ -35,7 +36,7 @@ class UserTest extends \AppTestCase
         $rbac = Mocker::create(Rbac::class, [
             Mocker::method('checkAccess', 1)->with([11, 'update', ['id' => 22]])->returns(true)
         ]);
-        $user = new User(new SecurityHelper(), $this->config, $rbac);
+        $user = new User(new SecurityHelper(new StringHelper()), $this->config, $rbac);
         $user->setId(11);
         $this->assertTrue($user->can('update', ['id' => 22]));
     }
@@ -46,7 +47,7 @@ class UserTest extends \AppTestCase
         $rbac = Mocker::create(Rbac::class, [
             Mocker::method('checkAccess', 1)->returns(false)
         ]);
-        $user = new User(new SecurityHelper(), $this->config, $rbac);
+        $user = new User(new SecurityHelper(new StringHelper()), $this->config, $rbac);
         $user->setId(11);
         $this->assertFalse($user->can('update', ['id' => 22]));
     }
