@@ -37,12 +37,16 @@ class AdminAuthAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            \ENV === 'prod' ? 'js/lib/vue.js' : 'js/lib/vue.min.js',
+            \ENV === 'prod' ? 'js/lib/vue.min.js' : 'js/lib/vue.js',
             'js/lib/vue-router.js',
             'js/lib/vuex.js',
             'js/lib/jquery-3.2.1.min.js',
-            'js/admin/App.js',
-            'js/admin/VuePageLogin.js',
+            'node_modules/underscore/underscore-min.js',
+            'js/store/StoreUser.js',
+            'js/store/vuex.js',
+            'js/model/Request.js',
+            'js/vue/VueApp.js',
+            'js/vue/VuePageLogin.js',
         ];
     }
 }

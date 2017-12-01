@@ -8,6 +8,6 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        App.init();
+        new Vue(VueApp);
     });
 </script>
