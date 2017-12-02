@@ -44,6 +44,7 @@ class AdminAuthAsset extends AbstractAsset
             'node_modules/underscore/underscore-min.js',
             'js/store/StoreUser.js',
             'js/store/vuex.js',
+            'js/model/App.js',
             'js/model/Request.js',
             'js/vue/VueApp.js',
             'js/vue/VuePageLogin.js',

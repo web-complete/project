@@ -16,6 +16,9 @@ window.modules.user = {
             context.commit('updateState', {loginError: false});
             Request.post('/admin/auth', payload, function(response){
                 context.commit('updateState', {token: response.token});
+                if (payload.redirect) {
+                    App.redirect('/admin');
+                }
             }, function(){
                 context.commit('updateState', {loginError: true});
             });

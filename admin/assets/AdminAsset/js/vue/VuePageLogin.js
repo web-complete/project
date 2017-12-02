@@ -18,7 +18,8 @@ Vue.component('VuePageLogin', {
             var self = this;
             self.$store.dispatch('login', {
                 login: this.login,
-                password: this.password
+                password: this.password,
+                redirect: true
             });
         }
     }

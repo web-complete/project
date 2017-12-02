@@ -46,7 +46,12 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      */
     public function beforeAction(): bool
     {
-        return $this->authorizeUser() && parent::beforeAction();
+        if (!$this->authorizeUser()) {
+            if (!$this->request->isXmlHttpRequest()) {
+                // TODO redirect
+            }
+        }
+        return parent::beforeAction();
     }
 
     /**
