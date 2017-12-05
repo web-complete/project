@@ -21,12 +21,7 @@
     $(document).ready(function(){
         _.extend(window.modules.navigation.state.nav, <?=\json_encode($navigation) ?>);
         _.extend(window.modules.user.state, <?=\json_encode($userState) ?>);
-        VueApp.router = new VueRouter({
-            routes: [
-                { path: '/foo', component: VuePageTest },
-                { path: '/bar', component: VuePageTest }
-            ]
-        });
+        VueApp.router = new VueRouter({routes: routes});
         new Vue(VueApp);
     });
 </script>
