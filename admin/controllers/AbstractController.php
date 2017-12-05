@@ -6,13 +6,19 @@ use cubes\system\auth\IdentityInterface;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WebComplete\mvc\assets\AbstractAsset;
 use WebComplete\mvc\view\ViewInterface;
+use admin\assets\AdminAsset;
 
 class AbstractController extends \WebComplete\mvc\controller\AbstractController
 {
+    const URL_LOGIN = '/admin/login';
 
     protected $needAuth = true;
     protected $layout = '@admin/views/layouts/admin.php';
+    protected $assets = [
+        AdminAsset::class,
+    ];
 
     /**
      * @var UserService
@@ -41,15 +47,20 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
     }
 
     /**
-     * @return bool
+     * @return bool|string|Response
+     * @throws \InvalidArgumentException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
-    public function beforeAction(): bool
+    public function beforeAction()
     {
         if (!$this->authorizeUser()) {
-            if (!$this->request->isXmlHttpRequest()) {
-                // TODO redirect
-            }
+            return $this->request->isXmlHttpRequest()
+                ? false
+                : $this->responseRedirect('/admin/login');
+        }
+
+        foreach ($this->assets as $assetClass) {
+            $this->view->getAssetManager()->registerAsset(new $assetClass);
         }
         return parent::beforeAction();
     }

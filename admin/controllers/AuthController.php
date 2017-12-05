@@ -10,7 +10,6 @@ use WebComplete\mvc\view\ViewInterface;
 
 class AuthController extends AbstractController
 {
-    protected $needAuth = false;
 
     /**
      * @param Request $request
@@ -31,11 +30,19 @@ class AuthController extends AbstractController
         $view->getAssetManager()->registerAsset($authAsset);
     }
 
+    public function beforeAction(): bool
+    {
+        $this->assets = [AdminAuthAsset::class];
+        $this->needAuth = false;
+        return parent::beforeAction();
+    }
+
     /**
      * @throws \Exception
      */
     public function actionLogin()
     {
+        $this->userService->logout($this->request->getSession());
         return $this->responseHtml('@admin/views/auth/login.php');
     }
 

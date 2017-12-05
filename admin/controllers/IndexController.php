@@ -2,7 +2,7 @@
 
 namespace admin\controllers;
 
-class IndexController extends AbstractAdminController
+class IndexController extends AbstractController
 {
 
     /**
@@ -10,6 +10,6 @@ class IndexController extends AbstractAdminController
      */
     public function actionIndex()
     {
-        return $this->responseHtml('@admin/views/App/index.php');
+        return $this->responseHtml('@admin/views/index/index.php');
     }
 }
