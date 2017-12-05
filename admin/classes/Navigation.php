@@ -10,12 +10,10 @@ class Navigation
         return [
             [
                 'name' => 'Раздел 1',
-                'active' => 1,
                 'items' => [
                     [
                         'name' => 'Раздел 1.1',
                         'url' => '#',
-                        'active' => 1,
                     ],
                     [
                         'name' => 'Раздел 1.2',

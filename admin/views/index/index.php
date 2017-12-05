@@ -10,7 +10,7 @@
     <vue-header></vue-header>
     <div class="page-wrapper">
         <vue-navigation></vue-navigation>
-<!--        <router-view></router-view>-->
+        <router-view></router-view>
     </div>
     <vue-footer></vue-footer>
     <div id="to-top"><i class="ion-arrow-up-b"></i></div>
@@ -21,6 +21,12 @@
     $(document).ready(function(){
         _.extend(window.modules.navigation.state.nav, <?=\json_encode($navigation) ?>);
         _.extend(window.modules.user.state, <?=\json_encode($userState) ?>);
+        VueApp.router = new VueRouter({
+            routes: [
+                { path: '/foo', component: VuePageTest },
+                { path: '/bar', component: VuePageTest }
+            ]
+        });
         new Vue(VueApp);
     });
 </script>
