@@ -286,4 +286,12 @@ class User extends AbstractEntity implements IdentityInterface
             return false;
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return \trim($this->getFirstName() . ' ' . $this->getLastName());
+    }
 }

@@ -2,7 +2,8 @@ window.modules = window.modules || {};
 window.modules.user = {
     state: {
         loginError: false,
-        token: ''
+        token: '',
+        fullName: ''
     },
     mutations: {
         updateState: function(state, payload){
@@ -22,6 +23,10 @@ window.modules.user = {
             }, function(){
                 context.commit('updateState', {loginError: true});
             });
+        },
+
+        logout: function(){
+            App.redirect('/admin/login');
         }
     }
 };

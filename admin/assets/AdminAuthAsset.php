@@ -8,6 +8,23 @@ class AdminAuthAsset extends AbstractAsset
 {
 
     /**
+     * @return array
+     */
+    public static function baseJs()
+    {
+        return [
+            'js/lib/jquery-3.2.1.min.js',
+            \ENV === 'prod' ? 'node_modules/vue/dist/vue.min.js' : 'node_modules/vue/dist/vue.js',
+            'node_modules/vuex/dist/vuex.min.js',
+            'node_modules/vue-router/dist/vue-router.min.js',
+            'node_modules/underscore/underscore-min.js',
+            'js/store/StoreUser.js',
+            'js/model/App.js',
+            'js/model/Request.js',
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getBasePath(): string
@@ -36,18 +53,10 @@ class AdminAuthAsset extends AbstractAsset
      */
     public function js(): array
     {
-        return [
-            \ENV === 'prod' ? 'js/lib/vue.min.js' : 'js/lib/vue.js',
-            'js/lib/vue-router.js',
-            'js/lib/vuex.js',
-            'js/lib/jquery-3.2.1.min.js',
-            'node_modules/underscore/underscore-min.js',
-            'js/store/StoreUser.js',
+        return \array_merge(self::baseJs(), [
             'js/store/vuex.js',
-            'js/model/App.js',
-            'js/model/Request.js',
             'js/vue/VueApp.js',
             'js/vue/VuePageLogin.js',
-        ];
+        ]);
     }
 }

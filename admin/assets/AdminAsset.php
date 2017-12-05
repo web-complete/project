@@ -36,18 +36,13 @@ class AdminAsset extends AbstractAsset
      */
     public function js(): array
     {
-        return [
-            \ENV === 'prod' ? 'js/lib/vue.min.js' : 'js/lib/vue.js',
-            'js/lib/vue-router.js',
-            'js/lib/vuex.js',
-            'js/lib/jquery-3.2.1.min.js',
-            'node_modules/underscore/underscore-min.js',
-            'js/store/StoreUser.js',
+        return \array_merge(AdminAuthAsset::baseJs(), [
+            'js/store/StoreNavigation.js',
             'js/store/vuex.js',
-            'js/model/App.js',
-            'js/model/Request.js',
             'js/vue/VueApp.js',
-            'js/vue/VuePageLogin.js',
-        ];
+            'js/vue/VueHeader.js',
+            'js/vue/VueFooter.js',
+            'js/vue/VueNavigation.js',
+        ]);
     }
 }

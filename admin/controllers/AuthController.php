@@ -61,6 +61,7 @@ class AuthController extends AbstractController
         return $this->responseJson([
             'result' => true,
             'token' => $user->getMaskedToken(),
+            'fullName' => $user->getFullName(),
         ]);
     }
 

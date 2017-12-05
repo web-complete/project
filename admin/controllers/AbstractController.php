@@ -6,7 +6,6 @@ use cubes\system\auth\IdentityInterface;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WebComplete\mvc\assets\AbstractAsset;
 use WebComplete\mvc\view\ViewInterface;
 use admin\assets\AdminAsset;
 
