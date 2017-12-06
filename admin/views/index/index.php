@@ -13,8 +13,6 @@
         <router-view></router-view>
     </div>
     <vue-footer></vue-footer>
-    <div id="to-top"><i class="ion-arrow-up-b"></i></div>
-    <div id="message"></div>
 </div>
 
 <script type="text/javascript">

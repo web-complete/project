@@ -43,7 +43,8 @@ class AdminAsset extends AbstractAsset
             'js/vue/VueHeader.js',
             'js/vue/VueFooter.js',
             'js/vue/VueNavigation.js',
-            'js/vue/page/VuePageTest.js',
+            'js/vue/page/VuePageMain.js',
+            'js/vue/page/VuePage404.js',
             'js/vue/routes.js',
         ]);
     }
