@@ -9,24 +9,26 @@ class Navigation
     {
         return [
             [
-                'name' => 'Раздел 1',
+                'name' => 'Todo stick',
+                'open' => 1,
                 'items' => [
                     [
                         'name' => 'Раздел 1.1',
-                        'url' => '#',
+                        'url' => '/',
                     ],
                     [
                         'name' => 'Раздел 1.2',
-                        'url' => '#'
+                        'url' => '/404'
                     ],
                     [
                         'name' => 'Раздел 1.3',
-                        'url' => '#'
+                        'url' => '/settings'
                     ],
                 ]
             ],
             [
                 'name' => 'Раздел 2',
+                'open' => 0,
                 'items' => [
                     [
                         'name' => 'Раздел 2.1',

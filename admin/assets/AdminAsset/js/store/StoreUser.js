@@ -1,5 +1,5 @@
-window.modules = window.modules || {};
-window.modules.user = {
+window.store = window.store || new Vuex.Store();
+window.store.registerModule('user', {
     state: {
         loginError: false,
         token: '',
@@ -29,4 +29,4 @@ window.modules.user = {
             App.redirect('/admin/login');
         }
     }
-};
+});

@@ -3,6 +3,7 @@
 /** @var \WebComplete\mvc\view\View $this */
 /** @var array $userState */
 /** @var array $navigation */
+/** @var string $routesJson */
 
 ?>
 
@@ -17,9 +18,9 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        _.extend(window.modules.navigation.state.nav, <?=\json_encode($navigation) ?>);
-        _.extend(window.modules.user.state, <?=\json_encode($userState) ?>);
-        VueApp.router = new VueRouter({routes: routes});
+        store.state.navigation.nav = <?=\json_encode($navigation) ?>;
+        store.state.user = <?=\json_encode($userState) ?>;
+        VueApp.router = new VueRouter({routes: <?=$routesJson ?>});
         new Vue(VueApp);
     });
 </script>

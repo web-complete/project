@@ -15,31 +15,34 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
 
     protected $needAuth = true;
     protected $layout = '@admin/views/layouts/admin.php';
-    protected $assets = [
-        AdminAsset::class,
-    ];
 
     /**
      * @var UserService
      */
     protected $userService;
+    /**
+     * @var AdminAsset
+     */
+    protected $adminAsset;
 
     /**
      * @param Request $request
      * @param Response $response
      * @param ViewInterface $view
+     * @param AdminAsset $adminAsset
      * @param UserService $userService
      *
-     * @throws \RuntimeException
      */
     public function __construct(
         Request $request,
         Response $response,
         ViewInterface $view,
+        AdminAsset $adminAsset,
         UserService $userService
     ) {
         parent::__construct($request, $response, $view);
         $this->userService = $userService;
+        $this->adminAsset = $adminAsset;
         if ($session = $request->getSession()) {
             $session->start();
         }
@@ -58,9 +61,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
                 : $this->responseRedirect('/admin/login');
         }
 
-        foreach ($this->assets as $assetClass) {
-            $this->view->getAssetManager()->registerAsset(new $assetClass);
-        }
+        $this->view->getAssetManager()->registerAsset($this->adminAsset);
         return parent::beforeAction();
     }
 

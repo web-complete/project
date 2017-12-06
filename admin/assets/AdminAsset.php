@@ -38,14 +38,12 @@ class AdminAsset extends AbstractAsset
     {
         return \array_merge(AdminAuthAsset::baseJs(), [
             'js/store/StoreNavigation.js',
-            'js/store/vuex.js',
             'js/vue/VueApp.js',
             'js/vue/VueHeader.js',
             'js/vue/VueFooter.js',
             'js/vue/VueNavigation.js',
             'js/vue/page/VuePageMain.js',
             'js/vue/page/VuePage404.js',
-            'js/vue/routes.js',
         ]);
     }
 }
