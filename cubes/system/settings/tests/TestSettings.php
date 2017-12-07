@@ -34,20 +34,28 @@ class TestSettings extends \AppTestCase
 
         $this->assertEquals([
             'sections' => [
-                'common' => 'Основное',
-                'system' => 'Система',
+                [
+                    'title' => 'Основное',
+                    'code' => 'common',
+                ],
+                [
+                    'title' => 'Система',
+                    'code' => 'system',
+                ],
             ],
             'data' => [
                 'common' => [
-                    'site_name' => [
+                    [
                         'title' => '',
                         'type' => '',
                         'value' => 2,
+                        'code' => 'site_name',
                     ],
-                    'site_description' => [
+                    [
                         'title' => '',
                         'type' => '',
                         'value' => '',
+                        'code' => 'site_description',
                     ],
                 ],
                 'system' => [

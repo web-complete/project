@@ -8,13 +8,13 @@ return [
     'data' => [
         'common' => [
             'site_name' => [
-                'title' => '',
-                'type' => '',
+                'title' => 'Название сайта',
+                'type' => 'string',
                 'value' => '',
             ],
             'site_description' => [
-                'title' => '',
-                'type' => '',
+                'title' => 'Описание сайта',
+                'type' => 'string',
                 'value' => '',
             ],
         ],

@@ -123,14 +123,27 @@ class Settings
 
         /** @var array[] $result */
         $result = $this->structure;
+        foreach ($result['sections'] as $code => $sectionName) {
+            $result['sections'][$code] = [
+                'title' => $sectionName,
+                'code' => $code,
+            ];
+        }
+
         foreach ($this->data as $code => $row) {
             foreach ($result['data'] as &$sectionData) {
                 if (isset($sectionData[$code])) {
+                    $row['code'] = $code;
                     $sectionData[$code] = $row;
                     break;
                 }
             }
             unset($sectionData);
+        }
+
+        $result['sections'] = \array_values($result['sections']);
+        foreach ($result['data'] as $code => $rows) {
+            $result['data'][$code] = \array_values($rows);
         }
 
         return $result;

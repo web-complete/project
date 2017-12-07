@@ -6,6 +6,7 @@ use cubes\system\auth\IdentityInterface;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WebComplete\mvc\exception\Exception;
 use WebComplete\mvc\view\ViewInterface;
 use admin\assets\AdminAsset;
 
@@ -78,5 +79,34 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
         }
 
         return !$this->needAuth || (bool)$this->userService->current();
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    protected function responseJsonSuccess(array $data): Response
+    {
+        if (isset($data['result'])) {
+            throw new Exception('Field "result" is not allowed');
+        }
+        return parent::responseJson(\array_merge($data, ['result' => true]));
+    }
+
+    /**
+     * @param string $error
+     * @param array $data
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    protected function responseJsonFail(string $error, array $data = []): Response
+    {
+        if (isset($data['result'])) {
+            throw new Exception('Field "result" is not allowed');
+        }
+        return parent::responseJson(\array_merge($data, ['result' => false, 'error' => $error]));
     }
 }
