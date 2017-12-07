@@ -37,6 +37,7 @@ class AdminAsset extends AbstractAsset
     public function js(): array
     {
         return \array_merge(AdminAuthAsset::baseJs(), [
+            'js/lib/sticky-kit.min.js',
             'js/store/StoreNavigation.js',
             'js/vue/VueApp.js',
             'js/vue/VueHeader.js',
