@@ -2,47 +2,25 @@
 
 namespace cubes\system\settings;
 
-use admin\assets\AdminAsset;
-use admin\classes\Navigation;
-use admin\classes\PageRoutes;
+use admin\classes\CubeHelper;
 use cubes\system\settings\assets\SettingsAsset;
 use cubes\system\settings\controllers\SettingsController;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
-use WebComplete\mvc\ApplicationConfig;
 
 class Cube extends AbstractCube
 {
-
     /**
      * @param ContainerInterface $container
      */
     public function bootstrap(ContainerInterface $container)
     {
-        // register asset
-        $adminAsset = $container->get(AdminAsset::class);
-        $adminAsset->addAssetAfter($container->get(SettingsAsset::class));
-
-        // register backend route
-        $config = $container->get(ApplicationConfig::class);
-        $config['routes']->addRoute(['GET', '/admin/settings', [SettingsController::class, 'actionIndex']]);
-
-        // register frontend route
-        $pageRoutes = $container->get(PageRoutes::class);
-        $pageRoutes->addRoute(1100, ['path' => '/settings', 'component' => 'VuePageSettings']);
-
-        // register navigation item
-        $navigation = $container->get(Navigation::class);
-        $navigation->addSection('Система', 900);
-        $navigation->addItem('Система', 'Настройки', '/settings');
-    }
-
-    /**
-     * @param $definitions
-     *
-     * @return void
-     */
-    public function registerDependencies(array &$definitions)
-    {
+        $cubeHelper = $container->get(CubeHelper::class);
+        $cubeHelper->appendAsset($container->get(SettingsAsset::class))
+            ->addBackendRoute(['GET', '/admin/api/settings', [SettingsController::class, 'actionGet']])
+            ->addBackendRoute(['POST', '/admin/api/settings', [SettingsController::class, 'actionSave']])
+            ->addFrontendRoute(['path' => '/settings', 'component' => 'VuePageSettings'])
+            ->addMenuSection('Система', 900)
+            ->addMenuItem('Система', 'Настройки', '/settings', 100);
     }
 }

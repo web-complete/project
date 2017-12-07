@@ -7,7 +7,7 @@ class PageRoutes
 
     protected $routes = [
         1000 => ['path' => '/', 'component' => 'VuePageMain'],
-        9000 => ['path' => '*', 'component' => 'VuePage404'],
+        1100 => ['path' => '*', 'component' => 'VuePage404'],
     ];
 
     /**

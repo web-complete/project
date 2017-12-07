@@ -4,53 +4,27 @@ namespace admin\classes;
 
 class Navigation
 {
-
-    protected $data = [
-        [
-            'name' => 'Todo stick',
-            'sort' => 100,
-            'open' => 1,
-            'items' => [
-                [
-                    'name' => 'Раздел 1.1',
-                    'sort' => 300,
-                    'url' => '/',
-                ],
-                [
-                    'name' => 'Раздел 1.2',
-                    'sort' => 200,
-                    'url' => '/404'
-                ],
-                [
-                    'name' => 'Раздел 1.3',
-                    'sort' => 100,
-                    'url' => '/settings'
-                ],
-            ]
-        ],
-        [
-            'name' => 'Раздел 2',
-            'sort' => 2,
-            'open' => 0,
-            'items' => [
-                [
-                    'name' => 'Раздел 2.1',
-                    'sort' => 100,
-                    'url' => '#'
-                ],
-                [
-                    'name' => 'Раздел 2.2',
-                    'sort' => 200,
-                    'url' => '#'
-                ],
-                [
-                    'name' => 'Раздел 2.3',
-                    'sort' => 300,
-                    'url' => '#'
-                ],
-            ]
-        ],
-    ];
+    /**
+     * @var array
+     * example structure
+     * ```
+     * [
+     *     [
+     *          'name' => 'System',
+     *          'sort' => 100,
+     *          'open' => 1,
+     *          'items' => [
+     *              [
+     *                  'name' => 'Settings',
+     *                  'sort' => 300,
+     *                  'url' => '/',
+     *              ],
+     *          ]
+     *     ],
+     * ]
+     * ```
+     */
+    protected $data = [];
 
     /**
      * @return array
