@@ -21,6 +21,7 @@ class AdminAsset extends AbstractAsset
     public function css(): array
     {
         return [
+            'bower_components/vue-toasted/dist/vue-toasted.min.css',
             'css/normalize.css',
             'css/ionicons.min.css',
             'css/font-awesome.min.css',
@@ -37,7 +38,12 @@ class AdminAsset extends AbstractAsset
     public function js(): array
     {
         return \array_merge(AdminAuthAsset::baseJs(), [
+            'bower_components/vue-top-progress/dist/vue-top-progress.min.js',
+            'bower_components/vue-toasted/dist/vue-toasted.min.js',
+            'bower_components/vue-js-modal/dist/index.js',
             'js/lib/sticky-kit.min.js',
+            'js/model/Notify.js',
+            'js/model/Modal.js',
             'js/store/StoreNavigation.js',
             'js/vue/ui/VueTabs.js',
             'js/vue/ui/VueTab.js',

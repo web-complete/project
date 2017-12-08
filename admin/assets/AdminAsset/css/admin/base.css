@@ -179,6 +179,28 @@ ul, li {
     opacity: 1;
 }
 
+.toasted.primary {
+    font-size: 12px !important;
+}
+.toasted.primary.success {
+    background-color: #2892dd !important;
+}
+.toasted.primary.info {
+    background-color: #28c7dd !important;
+}
+.toasted.primary.error {
+    background-color: #dd0f28 !important;
+}
+.toasted.primary.info::before {
+    display: none;
+}
+.vue-dialog-button {
+    border-radius: 0;
+}
+.vue-dialog .dialog-content {
+    font-size: 12px !important;
+}
+
 .checkbox-nice {
     position: relative;
     padding-left: 15px;

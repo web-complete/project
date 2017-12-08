@@ -1,0 +1,15 @@
+{
+  "name": "vue-top-progress",
+  "homepage": "https://github.com/dalphyx/vue-top-progress",
+  "version": "0.7.0",
+  "_release": "0.7.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.7.0",
+    "commit": "52e98aa313e556a9145e56a633683507bcb5d85e"
+  },
+  "_source": "https://github.com/dalphyx/vue-top-progress.git",
+  "_target": "^0.7.0",
+  "_originalSource": "dalphyx/vue-top-progress",
+  "_direct": true
+}

@@ -88,7 +88,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function addFrontendRoute(array $routeDefinition, int $position = 100)
+    public function addVueRoute(array $routeDefinition, int $position = 100)
     {
         $this->pageRoutes->addRoute($position, $routeDefinition);
         return $this;

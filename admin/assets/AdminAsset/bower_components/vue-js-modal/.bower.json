@@ -1,0 +1,14 @@
+{
+  "name": "vue-js-modal",
+  "homepage": "https://github.com/euvl/vue-js-modal",
+  "_release": "9404f0076c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9404f0076c3ec5e7800aa7497f4db69d2b67893f"
+  },
+  "_source": "https://github.com/euvl/vue-js-modal.git",
+  "_target": "*",
+  "_originalSource": "euvl/vue-js-modal",
+  "_direct": true
+}
