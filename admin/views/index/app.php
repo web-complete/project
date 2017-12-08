@@ -13,6 +13,7 @@
         <vue-navigation></vue-navigation>
         <router-view></router-view>
     </div>
+    <vue-footer></vue-footer>
     <vue-topprogress ref="topProgress" color="#F1A800"></vue-topprogress>
     <v-dialog></v-dialog>
 </div>

@@ -7,5 +7,5 @@ use WebComplete\mvc\router\Routes;
 return new Routes([
     ['GET', '/admin/login', [AuthController::class, 'actionLogin']],
     ['POST', '/admin/auth', [AuthController::class, 'actionAuth']],
-    ['GET', '/admin', [IndexController::class, 'actionIndex']],
+    ['GET', '/admin', [IndexController::class, 'actionApp']],
 ]);

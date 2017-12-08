@@ -55,13 +55,13 @@ class IndexController extends AbstractController
     /**
      * @throws \Exception
      */
-    public function actionIndex()
+    public function actionApp()
     {
         $userState = $this->userState->getState();
         $navigation = $this->navigation->get();
         $routesJson = $this->pageRoutes->getRoutesJson();
 
-        return $this->responseHtml('@admin/views/index/index.php', [
+        return $this->responseHtml('@admin/views/index/app.php', [
             'userState' => $userState,
             'navigation' => $navigation,
             'routesJson' => $routesJson,
