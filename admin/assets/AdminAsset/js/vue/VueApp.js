@@ -7,15 +7,17 @@ VueApp = {
     methods: {
         handleAjaxLoading: function(){
             var self = this;
-            $(Request).on('start', function(){
-                self.$refs['topProgress'].start();
-            });
-            $(Request).on('stop', function(){
-                self.$refs['topProgress'].done();
-            });
-            $(Request).on('error', function(){
-                self.$refs['topProgress'].fail();
-            });
+            if (self.$refs['topProgress']) {
+                $(Request).on('start', function(){
+                    self.$refs['topProgress'].start();
+                });
+                $(Request).on('stop', function(){
+                    self.$refs['topProgress'].done();
+                });
+                $(Request).on('error', function(){
+                    self.$refs['topProgress'].fail();
+                });
+            }
         }
     }
 };

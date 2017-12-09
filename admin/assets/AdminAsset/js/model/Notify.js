@@ -1,7 +1,7 @@
 Notify = {
 
     _position: 'top-right',
-    _duration: 1500,
+    _duration: 4000,
     _successDefaultText: 'Выполнено успешно',
     _errorDefaultText: 'Ошибка выполнения',
 

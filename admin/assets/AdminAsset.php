@@ -42,15 +42,22 @@ class AdminAsset extends AbstractAsset
             'bower_components/vue-toasted/dist/vue-toasted.min.js',
             'bower_components/vue-js-modal/dist/index.js',
             'js/lib/sticky-kit.min.js',
+            'js/store/StoreNavigation.js',
+
+            'js/model/FieldHelper.js',
             'js/model/Notify.js',
             'js/model/Modal.js',
-            'js/store/StoreNavigation.js',
+
             'js/vue/ui/VueTabs.js',
             'js/vue/ui/VueTab.js',
+            'js/vue/ui/VueFieldString.js',
+            'js/vue/ui/VueButton.js',
+
             'js/vue/VueApp.js',
             'js/vue/VueHeader.js',
             'js/vue/VueFooter.js',
             'js/vue/VueNavigation.js',
+
             'js/vue/page/VuePageMain.js',
             'js/vue/page/VuePage404.js',
         ]);
