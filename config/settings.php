@@ -1,5 +1,7 @@
 <?php
 
+use admin\classes\FieldType;
+
 return [
     'sections' => [
         'common' => 'Основное',
@@ -7,14 +9,27 @@ return [
     ],
     'data' => [
         'common' => [
-            'site_name' => [
-                'title' => 'Название сайта',
-                'type' => 'string',
+            'field_string' => [
+                'title' => 'string',
+                'field' => FieldType::STRING,
+                'fieldParams' => [],
                 'value' => '',
             ],
-            'site_description' => [
-                'title' => 'Описание сайта',
-                'type' => 'string',
+            'field_string_filter' => [
+                'title' => 'string + filter num',
+                'field' => FieldType::STRING,
+                'fieldParams' => [
+                    'filter' => '^[0-9]*$'
+                ],
+                'value' => '',
+            ],
+            'field_string_mask' => [
+                'title' => 'string + mask date + placeholder',
+                'field' => FieldType::STRING,
+                'fieldParams' => [
+                    'mask' => '00.00.0000',
+                    'placeholder' => 'дд.мм.гггг'
+                ],
                 'value' => '',
             ],
         ],
