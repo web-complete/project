@@ -60,6 +60,10 @@
     text-align: center;
     margin-bottom: 10px;
 }
+.login #logo img {
+    max-height: 50px;
+}
+
 
 @media (max-width: 420px) { /* xxs */
     .login {

@@ -5,6 +5,7 @@ namespace modules\admin\controllers;
 use modules\admin\assets\AdminAsset;
 use modules\admin\classes\Navigation;
 use modules\admin\classes\PageRoutes;
+use modules\admin\classes\state\SettingsState;
 use modules\admin\classes\state\UserState;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
@@ -26,6 +27,10 @@ class IndexController extends AbstractController
      * @var PageRoutes
      */
     private $pageRoutes;
+    /**
+     * @var SettingsState
+     */
+    private $settingsState;
 
     /**
      * @param Request $request
@@ -35,6 +40,7 @@ class IndexController extends AbstractController
      * @param AdminAsset $adminAsset
      * @param UserService $userService
      * @param UserState $userState
+     * @param SettingsState $settingsState
      * @param Navigation $navigation
      * @param PageRoutes $pageRoutes
      */
@@ -46,6 +52,7 @@ class IndexController extends AbstractController
         AdminAsset $adminAsset,
         UserService $userService,
         UserState $userState,
+        SettingsState $settingsState,
         Navigation $navigation,
         PageRoutes $pageRoutes
     ) {
@@ -53,6 +60,7 @@ class IndexController extends AbstractController
         $this->userState = $userState;
         $this->navigation = $navigation;
         $this->pageRoutes = $pageRoutes;
+        $this->settingsState = $settingsState;
     }
 
     /**
@@ -60,11 +68,13 @@ class IndexController extends AbstractController
      */
     public function actionApp()
     {
+        $settingsState = $this->settingsState->getState();
         $userState = $this->userState->getState();
         $navigation = $this->navigation->get();
         $routesJson = $this->pageRoutes->getRoutesJson();
 
         return $this->responseHtml('@admin/views/index/app.php', [
+            'settingsState' => $settingsState,
             'userState' => $userState,
             'navigation' => $navigation,
             'routesJson' => $routesJson,

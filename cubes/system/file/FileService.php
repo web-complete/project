@@ -37,9 +37,9 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
 
     /**
      * @param string $path
-     * @param string $code
      * @param string|null $newFileName
      * @param string|null $mimeType
+     * @param string|null $code
      * @param int $sort
      * @param array $data
      *
@@ -48,13 +48,14 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
      */
     public function createFileFromPath(
         string $path,
-        string $code,
         string $newFileName = null,
         string $mimeType = null,
+        string $code = null,
         int $sort = 100,
         array $data = []
     ): File {
         $fileName = $newFileName ?? $this->getFilenameFromPath($path);
+        $fileName = \time() . '_' . $fileName;
         $url = $this->createDestinationUrl($code, $fileName);
         $this->copyFileToDestination($path, $this->baseDir . $url);
 
@@ -72,9 +73,9 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
 
     /**
      * @param string $content
-     * @param string $code
      * @param string|null $newFileName
      * @param string|null $mimeType
+     * @param string|null $code
      * @param int $sort
      * @param array $data
      * @param bool $parseBase64
@@ -84,9 +85,9 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
      */
     public function createFileFromContent(
         string $content,
-        string $code,
         string $newFileName,
         string $mimeType = null,
+        string $code = null,
         int $sort = 100,
         array $data = [],
         bool $parseBase64 = true
@@ -94,7 +95,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
         $content = $parseBase64 ? $this->parseBase64($content) : $content;
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'file');
         \file_put_contents($tmpFile, $content);
-        return $this->createFileFromPath($tmpFile, $code, $newFileName, $mimeType, $sort, $data);
+        return $this->createFileFromPath($tmpFile, $newFileName, $mimeType, $code, $sort, $data);
     }
 
     /**
@@ -177,18 +178,18 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     }
 
     /**
-     * @param string $code
+     * @param string|null $code
      * @param string $fileName
      *
      * @return string
      */
-    protected function createDestinationUrl(string $code, string $fileName): string
+    protected function createDestinationUrl($code, string $fileName): string
     {
         $hash = \md5($code . $fileName);
         $subDir1 = \substr($hash, 0, 2);
         $subDir2 = \substr($hash, 2, 2);
         $destDir = $this->baseUrl . '/' . $subDir1 . '/' . $subDir2;
-        \mkdir($this->baseDir . $destDir, $this->mode, true);
+        @\mkdir($this->baseDir . $destDir, $this->mode, true);
         return $destDir . '/' . $fileName;
     }
 

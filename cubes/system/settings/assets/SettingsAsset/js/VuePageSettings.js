@@ -32,11 +32,17 @@ VuePageSettings = {
     data: function(){
         return {
             isLoaded: false,
-            settings: {}
+            settings: {},
+            deleteFileIds: []
         }
     },
     created: function(){
         this.fetchData()
+    },
+    mounted: function(){
+        bus.$on('deleteFileId', function(id){
+            this.deleteFileIds.push(id);
+        }.bind(this));
     },
     watch: {'$route': 'fetchData'},
     methods: {
@@ -48,16 +54,26 @@ VuePageSettings = {
                 if (response.result) {
                     this.isLoaded = true;
                     this.settings = response.settings;
+                } else {
+                    Notify.errorDefault();
                 }
             }.bind(this));
         },
         save: function(){
-            Request.post('/admin/api/settings', {data: this.settings.data}, function(response){
+            let self = this;
+            Request.post('/admin/api/settings', {
+                data: this.settings.data,
+                deleteFileIds: this.deleteFileIds
+            }, function(response){
+                self.deleteFileIds = [];
                 response.result
                     ? Notify.successDefault()
                     : Notify.errorDefault();
                 if (response.theme) {
                     $('body').append(response.theme);
+                }
+                if (response.logo !== undefined) {
+                    self.$store.state.settings.theme_logo = response.logo;
                 }
             }.bind(this));
         }

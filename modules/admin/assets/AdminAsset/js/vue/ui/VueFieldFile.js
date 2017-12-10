@@ -6,7 +6,11 @@ Vue.component('VueFieldFile', {
         <input type="file"
                :name="name"
         />
-        <span data-state="add">
+        <span v-if="value && fileFieldParams.data[value]">
+            <a :href="fileFieldParams.data[value].url" target="_blank">{{fileFieldParams.data[value].name}}</a>
+            <a @click="deleteFile(value)" href="javascript://" class="_del"><i class="ion-close"></i></a>
+        </span>
+        <span v-else>
             <a @click="selectFile" href="javascript://" class="_add">Загрузить</a>
         </span>
     </div>
@@ -24,6 +28,20 @@ Vue.component('VueFieldFile', {
             }
         }
     },
+    data: function(){
+        return {
+            fileFieldParams: {}
+        }
+    },
+    created: function(){
+        this.fileFieldParams = this.fieldParams;
+        if (this.fileFieldParams instanceof Array) {
+            this.fileFieldParams = {};
+        }
+        if (!this.fileFieldParams.data) {
+            this.fileFieldParams.data = {}
+        }
+    },
     mounted: function(){
         this.initUploader();
     },
@@ -32,6 +50,7 @@ Vue.component('VueFieldFile', {
     },
     methods: {
         initUploader: function(){
+            let self = this;
             $(this.$el).find('input[type=file]').fileupload({
                 dataType: 'json',
                 url: '/admin/api/upload',
@@ -41,12 +60,17 @@ Vue.component('VueFieldFile', {
                     data.submit();
                 },
                 done: function (e, data) {
-                    if(data.result) {
+                    if(data.result.result) {
                         $(Request).trigger('stop');
+                        self.fileFieldParams.data[data.result.id] = {
+                            name: data.result.name,
+                            url: data.result.url
+                        };
+                        self.$emit('input', data.result.id);
                     }
                     else {
                         $(Request).trigger('error');
-                        Notify.error(data.error || 'Ошибка загрузки файла');
+                        Notify.error(data.result.error || 'Ошибка загрузки файла');
                     }
                 },
                 fail: function () {
@@ -57,6 +81,10 @@ Vue.component('VueFieldFile', {
         },
         selectFile: function(){
             $(this.$el).find('input[type=file]').click();
+        },
+        deleteFile: function(id){
+            this.$emit('input', '');
+            bus.$emit('deleteFileId', id);
         },
         destroyUploader: function(){
             $(this.$el).find('input[type=file]').fileupload('destroy');

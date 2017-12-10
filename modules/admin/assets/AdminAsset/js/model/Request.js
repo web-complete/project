@@ -5,7 +5,9 @@ Request = {
 
     get: function(url, payload, success, fail){
         success = success || function(){};
-        fail = fail || function(){};
+        fail = fail || function(){
+            Notify.error('Ошибка сервера');
+        };
 
         $(Request).trigger('start');
         return $.get(url, payload, 'json')
@@ -21,7 +23,9 @@ Request = {
 
     post: function(url, payload, success, fail){
         success = success || function(){};
-        fail = fail || function(){};
+        fail = fail || function(){
+            Notify.error('Ошибка сервера');
+        };
 
         $(Request).trigger('start');
         return $.post(url, payload, 'json')

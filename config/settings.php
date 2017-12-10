@@ -21,11 +21,6 @@ return [
                 'field' => FieldType::STRING,
                 'value' => '',
             ],
-            'file' => [
-                'title' => 'file',
-                'field' => FieldType::FILE,
-                'value' => '',
-            ],
         ],
         'examples' => [
             'field_string' => [
@@ -105,17 +100,37 @@ return [
                 'fieldParams' => [],
                 'value' => '',
             ],
+            'field_image' => [
+                'title' => 'image',
+                'field' => FieldType::IMAGE,
+                'fieldParams' => [],
+                'value' => '',
+            ],
+            'field_images' => [
+                'title' => 'images',
+                'field' => FieldType::IMAGE,
+                'fieldParams' => [
+                    'multiple' => true
+                ],
+                'value' => '',
+            ],
         ],
         'system' => [
         ],
         'theme' => [
+            'theme_logo' => [
+                'title' => 'Логотип',
+                'field' => FieldType::FILE,
+                'value' => '',
+            ],
             'theme_color1' => [
                 'title' => 'Основной цвет',
                 'field' => FieldType::STRING,
                 'fieldParams' => [
-                    'filter' => '^[0-9a-fA-F]*$',
-                    'maxlength' => 6,
-                    'placeholder' => 'F1A800',
+                    'type' => 'color',
+                    'filter' => '^\#[0-9a-fA-F]*$',
+                    'maxlength' => 7,
+                    'placeholder' => '#F1A800',
                 ],
                 'value' => 'F1A800',
             ],
@@ -123,9 +138,10 @@ return [
                 'title' => 'Дополнительный цвет',
                 'field' => FieldType::STRING,
                 'fieldParams' => [
-                    'filter' => '^[0-9a-fA-F]*$',
-                    'maxlength' => 6,
-                    'placeholder' => 'E77E15',
+                    'type' => 'color',
+                    'filter' => '^\#[0-9a-fA-F]*$',
+                    'maxlength' => 7,
+                    'placeholder' => '#E77E15',
                 ],
                 'value' => 'E77E15',
             ],

@@ -6,8 +6,8 @@ use modules\admin\controllers\AbstractController;
 /** @var AbstractController $controller */
 $controller = $this->getController();
 $settings = $controller->settings;
-$themeColor1 = '#' . $settings->get('theme_color1', 'F1A800');
-$themeColor2 = '#' . $settings->get('theme_color2', 'e77e15');
+$themeColor1 = $settings->get('theme_color1', '#F1A800');
+$themeColor2 = $settings->get('theme_color2', '#E77E15');
 
 ?>
 

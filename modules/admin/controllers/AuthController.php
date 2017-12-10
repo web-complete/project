@@ -6,12 +6,17 @@ use modules\admin\assets\AdminAsset;
 use modules\admin\assets\AdminAuthAsset;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
+use modules\admin\classes\state\SettingsState;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\mvc\view\ViewInterface;
 
 class AuthController extends AbstractController
 {
+    /**
+     * @var SettingsState
+     */
+    private $settingsState;
 
     /**
      * @param Request $request
@@ -21,6 +26,7 @@ class AuthController extends AbstractController
      * @param AdminAsset $adminAsset
      * @param UserService $userService
      * @param AdminAuthAsset $authAsset
+     * @param SettingsState $settingsState
      */
     public function __construct(
         Request $request,
@@ -29,10 +35,12 @@ class AuthController extends AbstractController
         Settings $settings,
         AdminAsset $adminAsset,
         UserService $userService,
-        AdminAuthAsset $authAsset
+        AdminAuthAsset $authAsset,
+        SettingsState $settingsState
     ) {
         parent::__construct($request, $response, $view, $settings, $adminAsset, $userService);
         $this->adminAsset = $authAsset;
+        $this->settingsState = $settingsState;
     }
 
     public function beforeAction(): bool
@@ -46,8 +54,11 @@ class AuthController extends AbstractController
      */
     public function actionLogin()
     {
+        $settingsState = $this->settingsState->getState();
         $this->userService->logout($this->request->getSession());
-        return $this->responseHtml('@admin/views/auth/login.php');
+        return $this->responseHtml('@admin/views/auth/login.php', [
+            'settingsState' => $settingsState
+        ]);
     }
 
     /**

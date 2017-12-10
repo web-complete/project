@@ -29,16 +29,16 @@ class TestFileService extends \AppTestCase
         $fileService = $this->container->get(FileService::class);
         $file = $fileService->createFileFromPath(
             __DIR__ . '/test.file',
+            null,
+            null,
             'code1',
-            null,
-            null,
             110,
             ['some' => 'data']
         );
         $this->assertNotNull($file->getId());
         $this->assertEquals('code1', $file->code);
-        $this->assertEquals('test.file', $file->file_name);
-        $this->assertEquals('/usr/4b/81/test.file', $file->url);
+        $this->assertEquals('test.file', \substr($file->file_name, 11));
+        $this->assertTrue((bool)\preg_match('~^\/usr\/..\/..\/.........._test.file$~', $file->url));
         $this->assertEquals(110, $file->sort);
         $this->assertEquals(['some' => 'data'], $file->data);
     }
@@ -49,16 +49,16 @@ class TestFileService extends \AppTestCase
         $fileService = $this->container->get(FileService::class);
         $file = $fileService->createFileFromPath(
             $url,
+            null,
+            null,
             'code1',
-            null,
-            null,
             110,
             ['some' => 'data']
         );
         $this->assertNotNull($file->getId());
         $this->assertEquals('code1', $file->code);
-        $this->assertEquals('readme.md', $file->file_name);
-        $this->assertEquals('/usr/1b/19/readme.md', $file->url);
+        $this->assertEquals('readme.md', \substr($file->file_name, 11));
+        $this->assertTrue((bool)\preg_match('~^\/usr\/..\/..\/.........._readme.md$~', $file->url));
         $this->assertEquals(110, $file->sort);
         $this->assertEquals(['some' => 'data'], $file->data);
     }
@@ -75,16 +75,16 @@ hhx4dbgYKAAA7';
         $fileService = $this->container->get(FileService::class);
         $file = $fileService->createFileFromContent(
             $content,
-            'code1',
             'larry.gif',
             null,
+            'code1',
             110,
             ['some' => 'data']
         );
         $this->assertNotNull($file->getId());
         $this->assertEquals('code1', $file->code);
-        $this->assertEquals('larry.gif', $file->file_name);
-        $this->assertEquals('/usr/9c/3d/larry.gif', $file->url);
+        $this->assertEquals('larry.gif', \substr($file->file_name, 11));
+        $this->assertTrue((bool)\preg_match('~^\/usr\/..\/..\/.........._larry.gif$~', $file->url));
         $this->assertEquals(110, $file->sort);
         $this->assertEquals(['some' => 'data'], $file->data);
     }
@@ -92,21 +92,21 @@ hhx4dbgYKAAA7';
     public function testDeleteOneFile()
     {
         $fileService = $this->container->get(FileService::class);
-        $file = $fileService->createFileFromPath(__DIR__ . '/test.file', 'code1', 'file1.txt');
-        $this->assertTrue(\file_exists(__DIR__ . '/usr/63/3e/file1.txt'));
+        $file = $fileService->createFileFromPath(__DIR__ . '/test.file', 'file1.txt', null, 'code1');
+        $this->assertTrue(\file_exists(__DIR__ . $file->url));
         $fileService->delete($file->getId());
-        $this->assertFalse(\file_exists(__DIR__ . '/usr/63/3e/file1.txt'));
+        $this->assertFalse(\file_exists(__DIR__ . $file->url));
     }
 
     public function testDeleteManyFiles()
     {
         $fileService = $this->container->get(FileService::class);
-        $fileService->createFileFromPath(__DIR__ . '/test.file', 'code1', 'file1.txt');
-        $this->assertTrue(\file_exists(__DIR__ . '/usr/63/3e/file1.txt'));
-        $fileService->createFileFromPath(__DIR__ . '/test.file', 'code1', 'file2.txt');
-        $this->assertTrue(\file_exists(__DIR__ . '/usr/cc/b7/file2.txt'));
+        $file1 = $fileService->createFileFromPath(__DIR__ . '/test.file', 'file1.txt', null, 'code1');
+        $this->assertTrue(\file_exists(__DIR__ . $file1->url));
+        $file2 = $fileService->createFileFromPath(__DIR__ . '/test.file', 'file2.txt', null, 'code1');
+        $this->assertTrue(\file_exists(__DIR__ . $file2->url));
         $fileService->deleteAll();
-        $this->assertFalse(\file_exists(__DIR__ . '/usr/63/3e/file1.txt'));
-        $this->assertFalse(\file_exists(__DIR__ . '/usr/cc/b7/file2.txt'));
+        $this->assertFalse(\file_exists(__DIR__ . $file1->url));
+        $this->assertFalse(\file_exists(__DIR__ . $file2->url));
     }
 }

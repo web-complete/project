@@ -1,5 +1,6 @@
 <?php
 /** @var \WebComplete\mvc\view\View $this */
+/** @var array $settingsState */
 ?>
 
 <div id="app">
@@ -8,6 +9,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        store.state.settings = <?=\json_encode($settingsState) ?>;
         new Vue(VueApp);
     });
 </script>

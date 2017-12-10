@@ -13,6 +13,8 @@ FieldHelper = {
                 result = 'VueFieldRedactor'; break;
             case 'file':
                 result = 'VueFieldFile'; break;
+            case 'image':
+                result = 'VueFieldImage'; break;
             case 'string':
             default:
                 result = 'VueFieldString'; break;

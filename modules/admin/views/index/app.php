@@ -3,6 +3,7 @@
 use modules\admin\controllers\AbstractController;
 
 /** @var \WebComplete\mvc\view\View $this */
+/** @var array $settingsState */
 /** @var array $userState */
 /** @var array $navigation */
 /** @var string $routesJson */
@@ -10,7 +11,7 @@ use modules\admin\controllers\AbstractController;
 /** @var AbstractController $controller */
 $controller = $this->getController();
 $settings = $controller->settings;
-$themeColor1 = '#' . $settings->get('theme_color1', 'F1A800');
+$themeColor1 = $settings->get('theme_color1', '#F1A800');
 
 ?>
 
@@ -29,6 +30,7 @@ $themeColor1 = '#' . $settings->get('theme_color1', 'F1A800');
     $(document).ready(function(){
         store.state.navigation.nav = <?=\json_encode($navigation) ?>;
         store.state.user = <?=\json_encode($userState) ?>;
+        store.state.settings = <?=\json_encode($settingsState) ?>;
         VueApp.router = new VueRouter({routes: <?=$routesJson ?>});
         window.bus = new Vue();
         Vue.use(Toasted);

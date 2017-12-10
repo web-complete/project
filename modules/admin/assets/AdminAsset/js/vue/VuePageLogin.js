@@ -6,7 +6,8 @@ Vue.component('VuePageLogin', {
                 <div id="loginBlock" class="login" :class="{hasErrors: $store.state.user.loginError}">
                     <form @submit.prevent="submit" action="" method="post">
                         <div id="logo">
-                            <svg width="201px" height="36px" viewBox="27 20 201 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <img v-if="$store.state.settings.theme_logo" :src="$store.state.settings.theme_logo" />
+                            <svg v-else width="201px" height="36px" viewBox="27 20 201 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <defs></defs>
                                 <g id="logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(27.000000, 20.000000)">
                                     <path d="M0.0625403031,10.5479297 C0.0887086889,9.43792969 0.236749265,8.71792969 1.70564237,7.88771159 C3.17453548,7.05749348 13.6036655,0.9306978 14.1822294,0.578964844 C14.9224322,0.128964844 16.0327366,0.0239648437 16.8913719,0.548964844 C17.7500072,1.07396484 24.5279354,5.05938308 24.5279354,5.05938308 L0.0625403031,19.3652357 C0.0625403031,19.3652357 0.0363719172,11.6579297 0.0625403031,10.5479297 Z" id="Path-1" fill="#F6A623"></path>

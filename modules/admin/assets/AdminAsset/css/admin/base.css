@@ -689,11 +689,14 @@ div._active[data-group][data-tab] {
 .popup-content {
     clear: both;
     text-align: center;
-    padding: 35px 25px;
+    padding: 25px 25px;
 }
 .popup-content .form-actions {
     margin-top: 20px;
     text-align: center;
+}
+.popup-content._image img {
+    margin-bottom: 10px;
 }
 .popup-help .popup-content {
     text-align: left;
@@ -933,7 +936,14 @@ table {
 }
 .header .logo {
     float: left;
+
+}
+.header .logo svg {
     margin: 20px 0 0 30px;
+}
+.header .logo img {
+    margin: 15px 0 0 30px;
+    max-height: 50px;
 }
 .header ._right {
     display: block;

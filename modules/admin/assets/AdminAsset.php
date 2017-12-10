@@ -49,11 +49,14 @@ class AdminAsset extends AbstractAsset
             'js/lib/blueimp-upload/jquery.iframe-transport.js',
             'js/lib/sticky-kit.min.js',
             'js/lib/imask.min.js',
+            'bower_components/Sortable/Sortable.js',
+            'js/lib/vuedraggable.min.js',
             'js/lib/select2/select2.min.js',
             'js/lib/redactor10/redactor.js',
             'js/lib/redactor10/plugins/table/table.js',
             'js/lib/redactor10/lang/ru.js',
             'js/store/StoreNavigation.js',
+            'js/store/StoreSettings.js',
 
             'js/model/FieldHelper.js',
             'js/model/Notify.js',
@@ -67,6 +70,8 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueFieldTextarea.js',
             'js/vue/ui/VueFieldRedactor.js',
             'js/vue/ui/VueFieldFile.js',
+            'js/vue/ui/VueFieldImage.js',
+            'js/vue/ui/VueFieldImageModalEdit.js',
             'js/vue/ui/VueButton.js',
 
             'js/vue/VueApp.js',
