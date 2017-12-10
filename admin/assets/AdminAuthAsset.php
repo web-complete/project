@@ -14,6 +14,7 @@ class AdminAuthAsset extends AbstractAsset
     {
         return [
             'js/lib/jquery-3.2.1.min.js',
+            'js/lib/jquery-migrate-3.0.0.min.js',
             \ENV === 'prod' ? 'node_modules/vue/dist/vue.min.js' : 'node_modules/vue/dist/vue.js',
             'node_modules/vuex/dist/vuex.min.js',
             'node_modules/vue-router/dist/vue-router.min.js',
@@ -44,7 +45,6 @@ class AdminAuthAsset extends AbstractAsset
             'css/admin/base.css',
             'css/admin/login.css',
             'css/admin/popup.css',
-            'css/admin/theme.css',
         ];
     }
 

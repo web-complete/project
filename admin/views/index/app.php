@@ -1,9 +1,16 @@
 <?php
 
+use admin\controllers\AbstractController;
+
 /** @var \WebComplete\mvc\view\View $this */
 /** @var array $userState */
 /** @var array $navigation */
 /** @var string $routesJson */
+
+/** @var AbstractController $controller */
+$controller = $this->getController();
+$settings = $controller->settings;
+$themeColor1 = '#' . $settings->get('theme_color1', 'F1A800');
 
 ?>
 
@@ -14,7 +21,7 @@
         <router-view></router-view>
     </div>
     <vue-footer></vue-footer>
-    <vue-topprogress ref="topProgress" color="#F1A800"></vue-topprogress>
+    <vue-topprogress ref="topProgress" color="<?=$themeColor1 ?>"></vue-topprogress>
     <v-dialog></v-dialog>
 </div>
 

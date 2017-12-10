@@ -1,6 +1,8 @@
 <?php
+
 /** @var \WebComplete\mvc\view\View $this */
 /** @var $content */
+
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +20,7 @@
     </script>
 
     <?=$this->getAssetManager()->applyCss() ?>
+    <?=$this->render('@admin/views/layouts/theme.php') ?>
 </head>
 <body>
     <?=$content ?>

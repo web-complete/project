@@ -2,12 +2,9 @@
 
 namespace cubes\system\user;
 
-use WebComplete\core\condition\Condition;
 use WebComplete\core\condition\ConditionMicroDbParser;
 use WebComplete\core\entity\AbstractEntity;
-use WebComplete\core\entity\AbstractEntityRepository;
 use WebComplete\core\entity\AbstractEntityRepositoryMicro;
-use WebComplete\core\factory\EntityFactory;
 use WebComplete\microDb\MicroDb;
 
 class UserRepositoryMicro extends AbstractEntityRepositoryMicro implements UserRepositoryInterface

@@ -1,7 +1,19 @@
 Vue.component('VueNavigation', {
     store: store,
-    // language=Vue
-    template: '<nav class="nav block">\n    <ul>\n        <li v-for="(item, k) in nav" v-if="item.items" :class="{_active: item.active}" :key="k">\n            <span @click="toggle(item)">{{item.name}}</span>\n            <ul v-show="item.open">\n                <li v-for="subItem in item.items" @click="mark($event.target)" :class="{_active: subItem.active}">\n                    <router-link :to="subItem.url">{{subItem.name}}</router-link>\n                </li>\n            </ul>\n        </li>\n    </ul>\n</nav>',
+    template: `
+        <nav class="nav block">
+            <ul>
+                <li v-for="(item, k) in nav" v-if="item.items" :class="{_active: item.active}" :key="k">
+                    <span @click="toggle(item)">{{item.name}}</span>
+                    <ul v-show="item.open">
+                        <li v-for="subItem in item.items" @click="mark($event.target)" :class="{_active: subItem.active}">
+                            <router-link :to="subItem.url">{{subItem.name}}</router-link>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    `,
     stickyAttached: false,
 
     data: function(){

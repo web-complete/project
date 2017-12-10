@@ -4,6 +4,7 @@ namespace admin\controllers;
 
 use admin\assets\AdminAsset;
 use admin\assets\AdminAuthAsset;
+use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class AuthController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @param ViewInterface $view
+     * @param Settings $settings
      * @param AdminAsset $adminAsset
      * @param UserService $userService
      * @param AdminAuthAsset $authAsset
@@ -24,11 +26,12 @@ class AuthController extends AbstractController
         Request $request,
         Response $response,
         ViewInterface $view,
+        Settings $settings,
         AdminAsset $adminAsset,
         UserService $userService,
         AdminAuthAsset $authAsset
     ) {
-        parent::__construct($request, $response, $view, $adminAsset, $userService);
+        parent::__construct($request, $response, $view, $settings, $adminAsset, $userService);
         $this->adminAsset = $authAsset;
     }
 

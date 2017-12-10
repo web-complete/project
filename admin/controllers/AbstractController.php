@@ -3,6 +3,7 @@
 namespace admin\controllers;
 
 use cubes\system\auth\IdentityInterface;
+use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,23 +26,29 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      * @var AdminAsset
      */
     protected $adminAsset;
+    /**
+     * @var Settings
+     */
+    public $settings;
 
     /**
      * @param Request $request
      * @param Response $response
      * @param ViewInterface $view
+     * @param Settings $settings
      * @param AdminAsset $adminAsset
      * @param UserService $userService
-     *
      */
     public function __construct(
         Request $request,
         Response $response,
         ViewInterface $view,
+        Settings $settings,
         AdminAsset $adminAsset,
         UserService $userService
     ) {
         parent::__construct($request, $response, $view);
+        $this->settings = $settings;
         $this->userService = $userService;
         $this->adminAsset = $adminAsset;
         if ($session = $request->getSession()) {

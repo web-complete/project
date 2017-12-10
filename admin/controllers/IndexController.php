@@ -6,6 +6,7 @@ use admin\assets\AdminAsset;
 use admin\classes\Navigation;
 use admin\classes\PageRoutes;
 use admin\classes\state\UserState;
+use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,7 @@ class IndexController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @param ViewInterface $view
+     * @param Settings $settings
      * @param AdminAsset $adminAsset
      * @param UserService $userService
      * @param UserState $userState
@@ -40,13 +42,14 @@ class IndexController extends AbstractController
         Request $request,
         Response $response,
         ViewInterface $view,
+        Settings $settings,
         AdminAsset $adminAsset,
         UserService $userService,
         UserState $userState,
         Navigation $navigation,
         PageRoutes $pageRoutes
     ) {
-        parent::__construct($request, $response, $view, $adminAsset, $userService);
+        parent::__construct($request, $response, $view, $settings, $adminAsset, $userService);
         $this->userState = $userState;
         $this->navigation = $navigation;
         $this->pageRoutes = $pageRoutes;

@@ -2,33 +2,11 @@
 
 namespace cubes\system\settings\controllers;
 
-use admin\assets\AdminAsset;
 use admin\controllers\AbstractController;
-use cubes\system\settings\Settings;
-use cubes\system\user\UserService;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WebComplete\mvc\view\ViewInterface;
 
 class SettingsController extends AbstractController
 {
-
-    /**
-     * @var Settings
-     */
-    private $settings;
-
-    public function __construct(
-        Request $request,
-        Response $response,
-        ViewInterface $view,
-        AdminAsset $adminAsset,
-        UserService $userService,
-        Settings $settings
-    ) {
-        parent::__construct($request, $response, $view, $adminAsset, $userService);
-        $this->settings = $settings;
-    }
 
     /**
      * @return Response
@@ -59,7 +37,8 @@ class SettingsController extends AbstractController
             }
             $this->settings->setData($plainData);
             return $this->responseJsonSuccess([
-                'settings' => $this->settings->getStructure()
+                'settings' => $this->settings->getStructure(),
+                'theme' => $this->view->render('@admin/views/layouts/theme.php'),
             ]);
         }
         return $this->responseJsonFail('Data is empty');

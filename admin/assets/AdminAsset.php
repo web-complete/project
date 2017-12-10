@@ -22,13 +22,16 @@ class AdminAsset extends AbstractAsset
     {
         return [
             'bower_components/vue-toasted/dist/vue-toasted.min.css',
+            'js/lib/jqueryui-custom/jquery-ui.min.css',
+            'js/lib/jqueryui-custom/jquery-ui.theme.css',
+            'js/lib/select2/select2.min.css',
+            'js/lib/redactor10/redactor.css',
             'css/normalize.css',
             'css/ionicons.min.css',
             'css/font-awesome.min.css',
             'css/admin/base.css',
             'css/admin/login.css',
             'css/admin/popup.css',
-            'css/admin/theme.css',
         ];
     }
 
@@ -38,11 +41,18 @@ class AdminAsset extends AbstractAsset
     public function js(): array
     {
         return \array_merge(AdminAuthAsset::baseJs(), [
+            'js/lib/jqueryui-custom/jquery-ui.min.js',
             'bower_components/vue-top-progress/dist/vue-top-progress.min.js',
             'bower_components/vue-toasted/dist/vue-toasted.min.js',
             'bower_components/vue-js-modal/dist/index.js',
+            'js/lib/blueimp-upload/jquery.fileupload.js',
+            'js/lib/blueimp-upload/jquery.iframe-transport.js',
             'js/lib/sticky-kit.min.js',
             'js/lib/imask.min.js',
+            'js/lib/select2/select2.min.js',
+            'js/lib/redactor10/redactor.js',
+            'js/lib/redactor10/plugins/table/table.js',
+            'js/lib/redactor10/lang/ru.js',
             'js/store/StoreNavigation.js',
 
             'js/model/FieldHelper.js',
@@ -52,6 +62,11 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueTabs.js',
             'js/vue/ui/VueTab.js',
             'js/vue/ui/VueFieldString.js',
+            'js/vue/ui/VueFieldCheckbox.js',
+            'js/vue/ui/VueFieldSelect.js',
+            'js/vue/ui/VueFieldTextarea.js',
+            'js/vue/ui/VueFieldRedactor.js',
+            'js/vue/ui/VueFieldFile.js',
             'js/vue/ui/VueButton.js',
 
             'js/vue/VueApp.js',

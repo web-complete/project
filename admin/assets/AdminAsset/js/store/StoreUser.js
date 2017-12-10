@@ -15,7 +15,7 @@ window.store.registerModule('user', {
     actions: {
         login: function(context, payload){
             context.commit('updateState', {loginError: false});
-            Request.post('/admin/auth', payload, function(response){
+            Request.post('/admin/api/auth', payload, function(response){
                 context.commit('updateState', {token: response.token});
                 if (payload.redirect) {
                     App.redirect('/admin');

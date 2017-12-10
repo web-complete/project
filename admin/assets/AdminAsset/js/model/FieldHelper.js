@@ -1,12 +1,21 @@
 FieldHelper = {
 
     map: function(code){
-        var result;
+        let result;
         switch (code) {
+            case 'checkbox':
+                result = 'VueFieldCheckbox'; break;
+            case 'select':
+                result = 'VueFieldSelect'; break;
+            case 'textarea':
+                result = 'VueFieldTextarea'; break;
+            case 'redactor':
+                result = 'VueFieldRedactor'; break;
+            case 'file':
+                result = 'VueFieldFile'; break;
             case 'string':
             default:
-                result = 'VueFieldString';
-                break;
+                result = 'VueFieldString'; break;
         }
         return result;
     }

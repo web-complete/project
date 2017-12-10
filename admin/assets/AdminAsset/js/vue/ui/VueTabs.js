@@ -1,6 +1,15 @@
 Vue.component('VueTabs', {
-    // language=Vue
-    template: '<div>\n    <ul class="tabs">\n        <li v-for="tab in tabs" @click="selectTab(tab)" :class="{_active: tab.selected}">{{tab.name}}</li>\n    </ul>\n    <div class="tabs-content">\n        <slot>\n        </slot>\n    </div>\n</div>',
+    template: `
+        <div>
+            <ul class="tabs">
+                <li v-for="tab in tabs" @click="selectTab(tab)" :class="{_active: tab.selected}">{{tab.name}}</li>
+            </ul>
+            <div class="tabs-content">
+                <slot>
+                </slot>
+            </div>
+        </div>    
+    `,
     data: function(){
         return {
             tabs: []

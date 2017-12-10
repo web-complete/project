@@ -1,6 +1,34 @@
 VuePageSettings = {
-    // language=Vue
-    template: '<div class="page block">\n    <div class="page-detail">\n        <div class="page-top"><h1>Настройки</h1></div>\n        <form @submit.prevent="save" class="form-detail" v-show="isLoaded">\n            <vue-tabs>\n                <vue-tab v-for="section in settings.sections"\n                         v-if="settings.data[section.code].length"\n                         :name="section.title"\n                         :active="section.code == \'common\'"\n                         :key="section.code"\n                >\n                    <div v-for="item in settings.data[section.code]">\n                        <component :is="fieldMap(item.field)"\n                                   :fieldParams="item.fieldParams"\n                                   :label="item.title"\n                                   :name="item.code"\n                                   v-model="item.value"\n                        ></component>\n                    </div>\n                </vue-tab>\n            </vue-tabs>\n\n            <div class="form-actions">\n                <vue-button type="submit">Сохранить</vue-button>\n            </div>\n        </form>\n    </div>\n</div>',
+    template: `
+<div class="page block">
+    <div class="page-detail">
+        <div class="page-top"><h1>Настройки</h1></div>
+        <form @submit.prevent="save" class="form-detail" v-show="isLoaded">
+            <vue-tabs>
+                <vue-tab v-for="section in settings.sections"
+                         v-if="settings.data[section.code].length"
+                         :name="section.title"
+                         :active="section.code == 'common'"
+                         :key="section.code"
+                >
+                    <div v-for="item in settings.data[section.code]">
+                        <component :is="fieldMap(item.field)"
+                                   :fieldParams="item.fieldParams"
+                                   :label="item.title"
+                                   :name="item.code"
+                                   v-model="item.value"
+                        ></component>
+                    </div>
+                </vue-tab>
+            </vue-tabs>
+
+            <div class="form-actions">
+                <vue-button type="submit">Сохранить</vue-button>
+            </div>
+        </form>
+    </div>
+</div>
+`,
     data: function(){
         return {
             isLoaded: false,
@@ -28,6 +56,9 @@ VuePageSettings = {
                 response.result
                     ? Notify.successDefault()
                     : Notify.errorDefault();
+                if (response.theme) {
+                    $('body').append(response.theme);
+                }
             }.bind(this));
         }
     }

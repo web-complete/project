@@ -1,6 +1,17 @@
 Vue.component('VueFieldString', {
-    // language=Vue
-    template: '<div class="form-row">\n    <label>{{label}}</label>\n    <input :type="fieldParams.type"\n           :name="name"\n           :value="value"\n           :title="label"\n           :placeholder="fieldParams.placeholder"\n           :disabled="fieldParams.disabled"\n           :maxlength="fieldParams.maxlength"\n    />\n</div>',
+    template: `
+<div class="form-row">
+    <label v-if="label">{{label}}</label>
+    <input :type="fieldParams.type"
+           :name="name"
+           :value="value"
+           :title="label"
+           :placeholder="fieldParams.placeholder"
+           :disabled="fieldParams.disabled"
+           :maxlength="fieldParams.maxlength"
+    />
+</div>    
+    `,
     props: {
         label: String,
         name: {type: String, required: true},

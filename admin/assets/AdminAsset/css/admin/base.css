@@ -330,6 +330,9 @@ ul, li {
 }
 .redactor-box {
     margin-bottom: 0;
+    width: 800px;
+    display: inline-block;
+    vertical-align: top;
 }
 .redactor-box textarea[data-uid] {
     width: 100%;
@@ -614,7 +617,7 @@ ul, li {
 }
 
 .form-detail textarea {
-    width: 100%;
+    width: 800px;
 }
 
 .form-detail .form-actions {
