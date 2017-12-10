@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\assets;
+namespace modules\admin\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 

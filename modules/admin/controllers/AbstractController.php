@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\controllers;
+namespace modules\admin\controllers;
 
 use cubes\system\auth\IdentityInterface;
 use cubes\system\settings\Settings;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\mvc\exception\Exception;
 use WebComplete\mvc\view\ViewInterface;
-use admin\assets\AdminAsset;
+use modules\admin\assets\AdminAsset;
 
 class AbstractController extends \WebComplete\mvc\controller\AbstractController
 {

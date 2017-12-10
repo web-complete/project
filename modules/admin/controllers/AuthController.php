@@ -1,9 +1,9 @@
 <?php
 
-namespace admin\controllers;
+namespace modules\admin\controllers;
 
-use admin\assets\AdminAsset;
-use admin\assets\AdminAuthAsset;
+use modules\admin\assets\AdminAsset;
+use modules\admin\assets\AdminAuthAsset;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;

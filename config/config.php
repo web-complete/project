@@ -5,7 +5,7 @@ return [
     'routes' => require 'routes.php',
     'commands' => require 'commands.php',
     'cubesLocations' => [
-        __DIR__ . '/../admin',
+        __DIR__ . '/../modules',
         __DIR__ . '/../cubes',
     ],
     'definitions' => require 'definitions.php',

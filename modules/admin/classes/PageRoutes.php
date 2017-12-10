@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\classes;
+namespace modules\admin\classes;
 
 class PageRoutes
 {

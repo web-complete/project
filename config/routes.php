@@ -1,8 +1,8 @@
 <?php
 
-use admin\controllers\AuthController;
-use admin\controllers\IndexController;
-use admin\controllers\UploadController;
+use modules\admin\controllers\AuthController;
+use modules\admin\controllers\IndexController;
+use modules\admin\controllers\UploadController;
 use WebComplete\mvc\router\Routes;
 
 return new Routes([

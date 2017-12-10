@@ -1,6 +1,6 @@
 <?php
 
-namespace admin;
+namespace modules\admin;
 
 use WebComplete\core\cube\AbstractCube;
 

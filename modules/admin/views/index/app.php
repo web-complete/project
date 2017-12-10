@@ -1,6 +1,6 @@
 <?php
 
-use admin\controllers\AbstractController;
+use modules\admin\controllers\AbstractController;
 
 /** @var \WebComplete\mvc\view\View $this */
 /** @var array $userState */

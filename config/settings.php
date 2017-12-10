@@ -1,6 +1,6 @@
 <?php
 
-use admin\classes\FieldType;
+use modules\admin\classes\FieldType;
 
 return [
     'sections' => [

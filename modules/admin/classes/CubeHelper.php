@@ -1,8 +1,8 @@
 <?php
 
-namespace admin\classes;
+namespace modules\admin\classes;
 
-use admin\assets\AdminAsset;
+use modules\admin\assets\AdminAsset;
 use WebComplete\mvc\ApplicationConfig;
 use WebComplete\mvc\assets\AbstractAsset;
 use WebComplete\mvc\router\Routes;

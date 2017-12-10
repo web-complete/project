@@ -1,11 +1,11 @@
 <?php
 
-namespace admin\controllers;
+namespace modules\admin\controllers;
 
-use admin\assets\AdminAsset;
-use admin\classes\Navigation;
-use admin\classes\PageRoutes;
-use admin\classes\state\UserState;
+use modules\admin\assets\AdminAsset;
+use modules\admin\classes\Navigation;
+use modules\admin\classes\PageRoutes;
+use modules\admin\classes\state\UserState;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;

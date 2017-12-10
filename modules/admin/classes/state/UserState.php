@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\classes\state;
+namespace modules\admin\classes\state;
 
 use cubes\system\user\UserService;
 

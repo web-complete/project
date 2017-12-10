@@ -2,7 +2,7 @@
 
 namespace cubes\system\settings\controllers;
 
-use admin\controllers\AbstractController;
+use modules\admin\controllers\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class SettingsController extends AbstractController

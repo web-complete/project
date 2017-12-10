@@ -2,7 +2,7 @@
 
 namespace cubes\system\settings;
 
-use admin\classes\CubeHelper;
+use modules\admin\classes\CubeHelper;
 use cubes\system\settings\assets\SettingsAsset;
 use cubes\system\settings\controllers\SettingsController;
 use WebComplete\core\cube\AbstractCube;
