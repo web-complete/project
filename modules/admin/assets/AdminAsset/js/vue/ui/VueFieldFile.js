@@ -64,7 +64,7 @@ Vue.component('VueFieldFile', {
                         $(Request).trigger('stop');
                         self.fileFieldParams.data[data.result.id] = {
                             name: data.result.name,
-                            url: data.result.url
+                            url: data.result.filelink
                         };
                         self.$emit('input', data.result.id);
                     }

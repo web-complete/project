@@ -38,9 +38,9 @@ Vue.component('VueFieldRedactor', {
             $(this.$el).find('textarea').redactor({
                 lang: 'ru',
                 minHeight: 200,
-                // imageUpload: '/admin/upload/content-image?entityName=<?=$entityName ?>&entityId=<?=$entityId ?>',
-                // imageFloatMargin: '20px',
-                // imageResizable: true,
+                imageUpload: '/admin/api/upload-file',
+                imageFloatMargin: '20px',
+                imageResizable: true,
                 buttons: ['html', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist',
                     'outdent', 'indent', 'image', 'table', 'link', 'alignment', '|',
                     'horizontalrule'],

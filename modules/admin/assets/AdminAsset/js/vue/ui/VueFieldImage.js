@@ -144,7 +144,7 @@ Vue.component('VueFieldImage', {
         onUploaded: function(response){
             this.fileFieldParams.data[response.id] = {
                 name: response.name,
-                url: response.url
+                url: response.filelink
             };
             if (this.fileFieldParams.multiple) {
                 let values = this.values;

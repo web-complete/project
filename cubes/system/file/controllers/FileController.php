@@ -69,7 +69,7 @@ class FileController extends AbstractController
                 return $this->responseJsonSuccess([
                     'id' => $file->getId(),
                     'name' => $file->file_name,
-                    'url' => $file->url,
+                    'filelink' => $file->url,
                 ]);
             }
 
@@ -98,7 +98,7 @@ class FileController extends AbstractController
                 return $this->responseJsonSuccess([
                     'id' => $file->getId(),
                     'name' => $file->file_name,
-                    'url' => $file->url,
+                    'filelink' => $file->url,
                 ]);
             }
 
