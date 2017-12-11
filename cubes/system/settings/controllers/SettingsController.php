@@ -7,6 +7,8 @@ use cubes\system\file\FileService;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use modules\admin\assets\AdminAsset;
+use modules\admin\classes\fields\FieldAbstract;
+use modules\admin\classes\fields\FieldImage;
 use modules\admin\classes\FieldType;
 use modules\admin\controllers\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,17 +52,13 @@ class SettingsController extends AbstractController
     public function actionGet(): Response
     {
         $structure = $this->settings->getStructure();
-        if (\is_array($structure['data'])) {
-            foreach ($structure['data'] as &$items) {
+        if (\is_array($structure['fields'])) {
+            foreach ($structure['fields'] as &$items) {
                 if (\is_array($items)) {
-                    /** @var array $items */
-                    foreach ($items as &$item) {
-                        if ($item['field'] === FieldType::FILE) {
-                            $this->processFieldFile($item);
-                        }
-                        if ($item['field'] === FieldType::IMAGE) {
-                            $this->processFieldFile($item);
-                        }
+                    /** @var FieldAbstract[] $items */
+                    foreach ($items as $name => $item) {
+                        $item->processField();
+                        $items[$name] = $item->get();
                     }
                 }
                 unset($item);
@@ -84,64 +82,27 @@ class SettingsController extends AbstractController
                 @$this->fileService->delete($deleteFileId);
             }
         }
-        if ($data = (array)$this->request->get('data')) {
-            $plainData = [];
-            foreach ($data as $sectionsData) {
+
+        $this->settings->load();
+        if ($fields = (array)$this->request->get('fields')) {
+            foreach ($fields as $sectionsData) {
                 foreach ((array)$sectionsData as $item) {
-                    if ($code = $item['code'] ?? null) {
-                        unset($item['code']);
-                        $plainData[$code] = $item;
+                    $name = $item['name'] ?? null;
+                    if ($name && ($field = $this->settings->getField($name))) {
+                        $field->value($item['value'] ?? '');
                     }
                 }
             }
-            $this->settings->setData($plainData);
+            $this->settings->save();
+
+            /** @var FieldImage $fieldThemeLogo */
+            $fieldThemeLogo = $this->settings->getField('theme_logo');
             return $this->responseJsonSuccess([
                 'settings' => $this->settings->getStructure(),
                 'theme' => $this->view->render('@admin/views/layouts/theme.php'),
-                'logo' => $this->getThemeLogo($plainData),
+                'logo' => $fieldThemeLogo ? $fieldThemeLogo->getUrl() : '',
             ]);
         }
         return $this->responseJsonFail('Data is empty');
-    }
-
-    /**
-     * @param array $item
-     */
-    protected function processFieldFile(array &$item)
-    {
-        if ($fileId = $item['value'] ?? null) {
-            $fileIds = (array)$fileId;
-            foreach ($fileIds as $fileId) {
-                /** @var File $file */
-                if ($file = $this->fileService->findById($fileId)) {
-                    if (!isset($item['fieldParams']) || !\is_array($item['fieldParams'])) {
-                        $item['fieldParams'] = [];
-                    }
-                    if (!isset($item['fieldParams']['data'])) {
-                        $item['fieldParams']['data'] = [];
-                    }
-                    $item['fieldParams']['data'][$fileId] = \array_merge((array)$file->data, [
-                        'name' => $file->file_name,
-                        'url' => $file->url,
-                    ]);
-                }
-            }
-        }
-    }
-
-    /**
-     * @param $plainData
-     *
-     * @return string
-     */
-    protected function getThemeLogo($plainData): string
-    {
-        if ($fileId = $plainData['theme_logo'] ?? null) {
-            /** @var File $file */
-            if ($file = $this->fileService->findById($fileId)) {
-                return $file->url;
-            }
-        }
-        return '';
     }
 }

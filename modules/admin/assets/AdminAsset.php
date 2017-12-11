@@ -58,7 +58,6 @@ class AdminAsset extends AbstractAsset
             'js/store/StoreNavigation.js',
             'js/store/StoreSettings.js',
 
-            'js/model/FieldHelper.js',
             'js/model/Notify.js',
             'js/model/Modal.js',
 

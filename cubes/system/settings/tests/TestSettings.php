@@ -3,6 +3,7 @@
 namespace cubes\system\settings\tests;
 
 use cubes\system\settings\Settings;
+use modules\admin\classes\fields\Field;
 use WebComplete\core\utils\alias\AliasService;
 use WebComplete\mvc\ApplicationConfig;
 
@@ -36,32 +37,48 @@ class TestSettings extends \AppTestCase
             'sections' => [
                 [
                     'title' => 'Основное',
-                    'code' => 'common',
+                    'name' => 'common',
                 ],
                 [
                     'title' => 'Система',
-                    'code' => 'system',
+                    'name' => 'system',
                 ],
             ],
-            'data' => [
+            'fields' => [
                 'common' => [
                     [
+                        'component' => 'VueFieldString',
+                        'name' => 'site_name',
                         'title' => '',
-                        'type' => '',
                         'value' => 2,
-                        'code' => 'site_name',
+                        'fieldParams' => [
+                            'type' => 'text',
+                            'disabled' => false,
+                            'maxlength' => '',
+                            'placeholder' => '',
+                            'filter' => '',
+                            'mask' => '',
+                        ],
                     ],
                     [
+                        'component' => 'VueFieldString',
+                        'name' => 'site_description',
                         'title' => '',
-                        'type' => '',
                         'value' => '',
-                        'code' => 'site_description',
+                        'fieldParams' => [
+                            'type' => 'text',
+                            'disabled' => false,
+                            'maxlength' => '',
+                            'placeholder' => '',
+                            'filter' => '',
+                            'mask' => '',
+                        ],
                     ],
                 ],
                 'system' => [
                 ],
             ],
-        ], $settings->getStructure());
+        ], $settings->getStructure(true));
     }
 
     /**
@@ -74,18 +91,10 @@ class TestSettings extends \AppTestCase
                 'common' => 'Основное',
                 'system' => 'Система',
             ],
-            'data' => [
+            'fields' => [
                 'common' => [
-                    'site_name' => [
-                        'title' => '',
-                        'type' => '',
-                        'value' => '',
-                    ],
-                    'site_description' => [
-                        'title' => '',
-                        'type' => '',
-                        'value' => '',
-                    ],
+                    'site_name' => Field::string('', 'site_name'),
+                    'site_description' => Field::string('', 'site_description'),
                 ],
                 'system' => [
                 ],

@@ -1,6 +1,6 @@
 <?php
 
-use modules\admin\classes\FieldType;
+use modules\admin\classes\fields\Field;
 
 return [
     'sections' => [
@@ -9,142 +9,58 @@ return [
         'system' => 'Система',
         'theme' => 'Оформление',
     ],
-    'data' => [
+    'fields' => [
         'common' => [
-            'site_name' => [
-                'title' => 'Название сайта',
-                'field' => FieldType::STRING,
-                'value' => '',
-            ],
-            'site_description' => [
-                'title' => 'Описание сайта',
-                'field' => FieldType::STRING,
-                'value' => '',
-            ],
+            'site_name' => Field::string('Название сайта', 'site_name'),
+            'site_description' => Field::string('Описание сайта', 'site_description'),
         ],
         'examples' => [
-            'field_string' => [
-                'title' => 'string',
-                'field' => FieldType::STRING,
-                'value' => '',
-            ],
-            'field_string_disabled' => [
-                'title' => 'string disabled',
-                'field' => FieldType::STRING,
-                'fieldParams' => [
-                    'disabled' => true,
-                ],
-                'value' => '',
-            ],
-            'field_string_filter' => [
-                'title' => 'string + filter num',
-                'field' => FieldType::STRING,
-                'fieldParams' => [
-                    'filter' => '^[0-9]*$'
-                ],
-                'value' => '',
-            ],
-            'field_string_mask' => [
-                'title' => 'string + mask date + placeholder',
-                'field' => FieldType::STRING,
-                'fieldParams' => [
-                    'mask' => '00.00.0000',
-                    'placeholder' => 'дд.мм.гггг'
-                ],
-                'value' => '',
-            ],
-            'field_checkbox1' => [
-                'title' => 'checkbox 1',
-                'field' => FieldType::CHECKBOX,
-                'value' => 0,
-            ],
-            'field_checkbox2' => [
-                'title' => 'checkbox 2',
-                'field' => FieldType::CHECKBOX,
-                'value' => 0,
-            ],
-            'field_select' => [
-                'title' => 'select',
-                'field' => FieldType::SELECT,
-                'fieldParams' => [
-                    'withEmpty' => true,
-                    'options' => [
-                        1 => 'option 1',
-                        2 => 'option 2',
-                        3 => 'option 3',
-                    ]
-                ],
-                'value' => '',
-            ],
-            'field_select_m' => [
-                'title' => 'select multiple',
-                'field' => FieldType::SELECT,
-                'fieldParams' => [
-                    'multiple' => true,
-                    'options' => [
-                        1 => 'option 1',
-                        2 => 'option 2',
-                        3 => 'option 3',
-                    ]
-                ],
-                'value' => '',
-            ],
-            'field_textarea' => [
-                'title' => 'textarea',
-                'field' => FieldType::TEXTAREA,
-                'value' => '',
-            ],
-            'field_redactor' => [
-                'title' => 'textarea redactor',
-                'field' => FieldType::REDACTOR,
-                'fieldParams' => [],
-                'value' => '',
-            ],
-            'field_image' => [
-                'title' => 'image',
-                'field' => FieldType::IMAGE,
-                'fieldParams' => [],
-                'value' => '',
-            ],
-            'field_images' => [
-                'title' => 'images',
-                'field' => FieldType::IMAGE,
-                'fieldParams' => [
-                    'multiple' => true
-                ],
-                'value' => '',
-            ],
+            'field_string' => Field::string('string', 'field_string'),
+            'field_string_disabled' => Field::string('string disabled', 'field_string_disabled')
+                ->disabled(),
+            'field_string_filter' => Field::string('string + filter num', 'field_string_filter')
+                ->filter('^[0-9]*$'),
+            'field_string_mask' => Field::string('string + mask date + placeholder', 'field_string_mask')
+                ->mask('00.00.0000')
+                ->placeholder('дд.мм.гггг'),
+            'field_checkbox1' => Field::checkbox('checkbox 1', 'field_checkbox1'),
+            'field_checkbox2' => Field::checkbox('checkbox 2', 'field_checkbox2'),
+            'field_select' => Field::select('select', 'field_select')
+                ->withEmpty(true)
+                ->options([
+                    1 => 'option 1',
+                    2 => 'option 2',
+                    3 => 'option 3',
+                ]),
+            'field_select_m' => Field::select('select multiple', 'field_select_m')
+                ->multiple(true)
+                ->options([
+                    1 => 'option 1',
+                    2 => 'option 2',
+                    3 => 'option 3',
+                ]),
+            'field_textarea' => Field::textarea('textarea', 'field_textarea'),
+            'field_redactor' => Field::redactor('textarea redactor', 'field_redactor'),
+            'field_image' => Field::image('image', 'field_image'),
+            'field_images' => Field::image('images', 'field_images')
+                ->multiple(true),
         ],
         'system' => [
         ],
         'theme' => [
-            'theme_logo' => [
-                'title' => 'Логотип',
-                'field' => FieldType::FILE,
-                'value' => '',
-            ],
-            'theme_color1' => [
-                'title' => 'Основной цвет',
-                'field' => FieldType::STRING,
-                'fieldParams' => [
-                    'type' => 'color',
-                    'filter' => '^\#[0-9a-fA-F]*$',
-                    'maxlength' => 7,
-                    'placeholder' => '#F1A800',
-                ],
-                'value' => 'F1A800',
-            ],
-            'theme_color2' => [
-                'title' => 'Дополнительный цвет',
-                'field' => FieldType::STRING,
-                'fieldParams' => [
-                    'type' => 'color',
-                    'filter' => '^\#[0-9a-fA-F]*$',
-                    'maxlength' => 7,
-                    'placeholder' => '#E77E15',
-                ],
-                'value' => 'E77E15',
-            ],
+            'theme_logo' => Field::file('Логотип', 'theme_logo'),
+            'theme_color1' => Field::string('Основной цвет', 'theme_color1')
+                ->type('color')
+                ->filter('^\#[0-9a-fA-F]*$')
+                ->maxlength(7)
+                ->placeholder('#F1A800')
+                ->value('#F1A800'),
+            'theme_color2' => Field::string('Дополнительный цвет', 'theme_color2')
+                ->type('color')
+                ->filter('^\#[0-9a-fA-F]*$')
+                ->maxlength(7)
+                ->placeholder('#E77E15')
+                ->value('#E77E15'),
         ],
     ],
 ];

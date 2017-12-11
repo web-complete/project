@@ -2,6 +2,7 @@
 
 namespace cubes\system\settings;
 
+use modules\admin\classes\fields\FieldAbstract;
 use WebComplete\core\utils\alias\AliasService;
 use WebComplete\mvc\ApplicationConfig;
 
@@ -9,9 +10,9 @@ class Settings
 {
 
     /**
-     * @var array[]
+     * @var FieldAbstract[]
      */
-    protected $data = [];
+    protected $fields = [];
     protected $structure = [];
     protected $isLoaded = false;
     protected $storagePath = '@storage/settings.json';
@@ -36,33 +37,44 @@ class Settings
     }
 
     /**
-     * @param $code
+     * @param $name
      * @param null $default
      * @return mixed
      */
-    public function get($code, $default = null)
+    public function get($name, $default = null)
     {
         if (!$this->isLoaded) {
             $this->load();
         }
 
-        return $this->data[$code]['value'] ?? $default;
+        $result = isset($this->fields[$name]) ? $this->fields[$name]->getValue() : null;
+        return $result ?? $default;
     }
 
     /**
-     * @param $code
+     * @param $name
      * @param $value
      */
-    public function set($code, $value)
+    public function set($name, $value)
     {
         if (!$this->isLoaded) {
             $this->load();
         }
 
-        if (isset($this->data[$code])) {
-            $this->data[$code]['value'] = $value;
+        if (isset($this->fields[$name])) {
+            $this->fields[$name]->value($value);
             $this->save();
         }
+    }
+
+    /**
+     * @param $name
+     *
+     * @return FieldAbstract|null
+     */
+    public function getField($name)
+    {
+        return $this->fields[$name] ?? null;
     }
 
     /**
@@ -70,27 +82,28 @@ class Settings
      */
     public function load()
     {
-        $settings = $this->config['settings'];
-        $settingsStorageFile = $this->aliasService->get($this->storagePath);
+        $settingsConfig = $this->config['settings'];
+        $settingsStoragePath = $this->aliasService->get($this->storagePath);
         try {
-            if ($settingsState = \file_get_contents($settingsStorageFile)) {
+            if ($settingsState = \file_get_contents($settingsStoragePath)) {
                 $settingsState = (array)\json_decode($settingsState, true);
             }
         } catch (\Exception $e) {
             $settingsState = [];
         }
 
-        $this->structure = $settings;
-        $data = [];
-        foreach ((array)$settings['data'] as $sectionSettings) {
-            $data += $sectionSettings;
+        $this->structure = $settingsConfig;
+        /** @var FieldAbstract[] $fields */
+        $fields = [];
+        foreach ((array)$settingsConfig['fields'] as $sectionSettings) {
+            $fields += $sectionSettings;
         }
 
-        foreach ($settingsState as $code => $value) {
-            $data[$code]['value'] = $value;
+        foreach ($settingsState as $name => $value) {
+            $fields[$name]->value($value);
         }
 
-        $this->data = $data;
+        $this->fields = $fields;
         $this->isLoaded = true;
     }
 
@@ -104,8 +117,8 @@ class Settings
         }
 
         $data = [];
-        foreach ($this->data as $code => $row) {
-            $data[$code] = $row['value'] ?? null;
+        foreach ($this->fields as $name => $field) {
+            $data[$name] = $field->getValue() ?? null;
         }
         $json = \json_encode($data, \JSON_PRETTY_PRINT);
         $settingsStorageFile = $this->aliasService->get($this->storagePath);
@@ -113,9 +126,11 @@ class Settings
     }
 
     /**
+     * @param bool $convertFieldsToArray
+     *
      * @return array
      */
-    public function getStructure(): array
+    public function getStructure(bool $convertFieldsToArray = false): array
     {
         if (!$this->isLoaded) {
             $this->load();
@@ -123,18 +138,17 @@ class Settings
 
         /** @var array[] $result */
         $result = $this->structure;
-        foreach ($result['sections'] as $code => $sectionName) {
-            $result['sections'][$code] = [
+        foreach ($result['sections'] as $name => $sectionName) {
+            $result['sections'][$name] = [
                 'title' => $sectionName,
-                'code' => $code,
+                'name' => $name,
             ];
         }
 
-        foreach ($this->data as $code => $row) {
-            foreach ($result['data'] as &$sectionData) {
-                if (isset($sectionData[$code])) {
-                    $row['code'] = $code;
-                    $sectionData[$code] = $row;
+        foreach ($this->fields as $name => $field) {
+            foreach ($result['fields'] as &$sectionData) {
+                if (isset($sectionData[$name])) {
+                    $sectionData[$name] = $convertFieldsToArray ? $field->get() : $field;
                     break;
                 }
             }
@@ -142,8 +156,8 @@ class Settings
         }
 
         $result['sections'] = \array_values($result['sections']);
-        foreach ($result['data'] as $code => $rows) {
-            $result['data'][$code] = \array_values($rows);
+        foreach ($result['fields'] as $name => $rows) {
+            $result['fields'][$name] = \array_values($rows);
         }
 
         return $result;
@@ -152,25 +166,25 @@ class Settings
     /**
      * @return array
      */
-    public function getData(): array
+    public function getFields(): array
     {
         if (!$this->isLoaded) {
             $this->load();
         }
 
-        return $this->data;
+        return $this->fields;
     }
 
     /**
-     * @param array $data
+     * @param array $fields
      */
-    public function setData(array $data)
+    public function setFields(array $fields)
     {
         if (!$this->isLoaded) {
             $this->load();
         }
 
-        $this->data = $data;
+        $this->fields = $fields;
         $this->save();
     }
 

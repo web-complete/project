@@ -6,16 +6,16 @@ VuePageSettings = {
         <form @submit.prevent="save" class="form-detail" v-show="isLoaded">
             <vue-tabs>
                 <vue-tab v-for="section in settings.sections"
-                         v-if="settings.data[section.code].length"
+                         v-if="settings.fields[section.name].length"
                          :name="section.title"
-                         :active="section.code == 'common'"
-                         :key="section.code"
+                         :active="section.name == 'common'"
+                         :key="section.name"
                 >
-                    <div v-for="item in settings.data[section.code]">
-                        <component :is="fieldMap(item.field)"
+                    <div v-for="item in settings.fields[section.name]">
+                        <component :is="item.component"
                                    :fieldParams="item.fieldParams"
                                    :label="item.title"
-                                   :name="item.code"
+                                   :name="item.name"
                                    v-model="item.value"
                         ></component>
                     </div>
@@ -62,7 +62,7 @@ VuePageSettings = {
         save: function(){
             let self = this;
             Request.post('/admin/api/settings', {
-                data: this.settings.data,
+                fields: this.settings.fields,
                 deleteFileIds: this.deleteFileIds
             }, function(response){
                 self.deleteFileIds = [];
