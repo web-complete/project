@@ -52,6 +52,7 @@ Vue.component('VueFieldImageModalEdit', {
         },
         updateImage: function(){
             this.$emit('updateImage', this.id, this.title, this.alt);
+            this.close();
         },
         deleteImage: function(){
             this.close();

@@ -15,6 +15,7 @@ Vue.component('VueFieldImage', {
 
         <vue-field-image-modal-crop ref="crop"
                                     :name="name"
+                                    @save="uploadDataUrl"
         ></vue-field-image-modal-crop>        
         <vue-field-image-modal-edit ref="edit"
                                     :name="name"
@@ -78,9 +79,7 @@ Vue.component('VueFieldImage', {
                 id: id,
                 title: title,
                 alt: alt
-            }, function(){
-                this.$refs['edit'].close();
-            }.bind(this));
+            });
         },
         deleteImage: function(id){
             if (this.fileFieldParams.multiple) {
@@ -94,18 +93,13 @@ Vue.component('VueFieldImage', {
             }
             bus.$emit('deleteFileId', id);
         },
-        onUploaded: function(response){
-            this.fileFieldParams.data[response.id] = {
-                name: response.name,
-                url: response.url
-            };
-            if (this.fileFieldParams.multiple) {
-                let values = this.values;
-                values.push(response.id);
-                this.$emit('input', values);
-            } else {
-                this.$emit('input', response.id);
-            }
+        uploadDataUrl: function(filename, dataUrl){
+            Request.post('/admin/api/upload-image', {
+                filename: filename,
+                content: dataUrl
+            }, function(response){
+                this.onUploaded(response);
+            }.bind(this));
         },
         initUploader: function(){
             let self = this;
@@ -117,7 +111,12 @@ Vue.component('VueFieldImage', {
                         let file = data.files[0];
                         let reader = new FileReader();
                         reader.onload = function(e){
-                            self.$refs['crop'].open(e.target.result, self.fileFieldParams['cropRatio']);
+                            self.$refs['crop'].open(
+                                file.name,
+                                e.target.result,
+                                self.fileFieldParams['cropRatio'],
+                                self.fileFieldParams['cropMimeType']
+                            );
                         };
                         reader.readAsDataURL(file);
                     } else {
@@ -141,6 +140,19 @@ Vue.component('VueFieldImage', {
                     Notify.error('Ошибка загрузки изображения');
                 }
             });
+        },
+        onUploaded: function(response){
+            this.fileFieldParams.data[response.id] = {
+                name: response.name,
+                url: response.url
+            };
+            if (this.fileFieldParams.multiple) {
+                let values = this.values;
+                values.push(response.id);
+                this.$emit('input', values);
+            } else {
+                this.$emit('input', response.id);
+            }
         },
         destroyUploader: function(){
             $(this.$el).find('input[type=file]').fileupload('destroy');

@@ -14,6 +14,7 @@ class FieldImage extends FieldFile
             'data' => [],
             'multiple' => false,
             'cropRatio' => false,
+            'cropMimeType' => 'image/jpeg',
         ]
     ];
 
@@ -31,11 +32,14 @@ class FieldImage extends FieldFile
     /**
      * @param float $ratio
      *
+     * @param string $cropMimeType
+     *
      * @return $this
      */
-    public function cropRatio(float $ratio)
+    public function cropRatio(float $ratio, string $cropMimeType = 'image/jpeg')
     {
         $this->data['fieldParams']['cropRatio'] = $ratio;
+        $this->data['fieldParams']['cropMimeType'] = $cropMimeType;
         return $this;
     }
 }
