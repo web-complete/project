@@ -1,5 +1,9 @@
 Vue.component('VueTab', {
-    template: `<div v-show="selected"><slot></slot></div>`,
+    template: `
+        <div v-show="selected" :key="name">
+            <slot></slot>
+        </div>
+    `,
     props: {
         name: {required: true},
         active: {default: false}

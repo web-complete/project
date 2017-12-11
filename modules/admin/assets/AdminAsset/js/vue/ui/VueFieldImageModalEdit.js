@@ -2,7 +2,7 @@ Vue.component('VueFieldImageModalEdit', {
     template: `
         <modal :name="'image-modal-edit-'+name" width="600px" height="auto" :scrollable="true">
             <div v-if="url" class="popup-content _image">
-                <h1>Параметры изображения</h1>
+                <h1>Настройки изображения</h1>
                 <div class="image-wrapper clearfix">
                     <img :src="url" style="width: 100%" />
                 </div>
@@ -22,7 +22,6 @@ Vue.component('VueFieldImageModalEdit', {
                     <button @click="close" class="button gray" type="button">Отменить</button>
                 </div>
             </div>
-
         </modal>
     `,
     props: {

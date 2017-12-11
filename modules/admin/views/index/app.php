@@ -19,7 +19,9 @@ $themeColor1 = $settings->get('theme_color1', '#F1A800');
     <vue-header></vue-header>
     <div class="page-wrapper">
         <vue-navigation></vue-navigation>
-        <router-view></router-view>
+        <transition name="page">
+            <router-view></router-view>
+        </transition>
     </div>
     <vue-footer></vue-footer>
     <vue-topprogress ref="topProgress" color="<?=$themeColor1 ?>"></vue-topprogress>

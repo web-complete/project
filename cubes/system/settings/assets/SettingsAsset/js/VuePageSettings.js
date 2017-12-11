@@ -66,14 +66,21 @@ VuePageSettings = {
                 deleteFileIds: this.deleteFileIds
             }, function(response){
                 self.deleteFileIds = [];
-                response.result
-                    ? Notify.successDefault()
-                    : Notify.errorDefault();
-                if (response.theme) {
-                    $('body').append(response.theme);
-                }
-                if (response.logo !== undefined) {
-                    self.$store.state.settings.theme_logo = response.logo;
+                if (response.result) {
+                    if (self.deleteFileIds.length) {
+                        Request.post('/admin/api/delete-file', {id: self.deleteFileIds}, function(){
+                            self.deleteFileIds = [];
+                        });
+                    }
+                    Notify.successDefault();
+                    if (response.theme) {
+                        $('body').append(response.theme);
+                    }
+                    if (response.logo !== undefined) {
+                        self.$store.state.settings.theme_logo = response.logo;
+                    }
+                } else {
+                    Notify.errorDefault();
                 }
             }.bind(this));
         }

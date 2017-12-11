@@ -613,16 +613,13 @@ ul, li {
 .form-detail .form-row input.wide:not([type=checkbox]):not([type=radio]) {
     width: 500px;
 }
-
 .form-detail select,
 .form-detail .table-cell input:not([type=checkbox]):not([type=radio]) {
     width: 300px;
 }
-
 .form-detail textarea {
     width: 800px;
 }
-
 .form-detail .form-actions {
     margin-top: 25px;
     margin-left: 215px;
@@ -677,7 +674,6 @@ a.help:hover {
     border-bottom: 2px solid #fff;
     z-index: 1;
 }
-
 .tabs li._error {
     color: #E20724;
 }
@@ -694,8 +690,12 @@ div._active[data-group][data-tab] {
     text-align: center;
     padding: 25px 25px;
 }
+.popup-content h1 {
+    text-align: left;
+    float: none;
+}
 .popup-content .form-actions {
-    margin-top: 20px;
+    margin: 20px 0 0 0;
     text-align: center;
 }
 .popup-content._image img {
@@ -773,7 +773,6 @@ table {
     font-size: 20px;
     padding-left: 15px;
 }
-
 .table-wrapper .add-row:hover {
     color: #777;
 }
@@ -892,6 +891,7 @@ table {
     border-color: #000;
     color: #000;
 }
+
 .pager {
     margin: 10px 0;
     float: right;
@@ -976,7 +976,7 @@ table {
     display: inline-block;
     height: 100px;
     line-height: 100px;
-    color: #777;
+    color: #ccc;
     font-size: 12px;
     text-decoration: none;
 }
@@ -1057,15 +1057,6 @@ table {
     overflow: hidden;
     position: relative;
     top: 0;
-    visibility: visible;
-    opacity: 1;
-    transition: all 1s ease;
-}
-.page.on-start {
-    top: -50px;
-    visibility: hidden;
-    opacity: 0;
-    transition: all 0s;
 }
 .page-top {
 }
@@ -1200,4 +1191,20 @@ table {
 .history-version ._changed td:first-child {
     font-weight: bold;
     color: #dd0724;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: all .5s ease;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+.page-enter-active, .page-leave-active {
+    position: absolute;
+    width: calc(100% - 300px);
+    transition: all .3s ease-out;
+}
+.page-enter, .fade-leave-to {
+    top: -20px;
+    opacity: 0;
 }

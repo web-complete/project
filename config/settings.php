@@ -41,7 +41,8 @@ return [
                 ]),
             'field_textarea' => Field::textarea('textarea', 'field_textarea'),
             'field_redactor' => Field::redactor('textarea redactor', 'field_redactor'),
-            'field_image' => Field::image('image', 'field_image'),
+            'field_image' => Field::image('image', 'field_image')
+                ->cropRatio(400/200),
             'field_images' => Field::image('images', 'field_images')
                 ->multiple(true),
         ],

@@ -8,11 +8,14 @@ Vue.component('VueFieldImage', {
                 <img :src="fileFieldParams.data[v].url" />
             </div>
         </draggable>
-        <div v-if="!value || fileFieldParams.multiple" class="_add">
+        <div v-show="!value || fileFieldParams.multiple" class="_add">
             <input type="file" :name="name" accept="image/*" />
             <i class="ion-android-upload"></i>
         </div>
 
+        <vue-field-image-modal-crop ref="crop"
+                                    :name="name"
+        ></vue-field-image-modal-crop>        
         <vue-field-image-modal-edit ref="edit"
                                     :name="name"
                                     :fileFieldParams="fileFieldParams"
@@ -52,10 +55,7 @@ Vue.component('VueFieldImage', {
     },
     created: function(){
         this.fileFieldParams = this.fieldParams;
-        if (this.fileFieldParams instanceof Array) {
-            this.fileFieldParams = {};
-        }
-        if (!this.fileFieldParams.data) {
+        if (this.fileFieldParams.data instanceof Array) {
             this.fileFieldParams.data = {}
         }
     },
@@ -113,9 +113,18 @@ Vue.component('VueFieldImage', {
                 dataType: 'json',
                 url: '/admin/api/upload-file',
                 add: function (e, data) {
-                    $(Request).trigger('start');
-                    data.formData = {};
-                    data.submit();
+                    if (self.fileFieldParams['cropRatio']) {
+                        let file = data.files[0];
+                        let reader = new FileReader();
+                        reader.onload = function(e){
+                            self.$refs['crop'].open(e.target.result, self.fileFieldParams['cropRatio']);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        $(Request).trigger('start');
+                        data.formData = {};
+                        data.submit();
+                    }
                 },
                 done: function (e, data) {
                     if(data.result.result) {

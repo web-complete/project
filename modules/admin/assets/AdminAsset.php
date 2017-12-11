@@ -22,6 +22,7 @@ class AdminAsset extends AbstractAsset
     {
         return [
             'bower_components/vue-toasted/dist/vue-toasted.min.css',
+            'bower_components/cropper/dist/cropper.css',
             'js/lib/jqueryui-custom/jquery-ui.min.css',
             'js/lib/jqueryui-custom/jquery-ui.theme.css',
             'js/lib/select2/select2.min.css',
@@ -45,6 +46,7 @@ class AdminAsset extends AbstractAsset
             'bower_components/vue-top-progress/dist/vue-top-progress.min.js',
             'bower_components/vue-toasted/dist/vue-toasted.min.js',
             'bower_components/vue-js-modal/dist/index.js',
+            'bower_components/cropper/dist/cropper.js',
             'js/lib/blueimp-upload/jquery.fileupload.js',
             'js/lib/blueimp-upload/jquery.iframe-transport.js',
             'js/lib/sticky-kit.min.js',
@@ -70,6 +72,7 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueFieldRedactor.js',
             'js/vue/ui/VueFieldFile.js',
             'js/vue/ui/VueFieldImage.js',
+            'js/vue/ui/VueFieldImageModalCrop.js',
             'js/vue/ui/VueFieldImageModalEdit.js',
             'js/vue/ui/VueButton.js',
 

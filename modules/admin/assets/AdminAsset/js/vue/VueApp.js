@@ -2,9 +2,16 @@ VueApp = {
     store: store,
     el: '#app',
     mounted: function(){
+        this.initAutoPing();
         this.handleAjaxLoading();
     },
     methods: {
+        initAutoPing: function(){
+            // prevent session timeout
+            setInterval(function(){
+                $.get('/admin/api/ping');
+            }, 300000);
+        },
         handleAjaxLoading: function(){
             var self = this;
             if (self.$refs['topProgress']) {

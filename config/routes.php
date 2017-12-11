@@ -7,8 +7,7 @@ use WebComplete\mvc\router\Routes;
 
 return new Routes([
     ['GET', '/admin/login', [AuthController::class, 'actionLogin']],
-    ['POST', '/admin/api/upload-file', [AjaxController::class, 'actionUploadFile']],
-    ['POST', '/admin/api/update-image', [AjaxController::class, 'actionUpdateImage']],
+    ['GET', '/admin/api/ping', [AjaxController::class, 'actionPing']],
     ['POST', '/admin/api/auth', [AuthController::class, 'actionAuth']],
     ['GET', '/admin', [IndexController::class, 'actionApp']],
 ]);

@@ -5,8 +5,7 @@ Vue.component('VueTabs', {
                 <li v-for="tab in tabs" @click="selectTab(tab)" :class="{_active: tab.selected}">{{tab.name}}</li>
             </ul>
             <div class="tabs-content">
-                <slot>
-                </slot>
+                <slot></slot>
             </div>
         </div>    
     `,
