@@ -120,10 +120,10 @@ class SettingsController extends AbstractController
                     if (!isset($item['fieldParams']['data'])) {
                         $item['fieldParams']['data'] = [];
                     }
-                    $item['fieldParams']['data'][$fileId] = [
+                    $item['fieldParams']['data'][$fileId] = \array_merge((array)$file->data, [
                         'name' => $file->file_name,
                         'url' => $file->url,
-                    ];
+                    ]);
                 }
             }
         }

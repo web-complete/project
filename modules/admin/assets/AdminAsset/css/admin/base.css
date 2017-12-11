@@ -603,6 +603,9 @@ ul, li {
 .form-detail .form-row input:not([type=checkbox]):not([type=radio]) {
     width: 300px;
 }
+.form-detail .form-row input[type=color] {
+    padding: 2px 4px 2px 4px;
+}
 .form-detail .form-row.range input:not([type=checkbox]):not([type=radio]) {
     width: 100px;
 }

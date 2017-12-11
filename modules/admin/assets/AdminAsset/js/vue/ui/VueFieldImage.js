@@ -69,6 +69,19 @@ Vue.component('VueFieldImage', {
         openImage: function(id){
             this.$refs['edit'].open(id);
         },
+        updateImage: function(id, title, alt){
+            _.extend(this.fileFieldParams.data[id], {
+                title: title,
+                alt: alt
+            });
+            Request.post('/admin/api/update-image', {
+                id: id,
+                title: title,
+                alt: alt
+            }, function(){
+                this.$refs['edit'].close();
+            }.bind(this));
+        },
         deleteImage: function(id){
             if (this.fileFieldParams.multiple) {
                 let values = this.values;
@@ -80,6 +93,19 @@ Vue.component('VueFieldImage', {
                 this.$emit('input', '');
             }
             bus.$emit('deleteFileId', id);
+        },
+        onUploaded: function(response){
+            this.fileFieldParams.data[response.id] = {
+                name: response.name,
+                url: response.url
+            };
+            if (this.fileFieldParams.multiple) {
+                let values = this.values;
+                values.push(response.id);
+                this.$emit('input', values);
+            } else {
+                this.$emit('input', response.id);
+            }
         },
         initUploader: function(){
             let self = this;
@@ -94,17 +120,7 @@ Vue.component('VueFieldImage', {
                 done: function (e, data) {
                     if(data.result.result) {
                         $(Request).trigger('stop');
-                        self.fileFieldParams.data[data.result.id] = {
-                            name: data.result.name,
-                            url: data.result.url
-                        };
-                        if (self.fileFieldParams.multiple) {
-                            let values = self.values;
-                            values.push(data.result.id);
-                            self.$emit('input', values);
-                        } else {
-                            self.$emit('input', data.result.id);
-                        }
+                        self.onUploaded(data.result);
                     }
                     else {
                         $(Request).trigger('error');

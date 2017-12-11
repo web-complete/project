@@ -2,6 +2,7 @@
 
 namespace modules\admin\controllers;
 
+use cubes\system\file\File;
 use cubes\system\file\FileService;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
@@ -75,8 +76,24 @@ class AjaxController extends AbstractController
         return $this->responseJsonFail('No file uploaded');
     }
 
+    /**
+     * @return Response
+     * @throws \Exception
+     */
     public function actionUpdateImage(): Response
     {
-
+        $fileId = $this->request->get('id');
+        $title = $this->request->get('title', '');
+        $alt = $this->request->get('alt', '');
+        if ($fileId && ($file = $this->fileService->findById($fileId))) {
+            /** @var File $file */
+            $data = $file->data;
+            $data['title'] = $title;
+            $data['alt'] = $alt;
+            $file->data = $data;
+            $this->fileService->save($file);
+            return $this->responseJsonSuccess([]);
+        }
+        return $this->responseJsonFail('File not found');
     }
 }
