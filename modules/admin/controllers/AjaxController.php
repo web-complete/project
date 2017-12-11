@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\mvc\view\ViewInterface;
 
-class UploadController extends AbstractController
+class AjaxController extends AbstractController
 {
 
     /**
@@ -45,7 +45,7 @@ class UploadController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function actionUpload(): Response
+    public function actionUploadFile(): Response
     {
         $code = $this->request->get('code');
         $sort = (int)$this->request->get('sort', 100);
@@ -73,5 +73,10 @@ class UploadController extends AbstractController
         }
 
         return $this->responseJsonFail('No file uploaded');
+    }
+
+    public function actionUpdateImage(): Response
+    {
+
     }
 }

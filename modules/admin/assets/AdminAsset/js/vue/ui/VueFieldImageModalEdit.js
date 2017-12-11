@@ -6,18 +6,18 @@ Vue.component('VueFieldImageModalEdit', {
                 <div class="image-wrapper clearfix">
                     <img :src="url" style="width: 100%" />
                 </div>
-                <form class="form-filter">
+                <form @submit.prevent="saveImage" class="form-filter">
                     <div class="form-row">
                         <label>Заголовок</label>
-                        <input type="text" name="title" title="" />
+                        <input v-model="title" type="text" name="title" title="" />
                     </div>
                     <div class="form-row">
                         <label>Альтернативное название</label>
-                        <input type="text" name="alt" title="" />
+                        <input v-model="alt" type="text" name="alt" title="" />
                     </div>
                 </form>
                 <div class="form-actions">
-                    <button class="button" type="submit">Сохранить</button>
+                    <button @click="saveImage" class="button" type="button">Сохранить</button>
                     <button @click="deleteImage" class="button gray" type="button">Удалить</button>
                     <button @click="close" class="button gray" type="button">Отменить</button>
                 </div>
@@ -31,13 +31,19 @@ Vue.component('VueFieldImageModalEdit', {
     },
     data: function(){
         return {
-            id: ''
+            id: '',
+            title: '',
+            alt: ''
         }
     },
     computed: {
         url: function(){
             return this.id && this.fileFieldParams.data[this.id] ? this.fileFieldParams.data[this.id].url : '';
         }
+    },
+    created: function(){
+        this.title = this.id && this.fileFieldParams.data[this.id] ? this.fileFieldParams.data[this.id].title : '';
+        this.alt = this.id && this.fileFieldParams.data[this.id] ? this.fileFieldParams.data[this.id].alt : '';
     },
     methods: {
         open: function(id){
@@ -46,6 +52,15 @@ Vue.component('VueFieldImageModalEdit', {
         },
         close: function(){
             this.$modal.hide('image-modal-edit-'+this.name);
+        },
+        saveImage: function(){
+            Request.post('/admin/api/updateImage', {
+                id: this.id,
+                title: this.title,
+                alt: this.alt
+            }, function(){
+                this.close();
+            }.bind(this));
         },
         deleteImage: function(){
             this.close();

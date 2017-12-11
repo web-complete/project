@@ -53,7 +53,7 @@ Vue.component('VueFieldFile', {
             let self = this;
             $(this.$el).find('input[type=file]').fileupload({
                 dataType: 'json',
-                url: '/admin/api/upload',
+                url: '/admin/api/upload-file',
                 add: function (e, data) {
                     $(Request).trigger('start');
                     data.formData = {};

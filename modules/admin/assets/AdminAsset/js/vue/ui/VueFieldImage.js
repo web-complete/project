@@ -16,6 +16,7 @@ Vue.component('VueFieldImage', {
         <vue-field-image-modal-edit ref="edit"
                                     :name="name"
                                     :fileFieldParams="fileFieldParams"
+                                    @updateImage="updateImage"
                                     @deleteImage="deleteImage"
         ></vue-field-image-modal-edit>        
     </div>
@@ -84,7 +85,7 @@ Vue.component('VueFieldImage', {
             let self = this;
             $(this.$el).find('input[type=file]').fileupload({
                 dataType: 'json',
-                url: '/admin/api/upload',
+                url: '/admin/api/upload-file',
                 add: function (e, data) {
                     $(Request).trigger('start');
                     data.formData = {};
