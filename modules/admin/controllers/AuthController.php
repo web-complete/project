@@ -2,13 +2,11 @@
 
 namespace modules\admin\controllers;
 
-use modules\admin\assets\AdminAsset;
 use modules\admin\assets\AdminAuthAsset;
-use cubes\system\settings\Settings;
-use cubes\system\user\UserService;
 use modules\admin\classes\state\SettingsState;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\mvc\view\ViewInterface;
 
 class AuthController extends AbstractController
@@ -22,27 +20,25 @@ class AuthController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @param ViewInterface $view
-     * @param Settings $settings
-     * @param AdminAsset $adminAsset
-     * @param UserService $userService
-     * @param AdminAuthAsset $authAsset
-     * @param SettingsState $settingsState
+     * @param ContainerInterface $container
+     * @throws \RuntimeException
      */
     public function __construct(
         Request $request,
         Response $response,
         ViewInterface $view,
-        Settings $settings,
-        AdminAsset $adminAsset,
-        UserService $userService,
-        AdminAuthAsset $authAsset,
-        SettingsState $settingsState
+        ContainerInterface $container
     ) {
-        parent::__construct($request, $response, $view, $settings, $adminAsset, $userService);
-        $this->adminAsset = $authAsset;
-        $this->settingsState = $settingsState;
+        parent::__construct($request, $response, $view, $container);
+        $this->adminAsset = $this->container->get(AdminAuthAsset::class);
+        $this->settingsState = $this->container->get(SettingsState::class);
     }
 
+    /**
+     * @return bool
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \InvalidArgumentException
+     */
     public function beforeAction(): bool
     {
         $this->needAuth = false;

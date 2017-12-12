@@ -27,7 +27,7 @@ class User extends AbstractEntity implements IdentityInterface
             'last_name' => Cast::STRING,
             'sex' => Cast::STRING,
             'last_visit' => Cast::STRING,
-            'f_active' => Cast::BOOL,
+            'is_active' => Cast::BOOL,
             'roles' => [Cast::STRING],
             'created_on' => Cast::STRING,
             'updated_on' => Cast::STRING,
@@ -217,17 +217,17 @@ class User extends AbstractEntity implements IdentityInterface
     /**
      * @return bool
      */
-    public function getFActive(): bool
+    public function isActive(): bool
     {
-        return $this->getField('f_active');
+        return $this->getField('is_active');
     }
 
     /**
-     * @param mixed $fActive
+     * @param mixed $isActive
      */
-    public function setFActive($fActive)
+    public function setIsActive($isActive)
     {
-        $this->setField('f_active', $fActive);
+        $this->setField('is_active', $isActive);
     }
 
     /**
@@ -276,12 +276,16 @@ class User extends AbstractEntity implements IdentityInterface
      * @param string $permissionName
      * @param null $ruleParams
      *
+     * @param bool $checkActive
+     *
      * @return bool
      */
-    public function can(string $permissionName, $ruleParams = null): bool
+    public function can(string $permissionName, $ruleParams = null, bool $checkActive = true): bool
     {
         try {
-            return $this->rbac->checkAccess($this->getId(), $permissionName, $ruleParams);
+            return (!$checkActive || $this->isActive())
+                ? $this->rbac->checkAccess($this->getId(), $permissionName, $ruleParams)
+                : false;
         } catch (RbacException $e) {
             return false;
         }

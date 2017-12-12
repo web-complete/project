@@ -2,6 +2,7 @@
 
 namespace cubes\system\user;
 
+use cubes\system\user\controllers\UserController;
 use cubes\system\user\migrations\UserMigration;
 use modules\admin\classes\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
@@ -16,9 +17,9 @@ class Cube extends AbstractCube
     {
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper
-            ->addBackendRoute(['POST', '/admin/api/entity/user/:id', [SettingsController::class, 'actionSave']])
-            ->addBackendRoute(['GET', '/admin/api/entity/user/:id', [SettingsController::class, 'actionDetail']])
-            ->addBackendRoute(['GET', '/admin/api/entity/user', [SettingsController::class, 'actionList']])
+            ->addBackendRoute(['POST', '/admin/api/entity/user/:id', [UserController::class, 'actionSave']])
+            ->addBackendRoute(['GET', '/admin/api/entity/user/:id', [UserController::class, 'actionDetail']])
+            ->addBackendRoute(['GET', '/admin/api/entity/user', [UserController::class, 'actionList']])
             ->addMenuSection('Система', 900)
             ->addMenuItem('Система', 'Пользователи', '/list/user', 110);
     }

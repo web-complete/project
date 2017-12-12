@@ -99,7 +99,7 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
             return null;
         }
 
-        if (!$user->checkPassword($password)) {
+        if (!$user->isActive() || !$user->checkPassword($password)) {
             return null;
         }
 

@@ -4,45 +4,13 @@ namespace cubes\system\file\controllers;
 
 use cubes\system\file\File;
 use cubes\system\file\FileService;
-use cubes\system\settings\Settings;
-use cubes\system\user\UserService;
-use modules\admin\assets\AdminAsset;
 use modules\admin\controllers\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\condition\Condition;
-use WebComplete\mvc\view\ViewInterface;
 
 class FileController extends AbstractController
 {
-
-    /**
-     * @var FileService
-     */
-    private $fileService;
-
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param ViewInterface $view
-     * @param Settings $settings
-     * @param AdminAsset $adminAsset
-     * @param UserService $userService
-     * @param FileService $fileService
-     */
-    public function __construct(
-        Request $request,
-        Response $response,
-        ViewInterface $view,
-        Settings $settings,
-        AdminAsset $adminAsset,
-        UserService $userService,
-        FileService $fileService
-    ) {
-        parent::__construct($request, $response, $view, $settings, $adminAsset, $userService);
-        $this->fileService = $fileService;
-    }
 
     /**
      * @return Response
@@ -50,6 +18,7 @@ class FileController extends AbstractController
      */
     public function actionUploadFile(): Response
     {
+        $fileService = $this->container->get(FileService::class);
         $code = $this->request->get('code');
         $sort = (int)$this->request->get('sort', 100);
         $data = (array)$this->request->get('data', []);
@@ -57,7 +26,7 @@ class FileController extends AbstractController
         $uploadedFiles = $this->request->files->all();
         /** @var UploadedFile $uploadedFile */
         if ($uploadedFile = \reset($uploadedFiles)) {
-            $file = $this->fileService->createFileFromPath(
+            $file = $fileService->createFileFromPath(
                 $uploadedFile->getPathname(),
                 $uploadedFile->getClientOriginalName(),
                 $uploadedFile->getMimeType(),
@@ -85,6 +54,7 @@ class FileController extends AbstractController
      */
     public function actionUploadImage(): Response
     {
+        $fileService = $this->container->get(FileService::class);
         $filename = $this->request->get('filename');
         $content = $this->request->get('content');
         $mime = $this->request->get('mime');
@@ -93,7 +63,7 @@ class FileController extends AbstractController
         $data = (array)$this->request->get('data', []);
 
         if ($filename && $content) {
-            $file = $this->fileService->createFileFromContent($content, $filename, $mime, $code, $sort, $data);
+            $file = $fileService->createFileFromContent($content, $filename, $mime, $code, $sort, $data);
             if ($file && $file->getId()) {
                 return $this->responseJsonSuccess([
                     'id' => $file->getId(),
@@ -114,8 +84,9 @@ class FileController extends AbstractController
      */
     public function actionDeleteFile(): Response
     {
+        $fileService = $this->container->get(FileService::class);
         if ($ids = (array)$this->request->get('id')) {
-            $this->fileService->deleteAll(new Condition(['id' => $ids]));
+            $fileService->deleteAll(new Condition(['id' => $ids]));
         }
 
         return $this->responseJsonSuccess([]);
@@ -127,16 +98,17 @@ class FileController extends AbstractController
      */
     public function actionUpdateImage(): Response
     {
+        $fileService = $this->container->get(FileService::class);
         $fileId = $this->request->get('id');
         $title = $this->request->get('title', '');
         $alt = $this->request->get('alt', '');
-        if ($fileId && ($file = $this->fileService->findById($fileId))) {
+        if ($fileId && ($file = $fileService->findById($fileId))) {
             /** @var File $file */
             $data = $file->data;
             $data['title'] = $title;
             $data['alt'] = $alt;
             $file->data = $data;
-            $this->fileService->save($file);
+            $fileService->save($file);
 
             return $this->responseJsonSuccess([]);
         }

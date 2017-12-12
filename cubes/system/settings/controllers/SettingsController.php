@@ -2,48 +2,14 @@
 
 namespace cubes\system\settings\controllers;
 
-use cubes\system\file\File;
 use cubes\system\file\FileService;
-use cubes\system\settings\Settings;
-use cubes\system\user\UserService;
-use modules\admin\assets\AdminAsset;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\fields\FieldImage;
-use modules\admin\classes\FieldType;
 use modules\admin\controllers\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WebComplete\mvc\view\ViewInterface;
 
 class SettingsController extends AbstractController
 {
-
-    /**
-     * @var FileService
-     */
-    private $fileService;
-
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param ViewInterface $view
-     * @param Settings $settings
-     * @param AdminAsset $adminAsset
-     * @param UserService $userService
-     * @param FileService $fileService
-     */
-    public function __construct(
-        Request $request,
-        Response $response,
-        ViewInterface $view,
-        Settings $settings,
-        AdminAsset $adminAsset,
-        UserService $userService,
-        FileService $fileService
-    ) {
-        parent::__construct($request, $response, $view, $settings, $adminAsset, $userService);
-        $this->fileService = $fileService;
-    }
 
     /**
      * @return Response
@@ -61,7 +27,6 @@ class SettingsController extends AbstractController
                         $items[$name] = $item->get();
                     }
                 }
-                unset($item);
             }
             unset($items);
         }
@@ -77,9 +42,10 @@ class SettingsController extends AbstractController
      */
     public function actionSave(): Response
     {
+        $fileService = $this->container->get(FileService::class);
         if ($deleteFileIds = (array)$this->request->get('deleteFileIds')) {
             foreach ($deleteFileIds as $deleteFileId) {
-                @$this->fileService->delete($deleteFileId);
+                @$fileService->delete($deleteFileId);
             }
         }
 

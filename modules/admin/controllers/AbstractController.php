@@ -7,6 +7,7 @@ use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\mvc\exception\Exception;
 use WebComplete\mvc\view\ViewInterface;
 use modules\admin\assets\AdminAsset;
@@ -18,6 +19,10 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
     protected $needAuth = true;
     protected $layout = '@admin/views/layouts/admin.php';
 
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
     /**
      * @var UserService
      */
@@ -35,22 +40,21 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      * @param Request $request
      * @param Response $response
      * @param ViewInterface $view
-     * @param Settings $settings
-     * @param AdminAsset $adminAsset
-     * @param UserService $userService
+     * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function __construct(
         Request $request,
         Response $response,
         ViewInterface $view,
-        Settings $settings,
-        AdminAsset $adminAsset,
-        UserService $userService
+        ContainerInterface $container
     ) {
         parent::__construct($request, $response, $view);
-        $this->settings = $settings;
-        $this->userService = $userService;
-        $this->adminAsset = $adminAsset;
+        $this->container = $container;
+        $this->settings = $this->container->get(Settings::class);
+        $this->userService = $this->container->get(UserService::class);
+        $this->adminAsset = $this->container->get(AdminAsset::class);
         if ($session = $request->getSession()) {
             $session->start();
         }

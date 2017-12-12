@@ -48,7 +48,7 @@ class UserMigration implements MigrationInterface
               `last_name` varchar(50) DEFAULT NULL,
               `sex` ENUM(\'M\', \'F\') DEFAULT \'M\',
               `last_visit` timestamp NULL DEFAULT NULL,
-              `f_active` tinyint(1) UNSIGNED DEFAULT 1,
+              `is_active` tinyint(1) UNSIGNED DEFAULT 1,
               `roles` varchar(500),
               `created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               `updated_on` TIMESTAMP NULL DEFAULT NULL,
@@ -78,6 +78,7 @@ class UserMigration implements MigrationInterface
         $user->setLogin('admin');
         $user->setPassword('123qwe4');
         $user->setRoles(['admin']);
+        $user->setIsActive(true);
         $this->userService->save($user);
     }
 }
