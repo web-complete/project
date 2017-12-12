@@ -16,6 +16,9 @@ class Cube extends AbstractCube
     {
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper
+            ->addBackendRoute(['POST', '/admin/api/entity/user/:id', [SettingsController::class, 'actionSave']])
+            ->addBackendRoute(['GET', '/admin/api/entity/user/:id', [SettingsController::class, 'actionDetail']])
+            ->addBackendRoute(['GET', '/admin/api/entity/user', [SettingsController::class, 'actionList']])
             ->addMenuSection('Система', 900)
             ->addMenuItem('Система', 'Пользователи', '/list/user', 110);
     }
