@@ -1,0 +1,3 @@
+VuePageEntityList = {
+    template: ``
+};
