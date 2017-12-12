@@ -6,6 +6,8 @@ class PageRoutes
 {
 
     protected $routes = [
+        890 => ['path' => '/detail/:entity/:id', 'component' => 'VuePageEntityDetail'],
+        900 => ['path' => '/list/:entity', 'component' => 'VuePageEntityList'],
         1000 => ['path' => '/', 'component' => 'VuePageMain'],
         1100 => ['path' => '*', 'component' => 'VuePage404'],
     ];
