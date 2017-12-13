@@ -20,10 +20,6 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
     protected $layout = '@admin/views/layouts/admin.php';
 
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-    /**
      * @var UserService
      */
     protected $userService;
@@ -37,25 +33,17 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
     public $settings;
 
     /**
-     * @param Request $request
-     * @param Response $response
-     * @param ViewInterface $view
      * @param ContainerInterface $container
      *
      * @throws \RuntimeException
      */
-    public function __construct(
-        Request $request,
-        Response $response,
-        ViewInterface $view,
-        ContainerInterface $container
-    ) {
-        parent::__construct($request, $response, $view);
-        $this->container = $container;
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
         $this->settings = $this->container->get(Settings::class);
         $this->userService = $this->container->get(UserService::class);
         $this->adminAsset = $this->container->get(AdminAsset::class);
-        if ($session = $request->getSession()) {
+        if ($session = $this->request->getSession()) {
             $session->start();
         }
     }

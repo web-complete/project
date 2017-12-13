@@ -42,7 +42,8 @@ return [
         return new \WebComplete\mvc\assets\AssetManager(
             new Filesystem(),
             $aliasService->get('@web'),
-            'assets'
+            'assets',
+            \ENV === 'prod'
         );
     }
 ];

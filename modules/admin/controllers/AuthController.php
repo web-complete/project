@@ -4,10 +4,8 @@ namespace modules\admin\controllers;
 
 use modules\admin\assets\AdminAuthAsset;
 use modules\admin\classes\state\SettingsState;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\utils\container\ContainerInterface;
-use WebComplete\mvc\view\ViewInterface;
 
 class AuthController extends AbstractController
 {
@@ -17,19 +15,12 @@ class AuthController extends AbstractController
     private $settingsState;
 
     /**
-     * @param Request $request
-     * @param Response $response
-     * @param ViewInterface $view
      * @param ContainerInterface $container
      * @throws \RuntimeException
      */
-    public function __construct(
-        Request $request,
-        Response $response,
-        ViewInterface $view,
-        ContainerInterface $container
-    ) {
-        parent::__construct($request, $response, $view, $container);
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
         $this->adminAsset = $this->container->get(AdminAuthAsset::class);
         $this->settingsState = $this->container->get(SettingsState::class);
     }
