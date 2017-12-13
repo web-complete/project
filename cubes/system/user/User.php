@@ -5,7 +5,6 @@ namespace cubes\system\user;
 use cubes\system\auth\IdentityInterface;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\utils\helpers\SecurityHelper;
-use WebComplete\core\utils\typecast\Cast;
 use WebComplete\mvc\ApplicationConfig;
 use WebComplete\rbac\exception\RbacException;
 use WebComplete\rbac\Rbac;
@@ -54,7 +53,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getLogin()
     {
-        return $this->getField('login');
+        return $this->get('login');
     }
 
     /**
@@ -62,7 +61,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setLogin($login)
     {
-        $this->setField('login', $login);
+        $this->set('login', $login);
     }
 
     /**
@@ -70,7 +69,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getEmail()
     {
-        return $this->getField('email');
+        return $this->get('email');
     }
 
     /**
@@ -78,7 +77,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setEmail($email)
     {
-        $this->setField('email', $email);
+        $this->set('email', $email);
     }
 
     /**
@@ -86,7 +85,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getPassword()
     {
-        return $this->getField('password');
+        return $this->get('password');
     }
 
     /**
@@ -95,7 +94,7 @@ class User extends AbstractEntity implements IdentityInterface
     public function setPassword($password)
     {
         $hash = $this->securityHelper->cryptPassword($password, $this->config['salt']);
-        $this->setField('password', $hash);
+        $this->set('password', $hash);
     }
 
     /**
@@ -126,7 +125,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getToken()
     {
-        return $this->getField('token');
+        return $this->get('token');
     }
 
     /**
@@ -134,7 +133,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setToken($token)
     {
-        $this->setField('token', $token);
+        $this->set('token', $token);
     }
 
     /**
@@ -142,7 +141,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getFirstName()
     {
-        return $this->getField('first_name');
+        return $this->get('first_name');
     }
 
     /**
@@ -150,7 +149,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setFirstName($firstName)
     {
-        $this->setField('first_name', $firstName);
+        $this->set('first_name', $firstName);
     }
 
     /**
@@ -158,7 +157,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getLastName()
     {
-        return $this->getField('last_name');
+        return $this->get('last_name');
     }
 
     /**
@@ -166,7 +165,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setLastName($lastName)
     {
-        $this->setField('last_name', $lastName);
+        $this->set('last_name', $lastName);
     }
 
     /**
@@ -174,7 +173,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getSex()
     {
-        return $this->getField('sex');
+        return $this->get('sex');
     }
 
     /**
@@ -182,7 +181,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setSex($sex)
     {
-        $this->setField('sex', $sex);
+        $this->set('sex', $sex);
     }
 
     /**
@@ -190,7 +189,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getLastVisit()
     {
-        return $this->getField('last_visit');
+        return $this->get('last_visit');
     }
 
     /**
@@ -198,7 +197,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setLastVisit($lastVisit)
     {
-        $this->setField('last_visit', $lastVisit);
+        $this->set('last_visit', $lastVisit);
     }
 
     /**
@@ -206,7 +205,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function isActive(): bool
     {
-        return $this->getField('is_active');
+        return $this->get('is_active');
     }
 
     /**
@@ -214,7 +213,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setIsActive($isActive)
     {
-        $this->setField('is_active', $isActive);
+        $this->set('is_active', $isActive);
     }
 
     /**
@@ -222,7 +221,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getRoles(): array
     {
-        return $this->getField('roles');
+        return $this->get('roles');
     }
 
     /**
@@ -230,7 +229,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setRoles(array $roles)
     {
-        $this->setField('roles', $roles);
+        $this->set('roles', $roles);
     }
 
     /**
@@ -238,7 +237,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getCreatedOn()
     {
-        return $this->getField('created_on');
+        return $this->get('created_on');
     }
 
     /**
@@ -246,7 +245,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getUpdatedOn()
     {
-        return $this->getField('updated_on');
+        return $this->get('updated_on');
     }
 
     /**
@@ -254,7 +253,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function setUpdatedOn($updatedOn)
     {
-        $this->setField('updated_on', $updatedOn);
+        $this->set('updated_on', $updatedOn);
     }
 
     /**

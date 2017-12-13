@@ -14,7 +14,7 @@ class UserController extends AbstractController
 {
 
     protected $titleList = 'Пользователи';
-    protected $itemsPerPage = 10;
+    protected $itemsPerPage = 25;
     protected $entityServiceClass = UserService::class;
 
     /**
