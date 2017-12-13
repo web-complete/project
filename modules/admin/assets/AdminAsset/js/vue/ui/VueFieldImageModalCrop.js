@@ -7,8 +7,8 @@ Vue.component('VueFieldImageModalCrop', {
                width="800px"
                height="auto"
         >
+            <h1>Параметры изображения</h1>
             <div v-show="dataUrl" class="popup-content _image">
-                <h1>Параметры изображения</h1>
                 <div class="image-wrapper clearfix">
                     <img class="_data" :src="dataUrl" style="width: 100%" />
                 </div>

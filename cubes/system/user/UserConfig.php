@@ -2,13 +2,28 @@
 
 namespace cubes\system\user;
 
+use cubes\system\user\controllers\UserController;
 use modules\admin\classes\cells\Cell;
+use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
+use modules\admin\classes\fields\FieldAbstract;
+use modules\admin\classes\filter\Filter;
+use modules\admin\classes\filter\FilterField;
 use WebComplete\core\utils\typecast\Cast;
+use WebComplete\rbac\Rbac;
 
 class UserConfig extends EntityConfig
 {
+    public $name = 'user';
+    public $titleList = 'Пользователи';
+    public $titleDetail = 'Пользователь';
+    public $entityServiceClass = UserService::class;
+    public $controllerClass = UserController::class;
+    public $menuSectionName = 'Система';
 
+    /**
+     * @return array
+     */
     public static function fieldTypes(): array
     {
         return [
@@ -27,6 +42,9 @@ class UserConfig extends EntityConfig
         ];
     }
 
+    /**
+     * @return CellAbstract[]
+     */
     public function listFields(): array
     {
         return [
@@ -43,6 +61,23 @@ class UserConfig extends EntityConfig
         ];
     }
 
+    /**
+     * @return FilterField[]
+     */
+    public function filterFields(): array
+    {
+        return [
+            Filter::string('ID', 'id', Filter::MODE_EQUAL),
+            Filter::string('Логин', 'login', Filter::MODE_EQUAL),
+            Filter::string('E-mail', 'email', Filter::MODE_LIKE),
+            Filter::boolean('Активность', 'is_active'),
+            Filter::select('Роль', 'roles', $this->getAvailableRolesMap())
+        ];
+    }
+
+    /**
+     * @return FieldAbstract[]
+     */
     public function detailFields(): array
     {
         return [
@@ -55,5 +90,19 @@ class UserConfig extends EntityConfig
         return [
 
         ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAvailableRolesMap(): array
+    {
+        $rolesMap = [];
+        $rbac = $this->container->get(Rbac::class);
+        foreach ($rbac->getRoles() as $role) {
+            $name = $role->getName();
+            $rolesMap[$name] = $name;
+        };
+        return $rolesMap;
     }
 }

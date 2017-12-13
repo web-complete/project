@@ -1,7 +1,7 @@
 Vue.component('VueEntityList', {
     template: `
 <div v-if="isLoaded">
-    <button class="filter-button">Фильтр: <span>0</span></button>
+    <vue-filter @applyFilter="applyFilter" :filterFields="filterFields"></vue-filter>
     <vue-pager @page="setPage" :page="page" :items-per-page="itemsPerPage" :items-total="itemsTotal"></vue-pager>
 
     <div class="table-listing">
@@ -9,7 +9,7 @@ Vue.component('VueEntityList', {
             <table class="table">
                 <thead>
                 <tr>
-                    <th v-for="field in fields">
+                    <th v-for="field in listFields">
                         <span @click="toggleSort(field)"
                               :data-dest="sortDir(field)"
                               :class="{'head-sort': field.sortable}">
@@ -21,7 +21,7 @@ Vue.component('VueEntityList', {
                 </thead>
                 <tbody>
                 <tr v-for="item in items">
-                    <td v-for="field in fields">
+                    <td v-for="field in listFields">
                         <component :is="field.component" :value="item[field.name]"></component>
                     </td>
                     <td><a href="javascript://" class="field-edit"><i class="ion-edit"></i></a></td>
@@ -44,12 +44,14 @@ Vue.component('VueEntityList', {
             page: 1,
             itemsPerPage: 0,
             itemsTotal: 0,
-            fields: [],
+            listFields: [],
+            filterFields: '',
             items: [],
             requestData: {
                 page: 1,
                 sortField: null,
-                sortDir: null
+                sortDir: null,
+                filter: {}
             }
         }
     },
@@ -57,6 +59,10 @@ Vue.component('VueEntityList', {
         this.fetchData();
     },
     methods: {
+        applyFilter(filter){
+            this.requestData.filter = filter;
+            this.fetchData();
+        },
         toggleSort(field){
             if (this.requestData.sortField === field.name) {
                 this.requestData.sortDir = (this.requestData.sortDir === 'asc') ? 'desc' : 'asc';
@@ -83,7 +89,8 @@ Vue.component('VueEntityList', {
                     this.page = response.page;
                     this.itemsPerPage = response.itemsPerPage;
                     this.itemsTotal = response.itemsTotal;
-                    this.fields = response.fields;
+                    this.listFields = response.listFields;
+                    this.filterFields = this.filterFields || response.filterFields;
                     this.items = response.items;
                     this.isLoaded = true;
                     this.$emit('title', this.title);

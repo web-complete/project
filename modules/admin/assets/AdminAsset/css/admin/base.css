@@ -685,6 +685,14 @@ div._active[data-group][data-tab] {
     display: block;
 }
 
+.v--modal h1 {
+    font-size: 20px;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+}
 .popup-content {
     clear: both;
     text-align: center;
@@ -693,6 +701,9 @@ div._active[data-group][data-tab] {
 .popup-content h1 {
     text-align: left;
     float: none;
+}
+.popup-content form {
+    text-align: left;
 }
 .popup-content .form-actions {
     margin: 20px 0 0 0;

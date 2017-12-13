@@ -119,4 +119,24 @@ class CubeHelper
         $this->navigation->addItem($sectionName, $name, $frontUrl, $sort);
         return $this;
     }
+
+    /**
+     * @param EntityConfig $entityConfig
+     */
+    public function defaultCrud(EntityConfig $entityConfig)
+    {
+        $name = $entityConfig->name;
+        $titleList = $entityConfig->titleList;
+        $controllerClass = $entityConfig->controllerClass;
+        $menuSectionName = $entityConfig->menuSectionName;
+        $menuItemSort = $entityConfig->menuItemSort;
+        $menuSectionSort = $entityConfig->menuSectionSort;
+
+        $this
+            ->addBackendRoute(['POST', "/admin/api/entity/$name/:id", [$controllerClass, 'actionSave']])
+            ->addBackendRoute(['GET', "/admin/api/entity/$name/:id", [$controllerClass, 'actionDetail']])
+            ->addBackendRoute(['GET', "/admin/api/entity/$name", [$controllerClass, 'actionList']])
+            ->addMenuSection($menuSectionName, $menuSectionSort)
+            ->addMenuItem($menuSectionName, $titleList, "/list/$name", $menuItemSort);
+    }
 }

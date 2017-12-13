@@ -81,6 +81,7 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueCellDate.js',
             'js/vue/ui/VueButton.js',
             'js/vue/ui/VuePager.js',
+            'js/vue/ui/VueFilter.js',
             'js/vue/ui/VueEntityList.js',
 
             'js/vue/VueApp.js',
