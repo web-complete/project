@@ -2,14 +2,20 @@ Vue.component('VueEntityList', {
     template: `
 <div v-if="isLoaded">
     <button class="filter-button">Фильтр: <span>0</span></button>
-    <vue-pager :page="page" :items-per-page="itemsPerPage" :items-total="itemsTotal"></vue-pager>
+    <vue-pager @page="setPage" :page="page" :items-per-page="itemsPerPage" :items-total="itemsTotal"></vue-pager>
 
     <div class="table-listing">
         <div class="table-wrapper">
             <table class="table">
                 <thead>
                 <tr>
-                    <th v-for="field in fields"><span :class="{'head-sort': field.sortable}">{{field.label}}</span></th>
+                    <th v-for="field in fields">
+                        <span @click="toggleSort(field)"
+                              :data-dest="sortDir(field)"
+                              :class="{'head-sort': field.sortable}">
+                              {{field.label}}
+                        </span>
+                    </th>
                     <th></th>
                 </tr>
                 </thead>
@@ -25,7 +31,7 @@ Vue.component('VueEntityList', {
         </div>
     </div>
     
-    <vue-pager :page="page" :items-per-page="itemsPerPage" :items-total="itemsTotal"></vue-pager>
+    <vue-pager @page="setPage" :page="page" :items-per-page="itemsPerPage" :items-total="itemsTotal"></vue-pager>
 </div>
     `,
     props: {
@@ -39,15 +45,39 @@ Vue.component('VueEntityList', {
             itemsPerPage: 0,
             itemsTotal: 0,
             fields: [],
-            items: []
+            items: [],
+            requestData: {
+                page: 1,
+                sortField: null,
+                sortDir: null
+            }
         }
     },
     mounted(){
         this.fetchData();
     },
     methods: {
+        toggleSort(field){
+            if (this.requestData.sortField === field.name) {
+                this.requestData.sortDir = (this.requestData.sortDir === 'asc') ? 'desc' : 'asc';
+                this.fetchData();
+            } else if (field.sortable) {
+                this.requestData.sortField = field.name;
+                this.requestData.sortDir = field.sortable;
+                this.fetchData();
+            }
+        },
+        sortDir(field){
+            if (this.requestData.sortField === field.name) {
+                return this.requestData.sortDir;
+            }
+        },
+        setPage(page){
+            this.requestData.page = page;
+            this.fetchData();
+        },
         fetchData(){
-            Request.get('/admin/api/entity/'+this.entityName, {}, function(response){
+            Request.get('/admin/api/entity/'+this.entityName, this.requestData, function(response){
                 if (response.result) {
                     this.title = response.title;
                     this.page = response.page;

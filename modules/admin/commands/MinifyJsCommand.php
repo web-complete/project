@@ -36,10 +36,11 @@ class MinifyJsCommand extends Command
             "System requirements:\n" .
             "npm install babel-cli -g\n" .
             "npm install babel-preset-env -g\n" .
-            "npm install babel-preset-stage-1 -g\n" .
-            "npm install babel-preset-stage-2 -g\n" .
-            "npm install babel-preset-stage-3 -g\n" .
-            "npm install babel-preset-latest -g\n" .
+//            "npm install babel-preset-stage-1 -g\n" .
+//            "npm install babel-preset-stage-2 -g\n" .
+//            "npm install babel-preset-stage-3 -g\n" .
+//            "npm install babel-preset-latest -g\n" .
+//            "npm install babel-plugin-transform-remove-strict-mode -g\n" .
             'npm install babel-preset-minify -g')
             ->addOption(
                 'es5',

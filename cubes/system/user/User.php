@@ -18,20 +18,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public static function fields(): array
     {
-        return [
-            'login' => Cast::STRING,
-            'email' => Cast::STRING,
-            'password' => Cast::STRING,
-            'token' => Cast::STRING,
-            'first_name' => Cast::STRING,
-            'last_name' => Cast::STRING,
-            'sex' => Cast::STRING,
-            'last_visit' => Cast::STRING,
-            'is_active' => Cast::BOOL,
-            'roles' => [Cast::STRING],
-            'created_on' => Cast::STRING,
-            'updated_on' => Cast::STRING,
-        ];
+        return UserConfig::fieldTypes();
     }
 
     /**
