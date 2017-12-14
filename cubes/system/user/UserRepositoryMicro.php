@@ -19,15 +19,4 @@ class UserRepositoryMicro extends AbstractEntityRepositoryMicro implements UserR
     ) {
         parent::__construct($factory, $microDb, $conditionParser);
     }
-
-    /**
-     * @param string $token
-     *
-     * @return User|AbstractEntity|null
-     * @throws \WebComplete\microDb\Exception
-     */
-    public function findByToken(string $token)
-    {
-        return $this->findOne($this->createCondition(['token' => $token]));
-    }
 }

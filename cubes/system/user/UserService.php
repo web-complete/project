@@ -6,6 +6,7 @@ use cubes\system\auth\IdentityInterface;
 use cubes\system\auth\IdentityServiceInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use WebComplete\core\condition\Condition;
+use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\helpers\SecurityHelper;
 
@@ -73,11 +74,12 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     /**
      * @param string $token
      *
-     * @return User|IdentityInterface|null
+     * @return User|AbstractEntity|IdentityInterface|null
      */
     public function findByToken(string $token)
     {
-        return $this->repository->findByToken($token);
+        $condition = $this->repository->createCondition(['token' => $token]);
+        return $this->repository->findOne($condition);
     }
 
     /**

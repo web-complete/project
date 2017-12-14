@@ -27,7 +27,7 @@ class UserServiceTest extends \AppTestCase
         $user->setId(1);
         $userService->login($user);
         $this->assertSame($user, $userService->current());
-        $userService->logout();
+        $userService->logout(null);
         $this->assertNull($userService->current());
     }
 

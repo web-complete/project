@@ -25,14 +25,4 @@ class UserRepositoryDb extends AbstractEntityRepositoryDb implements UserReposit
     ) {
         parent::__construct($factory, $conditionParser, $db);
     }
-
-    /**
-     * @param string $token
-     *
-     * @return User|AbstractEntity|null
-     */
-    public function findByToken(string $token)
-    {
-        return $this->findOne($this->createCondition(['t1.token' => $token]));
-    }
 }
