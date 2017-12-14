@@ -205,7 +205,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function isActive(): bool
     {
-        return $this->get('is_active');
+        return (bool)$this->get('is_active');
     }
 
     /**
