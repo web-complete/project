@@ -39,7 +39,7 @@ class UserTest extends \AppTestCase
         $user = new User(new SecurityHelper(new StringHelper()), $this->config, $rbac);
         $user->setId(11);
         $this->assertFalse($user->can('update', ['id' => 22]));
-        $user->setIsActive(true);
+        $user->is_active = true;
         $this->assertTrue($user->can('update', ['id' => 22]));
     }
 
@@ -50,7 +50,7 @@ class UserTest extends \AppTestCase
             Mocker::method('checkAccess', 1)->returns(false)
         ]);
         $user = new User(new SecurityHelper(new StringHelper()), $this->config, $rbac);
-        $user->setIsActive(true);
+        $user->is_active = true;
         $user->setId(11);
         $this->assertFalse($user->can('update', ['id' => 22]));
     }

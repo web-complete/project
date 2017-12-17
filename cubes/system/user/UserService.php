@@ -60,7 +60,7 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     public function logout($session)
     {
         if ($this->currentUser) {
-            $this->currentUser->setToken(null);
+            $this->currentUser->token = null;
             $this->save($this->currentUser);
         }
 
@@ -101,13 +101,13 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
             return null;
         }
 
-        if (!$user->isActive() || !$user->checkPassword($password)) {
+        if (!$user->is_active || !$user->checkPassword($password)) {
             return null;
         }
 
-        if (!$token = $user->getToken()) {
+        if (!$token = $user->token) {
             $token = $this->securityHelper->generateRandomString(50);
-            $user->setToken($token);
+            $user->token = $token;
             $this->save($user);
         }
 

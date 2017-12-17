@@ -9,6 +9,21 @@ use WebComplete\mvc\ApplicationConfig;
 use WebComplete\rbac\exception\RbacException;
 use WebComplete\rbac\Rbac;
 
+/**
+ *
+ * @property $login
+ * @property $email
+ * @property $password
+ * @property $token
+ * @property $first_name
+ * @property $last_name
+ * @property $sex
+ * @property $last_visit
+ * @property $is_active
+ * @property $roles
+ * @property $created_on
+ * @property $updated_on
+ */
 class User extends AbstractEntity implements IdentityInterface
 {
 
@@ -49,49 +64,9 @@ class User extends AbstractEntity implements IdentityInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getLogin()
-    {
-        return $this->get('login');
-    }
-
-    /**
-     * @param mixed $login
-     */
-    public function setLogin($login)
-    {
-        $this->set('login', $login);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->get('email');
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->set('email', $email);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPassword()
-    {
-        return $this->get('password');
-    }
-
-    /**
      * @param mixed $password
      */
-    public function setPassword($password)
+    public function setNewPassword($password)
     {
         $hash = $this->securityHelper->cryptPassword($password, $this->config['salt']);
         $this->set('password', $hash);
@@ -104,7 +79,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function checkPassword(string $password): bool
     {
-        return $this->getPassword() === $this->securityHelper->cryptPassword($password, $this->config['salt']);
+        return $this->password === $this->securityHelper->cryptPassword($password, $this->config['salt']);
     }
 
     /**
@@ -113,91 +88,11 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getMaskedToken()
     {
-        if ($token = $this->getToken()) {
+        if ($token = $this->token) {
             return $this->securityHelper->maskToken($token);
         }
 
         return null;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getToken()
-    {
-        return $this->get('token');
-    }
-
-    /**
-     * @param mixed $token
-     */
-    public function setToken($token)
-    {
-        $this->set('token', $token);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
-    {
-        return $this->get('first_name');
-    }
-
-    /**
-     * @param mixed $firstName
-     */
-    public function setFirstName($firstName)
-    {
-        $this->set('first_name', $firstName);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->get('last_name');
-    }
-
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName)
-    {
-        $this->set('last_name', $lastName);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSex()
-    {
-        return $this->get('sex');
-    }
-
-    /**
-     * @param mixed $sex
-     */
-    public function setSex($sex)
-    {
-        $this->set('sex', $sex);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastVisit()
-    {
-        return $this->get('last_visit');
-    }
-
-    /**
-     * @param mixed $lastVisit
-     */
-    public function setLastVisit($lastVisit)
-    {
-        $this->set('last_visit', $lastVisit);
     }
 
     /**
@@ -206,54 +101,6 @@ class User extends AbstractEntity implements IdentityInterface
     public function isActive(): bool
     {
         return (bool)$this->get('is_active');
-    }
-
-    /**
-     * @param mixed $isActive
-     */
-    public function setIsActive($isActive)
-    {
-        $this->set('is_active', $isActive);
-    }
-
-    /**
-     * @return array
-     */
-    public function getRoles(): array
-    {
-        return $this->get('roles');
-    }
-
-    /**
-     * @param array $roles
-     */
-    public function setRoles(array $roles)
-    {
-        $this->set('roles', $roles);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedOn()
-    {
-        return $this->get('created_on');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUpdatedOn()
-    {
-        return $this->get('updated_on');
-    }
-
-    /**
-     * @param mixed $updatedOn
-     */
-    public function setUpdatedOn($updatedOn)
-    {
-        $this->set('updated_on', $updatedOn);
     }
 
     /**
@@ -269,7 +116,7 @@ class User extends AbstractEntity implements IdentityInterface
     public function can(string $permissionName, $ruleParams = null, bool $checkActive = true): bool
     {
         try {
-            return (!$checkActive || $this->isActive())
+            return (!$checkActive || $this->is_active)
                 ? $this->rbac->checkAccess($this->getId(), $permissionName, $ruleParams)
                 : false;
         } catch (RbacException $e) {
@@ -282,6 +129,6 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public function getFullName(): string
     {
-        return \trim($this->getFirstName() . ' ' . $this->getLastName());
+        return \trim($this->first_name . ' ' . $this->last_name);
     }
 }

@@ -12,6 +12,9 @@ class UserState
      */
     protected $userService;
 
+    /**
+     * @param UserService $userService
+     */
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
@@ -24,7 +27,7 @@ class UserState
     {
         $currentUser = $this->userService->current();
         return [
-            'token' => $currentUser ? $currentUser->getToken() : '',
+            'token' => $currentUser ? $currentUser->token : '',
             'fullName' => $currentUser ? $currentUser->getFullName() : ''
         ];
     }

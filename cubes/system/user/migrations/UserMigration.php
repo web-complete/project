@@ -74,11 +74,11 @@ class UserMigration implements MigrationInterface
     {
         /** @var User $user */
         $user = $this->userService->create();
-        $user->setFirstName('Administrator');
-        $user->setLogin('admin');
-        $user->setPassword('123qwe4');
-        $user->setRoles(['admin']);
-        $user->setIsActive(true);
+        $user->first_name = 'Administrator';
+        $user->login = 'admin';
+        $user->roles = ['admin'];
+        $user->is_active = true;
+        $user->setNewPassword('123qwe4');
         $this->userService->save($user);
     }
 }

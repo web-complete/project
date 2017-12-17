@@ -83,11 +83,13 @@ class UserConfig extends EntityConfig
     {
         return [
             Field::string('Логин', 'login'),
-            Field::string('Имя', 'full_name'),
             Field::string('E-mail', 'email'),
-            Field::checkbox('Активность', 'is_active'),
-            Field::select('Роли', 'roles')->options($this->getAvailableRolesMap()),
+            Field::string('Пароль', 'new_password'),
+            Field::string('Имя', 'first_name'),
+            Field::string('Фамилия', 'last_name'),
             Field::select('Пол', 'sex')->options(['M' => 'мужской', 'F' => 'женский']),
+            Field::select('Роли', 'roles')->options($this->getAvailableRolesMap()),
+            Field::checkbox('Активность', 'is_active'),
         ];
     }
 
@@ -108,7 +110,7 @@ class UserConfig extends EntityConfig
         foreach ($rbac->getRoles() as $role) {
             $name = $role->getName();
             $rolesMap[$name] = $name;
-        };
+        }
         return $rolesMap;
     }
 }
