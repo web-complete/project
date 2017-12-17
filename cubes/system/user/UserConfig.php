@@ -6,6 +6,7 @@ use cubes\system\user\controllers\UserController;
 use modules\admin\classes\cells\Cell;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
+use modules\admin\classes\fields\Field;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\Filter;
 use modules\admin\classes\filter\FilterField;
@@ -48,16 +49,16 @@ class UserConfig extends EntityConfig
     public function listFields(): array
     {
         return [
-            Cell::string('ID', 'id', \SORT_DESC)->get(),
-            Cell::checkbox('Активность', 'is_active', \SORT_DESC)->get(),
-            Cell::string('Логин', 'login')->get(),
-            Cell::string('E-mail', 'email')->get(),
-            Cell::string('Роли', 'roles')->get(),
-            Cell::string('Имя', 'full_name')->get(),
-            Cell::sex('Пол', 'sex', \SORT_ASC)->get(),
-            Cell::date('Последний визит', 'last_visit', \SORT_DESC)->get(),
-            Cell::date('Создание', 'created_on', \SORT_DESC)->get(),
-            Cell::date('Обновление', 'updated_on', \SORT_DESC)->get(),
+            Cell::string('ID', 'id', \SORT_DESC),
+            Cell::checkbox('Активность', 'is_active', \SORT_DESC),
+            Cell::string('Логин', 'login'),
+            Cell::string('E-mail', 'email'),
+            Cell::string('Роли', 'roles'),
+            Cell::string('Имя', 'full_name'),
+            Cell::sex('Пол', 'sex', \SORT_ASC),
+            Cell::date('Последний визит', 'last_visit', \SORT_DESC),
+            Cell::date('Создание', 'created_on', \SORT_DESC),
+            Cell::date('Обновление', 'updated_on', \SORT_DESC),
         ];
     }
 
@@ -81,7 +82,12 @@ class UserConfig extends EntityConfig
     public function detailFields(): array
     {
         return [
-
+            Field::string('Логин', 'login'),
+            Field::string('Имя', 'full_name'),
+            Field::string('E-mail', 'email'),
+            Field::checkbox('Активность', 'is_active'),
+            Field::select('Роли', 'roles')->options($this->getAvailableRolesMap()),
+            Field::select('Пол', 'sex')->options(['M' => 'мужской', 'F' => 'женский']),
         ];
     }
 

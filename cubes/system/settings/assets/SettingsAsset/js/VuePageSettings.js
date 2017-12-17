@@ -12,14 +12,14 @@ VuePageSettings = {
                              :active="section.name == 'common'"
                              :key="section.name"
                     >
-                        <div v-for="item in settings.fields[section.name]">
-                            <component :is="item.component"
-                                       :fieldParams="item.fieldParams"
-                                       :label="item.title"
-                                       :name="item.name"
-                                       v-model="item.value"
-                            ></component>
-                        </div>
+                        <component v-for="item in settings.fields[section.name]"
+                                   :is="item.component"
+                                   :fieldParams="item.fieldParams"
+                                   :label="item.title"
+                                   :name="item.name"
+                                   :key="item.name"
+                                   v-model="item.value"
+                        ></component>
                     </vue-tab>
                 </vue-tabs>
             </transition>

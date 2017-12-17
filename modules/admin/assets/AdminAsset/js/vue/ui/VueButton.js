@@ -1,6 +1,6 @@
 Vue.component('VueButton', {
     template: `
-<button type="button" class="button">
+<button @click="$emit('click', $event)" type="button" class="button">
     <slot></slot>
 </button>
     `

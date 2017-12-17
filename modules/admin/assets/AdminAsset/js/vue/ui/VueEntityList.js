@@ -24,7 +24,9 @@ Vue.component('VueEntityList', {
                     <td v-for="field in listFields">
                         <component :is="field.component" :value="item[field.name]"></component>
                     </td>
-                    <td><a href="javascript://" class="field-edit"><i class="ion-edit"></i></a></td>
+                    <td>
+                        <router-link class="field-edit" :to="'/detail/'+entityName+'/'+item.id"><i class="ion-edit"></i></router-link>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -39,7 +41,6 @@ Vue.component('VueEntityList', {
     },
     data(){
         return {
-            isLoaded: false,
             title: '',
             page: 1,
             itemsPerPage: 0,
@@ -53,6 +54,14 @@ Vue.component('VueEntityList', {
                 sortDir: null,
                 filter: {}
             }
+        }
+    },
+    computed: {
+        url(){
+            return '/admin/api/entity/'+this.entityName;
+        },
+        isLoaded(){
+            return this.title;
         }
     },
     mounted(){
@@ -83,7 +92,7 @@ Vue.component('VueEntityList', {
             this.fetchData();
         },
         fetchData(){
-            Request.get('/admin/api/entity/'+this.entityName, this.requestData, function(response){
+            Request.get(this.url, this.requestData, function(response){
                 if (response.result) {
                     this.title = response.title;
                     this.page = response.page;
@@ -92,7 +101,6 @@ Vue.component('VueEntityList', {
                     this.listFields = response.listFields;
                     this.filterFields = this.filterFields || response.filterFields;
                     this.items = response.items;
-                    this.isLoaded = true;
                     this.$emit('title', this.title);
                 } else {
                     Notify.errorDefault();

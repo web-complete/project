@@ -13,7 +13,7 @@ class AbstractEntityController extends AbstractController
 {
 
     protected $itemsPerPage = 25;
-    protected $entityConfigClass = null;
+    protected $entityConfigClass;
 
     /**
      * @return Response
@@ -42,15 +42,69 @@ class AbstractEntityController extends AbstractController
         $paginator->setCurrentPage($page);
         $items = $this->fetchListItems($entityService, $paginator, $condition);
 
+        $listFields = [];
+        foreach ($entityConfig->listFields() as $field) {
+            $listFields[] = $field->get();
+        }
+
         return $this->responseJsonSuccess([
             'title' => $entityConfig->titleList,
             'page' => $paginator->getCurrentPage(),
             'itemsPerPage' => $paginator->getItemsPerPage(),
             'itemsTotal' => $paginator->getTotal(),
-            'listFields' => $entityConfig->listFields(),
+            'listFields' => $listFields,
             'filterFields' => $this->getFilterFields($entityConfig),
             'items' => $items
         ]);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function actionDetail($id): Response
+    {
+        $id = (int)$id;
+        /** @var EntityConfig $entityConfig */
+        $entityConfig = $this->container->get($this->entityConfigClass);
+        /** @var AbstractEntityService $entityService */
+        $entityService = $this->container->get($entityConfig->entityServiceClass);
+        if (!$id || !($item = $entityService->findById($id))) {
+            $item = $entityService->create();
+        }
+
+        $detailFields = [];
+        foreach ($entityConfig->detailFields() as $field) {
+            $field->value($item->get($field->getName()));
+            $field->processField();
+            $detailFields[] = $field->get();
+        }
+
+        return $this->responseJsonSuccess([
+            'title' => $entityConfig->titleDetail,
+            'detailFields' => $detailFields,
+        ]);
+    }
+
+    /**
+     * @return Response
+     * @throws \Exception
+     */
+    public function actionSave(): Response
+    {
+        $data = $this->request->request->all();
+        return $this->responseJsonSuccess($data);
+    }
+
+    /**
+     * @return Response
+     * @throws \Exception
+     */
+    public function actionDelete(): Response
+    {
+        return $this->responseJsonSuccess([]);
     }
 
     /**
