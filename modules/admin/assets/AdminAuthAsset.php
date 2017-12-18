@@ -56,7 +56,7 @@ class AdminAuthAsset extends AbstractAsset
         return \array_merge(self::baseJs(), [
             'js/store/StoreSettings.js',
             'js/vue/VueApp.js',
-            'js/vue/VuePageLogin.js',
+            'js/vue/page/VuePageLogin.js',
         ]);
     }
 }
