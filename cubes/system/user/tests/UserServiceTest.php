@@ -36,7 +36,7 @@ class UserServiceTest extends \AppTestCase
         $userService = $this->container->get(UserService::class);
         /** @var User $user */
         $user = $userService->create();
-        $user->setToken('1234567');
+        $user->token = '1234567';
         $userService->save($user);
         $user1 = $userService->findByToken('12345678');
         $this->assertNull($user1);

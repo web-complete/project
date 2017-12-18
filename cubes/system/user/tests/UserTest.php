@@ -17,15 +17,15 @@ class UserTest extends \AppTestCase
         $helper = new SecurityHelper(new StringHelper());
         $config = $this->container->get(ApplicationConfig::class);
         $user = $this->container->make(User::class);
-        $user->setPassword('123password');
+        $user->setNewPassword('123password');
         $passwordHash = $helper->cryptPassword('123password', $config['salt']);
-        $this->assertEquals($passwordHash, $user->getPassword());
+        $this->assertEquals($passwordHash, $user->password);
     }
 
     public function testCheckPassword()
     {
         $user = $this->container->make(User::class);
-        $user->setPassword('123password');
+        $user->setNewPassword('123password');
         $this->assertFalse($user->checkPassword('123456'));
         $this->assertTrue($user->checkPassword('123password'));
     }
