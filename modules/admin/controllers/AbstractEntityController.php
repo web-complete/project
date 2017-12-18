@@ -14,6 +14,7 @@ class AbstractEntityController extends AbstractController
 
     protected $itemsPerPage = 25;
     protected $entityConfigClass;
+    protected $messageFormError = 'Ошибка валидации формы';
 
     /**
      * @return Response
@@ -26,10 +27,8 @@ class AbstractEntityController extends AbstractController
         $sortDir = $this->request->get('sortDir', 'desc');
         $filter = (array)$this->request->get('filter', []);
 
-        /** @var EntityConfig $entityConfig */
-        $entityConfig = $this->container->get($this->entityConfigClass);
-        /** @var AbstractEntityService $entityService */
-        $entityService = $this->container->get($entityConfig->entityServiceClass);
+        $entityConfig = $this->getEntityConfig();
+        $entityService = $this->getEntityService();
 
         /** @var Condition $condition */
         $condition = $this->container->make(Condition::class);
@@ -67,10 +66,8 @@ class AbstractEntityController extends AbstractController
     public function actionDetail($id): Response
     {
         $id = (int)$id;
-        /** @var EntityConfig $entityConfig */
-        $entityConfig = $this->container->get($this->entityConfigClass);
-        /** @var AbstractEntityService $entityService */
-        $entityService = $this->container->get($entityConfig->entityServiceClass);
+        $entityConfig = $this->getEntityConfig();
+        $entityService = $this->getEntityService();
         if (!$id || !($item = $entityService->findById($id))) {
             $item = $entityService->create();
         }
@@ -94,8 +91,24 @@ class AbstractEntityController extends AbstractController
      */
     public function actionSave(): Response
     {
+        $id = (int)$this->request->get('id');
         $data = $this->request->request->all();
-        return $this->responseJsonSuccess($data);
+        $entityConfig = $this->getEntityConfig();
+        $entityService = $this->getEntityService();
+        if (!$id || !($item = $entityService->findById($id))) {
+            $item = $entityService->create();
+        }
+
+        $form = $entityConfig->form();
+        $form->setData($data);
+        if ($form->validate()) {
+            $item->mapFromArray($form->getData(), true);
+            $entityService->save($item);
+            return $this->responseJsonSuccess();
+        }
+
+        $errors = $form->getFirstErrors();
+        return $this->responseJsonFail($this->messageFormError, ['errors' => $errors]);
     }
 
     /**
@@ -142,5 +155,21 @@ class AbstractEntityController extends AbstractController
         }
 
         return $rawItems;
+    }
+
+    /**
+     * @return EntityConfig
+     */
+    private function getEntityConfig(): EntityConfig
+    {
+        return $this->container->get($this->entityConfigClass);
+    }
+
+    /**
+     * @return AbstractEntityService
+     */
+    private function getEntityService(): AbstractEntityService
+    {
+        return $this->container->get($this->getEntityConfig()->entityServiceClass);
     }
 }

@@ -4,7 +4,7 @@ namespace cubes\system\settings;
 
 use modules\admin\classes\CubeHelper;
 use cubes\system\settings\assets\SettingsAsset;
-use cubes\system\settings\controllers\SettingsController;
+use cubes\system\settings\admin\Controller;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 
@@ -17,8 +17,8 @@ class Cube extends AbstractCube
     {
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper->appendAsset($container->get(SettingsAsset::class))
-            ->addBackendRoute(['GET', '/admin/api/settings', [SettingsController::class, 'actionGet']])
-            ->addBackendRoute(['POST', '/admin/api/settings', [SettingsController::class, 'actionSave']])
+            ->addBackendRoute(['GET', '/admin/api/settings', [Controller::class, 'actionGet']])
+            ->addBackendRoute(['POST', '/admin/api/settings', [Controller::class, 'actionSave']])
             ->addVueRoute(['path' => '/settings', 'component' => 'VuePageSettings'])
             ->addMenuSection('Система', 900)
             ->addMenuItem('Система', 'Настройки', '/settings', 100);

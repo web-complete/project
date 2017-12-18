@@ -6,6 +6,7 @@ use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\FilterField;
 use WebComplete\core\utils\container\ContainerInterface;
+use WebComplete\form\AbstractForm;
 
 abstract class EntityConfig
 {
@@ -51,5 +52,8 @@ abstract class EntityConfig
      */
     abstract public function detailFields(): array;
 
-    abstract public function form();
+    /**
+     * @return AbstractForm
+     */
+    abstract public function form(): AbstractForm;
 }

@@ -2,7 +2,7 @@
 
 namespace cubes\system\user;
 
-use cubes\system\user\controllers\UserController;
+use cubes\system\user\admin\Controller;
 use modules\admin\classes\cells\Cell;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
@@ -10,7 +10,9 @@ use modules\admin\classes\fields\Field;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\Filter;
 use modules\admin\classes\filter\FilterField;
+use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\typecast\Cast;
+use WebComplete\form\AbstractForm;
 use WebComplete\rbac\Rbac;
 
 class UserConfig extends EntityConfig
@@ -19,7 +21,7 @@ class UserConfig extends EntityConfig
     public $titleList = 'Пользователи';
     public $titleDetail = 'Пользователь';
     public $entityServiceClass = UserService::class;
-    public $controllerClass = UserController::class;
+    public $controllerClass = Controller::class;
     public $menuSectionName = 'Система';
 
     /**
@@ -85,19 +87,24 @@ class UserConfig extends EntityConfig
             Field::string('Логин', 'login'),
             Field::string('E-mail', 'email'),
             Field::string('Пароль', 'new_password'),
-            Field::string('Имя', 'first_name'),
-            Field::string('Фамилия', 'last_name'),
+            Field::string('Имя', 'first_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
+            Field::string('Фамилия', 'last_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
             Field::select('Пол', 'sex')->options(['M' => 'мужской', 'F' => 'женский']),
             Field::select('Роли', 'roles')->options($this->getAvailableRolesMap()),
             Field::checkbox('Активность', 'is_active'),
         ];
     }
 
-    public function form()
+    /**
+     * @return AbstractForm
+     */
+    public function form(): AbstractForm
     {
-        return [
-
-        ];
+        return new AdminForm([
+            [['login', 'email', 'sex'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['email'], 'email', [], AdminForm::MESSAGE_INCORRECT],
+            [['new_password', 'first_name', 'last_name', 'roles', 'is_active']],
+        ]);
     }
 
     /**

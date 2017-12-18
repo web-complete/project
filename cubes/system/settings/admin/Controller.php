@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\system\settings\controllers;
+namespace cubes\system\settings\admin;
 
 use cubes\system\file\FileService;
 use modules\admin\classes\fields\FieldAbstract;
@@ -8,7 +8,7 @@ use modules\admin\classes\fields\FieldImage;
 use modules\admin\controllers\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class SettingsController extends AbstractController
+class Controller extends AbstractController
 {
 
     /**

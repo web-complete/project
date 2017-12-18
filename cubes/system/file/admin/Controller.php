@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\system\file\controllers;
+namespace cubes\system\file\admin;
 
 use cubes\system\file\File;
 use cubes\system\file\FileService;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\condition\Condition;
 
-class FileController extends AbstractController
+class Controller extends AbstractController
 {
 
     /**

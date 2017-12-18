@@ -84,7 +84,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      * @return Response
      * @throws \Exception
      */
-    protected function responseJsonSuccess(array $data): Response
+    protected function responseJsonSuccess(array $data = []): Response
     {
         if (isset($data['result'])) {
             throw new Exception('Field "result" is not allowed');

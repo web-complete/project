@@ -68,7 +68,7 @@ class CubeHelper
     }
 
     /**
-     * @param array $routeDefinition ex: ['GET', '/admin/settings', [SettingsController::class, 'actionIndex']]
+     * @param array $routeDefinition ex: ['GET', '/admin/settings', [Controller::class, 'actionIndex']]
      * @param string|null $beforeRoute
      *
      * @return $this

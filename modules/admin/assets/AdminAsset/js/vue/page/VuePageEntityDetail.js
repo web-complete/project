@@ -34,7 +34,8 @@ VuePageEntityDetail = {
     data(){
         return {
             title: '',
-            detailFields: []
+            detailFields: [],
+            errors: {}
         }
     },
     computed: {
@@ -72,16 +73,20 @@ VuePageEntityDetail = {
                 data[field.name] = field.value;
             });
             Request.post(this.url, data, function(response){
-                console.log(response);
                 if (response.result) {
                     Notify.successDefault();
+                    if (!toContinue) {
+                        Notify.info('TODO route to list');
+                        // TODO route to list
+                    }
                 } else {
-                    Notify.errorDefault();
+                    this.errors = response.errors || {}; // TODO errors in fields too, and in vue fields
+                    Notify.error(response.error || 'Ошибка сохранения');
                 }
             }.bind(this));
         },
         deleteItem(){
-
+            // TODO delete item and route to list
         }
     }
 };
