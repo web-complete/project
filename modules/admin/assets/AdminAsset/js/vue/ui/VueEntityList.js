@@ -20,7 +20,7 @@ Vue.component('VueEntityList', {
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="item in items">
+                <tr v-for="item in items" @dblclick="$router.push('/detail/'+entityName+'/'+item.id)">
                     <td v-for="field in listFields">
                         <component :is="field.component" :value="item[field.name]"></component>
                     </td>

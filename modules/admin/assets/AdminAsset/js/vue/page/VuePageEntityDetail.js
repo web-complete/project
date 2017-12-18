@@ -68,7 +68,7 @@ VuePageEntityDetail = {
             }.bind(this));
         },
         saveItem(toContinue){
-            let data = {};
+            let data = {id: this.entityId};
             _.each(this.detailFields, function(field){
                 data[field.name] = field.value;
             });
