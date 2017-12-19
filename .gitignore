@@ -2,7 +2,7 @@
 /tests/logs/
 composer.lock
 .idea/
-/cubes/auth/storage/
+/cubes/system/auth/storage/
 /vendor/
 /runtime/
 /storage/
