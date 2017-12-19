@@ -6,3 +6,5 @@ composer.lock
 /vendor/
 /runtime/
 /storage/
+/web/assets/
+/web/usr/
