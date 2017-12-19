@@ -3,11 +3,14 @@
 namespace modules\admin\controllers;
 
 use modules\admin\classes\EntityConfig;
+use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\Filter;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\condition\Condition;
+use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\paginator\Paginator;
+use WebComplete\form\AbstractForm;
 
 class AbstractEntityController extends AbstractController
 {
@@ -39,7 +42,7 @@ class AbstractEntityController extends AbstractController
         $paginator = $this->container->make(Paginator::class);
         $paginator->setItemsPerPage($this->itemsPerPage);
         $paginator->setCurrentPage($page);
-        $items = $this->fetchListItems($entityService, $paginator, $condition);
+        $items = $this->fetchRawListItems($entityService, $paginator, $condition);
 
         $listFields = [];
         foreach ($entityConfig->getListFields() as $field) {
@@ -72,12 +75,7 @@ class AbstractEntityController extends AbstractController
             $item = $entityService->create();
         }
 
-        $detailFields = [];
-        foreach ($entityConfig->getDetailFields() as $field) {
-            $field->value($item->get($field->getName()));
-            $field->processField();
-            $detailFields[] = $field->get();
-        }
+        $detailFields = $this->detailFieldsProcess($entityConfig->getDetailFields(), $item);
 
         return $this->responseJsonSuccess([
             'title' => $entityConfig->titleDetail,
@@ -101,9 +99,9 @@ class AbstractEntityController extends AbstractController
 
         $form = $entityConfig->getForm();
         $form->setData($data);
-        if ($form->validate()) {
-            $item->mapFromArray($form->getData(), true);
+        if ($form->validate() && $this->beforeSave($item, $form)) {
             $entityService->save($item);
+            $this->afterSave($item, $form);
             return $this->responseJsonSuccess();
         }
 
@@ -119,9 +117,12 @@ class AbstractEntityController extends AbstractController
     {
         if ($id = (int)$this->request->get('id')) {
             $entityService = $this->getEntityService();
-            $entityService->delete($id);
+            if ($this->beforeDelete($id)) {
+                $entityService->delete($id);
+                $this->afterDelete($id);
+            }
         }
-        return $this->responseJsonSuccess([]);
+        return $this->responseJsonSuccess();
     }
 
     /**
@@ -146,7 +147,7 @@ class AbstractEntityController extends AbstractController
      *
      * @return array
      */
-    protected function fetchListItems(
+    protected function fetchRawListItems(
         AbstractEntityService $entityService,
         Paginator $paginator,
         Condition $condition
@@ -154,11 +155,64 @@ class AbstractEntityController extends AbstractController
         $rawItems = [];
         foreach ($entityService->list($paginator, $condition) as $item) {
             $rawItem = $item->mapToArray();
-            $rawItem['roles'] = \implode(', ', $rawItem['roles']);
             $rawItems[] = $rawItem;
         }
 
         return $rawItems;
+    }
+
+    /**
+     * @param FieldAbstract[] $detailFields
+     * @param AbstractEntity $item
+     *
+     * @return array
+     */
+    protected function detailFieldsProcess(array $detailFields, AbstractEntity $item): array
+    {
+        $result = [];
+        foreach ($detailFields as $field) {
+            $field->value($item->get($field->getName()));
+            $field->processField();
+            $result[] = $field->get();
+        }
+        return $result;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    protected function beforeDelete($id): bool
+    {
+        return (bool)$id;
+    }
+
+    /**
+     * @param int $id
+     */
+    protected function afterDelete($id)
+    {
+    }
+
+    /**
+     * @param AbstractEntity $item
+     * @param AbstractForm $form
+     *
+     * @return bool
+     */
+    protected function beforeSave(AbstractEntity $item, AbstractForm $form): bool
+    {
+        $item->mapFromArray($form->getData(), true);
+        return true;
+    }
+
+    /**
+     * @param AbstractEntity $item
+     * @param AbstractForm $form
+     */
+    protected function afterSave(AbstractEntity $item, AbstractForm $form)
+    {
     }
 
     /**

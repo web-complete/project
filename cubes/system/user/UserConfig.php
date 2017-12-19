@@ -39,7 +39,6 @@ class UserConfig extends EntityConfig
             'sex' => Cast::STRING,
             'last_visit' => Cast::STRING,
             'is_active' => Cast::BOOL,
-            'roles' => [Cast::STRING],
             'created_on' => Cast::STRING,
             'updated_on' => Cast::STRING,
         ];

@@ -20,7 +20,6 @@ use WebComplete\rbac\Rbac;
  * @property $sex
  * @property $last_visit
  * @property $is_active
- * @property $roles
  * @property $created_on
  * @property $updated_on
  */
@@ -122,6 +121,22 @@ class User extends AbstractEntity implements IdentityInterface
         } catch (RbacException $e) {
             return false;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        $result = [];
+        if ($this->id) {
+            foreach ($this->rbac->getRoles() as $role) {
+                if ($role->hasUserId($this->id)) {
+                    $result[$role->getName()] = $role;
+                }
+            }
+        }
+        return $result;
     }
 
     /**

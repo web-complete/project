@@ -40,7 +40,7 @@ Vue.component('VueFieldSelect', {
         });
     },
     destroyed: function(){
-        $(this.$el).find('select').select2('destroy');
+        $(this.$el).hide().find('select').select2('destroy');
     },
     methods: {
         isSelected: function(value){
