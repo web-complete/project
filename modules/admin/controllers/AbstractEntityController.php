@@ -32,7 +32,7 @@ class AbstractEntityController extends AbstractController
 
         /** @var Condition $condition */
         $condition = $this->container->make(Condition::class);
-        Filter::parse($entityConfig->filterFields(), $filter, $condition);
+        Filter::parse($entityConfig->getFilterFields(), $filter, $condition);
         $condition->addSort($sortField, $sortDir === 'desc' ? \SORT_DESC : \SORT_ASC);
 
         /** @var Paginator $paginator */
@@ -42,7 +42,7 @@ class AbstractEntityController extends AbstractController
         $items = $this->fetchListItems($entityService, $paginator, $condition);
 
         $listFields = [];
-        foreach ($entityConfig->listFields() as $field) {
+        foreach ($entityConfig->getListFields() as $field) {
             $listFields[] = $field->get();
         }
 
@@ -73,7 +73,7 @@ class AbstractEntityController extends AbstractController
         }
 
         $detailFields = [];
-        foreach ($entityConfig->detailFields() as $field) {
+        foreach ($entityConfig->getDetailFields() as $field) {
             $field->value($item->get($field->getName()));
             $field->processField();
             $detailFields[] = $field->get();
@@ -99,7 +99,7 @@ class AbstractEntityController extends AbstractController
             $item = $entityService->create();
         }
 
-        $form = $entityConfig->form();
+        $form = $entityConfig->getForm();
         $form->setData($data);
         if ($form->validate()) {
             $item->mapFromArray($form->getData(), true);
@@ -128,7 +128,7 @@ class AbstractEntityController extends AbstractController
     protected function getFilterFields(EntityConfig $entityConfig): array
     {
         $filterFields = [];
-        foreach ($entityConfig->filterFields() as $filterField) {
+        foreach ($entityConfig->getFilterFields() as $filterField) {
             $filterFields[] = $filterField->get();
         }
 

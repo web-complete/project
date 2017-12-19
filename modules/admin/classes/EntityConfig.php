@@ -35,25 +35,25 @@ abstract class EntityConfig
     /**
      * @return array
      */
-    abstract public static function fieldTypes(): array;
+    abstract public static function getFieldTypes(): array;
 
     /**
      * @return CellAbstract[]
      */
-    abstract public function listFields(): array;
+    abstract public function getListFields(): array;
 
     /**
      * @return FilterField[]
      */
-    abstract public function filterFields(): array;
+    abstract public function getFilterFields(): array;
 
     /**
      * @return FieldAbstract[]
      */
-    abstract public function detailFields(): array;
+    abstract public function getDetailFields(): array;
 
     /**
      * @return AbstractForm
      */
-    abstract public function form(): AbstractForm;
+    abstract public function getForm(): AbstractForm;
 }

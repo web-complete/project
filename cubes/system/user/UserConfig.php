@@ -27,7 +27,7 @@ class UserConfig extends EntityConfig
     /**
      * @return array
      */
-    public static function fieldTypes(): array
+    public static function getFieldTypes(): array
     {
         return [
             'login' => Cast::STRING,
@@ -48,7 +48,7 @@ class UserConfig extends EntityConfig
     /**
      * @return CellAbstract[]
      */
-    public function listFields(): array
+    public function getListFields(): array
     {
         return [
             Cell::string('ID', 'id', \SORT_DESC),
@@ -67,7 +67,7 @@ class UserConfig extends EntityConfig
     /**
      * @return FilterField[]
      */
-    public function filterFields(): array
+    public function getFilterFields(): array
     {
         return [
             Filter::string('ID', 'id', Filter::MODE_EQUAL),
@@ -81,7 +81,7 @@ class UserConfig extends EntityConfig
     /**
      * @return FieldAbstract[]
      */
-    public function detailFields(): array
+    public function getDetailFields(): array
     {
         return [
             Field::string('Логин', 'login'),
@@ -98,7 +98,7 @@ class UserConfig extends EntityConfig
     /**
      * @return AbstractForm
      */
-    public function form(): AbstractForm
+    public function getForm(): AbstractForm
     {
         return new AdminForm([
             [['login', 'email', 'sex'], 'required', [], AdminForm::MESSAGE_REQUIRED],

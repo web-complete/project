@@ -32,7 +32,7 @@ class User extends AbstractEntity implements IdentityInterface
      */
     public static function fields(): array
     {
-        return UserConfig::fieldTypes();
+        return UserConfig::getFieldTypes();
     }
 
     /**
