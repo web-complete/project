@@ -7,6 +7,7 @@ use cubes\system\user\UserService;
 use Doctrine\DBAL\Connection;
 use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\migration\MigrationInterface;
+use WebComplete\rbac\Rbac;
 
 class UserMigration implements MigrationInterface
 {
@@ -23,17 +24,27 @@ class UserMigration implements MigrationInterface
      * @var AliasService
      */
     private $aliasService;
+    /**
+     * @var Rbac
+     */
+    private $rbac;
 
     /**
      * @param Connection $db
      * @param UserService $userService
      * @param AliasService $aliasService
+     * @param Rbac $rbac
      */
-    public function __construct(Connection $db, UserService $userService, AliasService $aliasService)
-    {
+    public function __construct(
+        Connection $db,
+        UserService $userService,
+        AliasService $aliasService,
+        Rbac $rbac
+    ) {
         $this->db = $db;
         $this->userService = $userService;
         $this->aliasService = $aliasService;
+        $this->rbac = $rbac;
     }
 
     public function up()
@@ -76,9 +87,14 @@ class UserMigration implements MigrationInterface
         $user = $this->userService->create();
         $user->first_name = 'Administrator';
         $user->login = 'admin';
-        $user->roles = ['admin'];
         $user->is_active = true;
         $user->setNewPassword('123qwe4');
         $this->userService->save($user);
+
+        if ($adminRole = $this->rbac->getRole('admin')) {
+            $adminRole->assignUserId($user->getId());
+        } else {
+            echo "WARNING! 'admin' role not found\n";
+        }
     }
 }

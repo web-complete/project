@@ -1,10 +1,10 @@
 <?php
 
-namespace cubes\system\settings\assets;
+namespace cubes\system\roles\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
-class SettingsAsset extends AbstractAsset
+class RolesAsset extends AbstractAsset
 {
 
     /**
@@ -12,7 +12,7 @@ class SettingsAsset extends AbstractAsset
      */
     public function getBasePath(): string
     {
-        return __DIR__ . '/SettingsAsset';
+        return __DIR__ . '/RolesAsset';
     }
 
     /**
@@ -29,7 +29,8 @@ class SettingsAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            'js/VuePageSettings.js',
+            'js/VuePageRolesList.js',
+            'js/VuePageRolesDetail.js',
         ];
     }
 }

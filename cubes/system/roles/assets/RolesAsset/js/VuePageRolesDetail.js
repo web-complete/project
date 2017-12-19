@@ -1,13 +1,13 @@
-VuePageEntityDetail = {
+VuePageRolesDetail = {
     template: `
 <div class="page block">
     <transition name="fade">
         <div class="page-detail" v-show="isLoaded">
             <div class="page-top">
                 <h1>
-                    <router-link class="back" :to="'/list/'+entityName"><i class="ion-chevron-left"></i></router-link>
-                    {{title}}
-                    <small v-if="entityId">#{{entityId}}</small>
+                    <router-link class="back" :to="'/roles'"><i class="ion-chevron-left"></i></router-link>
+                    Пользовательская роль
+                    <small v-if="id != 0">#{{id}}</small>
                 </h1>
             </div>
     
@@ -25,7 +25,6 @@ VuePageEntityDetail = {
 
                 <div class="form-actions">
                     <vue-button @click="saveItem">Сохранить</vue-button>
-                    <vue-button @click.prevent="saveItem($event, true)">Применить</vue-button>
                     <vue-button @click.prevent="deleteItem" class="gray">Удалить</vue-button>
                 </div>
             </form>
@@ -35,26 +34,20 @@ VuePageEntityDetail = {
     `,
     data(){
         return {
-            title: '',
+            isLoaded: false,
             detailFields: [],
             errors: {}
         }
     },
     computed: {
+        id(){
+            return this.$route.params['id'];
+        },
         apiUrl(){
-            return '/admin/api/entity/'+this.entityName+'/'+this.entityId;
+            return '/admin/api/roles/'+this.id;
         },
         listRoute(){
-            return '/list/'+this.entityName;
-        },
-        isLoaded(){
-            return this.title;
-        },
-        entityName(){
-            return this.$route.params['entity'];
-        },
-        entityId(){
-            return parseInt(this.$route.params.id) || 0;
+            return '/roles';
         }
     },
     created(){
@@ -65,24 +58,22 @@ VuePageEntityDetail = {
         fetchData(){
             Request.get(this.apiUrl, {}, function(response){
                 if (response.result) {
-                    this.title = response.title;
                     this.detailFields = response.detailFields;
+                    this.isLoaded = true;
                 } else {
                     Notify.errorDefault();
                 }
             }.bind(this));
         },
-        saveItem($e, toContinue){
-            let data = {id: this.entityId};
+        saveItem(){
+            let data = {id: this.id};
             _.each(this.detailFields, function(field){
                 data[field.name] = field.value;
             });
             Request.post(this.apiUrl, data, function(response){
                 if (response.result) {
                     Notify.successDefault();
-                    if (!toContinue) {
-                        this.$router.push(this.listRoute);
-                    }
+                    this.$router.push(this.listRoute);
                 } else {
                     this.errors = response.errors || {};
                     Notify.error(response.error || 'Ошибка сохранения');
@@ -91,7 +82,7 @@ VuePageEntityDetail = {
         },
         deleteItem(){
             Modal.confirm('Вы уверены?', function(){
-                Request.delete(this.apiUrl, {id: this.entityId}, function(){
+                Request.delete(this.apiUrl, {id: this.id}, function(){
                     Notify.successDefault();
                     this.$router.push(this.listRoute);
                 }.bind(this));

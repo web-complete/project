@@ -75,13 +75,13 @@ class FieldString extends FieldAbstract
     }
 
     /**
-     * @param string $filter
+     * @param string $filter Example: '^[0-9]*$'
      *
      * @return $this
      */
     public function filter(string $filter)
     {
-        $this->data['fieldParams']['filter'] = $filter;
+        $this->data['fieldParams']['filter'] = \trim($filter, '~/#');
         return $this;
     }
 
