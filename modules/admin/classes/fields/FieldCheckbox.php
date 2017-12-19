@@ -26,6 +26,17 @@ class FieldCheckbox extends FieldAbstract
     }
 
     /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function value($value)
+    {
+        $this->data['value'] = (int)$value;
+        return $this;
+    }
+
+    /**
      * @param bool $isDisabled
      *
      * @return $this

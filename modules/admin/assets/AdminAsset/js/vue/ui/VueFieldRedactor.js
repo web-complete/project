@@ -1,6 +1,6 @@
 Vue.component('VueFieldRedactor', {
     template: `
-<div class="form-row">
+<div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
     <textarea :name="name"
               :title="label"
@@ -9,12 +9,14 @@ Vue.component('VueFieldRedactor', {
               :maxlength="fieldParams.maxlength"
               @input="$emit('input', $event.target.value)"
     >{{value}}</textarea>
+    <span v-if="error" class="error">{{error}}</span>
 </div>    
     `,
     props: {
         label: String,
         name: {type: String, required: true},
         value: [String, Number],
+        error: String,
         fieldParams: {
             type: [Object, Array],
             default: function(){

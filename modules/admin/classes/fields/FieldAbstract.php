@@ -19,6 +19,17 @@ abstract class FieldAbstract
     }
 
     /**
+     * @param string $error
+     *
+     * @return $this
+     */
+    public function error(string $error)
+    {
+        $this->data['error'] = $error;
+        return $this;
+    }
+
+    /**
      * @param $value
      *
      * @return $this
@@ -61,8 +72,11 @@ abstract class FieldAbstract
         return $this->data;
     }
 
+    /**
+     * @return null
+     */
     public function processField()
     {
-
+        return null;
     }
 }

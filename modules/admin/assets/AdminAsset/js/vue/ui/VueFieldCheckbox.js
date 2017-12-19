@@ -1,6 +1,6 @@
 Vue.component('VueFieldCheckbox', {
     template: `
-<div class="form-row">
+<div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
     <div class="checkbox-nice">
         <input :id="uid"
@@ -19,6 +19,7 @@ Vue.component('VueFieldCheckbox', {
         label: String,
         name: {type: String, required: true},
         value: [String, Number, Boolean],
+        error: String,
         fieldParams: {
             type: [Object, Array],
             default: function(){

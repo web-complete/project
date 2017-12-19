@@ -117,6 +117,10 @@ class AbstractEntityController extends AbstractController
      */
     public function actionDelete(): Response
     {
+        if ($id = (int)$this->request->get('id')) {
+            $entityService = $this->getEntityService();
+            $entityService->delete($id);
+        }
         return $this->responseJsonSuccess([]);
     }
 

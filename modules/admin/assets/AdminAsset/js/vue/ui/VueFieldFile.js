@@ -1,6 +1,6 @@
 Vue.component('VueFieldFile', {
     template: `
-<div class="form-row">
+<div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
     <div class="form-file">
         <input type="file"
@@ -20,6 +20,7 @@ Vue.component('VueFieldFile', {
         label: String,
         name: {type: String, required: true},
         value: [Number, String],
+        error: String,
         fieldParams: {
             type: [Object, Array],
             default: function(){

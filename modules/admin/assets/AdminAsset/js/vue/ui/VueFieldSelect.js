@@ -1,6 +1,6 @@
 Vue.component('VueFieldSelect', {
     template: `
-<div class="form-row">
+<div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
     <select :name="name"
             :title="label"
@@ -14,12 +14,14 @@ Vue.component('VueFieldSelect', {
                 :selected="isSelected(v)"
         >{{option}}</option>
     </select>
+    <span v-if="error" class="error">{{error}}</span>
 </div>    
     `,
     props: {
         label: String,
         name: {type: String, required: true},
         value: [String, Number, Array],
+        error: String,
         fieldParams: {
             type: [Object, Array],
             default: function(){

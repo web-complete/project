@@ -17,13 +17,15 @@ VuePageEntityDetail = {
                            :fieldParams="field.fieldParams"
                            :label="field.title"
                            :name="field.name"
+                           :error="errors[field.name]"
                            :key="field.name"
                            v-model="field.value"
+                           @input="$delete(errors, field.name)"
                 ></component>
 
                 <div class="form-actions">
                     <vue-button @click="saveItem">Сохранить</vue-button>
-                    <vue-button @click.prevent="saveItem(true)">Применить</vue-button>
+                    <vue-button @click.prevent="saveItem($event, true)">Применить</vue-button>
                     <vue-button @click.prevent="deleteItem" class="gray">Удалить</vue-button>
                 </div>
             </form>
@@ -41,6 +43,9 @@ VuePageEntityDetail = {
     computed: {
         url(){
             return '/admin/api/entity/'+this.entityName+'/'+this.entityId;
+        },
+        urlList(){
+            return '/list/'+this.entityName;
         },
         isLoaded(){
             return this.title;
@@ -67,7 +72,7 @@ VuePageEntityDetail = {
                 }
             }.bind(this));
         },
-        saveItem(toContinue){
+        saveItem($e, toContinue){
             let data = {id: this.entityId};
             _.each(this.detailFields, function(field){
                 data[field.name] = field.value;
@@ -76,17 +81,21 @@ VuePageEntityDetail = {
                 if (response.result) {
                     Notify.successDefault();
                     if (!toContinue) {
-                        Notify.info('TODO route to list');
-                        // TODO route to list
+                        this.$router.push(this.urlList);
                     }
                 } else {
-                    this.errors = response.errors || {}; // TODO errors in fields too, and in vue fields
+                    this.errors = response.errors || {};
                     Notify.error(response.error || 'Ошибка сохранения');
                 }
             }.bind(this));
         },
         deleteItem(){
-            // TODO delete item and route to list
+            Modal.confirm('Вы уверены?', function(){
+                Request.delete(this.url, {id: this.entityId}, function(){
+                    Notify.successDefault();
+                    this.$router.push(this.urlList);
+                }.bind(this));
+            }.bind(this));
         }
     }
 };

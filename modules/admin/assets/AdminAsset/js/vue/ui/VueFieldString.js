@@ -1,6 +1,6 @@
 Vue.component('VueFieldString', {
     template: `
-<div class="form-row">
+<div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
     <input :type="fieldParams.type"
            :name="name"
@@ -10,12 +10,14 @@ Vue.component('VueFieldString', {
            :disabled="fieldParams.disabled"
            :maxlength="fieldParams.maxlength"
     />
+    <span v-if="error" class="error">{{error}}</span>
 </div>    
     `,
     props: {
         label: String,
         name: {type: String, required: true},
         value: [String, Number],
+        error: String,
         fieldParams: {
             type: [Object, Array],
             default: function(){

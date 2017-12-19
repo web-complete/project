@@ -1,6 +1,6 @@
 Vue.component('VueFieldImage', {
     template: `
-<div class="form-row">
+<div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
     <div class="form-image">
         <draggable v-model="values" class="_list">
@@ -30,6 +30,7 @@ Vue.component('VueFieldImage', {
         label: String,
         name: {type: String, required: true},
         value: [String, Number, Array],
+        error: String,
         fieldParams: {
             type: [Object, Array],
             default: function(){

@@ -90,7 +90,7 @@ class UserConfig extends EntityConfig
             Field::string('Имя', 'first_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
             Field::string('Фамилия', 'last_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
             Field::select('Пол', 'sex')->options(['M' => 'мужской', 'F' => 'женский']),
-            Field::select('Роли', 'roles')->options($this->getAvailableRolesMap()),
+            Field::select('Роли', 'roles')->multiple(true)->options($this->getAvailableRolesMap()),
             Field::checkbox('Активность', 'is_active'),
         ];
     }
