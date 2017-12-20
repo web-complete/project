@@ -1,18 +1,18 @@
 <?php
 
-namespace cubes\system\user;
+namespace cubes\content\article;
 
 use WebComplete\core\condition\ConditionMicroDbParser;
 use WebComplete\core\entity\AbstractEntityRepositoryMicro;
 use WebComplete\microDb\MicroDb;
 
-class UserRepositoryMicro extends AbstractEntityRepositoryMicro implements UserRepositoryInterface
+class ArticleRepositoryMicro extends AbstractEntityRepositoryMicro implements ArticleRepositoryInterface
 {
 
-    protected $collectionName = 'user';
+    protected $collectionName = 'article';
 
     public function __construct(
-        UserFactory $factory,
+        ArticleFactory $factory,
         MicroDb $microDb,
         ConditionMicroDbParser $conditionParser
     ) {

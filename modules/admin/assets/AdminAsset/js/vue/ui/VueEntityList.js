@@ -25,11 +25,13 @@ Vue.component('VueEntityList', {
                         <component :is="field.component" :value="item[field.name]"></component>
                     </td>
                     <td>
+                        <a @click="deleteItem(item.id)" href="javascript://" class="field-edit"><i class="ion-close"></i></a>
                         <router-link class="field-edit" :to="'/detail/'+entityName+'/'+item.id"><i class="ion-edit"></i></router-link>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <div v-if="itemsTotal == 0" class="not-found">Ничего не найдено</div>
         </div>
     </div>
     
@@ -57,7 +59,7 @@ Vue.component('VueEntityList', {
         }
     },
     computed: {
-        url(){
+        apiUrl(){
             return '/admin/api/entity/'+this.entityName;
         },
         isLoaded(){
@@ -91,8 +93,16 @@ Vue.component('VueEntityList', {
             this.requestData.page = page;
             this.fetchData();
         },
+        deleteItem(id){
+            Modal.confirm('Вы уверены?', function(){
+                Request.delete(this.apiUrl + '/' + id, {id: id}, function(){
+                    Notify.successDefault();
+                    this.fetchData();
+                }.bind(this));
+            }.bind(this));
+        },
         fetchData(){
-            Request.get(this.url, this.requestData, function(response){
+            Request.get(this.apiUrl, this.requestData, function(response){
                 if (response.result) {
                     this.title = response.title;
                     this.page = response.page;

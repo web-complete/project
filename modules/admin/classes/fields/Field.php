@@ -20,6 +20,34 @@ class Field
      * @param string $title
      * @param string $name
      *
+     * @return FieldString
+     */
+    public static function number(string $title, string $name): FieldString
+    {
+        return self::string($title, $name)->filter('^[0-9]*$');
+    }
+
+    /**
+     * @param string $title
+     * @param string $name
+     * @param string $mask
+     * @param string $placeholder
+     *
+     * @return FieldDate
+     */
+    public static function date(
+        string $title,
+        string $name,
+        string $mask = '00.00.0000',
+        string $placeholder = 'дд.мм.гггг'
+    ): FieldDate {
+        return (new FieldDate($title, $name))->mask($mask)->placeholder($placeholder);
+    }
+
+    /**
+     * @param string $title
+     * @param string $name
+     *
      * @return FieldCheckbox
      */
     public static function checkbox(string $title, string $name): FieldCheckbox

@@ -871,6 +871,7 @@ table {
 .field-bool._n {
     color: #b41c2a;
 }
+a.field-edit,
 .field-edit {
     display: inline-block;
     float: right;

@@ -24,6 +24,7 @@ VuePageRolesList = {
                             <component :is="field.component" :value="item[field.name]"></component>
                         </td>
                         <td>
+                            <a @click="deleteItem(item.name, $event)" href="javascript://" class="field-edit"><i class="ion-close"></i></a>
                             <router-link class="field-edit" :to="'/roles/'+item.name"><i class="ion-edit"></i></router-link>
                         </td>
                     </tr>
@@ -41,13 +42,19 @@ VuePageRolesList = {
             items: []
         }
     },
-    computed: {
-    },
     created(){
         this.fetchData()
     },
     watch: {'$route': 'fetchData'},
     methods: {
+        deleteItem(id, e){
+            Modal.confirm('Вы уверены?', function(){
+                Request.delete('/admin/api/roles/' + id, {id: id}, function(){
+                    Notify.successDefault();
+                    this.fetchData();
+                }.bind(this));
+            }.bind(this));
+        },
         fetchData: function(){
             Request.get('/admin/api/roles', {}, function(response){
                 if (response.result) {
