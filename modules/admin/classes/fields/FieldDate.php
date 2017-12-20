@@ -5,7 +5,7 @@ namespace modules\admin\classes\fields;
 class FieldDate extends FieldString
 {
 
-    protected $format = 'Y-m-d';
+    protected $format = 'd.m.Y';
 
     public function parseFormat(string $format)
     {
@@ -15,11 +15,7 @@ class FieldDate extends FieldString
     public function processField()
     {
         $value = $this->getValue();
+        $value = $value ? \date($this->format, \strtotime($value)) : '';
         $this->value($value);
-    }
-
-    public function getProcessedValue()
-    {
-        return '11.11.1111';
     }
 }
