@@ -51,6 +51,7 @@ class ArticleService extends AbstractEntityService implements ArticleRepositoryI
         $result = null;
         $sortField = 'published_on';
         $condition = $this->createCondition();
+        $condition->addEqualsCondition('is_active', 1);
         if ($value = $item->get($sortField)) {
             $condition
                 ->setSort($sortField, $sortDir)
