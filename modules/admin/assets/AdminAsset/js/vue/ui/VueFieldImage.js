@@ -8,7 +8,7 @@ Vue.component('VueFieldImage', {
                 <img :src="fileFieldParams.data[v].url" />
             </div>
         </draggable>
-        <div v-show="!value || fileFieldParams.multiple" class="_add">
+        <div v-show="!values.length || fileFieldParams.multiple" class="_add">
             <input type="file" :name="name" accept="image/*" />
             <i class="ion-android-upload"></i>
         </div>
@@ -48,7 +48,13 @@ Vue.component('VueFieldImage', {
     computed: {
         values: {
             get: function(){
-                return (this.value instanceof Array) ? this.value : [this.value];
+                if (this.value instanceof Array) {
+                    return this.value;
+                } else if(this.value) {
+                    return [this.value];
+                } else {
+                    return [];
+                }
             },
             set: function(values){
                 this.$emit('input', this.fileFieldParams.multiple ? values : values[0]);

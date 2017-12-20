@@ -6,6 +6,20 @@ class CellDate extends CellAbstract
 {
 
     protected $data = [
-        'component' => 'VueCellDate'
+        'component' => 'VueCellDate',
+        'cellParams' => [
+            'dateFormat' => 'DD.MM.YYYY',
+        ],
     ];
+
+    /**
+     * @param string $momentFormat
+     *
+     * @return $this
+     */
+    public function dateFormat(string $momentFormat = 'DD.MM.YYYY')
+    {
+        $this->data['cellParams']['dateFormat'] = $momentFormat;
+        return $this;
+    }
 }

@@ -31,6 +31,8 @@ class ArticleConfig extends EntityConfig
     {
         return [
             'title' => Cast::STRING,
+            'image' => Cast::STRING,
+            'images' => Cast::ARRAY,
             'description' => Cast::STRING,
             'text' => Cast::STRING,
             'viewed' => Cast::INT,
@@ -74,6 +76,8 @@ class ArticleConfig extends EntityConfig
     {
         return [
             Field::string('Заголовок', 'title'),
+            Field::image('Изображение на списке', 'image'),
+            Field::image('Изображение детальное', 'images'),
             Field::textarea('Анонс', 'description'),
             Field::redactor('Содержание', 'text'),
             Field::date('Дата публикации', 'published_on'),
@@ -89,7 +93,7 @@ class ArticleConfig extends EntityConfig
     {
         return new AdminForm([
             [['title', 'text'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            [['description', 'published_on', 'viewed', 'is_active']],
+            [['description', 'published_on', 'image', 'images', 'viewed', 'is_active']],
         ]);
     }
 }

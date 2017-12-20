@@ -47,6 +47,23 @@ class Field
     /**
      * @param string $title
      * @param string $name
+     * @param string $mask
+     * @param string $placeholder
+     *
+     * @return FieldDateTime
+     */
+    public static function dateTime(
+        string $title,
+        string $name,
+        string $mask = '00.00.0000 00:00:00',
+        string $placeholder = 'дд.мм.гггг чч:мм:сс'
+    ): FieldDateTime {
+        return (new FieldDateTime($title, $name))->mask($mask)->placeholder($placeholder);
+    }
+
+    /**
+     * @param string $title
+     * @param string $name
      *
      * @return FieldCheckbox
      */

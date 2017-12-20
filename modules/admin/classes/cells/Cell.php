@@ -46,6 +46,18 @@ class Cell
      * @param string $name
      * @param int $sortable \SORT_ASC, \SORT_DESC or null
      *
+     * @return CellDateTime
+     */
+    public static function dateTime(string $label, string $name, int $sortable = null): CellDateTime
+    {
+        return new CellDateTime($label, $name, $sortable);
+    }
+
+    /**
+     * @param string $label
+     * @param string $name
+     * @param int $sortable \SORT_ASC, \SORT_DESC or null
+     *
      * @return CellSex
      */
     public static function sex(string $label, string $name, int $sortable = null): CellSex

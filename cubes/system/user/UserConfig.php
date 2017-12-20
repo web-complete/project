@@ -57,9 +57,9 @@ class UserConfig extends EntityConfig
             Cell::string('Роли', 'roles'),
             Cell::string('Имя', 'full_name'),
             Cell::sex('Пол', 'sex', \SORT_ASC),
-            Cell::date('Последний визит', 'last_visit', \SORT_DESC),
-            Cell::date('Создание', 'created_on', \SORT_DESC),
-            Cell::date('Обновление', 'updated_on', \SORT_DESC),
+            Cell::dateTime('Последний визит', 'last_visit', \SORT_DESC),
+            Cell::dateTime('Создание', 'created_on', \SORT_DESC),
+            Cell::dateTime('Обновление', 'updated_on', \SORT_DESC),
         ];
     }
 

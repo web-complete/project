@@ -31,8 +31,18 @@ $themeColor2 = $settings->get('theme_color2', '#E77E15');
 
     a.help:hover,
     .catalog-tree .jstree-icon,
+    .datepicker--day-name,
+    .datepicker--cell.-current-,
     .header ._logout:hover {
         color: <?=$themeColor1 ?>;
     }
+
+    .datepicker--cell.-selected-,
+    .datepicker--cell.-selected-.-focus-,
+    .datepicker--cell.-selected-.-current- {
+        color: #fff;
+        background: <?=$themeColor2 ?>;
+    }
+
 </style>
 

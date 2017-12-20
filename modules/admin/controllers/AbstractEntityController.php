@@ -26,8 +26,6 @@ class AbstractEntityController extends AbstractController
     public function actionList(): Response
     {
         $page = $this->request->get('page', 1);
-        $sortField = $this->request->get('sortField', 'id');
-        $sortDir = $this->request->get('sortDir', 'desc');
         $filter = (array)$this->request->get('filter', []);
 
         $entityConfig = $this->getEntityConfig();
@@ -36,7 +34,7 @@ class AbstractEntityController extends AbstractController
         /** @var Condition $condition */
         $condition = $this->container->make(Condition::class);
         Filter::parse($entityConfig->getFilterFields(), $filter, $condition);
-        $condition->addSort($sortField, $sortDir === 'desc' ? \SORT_DESC : \SORT_ASC);
+        $this->prepareListCondition($condition);
 
         /** @var Paginator $paginator */
         $paginator = $this->container->make(Paginator::class);
@@ -141,6 +139,16 @@ class AbstractEntityController extends AbstractController
     }
 
     /**
+     * @param Condition $condition
+     */
+    protected function prepareListCondition(Condition $condition)
+    {
+        $sortField = $this->request->get('sortField', 'id') ?: 'id';
+        $sortDir = $this->request->get('sortDir', 'desc') ?: 'desc';
+        $condition->addSort($sortField, $sortDir === 'desc' ? \SORT_DESC : \SORT_ASC);
+    }
+
+    /**
      * @param $entityService
      * @param $paginator
      * @param $condition
@@ -203,6 +211,15 @@ class AbstractEntityController extends AbstractController
      */
     protected function beforeSave(AbstractEntity $item, AbstractForm $form): bool
     {
+        if ($item->getId()) {
+            if ($item->has('updated_on')) {
+                $item->set('updated_on', \date('Y-m-d H:i:s'));
+            }
+        } else {
+            if ($item->has('created_on')) {
+                $item->set('created_on', \date('Y-m-d H:i:s'));
+            }
+        }
         $item->mapFromArray($form->getData(), true);
         return true;
     }
@@ -218,7 +235,7 @@ class AbstractEntityController extends AbstractController
     /**
      * @return EntityConfig
      */
-    private function getEntityConfig(): EntityConfig
+    protected function getEntityConfig(): EntityConfig
     {
         return $this->container->get($this->entityConfigClass);
     }
@@ -226,7 +243,7 @@ class AbstractEntityController extends AbstractController
     /**
      * @return AbstractEntityService
      */
-    private function getEntityService(): AbstractEntityService
+    protected function getEntityService(): AbstractEntityService
     {
         return $this->container->get($this->getEntityConfig()->entityServiceClass);
     }

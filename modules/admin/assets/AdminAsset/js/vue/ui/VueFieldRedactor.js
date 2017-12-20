@@ -59,7 +59,7 @@ Vue.component('VueFieldRedactor', {
             }, 0);
         },
         destroyRedactor: function(){
-            $(this.$el).find('textarea').redactor('core.destroy');
+            $(this.$el).find('textarea').hide().redactor('core.destroy');
         }
     }
 });

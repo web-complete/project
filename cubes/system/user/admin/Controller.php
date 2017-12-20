@@ -69,12 +69,13 @@ class Controller extends AbstractEntityController
      */
     protected function beforeSave(AbstractEntity $item, AbstractForm $form): bool
     {
-        $item->mapFromArray($form->getData(), true);
-        if ($newPassword = $form->getValue('new_password')) {
-            $item->setNewPassword($newPassword);
+        if (parent::beforeSave($item, $form)) {
+            if ($newPassword = $form->getValue('new_password')) {
+                $item->setNewPassword($newPassword);
+            }
+            return true;
         }
-
-        return true;
+        return false;
     }
 
     /**

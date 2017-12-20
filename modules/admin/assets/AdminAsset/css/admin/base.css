@@ -446,6 +446,10 @@ ul, li {
     width: 100%;
     height: 100%;
 }
+.datepicker {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}
 
 .form-row {
     clear: both;
@@ -465,6 +469,14 @@ ul, li {
 }
 .form-row textarea {
     vertical-align: middle;
+}
+.form-row .input-date {
+    position: relative;
+    left: -30px;
+    top: 1px;
+    margin-left: 5px;
+    font-size: 17px;
+    color: #777;
 }
 .form-row .form-image {
     display: inline-block;
