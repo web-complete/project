@@ -1,9 +1,0 @@
-- settings
-- user
-- rbac?
-- logger
-- article
-- images
-- files
-- tags
-- minify assets
