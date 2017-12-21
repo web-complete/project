@@ -4,12 +4,12 @@ namespace cubes\content\article;
 
 use cubes\content\article\admin\Controller;
 use modules\admin\classes\AdminCast;
-use modules\admin\classes\cells\Cell;
+use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
 use modules\admin\classes\fields\FieldFactory;
 use modules\admin\classes\fields\FieldAbstract;
-use modules\admin\classes\filter\Filter;
+use modules\admin\classes\filter\FilterFactory;
 use modules\admin\classes\filter\FilterField;
 use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\typecast\Cast;
@@ -48,12 +48,13 @@ class ArticleConfig extends EntityConfig
      */
     public function getListFields(): array
     {
+        $cells = CellFactory::build();
         return [
-            Cell::string('ID', 'id', \SORT_DESC),
-            Cell::string('Заголовок', 'title', \SORT_DESC),
-            Cell::string('Просмотры', 'viewed', \SORT_DESC),
-            Cell::checkbox('Активность', 'is_active', \SORT_DESC),
-            Cell::date('Дата публикации', 'published_on', \SORT_DESC),
+            $cells->string('ID', 'id', \SORT_DESC),
+            $cells->string('Заголовок', 'title', \SORT_DESC),
+            $cells->string('Просмотры', 'viewed', \SORT_DESC),
+            $cells->checkbox('Активность', 'is_active', \SORT_DESC),
+            $cells->date('Дата публикации', 'published_on', \SORT_DESC),
         ];
     }
 
@@ -62,10 +63,11 @@ class ArticleConfig extends EntityConfig
      */
     public function getFilterFields(): array
     {
+        $filters = FilterFactory::build();
         return [
-            Filter::string('ID', 'id', Filter::MODE_EQUAL),
-            Filter::string('Заголовок', 'title', Filter::MODE_EQUAL),
-            Filter::boolean('Активность', 'is_active'),
+            $filters->string('ID', 'id', FilterFactory::MODE_EQUAL),
+            $filters->string('Заголовок', 'title', FilterFactory::MODE_EQUAL),
+            $filters->boolean('Активность', 'is_active'),
         ];
     }
 

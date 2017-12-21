@@ -6,7 +6,7 @@ use modules\admin\classes\fields\FieldFactory;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\utils\container\ContainerInterface;
 
-class Filter
+class FilterFactory
 {
     const MODE_EQUAL = 1;
     const MODE_LIKE = 2;
@@ -25,9 +25,9 @@ class Filter
      *
      * @param ContainerInterface|null $container
      *
-     * @return FieldFactory
+     * @return FilterFactory
      */
-    public static function build(ContainerInterface $container = null): FieldFactory
+    public static function build(ContainerInterface $container = null): FilterFactory
     {
         if (!$container) {
             global $application;

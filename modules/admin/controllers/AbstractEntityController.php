@@ -4,7 +4,7 @@ namespace modules\admin\controllers;
 
 use modules\admin\classes\EntityConfig;
 use modules\admin\classes\fields\FieldAbstract;
-use modules\admin\classes\filter\Filter;
+use modules\admin\classes\filter\FilterFactory;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;
@@ -33,7 +33,7 @@ class AbstractEntityController extends AbstractController
 
         /** @var Condition $condition */
         $condition = $this->container->make(Condition::class);
-        Filter::parse($entityConfig->getFilterFields(), $filter, $condition);
+        FilterFactory::build()->parse($entityConfig->getFilterFields(), $filter, $condition);
         $this->prepareListCondition($condition);
 
         /** @var Paginator $paginator */

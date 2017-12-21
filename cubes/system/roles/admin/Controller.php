@@ -2,7 +2,7 @@
 
 namespace cubes\system\roles\admin;
 
-use modules\admin\classes\cells\Cell;
+use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\fields\FieldFactory;
 use modules\admin\classes\form\AdminForm;
 use modules\admin\controllers\AbstractController;
@@ -35,9 +35,10 @@ class Controller extends AbstractController
             ];
         }
 
+        $cells = CellFactory::build();
         $listFields = [
-            Cell::string('Название', 'name')->get(),
-            Cell::string('Права', 'permissions')->get(),
+            $cells->string('Название', 'name')->get(),
+            $cells->string('Права', 'permissions')->get(),
         ];
 
         return $this->responseJsonSuccess([

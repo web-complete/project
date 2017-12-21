@@ -3,12 +3,12 @@
 namespace cubes\system\user;
 
 use cubes\system\user\admin\Controller;
-use modules\admin\classes\cells\Cell;
+use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
 use modules\admin\classes\fields\FieldFactory;
 use modules\admin\classes\fields\FieldAbstract;
-use modules\admin\classes\filter\Filter;
+use modules\admin\classes\filter\FilterFactory;
 use modules\admin\classes\filter\FilterField;
 use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\typecast\Cast;
@@ -49,17 +49,18 @@ class UserConfig extends EntityConfig
      */
     public function getListFields(): array
     {
+        $cells = CellFactory::build();
         return [
-            Cell::string('ID', 'id', \SORT_DESC),
-            Cell::checkbox('Активность', 'is_active', \SORT_DESC),
-            Cell::string('Логин', 'login'),
-            Cell::string('E-mail', 'email'),
-            Cell::string('Роли', 'roles'),
-            Cell::string('Имя', 'full_name'),
-            Cell::sex('Пол', 'sex', \SORT_ASC),
-            Cell::dateTime('Последний визит', 'last_visit', \SORT_DESC),
-            Cell::dateTime('Создание', 'created_on', \SORT_DESC),
-            Cell::dateTime('Обновление', 'updated_on', \SORT_DESC),
+            $cells->string('ID', 'id', \SORT_DESC),
+            $cells->checkbox('Активность', 'is_active', \SORT_DESC),
+            $cells->string('Логин', 'login'),
+            $cells->string('E-mail', 'email'),
+            $cells->string('Роли', 'roles'),
+            $cells->string('Имя', 'full_name'),
+            $cells->sex('Пол', 'sex', \SORT_ASC),
+            $cells->dateTime('Последний визит', 'last_visit', \SORT_DESC),
+            $cells->dateTime('Создание', 'created_on', \SORT_DESC),
+            $cells->dateTime('Обновление', 'updated_on', \SORT_DESC),
         ];
     }
 
@@ -68,12 +69,13 @@ class UserConfig extends EntityConfig
      */
     public function getFilterFields(): array
     {
+        $filters = FilterFactory::build();
         return [
-            Filter::string('ID', 'id', Filter::MODE_EQUAL),
-            Filter::string('Логин', 'login', Filter::MODE_EQUAL),
-            Filter::string('E-mail', 'email', Filter::MODE_LIKE),
-            Filter::boolean('Активность', 'is_active'),
-            Filter::select('Роль', 'roles', $this->getAvailableRolesMap())
+            $filters->string('ID', 'id', FilterFactory::MODE_EQUAL),
+            $filters->string('Логин', 'login', FilterFactory::MODE_EQUAL),
+            $filters->string('E-mail', 'email', FilterFactory::MODE_LIKE),
+            $filters->boolean('Активность', 'is_active'),
+            $filters->select('Роль', 'roles', $this->getAvailableRolesMap())
         ];
     }
 

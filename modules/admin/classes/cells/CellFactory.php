@@ -2,8 +2,39 @@
 
 namespace modules\admin\classes\cells;
 
-class Cell
+use WebComplete\core\utils\container\ContainerInterface;
+
+class CellFactory
 {
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * factory method
+     *
+     * @param ContainerInterface|null $container
+     *
+     * @return CellFactory
+     */
+    public static function build(ContainerInterface $container = null): CellFactory
+    {
+        if (!$container) {
+            global $application;
+            $container = $application->getContainer();
+        }
+        return $container->get(__CLASS__);
+    }
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param string $label
@@ -12,7 +43,7 @@ class Cell
      *
      * @return CellString
      */
-    public static function string(string $label, string $name, int $sortable = null): CellString
+    public function string(string $label, string $name, int $sortable = null): CellString
     {
         return new CellString($label, $name, $sortable);
     }
@@ -24,7 +55,7 @@ class Cell
      *
      * @return CellCheckbox
      */
-    public static function checkbox(string $label, string $name, int $sortable = null): CellCheckbox
+    public function checkbox(string $label, string $name, int $sortable = null): CellCheckbox
     {
         return new CellCheckbox($label, $name, $sortable);
     }
@@ -36,7 +67,7 @@ class Cell
      *
      * @return CellDate
      */
-    public static function date(string $label, string $name, int $sortable = null): CellDate
+    public function date(string $label, string $name, int $sortable = null): CellDate
     {
         return new CellDate($label, $name, $sortable);
     }
@@ -48,7 +79,7 @@ class Cell
      *
      * @return CellDateTime
      */
-    public static function dateTime(string $label, string $name, int $sortable = null): CellDateTime
+    public function dateTime(string $label, string $name, int $sortable = null): CellDateTime
     {
         return new CellDateTime($label, $name, $sortable);
     }
@@ -60,7 +91,7 @@ class Cell
      *
      * @return CellSex
      */
-    public static function sex(string $label, string $name, int $sortable = null): CellSex
+    public function sex(string $label, string $name, int $sortable = null): CellSex
     {
         return new CellSex($label, $name, $sortable);
     }
