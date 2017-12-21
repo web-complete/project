@@ -9,6 +9,6 @@ return [
         __DIR__ . '/../cubes',
     ],
     'definitions' => require 'definitions.php',
-    'settings' => require 'settings.php',
+    'settingsLocation' => __DIR__ . '/settings.php',
     'salt' => 'SomeSecretWord',
 ];

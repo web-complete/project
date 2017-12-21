@@ -35,6 +35,7 @@ class ArticleConfig extends EntityConfig
             'image_detail' => Cast::STRING,
             'description' => Cast::STRING,
             'text' => Cast::STRING,
+            'tags' => [Cast::STRING],
             'viewed' => Cast::INT,
             'is_active' => Cast::BOOL,
             'created_on' => Cast::STRING,
@@ -83,6 +84,7 @@ class ArticleConfig extends EntityConfig
             $fields->image('Изображение детальное', 'image_detail'),
             $fields->textarea('Анонс', 'description'),
             $fields->redactor('Содержание', 'text'),
+            $fields->tags('Теги', 'tags', Article::class),
             $fields->date('Дата публикации', 'published_on'),
             $fields->number('Просмотры', 'viewed'),
             $fields->checkbox('Активность', 'is_active'),
@@ -96,7 +98,7 @@ class ArticleConfig extends EntityConfig
     {
         return new AdminForm([
             [['title', 'text'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            [['description', 'published_on', 'image', 'images', 'viewed', 'is_active']],
+            [['description', 'published_on', 'tags', 'image', 'images', 'viewed', 'is_active']],
         ]);
     }
 }

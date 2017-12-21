@@ -33,6 +33,7 @@ class ArticleMigration implements MigrationInterface
               `image_list` varchar(255) DEFAULT NULL,
               `image_detail` varchar(255) DEFAULT NULL,
               `text` text,
+              `tags` varchar(500),
               `viewed` INT UNSIGNED DEFAULT 0,
               `is_active` tinyint(1) UNSIGNED DEFAULT 1,
               `created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

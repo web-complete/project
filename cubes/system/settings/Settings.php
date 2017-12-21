@@ -82,7 +82,11 @@ class Settings
      */
     public function load()
     {
-        $settingsConfig = $this->config['settings'];
+        $settingsLocation = $this->config['settingsLocation'];
+        $settingsConfig = [];
+        if (\file_exists($settingsLocation)) {
+            $settingsConfig = require $settingsLocation;
+        }
         $settingsStoragePath = $this->aliasService->get($this->storagePath);
         try {
             if ($settingsState = \file_get_contents($settingsStoragePath)) {
