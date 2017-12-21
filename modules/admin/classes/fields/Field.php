@@ -2,8 +2,39 @@
 
 namespace modules\admin\classes\fields;
 
+use cubes\system\tags\TagService;
+use WebComplete\core\utils\container\ContainerInterface;
+
 class Field
 {
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * factory method
+     * @param ContainerInterface|null $container
+     *
+     * @return Field
+     */
+    public static function build(ContainerInterface $container = null): Field
+    {
+        if (!$container) {
+            global $application;
+            $container = $application->getContainer();
+        }
+        return $container->get(__CLASS__);
+    }
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param string $title
@@ -11,7 +42,7 @@ class Field
      *
      * @return FieldString
      */
-    public static function string(string $title, string $name): FieldString
+    public function string(string $title, string $name): FieldString
     {
         return new FieldString($title, $name);
     }
@@ -22,7 +53,7 @@ class Field
      *
      * @return FieldString
      */
-    public static function number(string $title, string $name): FieldString
+    public function number(string $title, string $name): FieldString
     {
         return self::string($title, $name)->filter('^[0-9]*$');
     }
@@ -35,7 +66,7 @@ class Field
      *
      * @return FieldDate
      */
-    public static function date(
+    public function date(
         string $title,
         string $name,
         string $mask = '00.00.0000',
@@ -52,7 +83,7 @@ class Field
      *
      * @return FieldDateTime
      */
-    public static function dateTime(
+    public function dateTime(
         string $title,
         string $name,
         string $mask = '00.00.0000 00:00:00',
@@ -67,7 +98,7 @@ class Field
      *
      * @return FieldCheckbox
      */
-    public static function checkbox(string $title, string $name): FieldCheckbox
+    public function checkbox(string $title, string $name): FieldCheckbox
     {
         return new FieldCheckbox($title, $name);
     }
@@ -78,7 +109,7 @@ class Field
      *
      * @return FieldSelect
      */
-    public static function select(string $title, string $name): FieldSelect
+    public function select(string $title, string $name): FieldSelect
     {
         return new FieldSelect($title, $name);
     }
@@ -89,7 +120,7 @@ class Field
      *
      * @return FieldTextarea
      */
-    public static function textarea(string $title, string $name): FieldTextarea
+    public function textarea(string $title, string $name): FieldTextarea
     {
         return new FieldTextarea($title, $name);
     }
@@ -100,7 +131,7 @@ class Field
      *
      * @return FieldRedactor
      */
-    public static function redactor(string $title, string $name): FieldRedactor
+    public function redactor(string $title, string $name): FieldRedactor
     {
         return new FieldRedactor($title, $name);
     }
@@ -111,7 +142,7 @@ class Field
      *
      * @return FieldFile
      */
-    public static function file(string $title, string $name): FieldFile
+    public function file(string $title, string $name): FieldFile
     {
         return new FieldFile($title, $name);
     }
@@ -122,8 +153,21 @@ class Field
      *
      * @return FieldImage
      */
-    public static function image(string $title, string $name): FieldImage
+    public function image(string $title, string $name): FieldImage
     {
         return new FieldImage($title, $name);
+    }
+
+    /**
+     * @param string $title
+     * @param string $name
+     * @param string $namespace
+     *
+     * @return FieldTags
+     */
+    public function tags(string $title, string $name, string $namespace)
+    {
+        $tagService = $this->container->get(TagService::class);
+        return new FieldTags($title, $name, $namespace, $tagService);
     }
 }

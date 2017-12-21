@@ -30,6 +30,8 @@ class ArticleMigration implements MigrationInterface
               `id` INT(11) NOT NULL AUTO_INCREMENT,
               `title` varchar(500) DEFAULT NULL,
               `description` varchar(1000) DEFAULT NULL,
+              `image_list` varchar(255) DEFAULT NULL,
+              `image_detail` varchar(255) DEFAULT NULL,
               `text` text,
               `viewed` INT UNSIGNED DEFAULT 0,
               `is_active` tinyint(1) UNSIGNED DEFAULT 1,

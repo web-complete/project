@@ -2,7 +2,9 @@
 
 namespace cubes\system\tags;
 
-interface TagRepositoryInterface
+use WebComplete\core\entity\EntityRepositoryInterface;
+
+interface TagRepositoryInterface extends EntityRepositoryInterface
 {
 
 }

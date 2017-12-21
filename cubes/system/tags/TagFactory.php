@@ -2,7 +2,9 @@
 
 namespace cubes\system\tags;
 
-class TagFactory
-{
+use WebComplete\core\factory\EntityFactory;
 
+class TagFactory extends EntityFactory
+{
+    protected $objectClass = Tag::class;
 }

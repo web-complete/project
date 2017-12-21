@@ -31,8 +31,8 @@ class ArticleConfig extends EntityConfig
     {
         return [
             'title' => Cast::STRING,
-            'image' => Cast::STRING,
-            'images' => Cast::ARRAY,
+            'image_list' => Cast::STRING,
+            'image_detail' => Cast::STRING,
             'description' => Cast::STRING,
             'text' => Cast::STRING,
             'viewed' => Cast::INT,
@@ -76,8 +76,8 @@ class ArticleConfig extends EntityConfig
     {
         return [
             Field::string('Заголовок', 'title'),
-            Field::image('Изображение на списке', 'image'),
-            Field::image('Изображение детальное', 'images'),
+            Field::image('Изображение на списке', 'image_list'),
+            Field::image('Изображение детальное', 'image_detail'),
             Field::textarea('Анонс', 'description'),
             Field::redactor('Содержание', 'text'),
             Field::date('Дата публикации', 'published_on'),
