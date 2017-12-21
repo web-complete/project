@@ -6,7 +6,7 @@ use cubes\system\user\admin\Controller;
 use modules\admin\classes\cells\Cell;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
-use modules\admin\classes\fields\Field;
+use modules\admin\classes\fields\FieldFactory;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\Filter;
 use modules\admin\classes\filter\FilterField;
@@ -82,15 +82,16 @@ class UserConfig extends EntityConfig
      */
     public function getDetailFields(): array
     {
+        $fields = FieldFactory::build();
         return [
-            Field::string('Логин', 'login'),
-            Field::string('E-mail', 'email'),
-            Field::string('Пароль', 'new_password'),
-            Field::string('Имя', 'first_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
-            Field::string('Фамилия', 'last_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
-            Field::select('Пол', 'sex')->options(['M' => 'мужской', 'F' => 'женский']),
-            Field::select('Роли', 'roles')->multiple(true)->options($this->getAvailableRolesMap()),
-            Field::checkbox('Активность', 'is_active'),
+            $fields->string('Логин', 'login'),
+            $fields->string('E-mail', 'email'),
+            $fields->string('Пароль', 'new_password'),
+            $fields->string('Имя', 'first_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
+            $fields->string('Фамилия', 'last_name')->filter('^[a-zA-Zа-яА-Я\s]*$'),
+            $fields->select('Пол', 'sex')->options(['M' => 'мужской', 'F' => 'женский']),
+            $fields->select('Роли', 'roles')->multiple(true)->options($this->getAvailableRolesMap()),
+            $fields->checkbox('Активность', 'is_active'),
         ];
     }
 

@@ -2,13 +2,49 @@
 
 namespace modules\admin\classes\filter;
 
-use modules\admin\classes\fields\Field;
+use modules\admin\classes\fields\FieldFactory;
 use WebComplete\core\condition\Condition;
+use WebComplete\core\utils\container\ContainerInterface;
 
 class Filter
 {
     const MODE_EQUAL = 1;
     const MODE_LIKE = 2;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+    /**
+     * @var FieldFactory
+     */
+    protected $fieldFactory;
+
+    /**
+     * factory method
+     *
+     * @param ContainerInterface|null $container
+     *
+     * @return FieldFactory
+     */
+    public static function build(ContainerInterface $container = null): FieldFactory
+    {
+        if (!$container) {
+            global $application;
+            $container = $application->getContainer();
+        }
+        return $container->get(__CLASS__);
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @param FieldFactory $fieldFactory
+     */
+    public function __construct(ContainerInterface $container, FieldFactory $fieldFactory)
+    {
+        $this->container = $container;
+        $this->fieldFactory = $fieldFactory;
+    }
 
     /**
      * @param string $title
@@ -18,9 +54,9 @@ class Filter
      *
      * @return FilterField
      */
-    public static function string(string $title, string $name, int $mode = self::MODE_EQUAL): FilterField
+    public function string(string $title, string $name, int $mode = self::MODE_EQUAL): FilterField
     {
-        return new FilterField(Field::string($title, $name), $mode);
+        return new FilterField($this->fieldFactory->string($title, $name), $mode);
     }
 
     /**
@@ -30,9 +66,9 @@ class Filter
      *
      * @return FilterField
      */
-    public static function select(string $title, string $name, array $options): FilterField
+    public function select(string $title, string $name, array $options): FilterField
     {
-        return new FilterField(Field::select($title, $name)->options($options), self::MODE_EQUAL);
+        return new FilterField($this->fieldFactory->select($title, $name)->options($options), self::MODE_EQUAL);
     }
 
     /**
@@ -41,9 +77,9 @@ class Filter
      *
      * @return FilterField
      */
-    public static function boolean(string $title, string $name): FilterField
+    public function boolean(string $title, string $name): FilterField
     {
-        return new FilterField(Field::select($title, $name)
+        return new FilterField($this->fieldFactory->select($title, $name)
             ->options(['' => '', 0 => 'нет', 1 => 'да'])
             ->withEmpty(false)
             ->value(''), self::MODE_EQUAL);
@@ -54,7 +90,7 @@ class Filter
      * @param array $filter
      * @param Condition $condition
      */
-    public static function parse(array $filterFields, array $filter, Condition $condition)
+    public function parse(array $filterFields, array $filter, Condition $condition)
     {
         foreach ($filterFields as $filterField) {
             $filterName = $filterField->getName();

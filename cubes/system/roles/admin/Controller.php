@@ -3,7 +3,7 @@
 namespace cubes\system\roles\admin;
 
 use modules\admin\classes\cells\Cell;
-use modules\admin\classes\fields\Field;
+use modules\admin\classes\fields\FieldFactory;
 use modules\admin\classes\form\AdminForm;
 use modules\admin\controllers\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,13 +59,14 @@ class Controller extends AbstractController
             $role = $rbac->createRole('');
         }
 
+        $fields = FieldFactory::build();
         $detailFields = [
-            Field::string('Название', 'name')
+            $fields->string('Название', 'name')
                 ->disabled((bool)$role->getName())
                 ->filter('^[a-z_]*$')
                 ->value($roleId)
                 ->get(),
-            Field::select('Права', 'permissions')
+            $fields->select('Права', 'permissions')
                 ->multiple()
                 ->options($this->getAllPermissionsMap($rbac))
                 ->value($this->getRolePermissionNames($role))

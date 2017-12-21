@@ -3,7 +3,7 @@
 namespace cubes\system\settings\tests;
 
 use cubes\system\settings\Settings;
-use modules\admin\classes\fields\Field;
+use modules\admin\classes\fields\FieldFactory;
 use WebComplete\core\utils\alias\AliasService;
 use WebComplete\mvc\ApplicationConfig;
 
@@ -86,6 +86,7 @@ class TestSettings extends \AppTestCase
      */
     protected function getSettings(): Settings
     {
+        $fields = FieldFactory::build();
         $config = new ApplicationConfig(['settings' => [
             'sections' => [
                 'common' => 'Основное',
@@ -93,8 +94,8 @@ class TestSettings extends \AppTestCase
             ],
             'fields' => [
                 'common' => [
-                    'site_name' => Field::string('', 'site_name'),
-                    'site_description' => Field::string('', 'site_description'),
+                    'site_name' => $fields->string('', 'site_name'),
+                    'site_description' => $fields->string('', 'site_description'),
                 ],
                 'system' => [
                 ],

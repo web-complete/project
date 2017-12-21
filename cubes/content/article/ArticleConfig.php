@@ -7,7 +7,7 @@ use modules\admin\classes\AdminCast;
 use modules\admin\classes\cells\Cell;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
-use modules\admin\classes\fields\Field;
+use modules\admin\classes\fields\FieldFactory;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\Filter;
 use modules\admin\classes\filter\FilterField;
@@ -74,15 +74,16 @@ class ArticleConfig extends EntityConfig
      */
     public function getDetailFields(): array
     {
+        $fields = FieldFactory::build();
         return [
-            Field::string('Заголовок', 'title'),
-            Field::image('Изображение на списке', 'image_list'),
-            Field::image('Изображение детальное', 'image_detail'),
-            Field::textarea('Анонс', 'description'),
-            Field::redactor('Содержание', 'text'),
-            Field::date('Дата публикации', 'published_on'),
-            Field::number('Просмотры', 'viewed'),
-            Field::checkbox('Активность', 'is_active'),
+            $fields->string('Заголовок', 'title'),
+            $fields->image('Изображение на списке', 'image_list'),
+            $fields->image('Изображение детальное', 'image_detail'),
+            $fields->textarea('Анонс', 'description'),
+            $fields->redactor('Содержание', 'text'),
+            $fields->date('Дата публикации', 'published_on'),
+            $fields->number('Просмотры', 'viewed'),
+            $fields->checkbox('Активность', 'is_active'),
         ];
     }
 

@@ -5,7 +5,7 @@ namespace modules\admin\classes\fields;
 use cubes\system\tags\TagService;
 use WebComplete\core\utils\container\ContainerInterface;
 
-class Field
+class FieldFactory
 {
 
     /**
@@ -15,11 +15,12 @@ class Field
 
     /**
      * factory method
+     *
      * @param ContainerInterface|null $container
      *
-     * @return Field
+     * @return FieldFactory
      */
-    public static function build(ContainerInterface $container = null): Field
+    public static function build(ContainerInterface $container = null): FieldFactory
     {
         if (!$container) {
             global $application;
@@ -55,7 +56,7 @@ class Field
      */
     public function number(string $title, string $name): FieldString
     {
-        return self::string($title, $name)->filter('^[0-9]*$');
+        return $this->string($title, $name)->filter('^[0-9]*$');
     }
 
     /**
@@ -165,7 +166,7 @@ class Field
      *
      * @return FieldTags
      */
-    public function tags(string $title, string $name, string $namespace)
+    public function tags(string $title, string $name, string $namespace): FieldTags
     {
         $tagService = $this->container->get(TagService::class);
         return new FieldTags($title, $name, $namespace, $tagService);

@@ -87,7 +87,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
     protected function responseJsonSuccess(array $data = []): Response
     {
         if (isset($data['result'])) {
-            throw new Exception('Field "result" is not allowed');
+            throw new Exception('FieldFactory "result" is not allowed');
         }
         return parent::responseJson(\array_merge($data, ['result' => true]));
     }
@@ -102,7 +102,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
     protected function responseJsonFail(string $error, array $data = []): Response
     {
         if (isset($data['result'])) {
-            throw new Exception('Field "result" is not allowed');
+            throw new Exception('FieldFactory "result" is not allowed');
         }
         return parent::responseJson(\array_merge($data, ['result' => false, 'error' => $error]));
     }
