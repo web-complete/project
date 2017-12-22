@@ -10,7 +10,7 @@ Vue.component('VueFieldDateTime', {
            :disabled="fieldParams.disabled"
            :maxlength="fieldParams.maxlength"
     />
-    <a class="input-date" href="javascript://"><i class="ion-calendar"></i></a>
+    <span class="input-date"><i class="ion-calendar"></i></span>
     <span v-if="error" class="error">{{error}}</span>
 </div>    
     `,

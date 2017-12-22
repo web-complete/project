@@ -15,6 +15,7 @@ $themeColor2 = $settings->get('theme_color2', '#E77E15');
     .button,
     .redactor-toolbar li a:hover,
     .redactor-dropdown a:hover,
+    .form-row .selectize-control.multi .selectize-input [data-value].active,
     #redactor-modal footer button.redactor-modal-action-btn,
     .nav > ul > li._active > span,
     .nav > ul > li > ul > li._active > a::before,
@@ -25,6 +26,7 @@ $themeColor2 = $settings->get('theme_color2', '#E77E15');
 
     .button:hover,
     .login__button:hover,
+    .form-row .selectize-control.multi .selectize-input [data-value],
     #redactor-modal footer button.redactor-modal-action-btn:hover {
         background: <?=$themeColor2 ?>;
     }

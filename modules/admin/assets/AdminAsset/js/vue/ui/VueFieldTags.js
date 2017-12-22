@@ -2,7 +2,12 @@ Vue.component('VueFieldTags', {
     template: `
 <div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
-    <input type="text" />
+    <select :name="name" multiple>
+        <option v-for="tag in fieldParams.availableTags"
+                :selected="fieldParams.selectedTags.indexOf(tag) !== -1"
+                :value="tag"
+        >{{tag}}</option>
+    </select>
 </div>    
     `,
     props: {
@@ -14,7 +19,8 @@ Vue.component('VueFieldTags', {
             type: [Object, Array],
             default: function(){
                 return {
-                    disabled: false,
+                    availableTags: [],
+                    selectedTags: []
                 }
             }
         }
@@ -27,7 +33,7 @@ Vue.component('VueFieldTags', {
     },
     methods: {
         initTags: function(){
-            $(this.$el).find('input').selectize({
+            this.selectize = $(this.$el).find('select').selectize({
                 delimiter: ',',
                 persist: false,
                 create: function(input) {
@@ -35,11 +41,19 @@ Vue.component('VueFieldTags', {
                         value: input,
                         text: input
                     }
-                }
-            });
+                },
+                render: {
+                    option_create: function (data, escape) {
+                        return '<div class="create">+ ' + escape(data.input) + '&hellip;</div>';
+                    }
+                },
+                onChange: function(value){
+                    this.$emit('input', value.join(','));
+                }.bind(this)
+            })[0].selectize;
         },
         destroyTags: function(){
-            // TODO
+            this.selectize.destroy();
         }
     }
 });
