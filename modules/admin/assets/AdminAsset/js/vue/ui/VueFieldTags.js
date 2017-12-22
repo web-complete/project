@@ -2,17 +2,7 @@ Vue.component('VueFieldTags', {
     template: `
 <div class="form-row" :class="{'has-errors': error}">
     <label v-if="label">{{label}}</label>
-    <div class="checkbox-nice">
-        <input :id="uid"
-               :name="name"
-               :checked="getValue"
-               :disabled="fieldParams.disabled"
-               @change="$emit('input', $event.target.checked ? 1 : 0)"
-               type="checkbox"
-               value="1"
-        >
-        <label :for="uid"></label>
-    </div>
+    <input type="text" />
 </div>    
     `,
     props: {
@@ -29,12 +19,27 @@ Vue.component('VueFieldTags', {
             }
         }
     },
-    computed: {
-        getValue: function(){
-            return parseInt(this.value) || 0;
+    mounted: function(){
+        this.initTags();
+    },
+    destroyed: function(){
+        this.destroyTags();
+    },
+    methods: {
+        initTags: function(){
+            $(this.$el).find('input').selectize({
+                delimiter: ',',
+                persist: false,
+                create: function(input) {
+                    return {
+                        value: input,
+                        text: input
+                    }
+                }
+            });
         },
-        uid: function(){
-            return _.uniqueId('filter-checkbox');
+        destroyTags: function(){
+            // TODO
         }
     }
 });
