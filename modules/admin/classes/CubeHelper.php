@@ -2,7 +2,9 @@
 
 namespace modules\admin\classes;
 
+use cubes\system\tags\TagObserver;
 use modules\admin\assets\AdminAsset;
+use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\mvc\ApplicationConfig;
 use WebComplete\mvc\assets\AbstractAsset;
 use WebComplete\mvc\router\Routes;
@@ -10,39 +12,36 @@ use WebComplete\mvc\router\Routes;
 class CubeHelper
 {
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+    /**
      * @var AdminAsset
      */
-    private $adminAsset;
+    protected $adminAsset;
     /**
      * @var ApplicationConfig
      */
-    private $config;
+    protected $config;
     /**
-     * @var PageRoutes
+     * @var VueRoutes
      */
-    private $pageRoutes;
+    protected $pageRoutes;
     /**
      * @var Navigation
      */
-    private $navigation;
+    protected $navigation;
 
     /**
-     * @param AdminAsset $adminAsset
-     * @param ApplicationConfig $config
-     * @param PageRoutes $pageRoutes
-     * @param Navigation $navigation
+     * @param ContainerInterface $container
      */
-    public function __construct(
-        AdminAsset $adminAsset,
-        ApplicationConfig $config,
-        PageRoutes $pageRoutes,
-        Navigation $navigation
-    ) {
-
-        $this->adminAsset = $adminAsset;
-        $this->config = $config;
-        $this->pageRoutes = $pageRoutes;
-        $this->navigation = $navigation;
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+        $this->adminAsset = $this->container->get(AdminAsset::class);
+        $this->config = $this->container->get(ApplicationConfig::class);
+        $this->pageRoutes = $this->container->get(VueRoutes::class);
+        $this->navigation = $this->container->get(Navigation::class);
     }
 
     /**
@@ -122,6 +121,21 @@ class CubeHelper
 
     /**
      * @param EntityConfig $entityConfig
+     *
+     * @return $this
+     */
+    public function observeEntityTagField(EntityConfig $entityConfig)
+    {
+        if ($entityConfig->tagField) {
+            $entityService = $this->container->get($entityConfig->entityServiceClass);
+            $tagObserver = $this->container->get(TagObserver::class);
+            $tagObserver->listen($entityService, $entityConfig->tagField);
+        }
+        return $this;
+    }
+
+    /**
+     * @param EntityConfig $entityConfig
      */
     public function defaultCrud(EntityConfig $entityConfig)
     {
@@ -138,6 +152,7 @@ class CubeHelper
             ->addBackendRoute(['POST', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionSave']])
             ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDelete']])
             ->addMenuSection($menuSectionName, $menuSectionSort)
-            ->addMenuItem($menuSectionName, $titleList, "/list/$name", $menuItemSort);
+            ->addMenuItem($menuSectionName, $titleList, "/list/$name", $menuItemSort)
+            ->observeEntityTagField($entityConfig);
     }
 }

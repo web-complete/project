@@ -5,7 +5,6 @@ namespace cubes\system\file;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\alias\AliasService;
-use WebComplete\core\utils\event\EventService;
 
 class FileService extends AbstractEntityService implements FileRepositoryInterface
 {
@@ -25,17 +24,13 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
 
     /**
      * @param FileRepositoryInterface $repository
-     * @param EventService $eventService
      * @param AliasService $aliasService
      *
      * @throws \WebComplete\core\utils\alias\AliasException
      */
-    public function __construct(
-        FileRepositoryInterface $repository,
-        EventService $eventService,
-        AliasService $aliasService
-    ) {
-        parent::__construct($repository, $eventService);
+    public function __construct(FileRepositoryInterface $repository, AliasService $aliasService)
+    {
+        parent::__construct($repository);
         $this->aliasService = $aliasService;
         $this->baseDir = \rtrim($this->aliasService->get($this->baseDir), '/');
     }

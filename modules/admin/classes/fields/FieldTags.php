@@ -15,8 +15,8 @@ class FieldTags extends FieldAbstract
         'value' => '',
         'fieldParams' => [
             'namespace' => '',
-            'selectedTags' => ['tag2'],
-            'availableTags' => ['tag1', 'tag2', 'tag3'],
+            'selectedTags' => [],
+            'availableTags' => [],
         ]
     ];
     /**
@@ -36,7 +36,17 @@ class FieldTags extends FieldAbstract
         $this->data['title'] = $title;
         $this->data['name'] = $name;
         $this->data['fieldParams']['namespace'] = $namespace;
-//        $this->data['fieldParams']['availableTags'] = $this->getAvailableTags($namespace);
+        $this->data['fieldParams']['availableTags'] = $this->getAvailableTags($namespace);
+    }
+
+    /**
+     * @param $value
+     * @return FieldAbstract|$this
+     */
+    public function value($value)
+    {
+        $this->data['fieldParams']['selectedTags'] = \explode(',', (string)$value);
+        return parent::value($value);
     }
 
     /**

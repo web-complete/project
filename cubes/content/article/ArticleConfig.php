@@ -20,9 +20,10 @@ class ArticleConfig extends EntityConfig
     public $name = 'article';
     public $titleList = 'Статьи';
     public $titleDetail = 'Статья';
+    public $menuSectionName = 'Контент';
+    public $tagField = 'tags';
     public $entityServiceClass = ArticleService::class;
     public $controllerClass = Controller::class;
-    public $menuSectionName = 'Контент';
 
     /**
      * @return array
@@ -35,7 +36,7 @@ class ArticleConfig extends EntityConfig
             'image_detail' => Cast::STRING,
             'description' => Cast::STRING,
             'text' => Cast::STRING,
-            'tags' => [Cast::STRING],
+            'tags' => Cast::STRING,
             'viewed' => Cast::INT,
             'is_active' => Cast::BOOL,
             'created_on' => Cast::STRING,
@@ -84,7 +85,7 @@ class ArticleConfig extends EntityConfig
             $fields->image('Изображение детальное', 'image_detail'),
             $fields->textarea('Анонс', 'description'),
             $fields->redactor('Содержание', 'text'),
-            $fields->tags('Теги', 'tags', Article::class),
+            $fields->tags('Теги', 'tags', $this->entityServiceClass),
             $fields->date('Дата публикации', 'published_on'),
             $fields->number('Просмотры', 'viewed'),
             $fields->checkbox('Активность', 'is_active'),

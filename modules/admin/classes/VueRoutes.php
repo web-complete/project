@@ -2,7 +2,7 @@
 
 namespace modules\admin\classes;
 
-class PageRoutes
+class VueRoutes
 {
 
     protected $routes = [

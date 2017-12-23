@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
-use WebComplete\core\utils\event\EventService;
 use WebComplete\core\utils\helpers\SecurityHelper;
 
 class UserService extends AbstractEntityService implements UserRepositoryInterface, IdentityServiceInterface
@@ -29,15 +28,13 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
 
     /**
      * @param UserRepositoryInterface $repository
-     * @param EventService $eventService
      * @param SecurityHelper $securityHelper
      */
     public function __construct(
         UserRepositoryInterface $repository,
-        EventService $eventService,
         SecurityHelper $securityHelper
     ) {
-        parent::__construct($repository, $eventService);
+        parent::__construct($repository);
         $this->securityHelper = $securityHelper;
     }
 

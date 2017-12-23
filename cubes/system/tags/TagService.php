@@ -3,7 +3,6 @@
 namespace cubes\system\tags;
 
 use WebComplete\core\entity\AbstractEntityService;
-use WebComplete\core\utils\event\EventService;
 use WebComplete\core\utils\helpers\StringHelper;
 
 class TagService extends AbstractEntityService implements TagRepositoryInterface
@@ -20,15 +19,11 @@ class TagService extends AbstractEntityService implements TagRepositoryInterface
 
     /**
      * @param TagRepositoryInterface $repository
-     * @param EventService $eventService
      * @param StringHelper $stringHelper
      */
-    public function __construct(
-        TagRepositoryInterface $repository,
-        EventService $eventService,
-        StringHelper $stringHelper
-    ) {
-        parent::__construct($repository, $eventService);
+    public function __construct(TagRepositoryInterface $repository, StringHelper $stringHelper)
+    {
+        parent::__construct($repository);
         $this->stringHelper = $stringHelper;
     }
 
@@ -81,7 +76,7 @@ class TagService extends AbstractEntityService implements TagRepositoryInterface
      *
      * @return array|\WebComplete\core\entity\AbstractEntity[]|Tag[]
      */
-    public function findBySlug(string $slug, string $namespace)
+    public function findBySlug(string $slug, string $namespace): array
     {
         return $this->findAll($this->createCondition(['slug' => $slug, 'namespace' => $namespace]));
     }
