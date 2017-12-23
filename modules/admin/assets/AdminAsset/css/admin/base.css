@@ -532,6 +532,7 @@ ul, li {
     text-shadow: none;
     box-shadow: none;
     border: none;
+    font-size: 12px;
     background: #333;
 }
 .form-row .selectize-control.multi .selectize-input [data-value].active {

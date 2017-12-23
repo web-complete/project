@@ -3,6 +3,7 @@
 namespace cubes\content\article;
 
 use WebComplete\core\entity\AbstractEntityService;
+use WebComplete\core\utils\event\EventService;
 
 class ArticleService extends AbstractEntityService implements ArticleRepositoryInterface
 {
@@ -14,10 +15,11 @@ class ArticleService extends AbstractEntityService implements ArticleRepositoryI
 
     /**
      * @param ArticleRepositoryInterface $repository
+     * @param EventService $eventService
      */
-    public function __construct(ArticleRepositoryInterface $repository)
+    public function __construct(ArticleRepositoryInterface $repository, EventService $eventService)
     {
-        parent::__construct($repository);
+        parent::__construct($repository, $eventService);
     }
 
     /**

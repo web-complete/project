@@ -95,10 +95,11 @@ class AbstractEntityController extends AbstractController
             $item = $entityService->create();
         }
 
+        $itemOldData = $item->mapToArray();
         $form = $entityConfig->getForm();
         $form->setData($data);
         if ($form->validate() && $this->beforeSave($item, $form)) {
-            $entityService->save($item);
+            $entityService->save($item, $itemOldData);
             $this->afterSave($item, $form);
             return $this->responseJsonSuccess();
         }
