@@ -35,6 +35,7 @@ class FileMigration implements MigrationInterface
               `code` varchar(50) DEFAULT NULL,
               `file_name` varchar(255) DEFAULT NULL,
               `mime_type` varchar(200) DEFAULT NULL,
+              `path` varchar(500) DEFAULT NULL,
               `url` varchar(500) DEFAULT NULL,
               `sort` int unsigned DEFAULT 100,
               `data` varchar(1000) DEFAULT NULL,

@@ -10,6 +10,9 @@ use WebComplete\core\entity\AbstractEntity;
  * @property $description
  * @property $text
  * @property $viewed
+ * @property $tags
+ * @property $image_list
+ * @property $image_detail
  * @property $is_active
  * @property $created_on
  * @property $updated_on

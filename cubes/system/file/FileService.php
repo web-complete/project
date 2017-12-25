@@ -3,6 +3,7 @@
 namespace cubes\system\file;
 
 use WebComplete\core\condition\Condition;
+use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\alias\AliasService;
 
@@ -56,7 +57,8 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     ): File {
         $fileName = $newFileName ?? $this->getFilenameFromPath($path);
         $fileName = \time() . '_' . $fileName;
-        $url = $this->createDestinationUrl($code, $fileName);
+        $urlPath = $this->createUrlPath($code, $fileName);
+        $url = $urlPath . '/' . $fileName;
         $this->copyFileToDestination($path, $this->baseDir . $url);
 
         /** @var File $item */
@@ -66,6 +68,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
         $item->mime_type = $mimeType;
         $item->sort = $sort;
         $item->data = $data;
+        $item->path = $urlPath;
         $item->url = $url;
         $this->save($item);
         return $item;
@@ -101,15 +104,17 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     /**
      * @param $id
      *
+     * @param AbstractEntity|null $item
+     *
      * @return mixed
      */
-    public function delete($id)
+    public function delete($id, AbstractEntity $item = null)
     {
         /** @var File $file */
         if ($file = $this->findById($id)) {
             @\unlink($this->baseDir . $file->url);
         }
-        return parent::delete($id);
+        return parent::delete($id, $item);
     }
 
     /**
@@ -183,14 +188,14 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
      *
      * @return string
      */
-    protected function createDestinationUrl($code, string $fileName): string
+    protected function createUrlPath($code, string $fileName): string
     {
         $hash = \md5($code . $fileName);
         $subDir1 = \substr($hash, 0, 2);
         $subDir2 = \substr($hash, 2, 2);
-        $destDir = $this->baseUrl . '/' . $subDir1 . '/' . $subDir2;
-        @\mkdir($this->baseDir . $destDir, $this->mode, true);
-        return $destDir . '/' . $fileName;
+        $url = $this->baseUrl . '/' . $subDir1 . '/' . $subDir2;
+        @\mkdir($this->baseDir . $url, $this->mode, true);
+        return $url;
     }
 
     /**
