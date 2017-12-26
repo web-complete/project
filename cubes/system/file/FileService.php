@@ -37,44 +37,6 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     }
 
     /**
-     * @param string $path
-     * @param string|null $newFileName
-     * @param string|null $mimeType
-     * @param string|null $code
-     * @param int $sort
-     * @param array $data
-     *
-     * @return File
-     * @throws \Exception
-     */
-    public function createFileFromPath(
-        string $path,
-        string $newFileName = null,
-        string $mimeType = null,
-        string $code = null,
-        int $sort = 100,
-        array $data = []
-    ): File {
-        $fileName = $newFileName ?? $this->getFilenameFromPath($path);
-        $fileName = \time() . '_' . $fileName;
-        $urlPath = $this->createUrlPath($code, $fileName);
-        $url = $urlPath . '/' . $fileName;
-        $this->copyFileToDestination($path, $this->baseDir . $url);
-
-        /** @var File $item */
-        $item = $this->create();
-        $item->code = $code;
-        $item->file_name = $fileName;
-        $item->mime_type = $mimeType;
-        $item->sort = $sort;
-        $item->data = $data;
-        $item->path = $urlPath;
-        $item->url = $url;
-        $this->save($item);
-        return $item;
-    }
-
-    /**
      * @param string $content
      * @param string|null $newFileName
      * @param string|null $mimeType
@@ -102,6 +64,43 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     }
 
     /**
+     * @param string $pathOrUrl
+     * @param string|null $newFileName
+     * @param string|null $mimeType
+     * @param string|null $code
+     * @param int $sort
+     * @param array $data
+     *
+     * @return File
+     * @throws \Exception
+     */
+    public function createFileFromPath(
+        string $pathOrUrl,
+        string $newFileName = null,
+        string $mimeType = null,
+        string $code = null,
+        int $sort = 100,
+        array $data = []
+    ): File {
+        $fileName = \time() . '_' . ($newFileName ?? $this->getFilenameFromPath($pathOrUrl));
+        $urlPath = $this->createUrlPath($code, $fileName);
+        $url = $urlPath . '/' . $fileName;
+        $this->copyFileToDestination($pathOrUrl, $this->baseDir . $url);
+
+        /** @var File $item */
+        $item = $this->create();
+        $item->code = $code;
+        $item->file_name = $fileName;
+        $item->mime_type = $mimeType;
+        $item->base_dir = $this->baseDir;
+        $item->url = $url;
+        $item->sort = $sort;
+        $item->data = $data;
+        $this->save($item);
+        return $item;
+    }
+
+    /**
      * @param $id
      *
      * @param AbstractEntity|null $item
@@ -112,7 +111,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     {
         /** @var File $file */
         if ($file = $this->findById($id)) {
-            @\unlink($this->baseDir . $file->url);
+            $this->deleteFile($file);
         }
         return parent::delete($id, $item);
     }
@@ -127,7 +126,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
         $files = $this->findAll($condition);
         /** @var File $file */
         foreach ($files as $file) {
-            @\unlink($this->baseDir . $file->url);
+            $this->deleteFile($file);
         }
         return parent::deleteAll($condition);
     }
@@ -173,6 +172,15 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     }
 
     /**
+     * @param File $file
+     */
+    protected function deleteFile(File $file)
+    {
+        @\unlink($file->base_dir . $file->url);
+        // TODO delete cache
+    }
+
+    /**
      * @param string $path
      *
      * @return string
@@ -190,10 +198,8 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
      */
     protected function createUrlPath($code, string $fileName): string
     {
-        $hash = \md5($code . $fileName);
-        $subDir1 = \substr($hash, 0, 2);
-        $subDir2 = \substr($hash, 2, 2);
-        $url = $this->baseUrl . '/' . $subDir1 . '/' . $subDir2;
+        $subDir = \substr(\md5($code . $fileName), 0, 4);
+        $url = $this->baseUrl . '/' . $subDir;
         @\mkdir($this->baseDir . $url, $this->mode, true);
         return $url;
     }
