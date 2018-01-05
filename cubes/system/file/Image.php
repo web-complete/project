@@ -13,28 +13,25 @@ class Image
     protected $file;
     protected $width;
     protected $height;
-    protected $baseDir;
 
     /**
      * @param File $file
-     * @param string $baseDir
      */
-    public function __construct(File $file, string $baseDir)
+    public function __construct(File $file)
     {
         $this->file = $file;
-        $this->baseDir = $baseDir;
     }
 
     /**
-     * @param int $width
-     * @param int $height
+     * @param int|null $width
+     * @param int|null $height
      *
      * @return $this
      */
-    public function size(int $width, int $height)
+    public function size(int $width = null, int $height = null)
     {
-        $this->width = $width;
-        $this->height = $height;
+        $this->width = $width ?: null;
+        $this->height = $height ?: null;
         return $this;
     }
 
@@ -43,28 +40,34 @@ class Image
      */
     public function getUrl(): string
     {
-        if ($this->width && $this->height) {
-            $fileName = $this->width . '_' . $this->height . '_' . $this->file->file_name;
-            $fileUrl = $this->file->path . '/' . $fileName;
-            if (!\file_exists($this->baseDir . $fileUrl)) {
-                $this->createResizedImage(
-                    $this->baseDir . $this->file->url,
-                    $this->baseDir . $fileUrl,
-                    $this->width,
-                    $this->height
-                );
-            }
-            return $fileUrl;
-        }
         return $this->file->url;
     }
 
     /**
      * @return string
+     * @throws \RuntimeException
      */
-    public function getUrlPath(): string
+    public function getResizedUrl(): string
     {
-        return $this->file->path;
+        if ($this->width && $this->file->getCacheDir(true)) {
+            $fileCacheDirUrl = $this->file->getCacheDirUrl();
+            $resizedFileName = (int)$this->width . '_' . (int)$this->height . '_' . $this->file->file_name;
+            $resizedFileUrl = $fileCacheDirUrl . '/' . $resizedFileName;
+            $resizedFilePath = $this->file->base_dir . $resizedFileUrl;
+
+            if (!\file_exists($resizedFilePath)) {
+                $this->createResizedImage(
+                    $this->file->getFilePath(),
+                    $resizedFilePath,
+                    $this->width,
+                    $this->height
+                );
+            }
+
+            return $resizedFileUrl;
+        }
+
+        return $this->getUrl();
     }
 
     /**
@@ -89,8 +92,10 @@ class Image
      * @param int $width
      * @param int $height
      */
-    protected function createResizedImage(string $srcFile, string $destFile, int $width, int $height)
+    protected function createResizedImage(string $srcFile, string $destFile, int $width, int $height = null)
     {
-        ImageManagerStatic::make($srcFile)->fit($width, $height)->save($destFile);
+        $height
+            ? ImageManagerStatic::make($srcFile)->fit($width, $height)->save($destFile)
+            : ImageManagerStatic::make($srcFile)->widen($width)->save($destFile);
     }
 }

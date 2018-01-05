@@ -2,6 +2,7 @@
 
 namespace cubes\system\file;
 
+use Symfony\Component\Filesystem\Filesystem;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
@@ -22,17 +23,26 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
      * @var AliasService
      */
     protected $aliasService;
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
 
     /**
      * @param FileRepositoryInterface $repository
      * @param AliasService $aliasService
+     * @param Filesystem $filesystem
      *
      * @throws \WebComplete\core\utils\alias\AliasException
      */
-    public function __construct(FileRepositoryInterface $repository, AliasService $aliasService)
-    {
+    public function __construct(
+        FileRepositoryInterface $repository,
+        AliasService $aliasService,
+        Filesystem $filesystem
+    ) {
         parent::__construct($repository);
         $this->aliasService = $aliasService;
+        $this->filesystem = $filesystem;
         $this->baseDir = \rtrim($this->aliasService->get($this->baseDir), '/');
     }
 
@@ -57,7 +67,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
         array $data = [],
         bool $parseBase64 = true
     ): File {
-        $content = $parseBase64 ? $this->parseBase64($content) : $content;
+        $content = $parseBase64 ? $this->parseBase64Data($content) : $content;
         $tmpFile = \tempnam(\sys_get_temp_dir(), 'file');
         \file_put_contents($tmpFile, $content);
         return $this->createFileFromPath($tmpFile, $newFileName, $mimeType, $code, $sort, $data);
@@ -83,7 +93,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
         array $data = []
     ): File {
         $fileName = \time() . '_' . ($newFileName ?? $this->getFilenameFromPath($pathOrUrl));
-        $urlPath = $this->createUrlPath($code, $fileName);
+        $urlPath = $this->createUrlPath($this->baseDir, $code, $fileName);
         $url = $urlPath . '/' . $fileName;
         $this->copyFileToDestination($pathOrUrl, $this->baseDir . $url);
 
@@ -102,10 +112,10 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
 
     /**
      * @param $id
-     *
      * @param AbstractEntity|null $item
      *
      * @return mixed
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
     public function delete($id, AbstractEntity $item = null)
     {
@@ -120,6 +130,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
      * @param Condition|null $condition
      *
      * @return mixed
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
     public function deleteAll(Condition $condition = null)
     {
@@ -173,11 +184,15 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
 
     /**
      * @param File $file
+     *
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
     protected function deleteFile(File $file)
     {
         @\unlink($file->base_dir . $file->url);
-        // TODO delete cache
+        if (\file_exists($file->getCacheDir())) {
+            $this->filesystem->remove($file->getCacheDir());
+        }
     }
 
     /**
@@ -191,17 +206,19 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
     }
 
     /**
+     * @param string $baseDir
      * @param string|null $code
      * @param string $fileName
      *
      * @return string
      */
-    protected function createUrlPath($code, string $fileName): string
+    protected function createUrlPath($baseDir, $code, string $fileName): string
     {
         $subDir = \substr(\md5($code . $fileName), 0, 4);
-        $url = $this->baseUrl . '/' . $subDir;
-        @\mkdir($this->baseDir . $url, $this->mode, true);
-        return $url;
+        $fileUrl = $this->baseUrl . '/' . $subDir;
+        $filePath = $baseDir . $fileUrl;
+        @\mkdir($filePath, $this->mode, true);
+        return $fileUrl;
     }
 
     /**
@@ -228,7 +245,7 @@ class FileService extends AbstractEntityService implements FileRepositoryInterfa
      *
      * @return string
      */
-    protected function parseBase64(string $data): string
+    protected function parseBase64Data(string $data): string
     {
         if ($data) {
             list(, $data) = \explode(';', $data);

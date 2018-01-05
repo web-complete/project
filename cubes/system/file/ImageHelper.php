@@ -21,32 +21,34 @@ class ImageHelper
 
     /**
      * @param $imageId
-     * @param int $width
-     * @param int $height
+     * @param int|null $width
+     * @param int|null $height
      * @param string $defaultUrl
      *
      * @return string
+     * @throws \RuntimeException
      */
-    public static function getUrl($imageId, $width, $height, $defaultUrl = ''): string
+    public static function getUrl($imageId, $width = null, $height = null, $defaultUrl = ''): string
     {
         if ($image = self::getImage($imageId)) {
-            return $image->size((int)$width, (int)$height)->getUrl();
+            return $image->size((int)$width, (int)$height)->getResizedUrl();
         }
         return $defaultUrl;
     }
 
     /**
      * @param $imageId
-     * @param int $width
-     * @param int $height
+     * @param int|null $width
+     * @param int|null $height
      * @param array $tagAttributes example: ['class' => 'product__img']
      *
      * @return string
+     * @throws \RuntimeException
      */
-    public static function getTag($imageId, $width, $height, array $tagAttributes = []): string
+    public static function getTag($imageId, $width = null, $height = null, array $tagAttributes = []): string
     {
         if ($image = self::getImage($imageId)) {
-            $url = $image->size($width, $height)->getUrl();
+            $url = $image->size($width, $height)->getResizedUrl();
             $data = $image->getFileData();
             $tagAttributes = \array_merge([
                 'alt' => $data['alt'] ?? '',

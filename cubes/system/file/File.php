@@ -32,4 +32,39 @@ class File extends AbstractEntity
             'data' => Cast::ARRAY,
         ];
     }
+
+    /**
+     * @return string
+     */
+    public function getFilePath(): string
+    {
+        return $this->base_dir . $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCacheDirUrl(): string
+    {
+        $filePath = $this->url;
+        $filePathInfo = \pathinfo($filePath);
+        $dirName = $filePathInfo['dirname'] ?? '';
+        $fileName = $filePathInfo['filename'] ?? '';
+        return $dirName . '/' . $fileName . '.cache';
+    }
+
+    /**
+     * @param bool $createIfNotExists
+     *
+     * @return string
+     * @throws \RuntimeException
+     */
+    public function getCacheDir(bool $createIfNotExists = false): string
+    {
+        $result = $this->base_dir . $this->getCacheDirUrl();
+        if ($createIfNotExists && !\file_exists($result) && !\mkdir($result) && !\is_dir($result)) {
+            throw new \RuntimeException(\sprintf('Directory "%s" was not created', $result));
+        }
+        return $result;
+    }
 }

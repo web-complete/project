@@ -682,6 +682,9 @@ div._active[data-group][data-tab] {
     display: block;
 }
 
+.v--modal-block-scroll {
+    position: relative !important;
+}
 .v--modal h1 {
     font-size: 20px;
     margin: 0;
@@ -1203,7 +1206,7 @@ a.field-edit,
 }
 
 .fade-enter-active, .fade-leave-active {
-    transition: all .5s ease;
+    transition: all .3s ease;
 }
 .fade-enter, .fade-leave-to {
     opacity: 0;
@@ -1211,7 +1214,7 @@ a.field-edit,
 .page-enter-active, .page-leave-active {
     position: absolute;
     width: calc(100% - 300px);
-    transition: all .3s ease-out;
+    transition: all .2s ease-out;
 }
 .page-enter, .fade-leave-to {
     top: -20px;
