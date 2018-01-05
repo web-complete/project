@@ -5,9 +5,9 @@ namespace cubes\system\user\migrations;
 use cubes\system\user\User;
 use cubes\system\user\UserService;
 use Doctrine\DBAL\Connection;
-use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\migration\MigrationInterface;
 use WebComplete\rbac\Rbac;
+use WebComplete\microDb\MicroDb;
 
 class UserMigration implements MigrationInterface
 {
@@ -21,30 +21,30 @@ class UserMigration implements MigrationInterface
      */
     private $userService;
     /**
-     * @var AliasService
-     */
-    private $aliasService;
-    /**
      * @var Rbac
      */
     private $rbac;
+    /**
+     * @var MicroDb
+     */
+    private $microDb;
 
     /**
      * @param Connection $db
      * @param UserService $userService
-     * @param AliasService $aliasService
      * @param Rbac $rbac
+     * @param MicroDb $microDb
      */
     public function __construct(
         Connection $db,
         UserService $userService,
-        AliasService $aliasService,
-        Rbac $rbac
+        Rbac $rbac,
+        MicroDb $microDb
     ) {
         $this->db = $db;
         $this->userService = $userService;
-        $this->aliasService = $aliasService;
         $this->rbac = $rbac;
+        $this->microDb = $microDb;
     }
 
     public function up()
@@ -78,7 +78,7 @@ class UserMigration implements MigrationInterface
     {
         $sql = 'DROP TABLE IF EXISTS `user`';
         $this->db->exec($sql);
-        @\unlink($this->aliasService->get('@storage/micro-db/app_user.fdb'));
+        $this->microDb->getCollection('user')->drop();
     }
 
     protected function createAdmin()

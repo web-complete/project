@@ -10,6 +10,10 @@ use WebComplete\form\AbstractForm;
 
 abstract class EntityConfig
 {
+    /**
+     * entity name in snake-style
+     * @var string
+     */
     public $name = null;
     public $titleList = null;
     public $titleDetail = null;

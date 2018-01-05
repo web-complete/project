@@ -3,8 +3,8 @@
 namespace cubes\system\tags\migrations;
 
 use Doctrine\DBAL\Driver\Connection;
-use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\migration\MigrationInterface;
+use WebComplete\microDb\MicroDb;
 
 class TagMigration implements MigrationInterface
 {
@@ -14,14 +14,14 @@ class TagMigration implements MigrationInterface
      */
     private $db;
     /**
-     * @var AliasService
+     * @var MicroDb
      */
-    private $aliasService;
+    private $microDb;
 
-    public function __construct(Connection $db, AliasService $aliasService)
+    public function __construct(Connection $db, MicroDb $microDb)
     {
         $this->db = $db;
-        $this->aliasService = $aliasService;
+        $this->microDb = $microDb;
     }
 
     public function up()
@@ -43,6 +43,6 @@ class TagMigration implements MigrationInterface
     {
         $sql = 'DROP TABLE IF EXISTS `tag`';
         $this->db->exec($sql);
-        @\unlink($this->aliasService->get('@storage/micro-db/app_tag.fdb'));
+        $this->microDb->getCollection('tag')->drop();
     }
 }

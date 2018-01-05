@@ -1,8 +1,8 @@
 <?php
 
-namespace cubes\content\article;
+namespace cubes\content\staticBlock;
 
-use cubes\content\article\migrations\ArticleMigration;
+use cubes\content\staticBlock\migrations\StaticBlockMigration;
 use modules\admin\classes\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -14,7 +14,7 @@ class Cube extends AbstractCube
      */
     public function bootstrap(ContainerInterface $container)
     {
-        $entityConfig = $container->get(ArticleConfig::class);
+        $entityConfig = $container->get(StaticBlockConfig::class);
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper->defaultCrud($entityConfig);
     }
@@ -26,7 +26,7 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[ArticleRepositoryInterface::class] = \DI\object(ArticleRepositoryMicro::class);
+        $definitions[StaticBlockRepositoryInterface::class] = \DI\object(StaticBlockRepositoryMicro::class);
     }
 
     /**
@@ -35,7 +35,7 @@ class Cube extends AbstractCube
     public function getMigrations(): array
     {
         return [
-            '001_001' => ArticleMigration::class
+            '001_001' => StaticBlockMigration::class
         ];
     }
 }

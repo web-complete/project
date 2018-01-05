@@ -3,8 +3,8 @@
 namespace cubes\content\article\migrations;
 
 use Doctrine\DBAL\Connection;
-use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\migration\MigrationInterface;
+use WebComplete\microDb\MicroDb;
 
 class ArticleMigration implements MigrationInterface
 {
@@ -14,14 +14,14 @@ class ArticleMigration implements MigrationInterface
      */
     private $db;
     /**
-     * @var AliasService
+     * @var MicroDb
      */
-    private $aliasService;
+    private $microDb;
 
-    public function __construct(Connection $db, AliasService $aliasService)
+    public function __construct(Connection $db, MicroDb $microDb)
     {
         $this->db = $db;
-        $this->aliasService = $aliasService;
+        $this->microDb = $microDb;
     }
 
     public function up()
@@ -51,6 +51,6 @@ class ArticleMigration implements MigrationInterface
     {
         $sql = 'DROP TABLE IF EXISTS `article`';
         $this->db->exec($sql);
-        @\unlink($this->aliasService->get('@storage/micro-db/app_article.fdb'));
+        $this->microDb->getCollection('article')->drop();
     }
 }

@@ -3,8 +3,8 @@
 namespace cubes\system\file\migrations;
 
 use Doctrine\DBAL\Connection;
-use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\migration\MigrationInterface;
+use WebComplete\microDb\MicroDb;
 
 class FileMigration implements MigrationInterface
 {
@@ -14,18 +14,14 @@ class FileMigration implements MigrationInterface
      */
     private $db;
     /**
-     * @var AliasService
+     * @var MicroDb
      */
-    private $aliasService;
+    private $microDb;
 
-    /**
-     * @param Connection $db
-     * @param AliasService $aliasService
-     */
-    public function __construct(Connection $db, AliasService $aliasService)
+    public function __construct(Connection $db, MicroDb $microDb)
     {
         $this->db = $db;
-        $this->aliasService = $aliasService;
+        $this->microDb = $microDb;
     }
 
     public function up()
@@ -50,6 +46,6 @@ class FileMigration implements MigrationInterface
     {
         $sql = 'DROP TABLE IF EXISTS `file`';
         $this->db->exec($sql);
-        @\unlink($this->aliasService->get('@storage/micro-db/app_file.fdb'));
+        $this->microDb->getCollection('file')->drop();
     }
 }
