@@ -2,6 +2,8 @@
 
 namespace cubes\content\staticBlock;
 
+use WebComplete\core\entity\AbstractEntity;
+
 /**
  *
  * @property $code
@@ -9,7 +11,7 @@ namespace cubes\content\staticBlock;
  * @property $description
  * @property $content
  */
-class StaticBlock
+class StaticBlock extends AbstractEntity
 {
 
     /**

@@ -19,6 +19,7 @@ class StaticBlockConfig extends EntityConfig
     public $name = 'static-block';
     public $titleList = 'Статические блоки';
     public $titleDetail = 'Статический блок';
+    public $menuItemSort = 50;
     public $menuSectionName = 'Контент';
     public $entityServiceClass = StaticBlockService::class;
     public $controllerClass = Controller::class;
@@ -80,6 +81,7 @@ class StaticBlockConfig extends EntityConfig
     public function getForm(): AbstractForm
     {
         return new AdminForm([
+            [['code'], 'required', [], AdminForm::MESSAGE_REQUIRED],
             // TODO it
         ]);
     }
