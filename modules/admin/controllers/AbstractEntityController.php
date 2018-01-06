@@ -73,7 +73,7 @@ class AbstractEntityController extends AbstractController
             $item = $entityService->create();
         }
 
-        $detailFields = $this->detailFieldsProcess($entityConfig->getDetailFields(), $item);
+        $detailFields = $this->detailFieldsProcess($entityConfig->getDetailFields($item), $item);
 
         return $this->responseJsonSuccess([
             'title' => $entityConfig->titleDetail,

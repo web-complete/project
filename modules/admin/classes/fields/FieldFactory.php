@@ -141,6 +141,17 @@ class FieldFactory
      * @param string $title
      * @param string $name
      *
+     * @return FieldHtml
+     */
+    public function html(string $title, string $name): FieldHtml
+    {
+        return new FieldHtml($title, $name);
+    }
+
+    /**
+     * @param string $title
+     * @param string $name
+     *
      * @return FieldFile
      */
     public function file(string $title, string $name): FieldFile

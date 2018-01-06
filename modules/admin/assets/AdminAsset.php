@@ -63,6 +63,7 @@ class AdminAsset extends AbstractAsset
             'js/lib/redactor10/redactor.js',
             'js/lib/redactor10/plugins/table/table.js',
             'js/lib/redactor10/lang/ru.js',
+            'js/lib/ace-min-noconflict/ace.js',
             'js/store/StoreNavigation.js',
             'js/store/StoreSettings.js',
 
@@ -78,6 +79,7 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueFieldSelect.js',
             'js/vue/ui/VueFieldTextarea.js',
             'js/vue/ui/VueFieldRedactor.js',
+            'js/vue/ui/VueFieldHtml.js',
             'js/vue/ui/VueFieldFile.js',
             'js/vue/ui/VueFieldImage.js',
             'js/vue/ui/VueFieldImageModalCrop.js',

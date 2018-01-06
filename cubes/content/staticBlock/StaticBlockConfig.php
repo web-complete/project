@@ -30,9 +30,9 @@ class StaticBlockConfig extends EntityConfig
     public static function getFieldTypes(): array
     {
         return [
-            'code' => Cast::STRING,
+            'namespace' => Cast::STRING,
+            'name' => Cast::STRING,
             'type' => Cast::INT,
-            'description' => Cast::STRING,
             'content' => Cast::STRING,
         ];
     }
@@ -45,8 +45,8 @@ class StaticBlockConfig extends EntityConfig
         $cells = CellFactory::build();
         return [
             $cells->string('ID', 'id', \SORT_DESC),
-            $cells->string('Код', 'code', \SORT_DESC),
-            $cells->string('Описание', 'description'),
+            $cells->string('Раздел', 'namespace', \SORT_DESC),
+            $cells->string('Название', 'name', \SORT_DESC),
             $cells->string('Тип', 'type', \SORT_DESC),
         ];
     }
@@ -59,7 +59,8 @@ class StaticBlockConfig extends EntityConfig
         $filters = FilterFactory::build();
         return [
             $filters->string('ID', 'id', FilterFactory::MODE_EQUAL),
-            $filters->string('Код', 'code', FilterFactory::MODE_LIKE),
+            $filters->string('Раздел', 'namespace', FilterFactory::MODE_LIKE),
+            $filters->string('Название', 'name', FilterFactory::MODE_LIKE),
         ];
     }
 
@@ -69,10 +70,13 @@ class StaticBlockConfig extends EntityConfig
     public function getDetailFields(): array
     {
         $fields = FieldFactory::build();
-        return [
-            $fields->string('Код', 'code'),
-            // TODO it
+        $result = [
+            $fields->string('Раздел', 'namespace')->disabled(),
+            $fields->string('Название', 'name')->disabled(),
         ];
+        /* @see Controller (+ add dynamic "content" field in controller) */
+
+        return $result;
     }
 
     /**
@@ -81,8 +85,7 @@ class StaticBlockConfig extends EntityConfig
     public function getForm(): AbstractForm
     {
         return new AdminForm([
-            [['code'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            // TODO it
+            [['content']],
         ]);
     }
 }

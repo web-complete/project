@@ -6,10 +6,10 @@ class VueRoutes
 {
 
     protected $routes = [
-        890 => ['path' => '/detail/:entity/:id', 'component' => 'VuePageEntityDetail'],
-        900 => ['path' => '/list/:entity', 'component' => 'VuePageEntityList'],
-        1000 => ['path' => '/', 'component' => 'VuePageMain'],
-        1100 => ['path' => '*', 'component' => 'VuePage404'],
+        ['path' => '/detail/:entity/:id', 'component' => 'VuePageEntityDetail', 'sort' => 890],
+        ['path' => '/list/:entity', 'component' => 'VuePageEntityList', 'sort' => 900],
+        ['path' => '/', 'component' => 'VuePageMain', 'sort' => 1000],
+        ['path' => '*', 'component' => 'VuePage404', 'sort' => 1100],
     ];
 
     /**
@@ -19,7 +19,9 @@ class VueRoutes
     {
         $result = '[';
         $routes = $this->routes;
-        \ksort($routes, \SORT_NUMERIC);
+        \usort($routes, function (array $route1, array $route2) {
+            return $route1['sort'] <=> $route2['sort'];
+        });
         foreach ($routes as $route) {
             $result .= '{';
             $result .= 'path: ' . \json_encode($route['path'], \JSON_UNESCAPED_SLASHES);
@@ -35,6 +37,7 @@ class VueRoutes
      */
     public function addRoute(int $position, array $routeDefinition)
     {
-        $this->routes[$position] = $routeDefinition;
+        $routeDefinition['sort'] = $position;
+        $this->routes[] = $routeDefinition;
     }
 }

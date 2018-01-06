@@ -6,9 +6,9 @@ use WebComplete\core\entity\AbstractEntity;
 
 /**
  *
- * @property $code
+ * @property $namespace
+ * @property $name
  * @property $type
- * @property $description
  * @property $content
  */
 class StaticBlock extends AbstractEntity

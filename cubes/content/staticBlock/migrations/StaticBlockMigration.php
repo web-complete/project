@@ -32,15 +32,15 @@ class StaticBlockMigration implements MigrationInterface
     {
         $sql = 'CREATE TABLE IF NOT EXISTS `static_block` (
               `id` INT(11) NOT NULL AUTO_INCREMENT,
-              `code` varchar(50) NOT NULL,
+              `namespace` varchar(100) NOT NULL,
+              `name` varchar(255) NOT NULL,
               `type` tinyint(1) DEFAULT 1,
-              `description` varchar(1000),
               `content` text,
               PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 
         $this->db->exec($sql);
-        $this->db->exec('CREATE UNIQUE INDEX static_block_idx1 ON `static_block` (`code`)');
+        $this->db->exec('CREATE UNIQUE INDEX static_block_idx1 ON `static_block` (`namespace`, `name`)');
     }
 
     public function down()
