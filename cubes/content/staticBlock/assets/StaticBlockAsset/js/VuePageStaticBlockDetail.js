@@ -26,6 +26,7 @@ VuePageStaticBlockDetail = {
                 <div class="form-actions">
                     <vue-button @click="saveItem">Сохранить</vue-button>
                     <vue-button @click.prevent="saveItem($event, true)">Применить</vue-button>
+                    <vue-button @click.prevent="deleteItem" class="gray">Удалить</vue-button>
                 </div>
             </form>
         </div>
@@ -86,6 +87,14 @@ VuePageStaticBlockDetail = {
                     this.errors = response.errors || {};
                     Notify.error(response.error || 'Ошибка сохранения');
                 }
+            }.bind(this));
+        },
+        deleteItem(){
+            Modal.confirm('Вы уверены?', function(){
+                Request.delete(this.apiUrl, {id: this.entityId}, function(){
+                    Notify.successDefault();
+                    this.$router.push(this.listRoute);
+                }.bind(this));
             }.bind(this));
         }
     }

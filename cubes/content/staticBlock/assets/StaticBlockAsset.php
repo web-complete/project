@@ -31,7 +31,6 @@ class StaticBlockAsset extends AbstractAsset
         return [
             'js/VuePageStaticBlockList.js',
             'js/VuePageStaticBlockDetail.js',
-            'js/VueStaticBlockList.js',
         ];
     }
 }

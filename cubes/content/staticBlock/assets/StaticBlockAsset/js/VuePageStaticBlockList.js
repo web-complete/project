@@ -7,7 +7,7 @@ VuePageStaticBlockList = {
         </div>
         
         <transition name="fade">
-            <vue-static-block-list @title="title = $event" :entityName="entityName" :key="entityName"></vue-static-block-list>
+            <vue-entity-list @title="title = $event" :entityName="entityName" :key="entityName"></vue-entity-list>
         </transition>
     </div>
 </div>
