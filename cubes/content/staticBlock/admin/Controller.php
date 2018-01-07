@@ -18,6 +18,16 @@ class Controller extends AbstractEntityController
     protected $entityConfigClass = StaticBlockConfig::class;
 
     /**
+     * @param Condition $condition
+     */
+    protected function prepareListCondition(Condition $condition)
+    {
+        $sortField = $this->request->get('sortField', 'namespace') ?: 'namespace';
+        $sortDir = $this->request->get('sortDir', 'asc') ?: 'asc';
+        $condition->addSort($sortField, $sortDir === 'desc' ? \SORT_DESC : \SORT_ASC);
+    }
+
+    /**
      * @param $entityService
      * @param $paginator
      * @param $condition
