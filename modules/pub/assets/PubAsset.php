@@ -21,6 +21,7 @@ class PubAsset extends AbstractAsset
     public function css(): array
     {
         return [
+            'css/pub.css',
         ];
     }
 

@@ -7,6 +7,7 @@ $fields = FieldFactory::build();
 return [
     'sections' => [
         'common' => 'Основное',
+        'counters' => 'Счетчики',
         'examples' => 'Примеры',
         'system' => 'Система',
         'theme' => 'Оформление',
@@ -15,6 +16,10 @@ return [
         'common' => [
             'site_name' => $fields->string('Название сайта', 'site_name'),
             'site_description' => $fields->string('Описание сайта', 'site_description'),
+        ],
+        'counters' => [
+            'counter_yandex' => $fields->textarea('Яндекс.Метрика', 'counter_yandex'),
+            'counter_google' => $fields->textarea('Google Analytics', 'counter_google'),
         ],
         'examples' => [
             'field_string' => $fields->string('string', 'field_string'),
