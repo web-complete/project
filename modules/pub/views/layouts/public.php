@@ -1,11 +1,15 @@
 <?php
 
 use cubes\system\settings\Settings;
+use modules\pub\widgets\FooterWidget;
+use modules\pub\widgets\HeaderWidget;
 
 /** @var \WebComplete\mvc\view\View $this */
 /** @var $content */
 
 $settings = $this->getContainer()->get(Settings::class);
+$headerWidget = $this->getContainer()->get(HeaderWidget::class);
+$footerWidget = $this->getContainer()->get(FooterWidget::class);
 
 ?>
 <!DOCTYPE html>
@@ -24,7 +28,9 @@ $settings = $this->getContainer()->get(Settings::class);
 <body>
 <?=$settings->get('counter_yandex') ?>
 <?=$settings->get('counter_google') ?>
+<?=$headerWidget->run(); ?>
 <?=$content ?>
+<?=$footerWidget->run(); ?>
 <?=$this->getAssetManager()->applyJs() ?>
 
 </body>
