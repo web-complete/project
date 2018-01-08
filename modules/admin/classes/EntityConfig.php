@@ -11,7 +11,7 @@ use WebComplete\form\AbstractForm;
 abstract class EntityConfig
 {
     /**
-     * entity name in snake-style
+     * entity name in snake-case
      * @var string
      */
     public $name = null;
