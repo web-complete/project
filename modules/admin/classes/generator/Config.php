@@ -11,6 +11,7 @@ class Config
     public $name; // example: product-property
     public $nameVar; // example: productProperty
     public $nameCamel; // example: ProductProperty
+    public $nameUnderscore; // example: product_property
     public $type;
     public $path;
     public $namespace;
@@ -40,7 +41,8 @@ class Config
         $this->force = $force;
         $this->nameVar = $inflectorHelper->variablize($this->name);
         $this->nameCamel = $inflectorHelper->camelize($this->name);
+        $this->nameUnderscore = $inflectorHelper->underscore($this->nameCamel);
         $this->path = $aliasService->get('@app/cubes/' . $this->section . '/' . $this->nameVar);
-        $this->namespace = 'cubes\\' . $this->section;
+        $this->namespace = 'cubes\\' . $this->section . '\\' . $this->nameVar;
     }
 }

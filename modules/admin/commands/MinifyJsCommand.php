@@ -96,9 +96,9 @@ class MinifyJsCommand extends Command
             $command .= 'minify ' . \implode(' ', $files) . ' -o ' . $outFile;
             \system($command);
             if (\file_exists($outFile)) {
-                $output->writeln('File created: ' . $outFile);
+                $output->writeln('File was created: ' . $outFile);
             } else {
-                $output->writeln('ERROR File not created: ' . $outFile);
+                $output->writeln('ERROR File was not created: ' . $outFile);
             }
         }
     }

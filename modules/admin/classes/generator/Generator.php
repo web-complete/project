@@ -40,12 +40,13 @@ class Generator
     }
 
     /**
+     * @return string
      * @throws Exception
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \WebComplete\core\utils\alias\AliasException
      */
-    public function run()
+    public function run(): string
     {
         $this->createCubeDirectory();
         switch ($this->config->type) {
@@ -58,6 +59,7 @@ class Generator
                 $cubeGenerator->generate();
                 break;
         }
+        return $this->config->path;
     }
 
     /**

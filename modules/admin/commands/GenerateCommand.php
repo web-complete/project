@@ -13,6 +13,10 @@ use WebComplete\core\utils\alias\AliasService;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\core\utils\helpers\InflectorHelper;
 
+/**
+ * Class GenerateCommand
+ * Usage example: php ./console.php admin:generate catalog product-property -t entity -f
+ */
 class GenerateCommand extends Command
 {
 
@@ -72,7 +76,8 @@ class GenerateCommand extends Command
             $force
         );
         $generator = new Generator($this->container, $config);
-        $generator->run();
+        $path = $generator->run();
+        $output->writeln('The cube was created: ' . $path);
         return null;
     }
 }

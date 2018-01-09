@@ -17,8 +17,8 @@ use modules\admin\classes\CubeHelper;
 class Cube extends AbstractCube
 {
     /**
-    * @param ContainerInterface $container
-    */
+     * @param ContainerInterface $container
+     */
     public function bootstrap(ContainerInterface $container)
     {
         $entityConfig = $container->get(<?=$config->nameCamel ?>Config::class);
@@ -27,18 +27,18 @@ class Cube extends AbstractCube
     }
 
     /**
-    * @param $definitions
-    *
-    * @return void
-    */
+     * @param $definitions
+     *
+     * @return void
+     */
     public function registerDependencies(array &$definitions)
     {
         $definitions[<?=$config->nameCamel ?>RepositoryInterface::class] = \DI\object(<?=$config->nameCamel ?>RepositoryMicro::class);
     }
 
     /**
-    * @return array
-    */
+     * @return array
+     */
     public function getMigrations(): array
     {
         return [
