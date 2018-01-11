@@ -82,6 +82,8 @@ VuePageStaticBlockDetail = {
                     Notify.successDefault();
                     if (!toContinue) {
                         this.$router.push(this.listRoute);
+                    } else {
+                        this.$router.push('/detail/' + this.entityName + '/' + response.id);
                     }
                 } else {
                     this.errors = response.errors || {};
