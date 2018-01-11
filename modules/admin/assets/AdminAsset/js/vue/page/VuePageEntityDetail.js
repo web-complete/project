@@ -82,6 +82,8 @@ VuePageEntityDetail = {
                     Notify.successDefault();
                     if (!toContinue) {
                         this.$router.push(this.listRoute);
+                    } else {
+                        this.$router.push(this.listRoute + '/' + response.id);
                     }
                 } else {
                     this.errors = response.errors || {};
