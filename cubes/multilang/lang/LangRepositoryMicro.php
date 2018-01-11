@@ -12,7 +12,7 @@ class LangRepositoryMicro extends AbstractEntityRepositoryMicro implements LangR
     protected $collectionName = 'lang';
 
     /**
-     * @param ProductPropertyFactory $factory
+     * @param LangFactory $factory
      * @param MicroDb $microDb
      * @param ConditionMicroDbParser $conditionParser
      */

@@ -19,7 +19,7 @@ class <?=$config->nameCamel ?>RepositoryMicro extends AbstractEntityRepositoryMi
     protected $collectionName = '<?=$config->nameUnderscore ?>';
 
     /**
-     * @param ProductPropertyFactory $factory
+     * @param <?=$config->nameCamel ?>Factory $factory
      * @param MicroDb $microDb
      * @param ConditionMicroDbParser $conditionParser
      */

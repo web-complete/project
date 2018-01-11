@@ -12,7 +12,7 @@ class LangRepositoryDb extends AbstractEntityRepositoryDb implements LangReposit
     protected $table = 'lang';
 
     /**
-     * @param ProductPropertyFactory $factory
+     * @param LangFactory $factory
      * @param ConditionDbParser $conditionParser
      * @param Connection $db
      */

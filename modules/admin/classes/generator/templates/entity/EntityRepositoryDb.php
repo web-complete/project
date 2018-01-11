@@ -19,7 +19,7 @@ class <?=$config->nameCamel ?>RepositoryDb extends AbstractEntityRepositoryDb im
     protected $table = '<?=$config->nameUnderscore ?>';
 
     /**
-     * @param ProductPropertyFactory $factory
+     * @param <?=$config->nameCamel ?>Factory $factory
      * @param ConditionDbParser $conditionParser
      * @param Connection $db
      */
