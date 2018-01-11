@@ -80,10 +80,10 @@ VuePageStaticBlockDetail = {
             Request.post(this.apiUrl, data, function(response){
                 if (response.result) {
                     Notify.successDefault();
-                    if (!toContinue) {
-                        this.$router.push(this.listRoute);
-                    } else {
+                    if (toContinue) {
                         this.$router.push('/detail/' + this.entityName + '/' + response.id);
+                    } else {
+                        this.$router.push(this.listRoute);
                     }
                 } else {
                     this.errors = response.errors || {};

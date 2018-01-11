@@ -67,9 +67,11 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
     {
         /** @var Lang $lang */
         if (!$lang = $this->findOne($this->createCondition(['is_main' => 1]))) {
-            $lang = $this->createFromData([
-                'code' => self::DEFAULT_CODE
-            ]);
+            if (!$lang = $this->findOne($this->createCondition())) {
+                $lang = $this->createFromData([
+                    'code' => self::DEFAULT_CODE
+                ]);
+            }
         }
 
         return $lang;
