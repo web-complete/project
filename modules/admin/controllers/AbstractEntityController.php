@@ -101,7 +101,9 @@ class AbstractEntityController extends AbstractController
         if ($form->validate() && $this->beforeSave($item, $form)) {
             $entityService->save($item, $itemOldData);
             $this->afterSave($item, $form);
-            return $this->responseJsonSuccess();
+            return $this->responseJsonSuccess([
+                'id' => $item->getId(),
+            ]);
         }
 
         $errors = $form->getFirstErrors();

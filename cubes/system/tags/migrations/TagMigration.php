@@ -2,7 +2,7 @@
 
 namespace cubes\system\tags\migrations;
 
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use WebComplete\core\utils\migration\MigrationInterface;
 use WebComplete\microDb\MicroDb;
 
@@ -18,6 +18,10 @@ class TagMigration implements MigrationInterface
      */
     private $microDb;
 
+    /**
+     * @param Connection $db
+     * @param MicroDb $microDb
+     */
     public function __construct(Connection $db, MicroDb $microDb)
     {
         $this->db = $db;
