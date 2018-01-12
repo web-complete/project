@@ -8,4 +8,6 @@ use modules\admin\controllers\AbstractEntityController;
 class Controller extends AbstractEntityController
 {
     protected $entityConfigClass = LangConfig::class;
+    protected $defaultSortField = 'sort';
+    protected $defaultSortDir = 'asc';
 }

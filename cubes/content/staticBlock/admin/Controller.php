@@ -16,16 +16,8 @@ use WebComplete\core\utils\paginator\Paginator;
 class Controller extends AbstractEntityController
 {
     protected $entityConfigClass = StaticBlockConfig::class;
-
-    /**
-     * @param Condition $condition
-     */
-    protected function prepareListCondition(Condition $condition)
-    {
-        $sortField = $this->request->get('sortField', 'namespace') ?: 'namespace';
-        $sortDir = $this->request->get('sortDir', 'asc') ?: 'asc';
-        $condition->addSort($sortField, $sortDir === 'desc' ? \SORT_DESC : \SORT_ASC);
-    }
+    protected $defaultSortField = 'namespace';
+    protected $defaultSortDir = 'asc';
 
     /**
      * @param $entityService
@@ -80,5 +72,4 @@ class Controller extends AbstractEntityController
 
         return parent::detailFieldsProcess($detailFields, $item);
     }
-
 }

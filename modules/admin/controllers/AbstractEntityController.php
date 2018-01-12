@@ -15,9 +15,11 @@ use WebComplete\form\AbstractForm;
 class AbstractEntityController extends AbstractController
 {
 
-    protected $itemsPerPage = 25;
     protected $entityConfigClass;
     protected $messageFormError = 'Ошибка валидации формы';
+    protected $itemsPerPage = 25;
+    protected $defaultSortField = 'id';
+    protected $defaultSortDir = 'desc';
 
     /**
      * @return Response
@@ -146,8 +148,8 @@ class AbstractEntityController extends AbstractController
      */
     protected function prepareListCondition(Condition $condition)
     {
-        $sortField = $this->request->get('sortField', 'id') ?: 'id';
-        $sortDir = $this->request->get('sortDir', 'desc') ?: 'desc';
+        $sortField = $this->request->get('sortField', $this->defaultSortField) ?: $this->defaultSortField;
+        $sortDir = $this->request->get('sortDir', $this->defaultSortDir) ?: $this->defaultSortDir;
         $condition->addSort($sortField, $sortDir === 'desc' ? \SORT_DESC : \SORT_ASC);
     }
 
