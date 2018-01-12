@@ -13,9 +13,7 @@ VuePageEntityDetail = {
     
             <form @submit.prevent="saveItem" class="form-detail">
                 <vue-multilang-select v-if="isMultilang" @input="setLang"></vue-multilang-select>
-                <vue-field v-for="field in detailFields"
-                <!-- TODO -->
-                ></vue-field>
+                <vue-field v-for="field in detailFields" :filed="field" :key="field.name"></vue-field>
                 
                 <component v-for="field in detailFields"
                            :is="field.component"
