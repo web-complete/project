@@ -5,6 +5,7 @@ use modules\admin\controllers\AbstractController;
 /** @var \WebComplete\mvc\view\View $this */
 /** @var array $settingsState */
 /** @var array $userState */
+/** @var array $langState */
 /** @var array $navigation */
 /** @var string $routesJson */
 
@@ -33,6 +34,7 @@ $themeColor1 = $settings->get('theme_color1', '#F1A800');
         store.state.navigation.nav = <?=\json_encode($navigation) ?>;
         store.state.user = <?=\json_encode($userState) ?>;
         store.state.settings = <?=\json_encode($settingsState) ?>;
+        store.state.lang = <?=\json_encode($langState) ?>;
         VueApp.router = new VueRouter({routes: <?=$routesJson ?>});
         window.bus = new Vue();
         Vue.use(Toasted);

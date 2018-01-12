@@ -66,12 +66,14 @@ class AdminAsset extends AbstractAsset
             'js/lib/ace-min-noconflict/ace.js',
             'js/store/StoreNavigation.js',
             'js/store/StoreSettings.js',
+            'js/store/StoreLang.js',
 
             'js/model/Notify.js',
             'js/model/Modal.js',
 
             'js/vue/ui/VueTabs.js',
             'js/vue/ui/VueTab.js',
+            'js/vue/ui/VueMultilangSelect.js',
             'js/vue/ui/VueFieldString.js',
             'js/vue/ui/VueFieldDate.js',
             'js/vue/ui/VueFieldDateTime.js',

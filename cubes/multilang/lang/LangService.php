@@ -104,6 +104,20 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
     }
 
     /**
+     * @return array
+     */
+    public function getState(): array
+    {
+        $result = [
+            'langs' => []
+        ];
+        foreach ($this->getLangs() as $lang) {
+            $result['langs'][] = $lang->mapToArray();
+        }
+        return $result;
+    }
+
+    /**
      * Check that main language is only one
      * @param Lang|AbstractEntity $item
      * @param array $oldData

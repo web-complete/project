@@ -80,11 +80,11 @@ class ArticleConfig extends EntityConfig
     {
         $fields = FieldFactory::build();
         return [
-            $fields->string('Заголовок', 'title'),
+            $fields->string('Заголовок', 'title')->multilang(),
             $fields->image('Изображение на списке', 'image_list'),
             $fields->image('Изображение детальное', 'image_detail'),
-            $fields->textarea('Анонс', 'description'),
-            $fields->redactor('Содержание', 'text'),
+            $fields->textarea('Анонс', 'description')->multilang(),
+            $fields->redactor('Содержание', 'text')->multilang(),
             $fields->tags('Теги', 'tags', $this->entityServiceClass),
             $fields->date('Дата публикации', 'published_on'),
             $fields->number('Просмотры', 'viewed'),

@@ -57,6 +57,39 @@ abstract class FieldAbstract
     }
 
     /**
+     * @param bool $isMultilang
+     *
+     * @return $this
+     */
+    public function multilang(bool $isMultilang = true)
+    {
+        $this->data['fieldParams']['multilang'] = $isMultilang;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMultilang(): bool
+    {
+        return $this->data['fieldParams']['multilang'] ?? false;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return $this
+     */
+    public function multilangData(array $data)
+    {
+        if (!isset($this->data['fieldParams'])) {
+            $this->data['fieldParams'] = [];
+        }
+        $this->data['fieldParams']['multilangData'] = $data;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string

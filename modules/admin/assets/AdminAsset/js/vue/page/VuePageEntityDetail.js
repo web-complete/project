@@ -12,6 +12,11 @@ VuePageEntityDetail = {
             </div>
     
             <form @submit.prevent="saveItem" class="form-detail">
+                <vue-multilang-select v-if="isMultilang" @input="setLang"></vue-multilang-select>
+                <vue-field v-for="field in detailFields"
+                <!-- TODO -->
+                ></vue-field>
+                
                 <component v-for="field in detailFields"
                            :is="field.component"
                            :fieldParams="field.fieldParams"
@@ -37,6 +42,7 @@ VuePageEntityDetail = {
         return {
             title: '',
             detailFields: [],
+            isMultilang: false,
             errors: {}
         }
     },
@@ -67,6 +73,7 @@ VuePageEntityDetail = {
                 if (response.result) {
                     this.title = response.title;
                     this.detailFields = response.detailFields;
+                    this.isMultilang = response.isMultilang;
                 } else {
                     Notify.errorDefault();
                 }
@@ -98,6 +105,9 @@ VuePageEntityDetail = {
                     this.$router.push(this.listRoute);
                 }.bind(this));
             }.bind(this));
+        },
+        setLang(langCode){
+            console.log(langCode);
         }
     }
 };

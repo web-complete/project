@@ -2,6 +2,7 @@
 
 namespace modules\admin\controllers;
 
+use modules\admin\AbstractMultilangEntity;
 use modules\admin\classes\EntityConfig;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\FilterFactory;
@@ -75,11 +76,12 @@ class AbstractEntityController extends AbstractController
             $item = $entityService->create();
         }
 
-        $detailFields = $this->detailFieldsProcess($entityConfig->getDetailFields($item), $item);
+        $detailFields = $this->detailFieldsProcess($entityConfig->getDetailFields(), $item);
 
         return $this->responseJsonSuccess([
             'title' => $entityConfig->titleDetail,
             'detailFields' => $detailFields,
+            'isMultilang' => $item instanceof AbstractMultilangEntity,
         ]);
     }
 
@@ -183,7 +185,12 @@ class AbstractEntityController extends AbstractController
     protected function detailFieldsProcess(array $detailFields, AbstractEntity $item): array
     {
         $result = [];
+        /** @var AbstractMultilangEntity $item */
+        $isMultilang = $item instanceof AbstractMultilangEntity;
         foreach ($detailFields as $field) {
+            if ($isMultilang && $field->isMultilang()) {
+                $field->multilangData($item->getMultilangData($field->getName()));
+            }
             $field->value($item->get($field->getName()));
             $field->processField();
             $result[] = $field->get();

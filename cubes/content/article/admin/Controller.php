@@ -9,5 +9,4 @@ class Controller extends AbstractEntityController
 {
     protected $entityConfigClass = ArticleConfig::class;
     protected $defaultSortField = 'published_on';
-    protected $defaultSortDir = 'desc';
 }

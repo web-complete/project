@@ -2,7 +2,7 @@
 
 namespace cubes\content\article;
 
-use WebComplete\core\entity\AbstractEntity;
+use modules\admin\AbstractMultilangEntity;
 
 /**
  *
@@ -18,7 +18,7 @@ use WebComplete\core\entity\AbstractEntity;
  * @property $updated_on
  * @property $published_on
  */
-class Article extends AbstractEntity
+class Article extends AbstractMultilangEntity
 {
 
     /**
