@@ -6,25 +6,17 @@ VuePageEntityDetail = {
             <div class="page-top">
                 <h1>
                     <router-link class="back" :to="'/list/'+entityName"><i class="ion-chevron-left"></i></router-link>
-                    {{title}}
-                    <small v-if="entityId">#{{entityId}}</small>
+                    {{title}} <small v-if="entityId">#{{entityId}}</small>
                 </h1>
             </div>
     
             <form @submit.prevent="saveItem" class="form-detail">
-                <vue-multilang-select v-if="isMultilang" @input="setLang"></vue-multilang-select>
-                <vue-field v-for="field in detailFields" :filed="field" :key="field.name"></vue-field>
-                
-                <component v-for="field in detailFields"
-                           :is="field.component"
-                           :fieldParams="field.fieldParams"
-                           :label="field.title"
-                           :name="field.name"
-                           :error="errors[field.name]"
+                <vue-multilang-select v-if="isMultilang" @input="currentLang = $event"></vue-multilang-select>
+                <vue-field v-for="field in detailFields"
+                           :field="field"
+                           :currentLang="currentLang || $store.getters.mainLang.code"
                            :key="field.name"
-                           v-model="field.value"
-                           @input="$delete(errors, field.name)"
-                ></component>
+                ></vue-field>
 
                 <div class="form-actions">
                     <vue-button @click="saveItem">Сохранить</vue-button>
@@ -41,7 +33,7 @@ VuePageEntityDetail = {
             title: '',
             detailFields: [],
             isMultilang: false,
-            errors: {}
+            currentLang: null
         }
     },
     computed: {
@@ -78,11 +70,7 @@ VuePageEntityDetail = {
             }.bind(this));
         },
         saveItem($e, toContinue){
-            let data = {id: this.entityId};
-            _.each(this.detailFields, function(field){
-                data[field.name] = field.value;
-            });
-            Request.post(this.apiUrl, data, function(response){
+            Request.post(this.apiUrl, this.getCurrentData(), function(response){
                 if (response.result) {
                     Notify.successDefault();
                     if (toContinue) {
@@ -91,7 +79,13 @@ VuePageEntityDetail = {
                         this.$router.push(this.listRoute);
                     }
                 } else {
-                    this.errors = response.errors || {};
+                    if (response.errors) {
+                        _.each(this.detailFields, function(field) {
+                            if (response.errors[field.name]) {
+                                this.$set(field, 'error', response.errors[field.name]);
+                            }
+                        }.bind(this));
+                    }
                     Notify.error(response.error || 'Ошибка сохранения');
                 }
             }.bind(this));
@@ -104,8 +98,21 @@ VuePageEntityDetail = {
                 }.bind(this));
             }.bind(this));
         },
+        getCurrentData(){
+            let data = {id: this.entityId};
+            _.each(this.detailFields, function(field){
+                data[field.name] = field.value;
+            });
+            if (this.isMultilang) {
+                data.multilang = {};
+                _.each(this.detailFields, function(field){
+                    data.multilang[field.name] = field.multilangData;
+                });
+            }
+            return data;
+        },
         setLang(langCode){
-            console.log(langCode);
+            this.currentLang = langCode;
         }
     }
 };

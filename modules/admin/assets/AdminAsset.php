@@ -74,6 +74,7 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueTabs.js',
             'js/vue/ui/VueTab.js',
             'js/vue/ui/VueMultilangSelect.js',
+            'js/vue/ui/VueField.js',
             'js/vue/ui/VueFieldString.js',
             'js/vue/ui/VueFieldDate.js',
             'js/vue/ui/VueFieldDateTime.js',

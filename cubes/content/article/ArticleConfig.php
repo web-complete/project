@@ -99,7 +99,7 @@ class ArticleConfig extends EntityConfig
     {
         return new AdminForm([
             [['title', 'text'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            [['description', 'published_on', 'tags', 'image', 'images', 'viewed', 'is_active']],
+            [['description', 'published_on', 'tags', 'image', 'images', 'viewed', 'is_active', 'multilang']],
         ]);
     }
 }

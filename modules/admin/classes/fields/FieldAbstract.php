@@ -5,7 +5,13 @@ namespace modules\admin\classes\fields;
 abstract class FieldAbstract
 {
 
-    protected $data = [];
+    protected $data = [
+        'value' => null,
+        'error' => null,
+        'isMultilang' => false,
+        'multilangData' => [],
+        'fieldParams' => [],
+    ];
 
     /**
      * @param string $component
@@ -63,7 +69,7 @@ abstract class FieldAbstract
      */
     public function multilang(bool $isMultilang = true)
     {
-        $this->data['fieldParams']['multilang'] = $isMultilang;
+        $this->data['isMultilang'] = $isMultilang;
         return $this;
     }
 
@@ -72,7 +78,7 @@ abstract class FieldAbstract
      */
     public function isMultilang(): bool
     {
-        return $this->data['fieldParams']['multilang'] ?? false;
+        return $this->data['isMultilang'] ?? false;
     }
 
     /**
@@ -82,10 +88,7 @@ abstract class FieldAbstract
      */
     public function multilangData(array $data)
     {
-        if (!isset($this->data['fieldParams'])) {
-            $this->data['fieldParams'] = [];
-        }
-        $this->data['fieldParams']['multilangData'] = $data;
+        $this->data['multilangData'] = $data;
         return $this;
     }
 
