@@ -82,7 +82,7 @@ class StaticBlockConfig extends EntityConfig
     /**
      * @return AbstractForm
      */
-    public function getForm(): AbstractForm
+    public function getForm(): AdminForm
     {
         return new AdminForm([
             [['content']],

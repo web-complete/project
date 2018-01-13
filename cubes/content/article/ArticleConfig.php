@@ -95,11 +95,11 @@ class ArticleConfig extends EntityConfig
     /**
      * @return AbstractForm
      */
-    public function getForm(): AbstractForm
+    public function getForm(): AdminForm
     {
         return new AdminForm([
             [['title', 'text'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            [['description', 'published_on', 'tags', 'image', 'images', 'viewed', 'is_active', 'multilang']],
+            [['description', 'published_on', 'tags', 'image', 'images', 'viewed', 'is_active']],
         ]);
     }
 }

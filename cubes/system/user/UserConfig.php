@@ -100,7 +100,7 @@ class UserConfig extends EntityConfig
     /**
      * @return AbstractForm
      */
-    public function getForm(): AbstractForm
+    public function getForm(): AdminForm
     {
         return new AdminForm([
             [['login', 'email', 'sex'], 'required', [], AdminForm::MESSAGE_REQUIRED],

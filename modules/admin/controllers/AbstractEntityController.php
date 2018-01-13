@@ -110,8 +110,10 @@ class AbstractEntityController extends AbstractController
             ]);
         }
 
-        $errors = $form->getFirstErrors();
-        return $this->responseJsonFail($this->messageFormError, ['errors' => $errors]);
+        return $this->responseJsonFail($this->messageFormError, [
+            'errors' => $form->getFirstErrors(),
+            'multilangErrors' => $form->getMultilangErrors(),
+        ]);
     }
 
     /**

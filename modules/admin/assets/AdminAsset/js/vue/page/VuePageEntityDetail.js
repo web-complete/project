@@ -79,13 +79,16 @@ VuePageEntityDetail = {
                         this.$router.push(this.listRoute);
                     }
                 } else {
-                    if (response.errors) {
-                        _.each(this.detailFields, function(field) {
-                            if (response.errors[field.name]) {
-                                this.$set(field, 'error', response.errors[field.name]);
-                            }
-                        }.bind(this));
-                    }
+                    _.each(this.detailFields, function(field) {
+                        this.$set(field, 'error', null);
+                        if (response.errors && response.errors[field.name]) {
+                            field.error = response.errors[field.name];
+                        }
+                        this.$set(field, 'multilangError', null);
+                        if (response.multilangErrors && response.multilangErrors[field.name]) {
+                            field.multilangError = response.multilangErrors[field.name];
+                        }
+                    }.bind(this));
                     Notify.error(response.error || 'Ошибка сохранения');
                 }
             }.bind(this));
@@ -103,12 +106,21 @@ VuePageEntityDetail = {
             _.each(this.detailFields, function(field){
                 data[field.name] = field.value;
             });
+
             if (this.isMultilang) {
                 data.multilang = {};
                 _.each(this.detailFields, function(field){
-                    data.multilang[field.name] = field.multilangData;
-                });
+                    if (field.isMultilang) {
+                        _.each(this.$store.state.lang.langs, function(lang){
+                            if (!lang.is_main) {
+                                data.multilang[lang.code] = data.multilang[lang.code] || {};
+                                data.multilang[lang.code][field.name] = field.multilangData[lang.code] || '';
+                            }
+                        }.bind(this));
+                    }
+                }.bind(this));
             }
+
             return data;
         },
         setLang(langCode){

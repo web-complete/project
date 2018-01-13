@@ -18,7 +18,7 @@ Vue.component('VueField', {
                            :fieldParams="field.fieldParams"
                            :label="field.title + ' (' + lang.code + ')'"
                            :name="field.name"
-                           :error="field.error"
+                           :error="getError(lang)"
                            :key="field.name + '_' + lang.code"
                            :value="getValue(lang)"
                            @input="setValue(lang, $event)"
@@ -37,12 +37,21 @@ Vue.component('VueField', {
     },
     methods: {
         getValue(lang){
-            return lang['is_main'] ? this.field.value : this.field['multilangData'][lang.code];
+            return lang['is_main']
+                ? this.field.value
+                : this.field['multilangData'][lang.code];
         },
         setValue(lang, value){
             lang['is_main']
                 ? this.field.value = value
                 : this.$set(this.field['multilangData'], lang.code, value);
+        },
+        getError(lang){
+            if (lang['is_main']) {
+                return this.field.error;
+            } else if (this.field['multilangError']) {
+                return this.field['multilangError'][lang.code];
+            }
         }
     }
 });

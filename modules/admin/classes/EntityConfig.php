@@ -5,6 +5,7 @@ namespace modules\admin\classes;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\FilterField;
+use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\form\AbstractForm;
 
@@ -60,5 +61,5 @@ abstract class EntityConfig
     /**
      * @return AbstractForm
      */
-    abstract public function getForm(): AbstractForm;
+    abstract public function getForm(): AdminForm;
 }

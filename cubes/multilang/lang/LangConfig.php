@@ -81,7 +81,7 @@ class LangConfig extends EntityConfig
     /**
      * @return AbstractForm
      */
-    public function getForm(): AbstractForm
+    public function getForm(): AdminForm
     {
         return new AdminForm([
             [['code', 'name'], 'required', [], AdminForm::MESSAGE_REQUIRED],
