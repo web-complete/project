@@ -13,7 +13,7 @@ Vue.component('VueField', {
             ></component>
             
             <template v-else v-for="lang in $store.state.lang.langs">
-                <component v-if="currentLang == 0 || currentLang === lang.code"
+                <component v-if="currentLang == 0 || currentLang === lang.code || getError(lang)"
                            :is="field.component"
                            :fieldParams="field.fieldParams"
                            :label="field.title + ' (' + lang.code + ')'"

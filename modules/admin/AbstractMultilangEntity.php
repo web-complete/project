@@ -19,7 +19,11 @@ abstract class AbstractMultilangEntity extends AbstractEntity
     public function getMultilangData(string $field = null): array
     {
         if ($field) {
-            return $this->multilang[$field] ?? [];
+            $result = [];
+            foreach ($this->multilang as $langCode => $langData) {
+                $result[$langCode] = $langData[$field] ?? null;
+            }
+            return $result;
         }
         return $this->multilang;
     }

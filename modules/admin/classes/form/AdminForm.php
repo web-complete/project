@@ -83,7 +83,7 @@ class AdminForm extends AbstractForm
 
         $this->multilang = [];
         foreach ($multilangData as $langCode => $langData) {
-            $this->multilang[$langCode] = \array_merge($data, $langData);
+            $this->multilang[$langCode] = $langData;
         }
     }
 
@@ -116,7 +116,7 @@ class AdminForm extends AbstractForm
         if ($this->multilang) {
             foreach ((array)$this->multilang as $langCode => $langData) {
                 $form = clone $this;
-                $form->setData($langData);
+                $form->setData(\array_merge($this->data, $langData));
                 $result &= $form->validate();
                 foreach ($form->getFirstErrors() as $field => $error) {
                     if (!isset($this->multilangErrors[$field])) {
