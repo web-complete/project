@@ -6,7 +6,6 @@ use WebComplete\form\AbstractForm;
 
 class AdminForm extends AbstractForm
 {
-
     const MESSAGE_REQUIRED = 'Поле обязательно для заполнения';
     const MESSAGE_NUMBER = 'Значение должно быть числом';
     const MESSAGE_NUMBER_INT = 'Значение должно быть целым числом';
@@ -18,8 +17,6 @@ class AdminForm extends AbstractForm
     protected $multilangErrors = [];
 
     /**
-     * FastForm constructor.
-     *
      * @param array $rules
      * @param array $filters
      * @param $validatorsObject
@@ -59,16 +56,35 @@ class AdminForm extends AbstractForm
      */
     public function setData(array $data)
     {
+        $this->setMultilangData($data);
         parent::setData($data);
-        $this->multilang = [];
-        if (isset($data['multilang'])) {
-            $multilangData = (array)$data['multilang'];
-            unset($data['multilang']);
-            foreach ($multilangData as $langCode => $langData) {
-                $this->multilang[$langCode] = \array_merge($data, $langData);
-            }
-        }
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        $data = parent::getData();
+        if ($this->multilang) {
+            $data['multilang'] = $this->multilang;
+        }
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setMultilangData(array $data)
+    {
+        $multilangData = (array)($data['multilang'] ?? []);
+        unset($data['multilang']);
+
+        $this->multilang = [];
+        foreach ($multilangData as $langCode => $langData) {
+            $this->multilang[$langCode] = \array_merge($data, $langData);
+        }
     }
 
     /**
@@ -77,7 +93,6 @@ class AdminForm extends AbstractForm
      */
     public function validate(): bool
     {
-        $this->multilangErrors = [];
         $result = $this->validateMultilang();
         return parent::validate() && $result;
     }
@@ -97,6 +112,7 @@ class AdminForm extends AbstractForm
     protected function validateMultilang(): bool
     {
         $result = true;
+        $this->multilangErrors = [];
         if ($this->multilang) {
             foreach ((array)$this->multilang as $langCode => $langData) {
                 $form = clone $this;

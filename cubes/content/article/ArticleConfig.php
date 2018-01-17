@@ -13,7 +13,6 @@ use modules\admin\classes\filter\FilterFactory;
 use modules\admin\classes\filter\FilterField;
 use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\typecast\Cast;
-use WebComplete\form\AbstractForm;
 
 class ArticleConfig extends EntityConfig
 {
@@ -93,7 +92,7 @@ class ArticleConfig extends EntityConfig
     }
 
     /**
-     * @return AbstractForm
+     * @return AdminForm
      */
     public function getForm(): AdminForm
     {
