@@ -19,6 +19,7 @@ abstract class EntityConfig
     public $titleDetail = null;
     public $entityServiceClass = null;
     public $controllerClass = null;
+    public $menuEnabled = true;
     public $menuSectionName = null;
     public $menuSectionSort = 100;
     public $menuItemSort = 100;

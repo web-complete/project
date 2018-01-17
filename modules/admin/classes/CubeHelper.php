@@ -151,8 +151,12 @@ class CubeHelper
             ->addBackendRoute(['GET', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDetail']])
             ->addBackendRoute(['POST', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionSave']])
             ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDelete']])
-            ->addMenuSection($menuSectionName, $menuSectionSort)
-            ->addMenuItem($menuSectionName, $titleList, "/list/$name", $menuItemSort)
             ->observeEntityTagField($entityConfig);
+
+        if ($entityConfig->menuEnabled) {
+            $this
+                ->addMenuSection($menuSectionName, $menuSectionSort)
+                ->addMenuItem($menuSectionName, $titleList, "/list/$name", $menuItemSort);
+        }
     }
 }
