@@ -79,18 +79,9 @@ VuePageEntityDetail = {
                         this.$router.push(this.listRoute);
                     }
                 } else {
-                    _.each(this.detailFields, function(field) {
-                        this.$set(field, 'error', null);
-                        if (response.errors && response.errors[field.name]) {
-                            field.error = response.errors[field.name];
-                        }
-                        this.$set(field, 'multilangError', null);
-                        if (response.multilangErrors && response.multilangErrors[field.name]) {
-                            field.multilangError = response.multilangErrors[field.name];
-                        }
-                    }.bind(this));
                     Notify.error(response.error || 'Ошибка сохранения');
                 }
+                this.processErrors(response);
             }.bind(this));
         },
         deleteItem(){
@@ -99,6 +90,18 @@ VuePageEntityDetail = {
                     Notify.successDefault();
                     this.$router.push(this.listRoute);
                 }.bind(this));
+            }.bind(this));
+        },
+        processErrors(response){
+            _.each(this.detailFields, function(field) {
+                this.$set(field, 'error', null);
+                if (response.errors && response.errors[field.name]) {
+                    field.error = response.errors[field.name];
+                }
+                this.$set(field, 'multilangError', null);
+                if (response.multilangErrors && response.multilangErrors[field.name]) {
+                    field.multilangError = response.multilangErrors[field.name];
+                }
             }.bind(this));
         },
         getCurrentData(){
@@ -122,9 +125,6 @@ VuePageEntityDetail = {
             }
 
             return data;
-        },
-        setLang(langCode){
-            this.currentLang = langCode;
         }
     }
 };

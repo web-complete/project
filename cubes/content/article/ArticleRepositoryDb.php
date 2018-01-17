@@ -10,6 +10,7 @@ class ArticleRepositoryDb extends AbstractEntityRepositoryDb implements ArticleR
 {
 
     protected $table = 'article';
+    protected $serializeFields = ['multilang'];
 
     public function __construct(
         ArticleFactory $factory,

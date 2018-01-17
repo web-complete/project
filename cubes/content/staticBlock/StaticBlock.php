@@ -2,7 +2,7 @@
 
 namespace cubes\content\staticBlock;
 
-use WebComplete\core\entity\AbstractEntity;
+use cubes\multilang\lang\classes\AbstractMultilangEntity;
 
 /**
  *
@@ -11,7 +11,7 @@ use WebComplete\core\entity\AbstractEntity;
  * @property $type
  * @property $content
  */
-class StaticBlock extends AbstractEntity
+class StaticBlock extends AbstractMultilangEntity
 {
 
     /**

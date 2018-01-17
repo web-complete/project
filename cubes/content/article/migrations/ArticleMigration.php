@@ -39,6 +39,7 @@ class ArticleMigration implements MigrationInterface
               `created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               `updated_on` TIMESTAMP NULL DEFAULT NULL,
               `published_on` TIMESTAMP NULL DEFAULT NULL,
+              `multilang` text,
               PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 

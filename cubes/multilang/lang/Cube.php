@@ -2,6 +2,7 @@
 
 namespace cubes\multilang\lang;
 
+use cubes\multilang\lang\assets\LangAsset;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\multilang\lang\migrations\LangMigration;
@@ -15,8 +16,11 @@ class Cube extends AbstractCube
     public function bootstrap(ContainerInterface $container)
     {
         $entityConfig = $container->get(LangConfig::class);
+        $name = $entityConfig->name;
         $cubeHelper = $container->get(CubeHelper::class);
+        $cubeHelper->appendAsset($container->get(LangAsset::class));
         $cubeHelper->defaultCrud($entityConfig);
+        $cubeHelper->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageLangDetail']);
     }
 
     /**

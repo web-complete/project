@@ -1,7 +1,7 @@
 Vue.component('VueField', {
     template: `
         <div>
-            <component v-if="!field.isMultilang"
+            <component v-if="!field.isMultilang || langs.length <= 1"
                        :is="field.component"
                        :fieldParams="field.fieldParams"
                        :label="field.title"
@@ -29,6 +29,11 @@ Vue.component('VueField', {
     props: {
         field: Object,
         currentLang: String
+    },
+    computed: {
+        langs: function(){
+            return this.$store.state.lang.langs;
+        }
     },
     created(){
         if (_.isArray(this.field['multilangData'])) {

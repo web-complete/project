@@ -7,7 +7,6 @@ use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\FilterField;
 use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\container\ContainerInterface;
-use WebComplete\form\AbstractForm;
 
 abstract class EntityConfig
 {
@@ -59,7 +58,7 @@ abstract class EntityConfig
     abstract public function getDetailFields(): array;
 
     /**
-     * @return AbstractForm
+     * @return AdminForm
      */
     abstract public function getForm(): AdminForm;
 }

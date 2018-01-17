@@ -2,7 +2,7 @@
 
 namespace modules\admin\controllers;
 
-use modules\admin\AbstractMultilangEntity;
+use cubes\multilang\lang\classes\AbstractMultilangEntity;
 use modules\admin\classes\EntityConfig;
 use modules\admin\classes\fields\FieldAbstract;
 use modules\admin\classes\filter\FilterFactory;

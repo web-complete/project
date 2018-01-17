@@ -54,13 +54,13 @@ class Controller extends AbstractEntityController
         $fields = FieldFactory::build();
         switch ($item->type) {
             case StaticBlockService::TYPE_STRING:
-                $detailFields[] = $fields->string('Содержание', 'content');
+                $detailFields[] = $fields->string('Содержание', 'content')->multilang();
                 break;
             case StaticBlockService::TYPE_TEXT:
-                $detailFields[] = $fields->redactor('Содержание', 'content');
+                $detailFields[] = $fields->redactor('Содержание', 'content')->multilang();
                 break;
             case StaticBlockService::TYPE_HTML:
-                $detailFields[] = $fields->html('Содержание', 'content');
+                $detailFields[] = $fields->html('Содержание', 'content')->multilang();
                 break;
             case StaticBlockService::TYPE_IMAGE:
                 $detailFields[] = $fields->image('Содержание', 'content');

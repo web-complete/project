@@ -2,7 +2,7 @@
 
 namespace cubes\content\article;
 
-use modules\admin\AbstractMultilangEntity;
+use cubes\multilang\lang\classes\AbstractMultilangEntity;
 
 /**
  *

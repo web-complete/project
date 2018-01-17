@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\admin;
+namespace cubes\multilang\lang\classes;
 
 use WebComplete\core\entity\AbstractEntity;
 

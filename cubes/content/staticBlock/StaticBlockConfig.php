@@ -3,6 +3,7 @@
 namespace cubes\content\staticBlock;
 
 use cubes\content\staticBlock\admin\Controller;
+use cubes\multilang\lang\classes\MultilangForm;
 use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
@@ -84,7 +85,7 @@ class StaticBlockConfig extends EntityConfig
      */
     public function getForm(): AdminForm
     {
-        return new AdminForm([
+        return new MultilangForm([
             [['content']],
         ]);
     }

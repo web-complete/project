@@ -11,5 +11,10 @@ window.store.registerModule('lang', {
             });
             return mainLang;
         }
+    },
+    mutations: {
+        updateLangState: function(state, payload){
+            state.langs = payload.langs;
+        }
     }
 });

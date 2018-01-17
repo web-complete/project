@@ -10,6 +10,7 @@ class StaticBlockRepositoryDb extends AbstractEntityRepositoryDb implements Stat
 {
 
     protected $table = 'static_block';
+    protected $serializeFields = ['multilang'];
 
     public function __construct(
         StaticBlockFactory $factory,

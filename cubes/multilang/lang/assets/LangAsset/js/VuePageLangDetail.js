@@ -1,4 +1,4 @@
-VuePageStaticBlockDetail = {
+VuePageLangDetail = {
     template: `
 <div class="page block">
     <transition name="fade">
@@ -12,10 +12,8 @@ VuePageStaticBlockDetail = {
             </div>
     
             <form @submit.prevent="saveItem" class="form-detail">
-                <vue-multilang-select v-if="isMultilang" @input="currentLang = $event"></vue-multilang-select>
                 <vue-field v-for="field in detailFields"
                            :field="field"
-                           :currentLang="currentLang || $store.getters.mainLang.code"
                            :key="field.name"
                 ></vue-field>
 
@@ -48,7 +46,7 @@ VuePageStaticBlockDetail = {
             return this.title;
         },
         entityName(){
-            return 'static-block';
+            return 'lang';
         },
         entityId(){
             return parseInt(this.$route.params.id) || 0;
@@ -73,6 +71,9 @@ VuePageStaticBlockDetail = {
         saveItem($e, toContinue){
             Request.post(this.apiUrl, this.getCurrentData(), function(response){
                 if (response.result) {
+                    if (response.state) {
+                        this.$store.commit('updateLangState', response.state);
+                    }
                     Notify.successDefault();
                     if (toContinue) {
                         this.$router.push('/detail/' + this.entityName + '/' + response.id);
@@ -87,7 +88,10 @@ VuePageStaticBlockDetail = {
         },
         deleteItem(){
             Modal.confirm('Вы уверены?', function(){
-                Request.delete(this.apiUrl, {id: this.entityId}, function(){
+                Request.delete(this.apiUrl, {id: this.entityId}, function(response){
+                    if (response.state) {
+                        this.$store.commit('updateLangState', response.state);
+                    }
                     Notify.successDefault();
                     this.$router.push(this.listRoute);
                 }.bind(this));

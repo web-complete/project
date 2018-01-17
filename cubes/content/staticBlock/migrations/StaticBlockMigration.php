@@ -36,6 +36,7 @@ class StaticBlockMigration implements MigrationInterface
               `name` varchar(255) NOT NULL,
               `type` tinyint(1) DEFAULT 1,
               `content` text,
+              `multilang` text,
               PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 

@@ -1,12 +1,12 @@
 Vue.component('VueMultilangSelect', {
     template: `
-<div class="form-row">
-    <label><b>Перевод</b></label>
-    <select class="select2">
-        <option value="0">Все языки</option>
-        <option v-for="lang in langs" :value="lang.code" :selected="lang.is_main">{{lang.name}}</option>
-    </select>
-</div>    
+        <div v-if="langs.length > 1" class="form-row">
+            <label><b>Перевод</b></label>
+            <select class="select2">
+                <option value="0">Все языки</option>
+                <option v-for="lang in langs" :value="lang.code" :selected="lang.is_main">{{lang.name}}</option>
+            </select>
+        </div>    
     `,
     computed: {
         langs: function(){
