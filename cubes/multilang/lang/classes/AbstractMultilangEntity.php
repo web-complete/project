@@ -10,6 +10,18 @@ abstract class AbstractMultilangEntity extends AbstractEntity
      * @var array
      */
     private $multilang = [];
+    private $currentLangCode = null;
+
+    /**
+     * @param string $code
+     *
+     * @return $this
+     */
+    public function setLang(string $code = null)
+    {
+        $this->currentLangCode = $code;
+        return $this;
+    }
 
     /**
      * @param string|null $field
@@ -44,6 +56,20 @@ abstract class AbstractMultilangEntity extends AbstractEntity
         $result = parent::mapToArray();
         $result['multilang'] = $this->getMultilangData();
         return $result;
+    }
+
+    /**
+     * @param string $field
+     * @param null $default
+     *
+     * @return mixed|null
+     */
+    public function get(string $field, $default = null)
+    {
+        if ($this->currentLangCode) {
+            return $this->multilang[$this->currentLangCode][$field] ?? parent::get($field, $default);
+        }
+        return parent::get($field, $default);
     }
 
     /**

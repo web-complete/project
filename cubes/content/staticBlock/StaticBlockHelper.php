@@ -13,6 +13,7 @@ class StaticBlockHelper
     protected static $currentNamespace;
     protected static $currentName;
     protected static $currentType;
+    protected static $currentLangCode;
 
     /**
      * @var StaticBlockService
@@ -24,14 +25,16 @@ class StaticBlockHelper
      * @param string $name
      * @param int $type
      *
+     * @param string|null $langCode
+     *
      * @return mixed|null
      */
-    public static function get(string $namespace, string $name, int $type)
+    public static function get(string $namespace, string $name, int $type, string $langCode = null)
     {
         $result = null;
         /** @var StaticBlock $item */
         if ($item = self::findStaticBlockItem($namespace, $name)) {
-            $result = $item->content;
+            $result = $item->setLang($langCode)->content;
         } else {
             $service = self::getStaticBlockService();
             $item = $service->create();
@@ -47,10 +50,11 @@ class StaticBlockHelper
      * @param string $namespace
      * @param string $name
      * @param int $type
+     * @param string|null $langCode
      *
      * @throws \RuntimeException
      */
-    public static function begin(string $namespace, string $name, int $type)
+    public static function begin(string $namespace, string $name, int $type, string $langCode = null)
     {
         if (!\in_array($type, [self::TYPE_STRING, self::TYPE_TEXT, self::TYPE_HTML], true)) {
             throw new \RuntimeException('begin/end available only for text static content');
@@ -58,6 +62,7 @@ class StaticBlockHelper
         self::$currentNamespace = $namespace;
         self::$currentName = $name;
         self::$currentType = $type;
+        self::$currentLangCode = $langCode;
         \ob_start();
     }
 
@@ -66,7 +71,7 @@ class StaticBlockHelper
     public static function end()
     {
         if ($item = self::findStaticBlockItem(self::$currentNamespace, self::$currentName)) {
-            $content = $item->content;
+            $content = $item->setLang(self::$currentLangCode)->content;
         } else {
             $content = \ob_get_contents();
             $service = self::getStaticBlockService();
