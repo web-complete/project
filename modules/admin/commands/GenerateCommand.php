@@ -15,7 +15,7 @@ use WebComplete\core\utils\helpers\InflectorHelper;
 
 /**
  * Class GenerateCommand
- * Usage example: php ./console.php admin:generate catalog product-property -t entity -cv -f
+ * Usage example: php ./console.php admin:generate catalog product-property -t entity -a -f
  */
 class GenerateCommand extends Command
 {

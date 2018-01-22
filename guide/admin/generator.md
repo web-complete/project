@@ -1,0 +1,1 @@
+php ./console.php admin:generate catalog product-property -t entity -a -f
