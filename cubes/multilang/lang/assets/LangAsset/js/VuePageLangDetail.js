@@ -110,7 +110,7 @@ VuePageLangDetail = {
             }.bind(this));
         },
         getCurrentData(){
-            let data = {id: this.entityId};
+            let data = {};
             _.each(this.detailFields, function(field){
                 data[field.name] = field.value;
             });
@@ -129,7 +129,7 @@ VuePageLangDetail = {
                 }.bind(this));
             }
 
-            return data;
+            return {id: this.entityId, data: data};
         }
     }
 };

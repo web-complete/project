@@ -1,4 +1,11 @@
-VuePageEntityDetail = {
+<?php
+
+use modules\admin\classes\generator\Config;
+
+/** @var Config $config */
+
+?>
+VuePage<?=$config->nameCamel ?>Detail = {
     template: `
 <div class="page block">
     <transition name="fade">
@@ -47,7 +54,7 @@ VuePageEntityDetail = {
             return this.title;
         },
         entityName(){
-            return this.$route.params['entity'];
+            return '<?=$config->name ?>';
         },
         entityId(){
             return parseInt(this.$route.params.id) || 0;

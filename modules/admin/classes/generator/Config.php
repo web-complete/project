@@ -15,6 +15,7 @@ class Config
     public $type;
     public $path;
     public $namespace;
+    public $customize;
     public $force;
 
     /**
@@ -23,6 +24,7 @@ class Config
      * @param string $section
      * @param string $name
      * @param string $type
+     * @param bool $customize
      * @param bool $force
      *
      * @throws \WebComplete\core\utils\alias\AliasException
@@ -33,11 +35,13 @@ class Config
         string $section,
         string $name,
         string $type,
+        bool $customize,
         bool $force = false
     ) {
         $this->section = $section;
         $this->name = $name;
         $this->type = $type;
+        $this->customize = $customize;
         $this->force = $force;
         $this->nameVar = $inflectorHelper->variablize($this->name);
         $this->nameCamel = $inflectorHelper->camelize($this->name);

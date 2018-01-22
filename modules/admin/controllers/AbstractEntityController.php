@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
+use WebComplete\core\utils\helpers\ArrayHelper;
 use WebComplete\core\utils\paginator\Paginator;
 use WebComplete\form\AbstractForm;
 
@@ -35,7 +36,7 @@ class AbstractEntityController extends AbstractController
         $entityService = $this->getEntityService();
 
         /** @var Condition $condition */
-        $condition = $this->container->make(Condition::class);
+        $condition = $entityService->createCondition();
         FilterFactory::build()->parse($entityConfig->getFilterFields(), $filter, $condition);
         $this->prepareListCondition($condition);
 
@@ -92,7 +93,7 @@ class AbstractEntityController extends AbstractController
     public function actionSave(): Response
     {
         $id = (int)$this->request->get('id');
-        $data = $this->request->request->all();
+        $data = (array)$this->request->request->all();
         $entityConfig = $this->getEntityConfig();
         $entityService = $this->getEntityService();
         if (!$id || !($item = $entityService->findById($id))) {
@@ -101,7 +102,7 @@ class AbstractEntityController extends AbstractController
 
         $itemOldData = $item->mapToArray();
         $form = $entityConfig->getForm();
-        $form->setData($data);
+        $form->setData($this->processNestedData($data['data'] ?? []));
         if ($form->validate() && $this->beforeSave($item, $form)) {
             $entityService->save($item, $itemOldData);
             $this->afterSave($item, $form);
@@ -193,7 +194,7 @@ class AbstractEntityController extends AbstractController
             if ($isMultilang && $field->isMultilang()) {
                 $field->multilangData($item->getMultilangData($field->getName()));
             }
-            $field->value($item->get($field->getName()));
+            $field->value($this->getNestedValue($item, $field->getName()));
             $field->processField();
             $result[] = $field->get();
         }
@@ -260,5 +261,49 @@ class AbstractEntityController extends AbstractController
     protected function getEntityService(): AbstractEntityService
     {
         return $this->container->get($this->getEntityConfig()->entityServiceClass);
+    }
+
+    /**
+     * Fetch nested field value by "dot delimiter".
+     * Example: "preferences.user.property1" will fetch: $entity->preferences['user']['property1']
+     *
+     * @param AbstractEntity $item
+     * @param string $field
+     *
+     * @return mixed|null
+     */
+    private function getNestedValue(AbstractEntity $item, string $field)
+    {
+        $path = \explode('.', $field);
+        $node = \array_shift($path);
+        $nodeValue = $item->get($node);
+        if ($path && \is_array($nodeValue)) {
+            foreach ($path as $node) {
+                $nodeValue = $nodeValue[$node] ?? null;
+                if (!$nodeValue || !\is_array($nodeValue)) {
+                    break;
+                }
+            }
+        }
+        return $nodeValue;
+    }
+
+    /**
+     * Process nested field values by "dot delimiter" and convert it to array.
+     * Example: "preferences.user.property1" will be converted to: ['preferences']['user']['property1']
+     * @param array $data
+     *
+     * @return array
+     */
+    private function processNestedData(array $data): array
+    {
+        $arrayHelper = $this->container->get(ArrayHelper::class);
+        foreach ($data as $field => $value) {
+            if (\strrpos($field, '.') !== false) {
+                $arrayHelper->setValue($data, $field, $value);
+                unset($data[$field]);
+            }
+        }
+        return $data;
     }
 }

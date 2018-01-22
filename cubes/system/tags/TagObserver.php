@@ -44,8 +44,10 @@ class TagObserver
             if ($item = $eventData['item'] ?? null) {
                 /** @var array $oldData */
                 $oldData = isset($eventData['oldData']) ? (array)$eventData['oldData'] : [];
-                $oldTags = \explode(',', $oldData[$this->tagField] ?? '');
-                $newTags = \explode(',', (string)$item->get($this->tagField));
+                $oldTagsValue = $oldData[$this->tagField] ?? '';
+                $newTagsValue = (string)$item->get($this->tagField);
+                $oldTags = $oldTagsValue ? \explode(',', $oldTagsValue) : [];
+                $newTags = $newTagsValue ? \explode(',', $newTagsValue) : [];
                 foreach (\array_diff($oldTags, $newTags) as $oldTag) {
                     $this->tagService->detachTag($oldTag, \get_class($this->entityService), $item->getId());
                 }

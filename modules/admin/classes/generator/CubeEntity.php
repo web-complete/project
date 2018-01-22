@@ -36,13 +36,9 @@ class CubeEntity
      */
     public function generate()
     {
-        if (!\mkdir($this->config->path . '/admin') && !\is_dir($this->config->path . '/admin')) {
-            throw new \RuntimeException(\sprintf('Dir "%s" was not created', $this->config->path . '/admin'));
-        }
-        if (!\mkdir($this->config->path . '/migrations') && !\is_dir($this->config->path . '/migrations')) {
-            throw new \RuntimeException(\sprintf('Dir "%s" was not created', $this->config->path . '/migrations'));
-        }
         $nameCamel = $this->config->nameCamel;
+        $this->createDir('admin');
+        $this->createDir('migrations');
         $this->renderFile('Cube.php', 'Cube.php');
         $this->renderFile('Entity.php', $nameCamel . '.php');
         $this->renderFile('EntityConfig.php', $nameCamel . 'Config.php');
@@ -53,19 +49,50 @@ class CubeEntity
         $this->renderFile('EntityService.php', $nameCamel . 'Service.php');
         $this->renderFile('migrations/EntityMigration.php', 'migrations/' . $nameCamel . 'Migration.php');
         $this->renderFile('admin/Controller.php', 'admin/Controller.php');
+
+        if ($this->config->customize) {
+            $this->createDir('assets');
+            $this->createDir('assets/' . $nameCamel . 'Asset');
+            $this->createDir('assets/' . $nameCamel . 'Asset/js');
+            $this->renderFile('assets/EntityAsset.php', 'assets/' . $nameCamel . 'Asset.php');
+            $this->renderFile(
+                'assets/js/VuePageEntityList.php',
+                'assets/' . $nameCamel . 'Asset/js/VuePage' . $nameCamel . 'List.js',
+                false
+            );
+            $this->renderFile(
+                'assets/js/VuePageEntityDetail.php',
+                'assets/' . $nameCamel . 'Asset/js/VuePage' . $nameCamel . 'Detail.js',
+                false
+            );
+        }
+    }
+
+    /**
+     * @param $name
+     *
+     * @throws \RuntimeException
+     */
+    protected function createDir($name)
+    {
+        if (!\mkdir($this->config->path . '/' . $name) && !\is_dir($this->config->path . '/' . $name)) {
+            throw new \RuntimeException(\sprintf('Dir "%s" was not created', $this->config->path . '/' . $name));
+        }
     }
 
     /**
      * @param $templateFile
      * @param $destFile
+     * @param $isPhp
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \WebComplete\core\utils\alias\AliasException
      */
-    protected function renderFile($templateFile, $destFile)
+    protected function renderFile($templateFile, $destFile, bool $isPhp = true)
     {
         $view = $this->container->get(View::class);
-        $content = '<?php' . $view->render(__DIR__ . '/templates/entity/' . $templateFile, [
+        $content = $isPhp ? '<?php' : '';
+        $content .= $view->render(__DIR__ . '/templates/entity/' . $templateFile, [
             'config' => $this->config
         ]);
         \file_put_contents($this->config->path . '/' . $destFile, $content);

@@ -97,7 +97,7 @@ class ArticleConfig extends EntityConfig
      */
     public function getForm(): AdminForm
     {
-        return new MultilangForm([
+        return new AdminForm([
             [['title', 'text'], 'required', [], AdminForm::MESSAGE_REQUIRED],
             [['description', 'published_on', 'tags', 'image', 'images', 'viewed', 'is_active']],
         ]);

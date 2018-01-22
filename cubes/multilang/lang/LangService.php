@@ -90,7 +90,9 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
      */
     public function getLangs(): array
     {
-        return $this->findAll();
+        $condition = $this->createCondition();
+        $condition->addSort('sort', \SORT_ASC);
+        return $this->findAll($condition);
     }
 
     /**

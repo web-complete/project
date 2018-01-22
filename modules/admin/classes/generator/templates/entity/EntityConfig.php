@@ -19,7 +19,6 @@ use modules\admin\classes\filter\FilterFactory;
 use modules\admin\classes\filter\FilterField;
 use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\typecast\Cast;
-use WebComplete\form\AbstractForm;
 
 class <?=$config->nameCamel ?>Config extends EntityConfig
 {
@@ -76,9 +75,9 @@ class <?=$config->nameCamel ?>Config extends EntityConfig
     }
 
     /**
-     * @return AbstractForm
+     * @return AdminForm
      */
-    public function getForm(): AbstractForm
+    public function getForm(): AdminForm
     {
         return new AdminForm([
             [['name'], 'required', [], AdminForm::MESSAGE_REQUIRED],

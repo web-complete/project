@@ -15,7 +15,7 @@ use WebComplete\core\utils\helpers\InflectorHelper;
 
 /**
  * Class GenerateCommand
- * Usage example: php ./console.php admin:generate catalog product-property -t entity -f
+ * Usage example: php ./console.php admin:generate catalog product-property -t entity -cv -f
  */
 class GenerateCommand extends Command
 {
@@ -45,6 +45,7 @@ class GenerateCommand extends Command
             ->addArgument('section', InputArgument::REQUIRED, "Cube's section (ex.: catalog)")
             ->addArgument('name', InputArgument::REQUIRED, "Cube's name in snake-case (ex.: product-property)")
             ->addOption('type', 't', InputOption::VALUE_REQUIRED, "Cube's type: empty (default), entity")
+            ->addOption('custom-assets', 'a', InputOption::VALUE_NONE, 'Customize frontend assets')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Recreate if exists');
     }
 
@@ -62,8 +63,9 @@ class GenerateCommand extends Command
     {
         $section = $input->getArgument('section');
         $name = $input->getArgument('name');
-        $type = $input->getOption('type');
+        $customize = $input->getOption('custom-assets');
         $force = $input->getOption('force');
+        $type = $input->getOption('type');
         if (!\in_array($type, Generator::$availableTypes, true)) {
             $type = Generator::DEFAULT_TYPE;
         }
@@ -73,6 +75,7 @@ class GenerateCommand extends Command
             $section,
             $name,
             $type,
+            $customize,
             $force
         );
         $generator = new Generator($this->container, $config);

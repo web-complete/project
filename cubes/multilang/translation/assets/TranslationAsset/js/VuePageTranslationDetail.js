@@ -1,4 +1,4 @@
-VuePageEntityDetail = {
+VuePageTranslationDetail = {
     template: `
 <div class="page block">
     <transition name="fade">
@@ -47,7 +47,7 @@ VuePageEntityDetail = {
             return this.title;
         },
         entityName(){
-            return this.$route.params['entity'];
+            return 'translation';
         },
         entityId(){
             return parseInt(this.$route.params.id) || 0;
