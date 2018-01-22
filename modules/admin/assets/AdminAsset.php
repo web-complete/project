@@ -52,6 +52,7 @@ class AdminAsset extends AbstractAsset
             'bower_components/moment/min/moment.min.js',
             'bower_components/air-datepicker/dist/js/datepicker.js',
             'bower_components/selectize/dist/js/standalone/selectize.min.js',
+            'js/lib/wcp/functions.js',
             'js/lib/blueimp-upload/jquery.fileupload.js',
             'js/lib/blueimp-upload/jquery.iframe-transport.js',
             'js/lib/sticky-kit.min.js',

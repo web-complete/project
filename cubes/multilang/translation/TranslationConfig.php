@@ -48,7 +48,7 @@ class TranslationConfig extends EntityConfig
 
         $langService = $this->container->get(LangService::class);
         foreach ($langService->getLangs() as $lang) {
-            $result[] = $cells->checkbox($lang->name, 'has_translation_' . $lang->code);
+            $result[] = $cells->checkbox($lang->name, 'translations.' . $lang->code);
         }
         return $result;
     }

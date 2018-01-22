@@ -22,7 +22,7 @@ Vue.component('VueEntityList', {
                 <tbody>
                 <tr v-for="item in items" @dblclick="$router.push('/detail/'+entityName+'/'+item.id)">
                     <td v-for="field in listFields">
-                        <component :is="field.component" :cellParams="field.cellParams" :value="item[field.name]"></component>
+                        <component :is="field.component" :cellParams="field.cellParams" :value="getCellValue(item, field.name)"></component>
                     </td>
                     <td>
                         <a @click="deleteItem(item.id)" href="javascript://" class="field-edit"><i class="ion-close"></i></a>
@@ -83,6 +83,9 @@ Vue.component('VueEntityList', {
                 this.requestData.sortDir = field.sortable;
                 this.fetchData();
             }
+        },
+        getCellValue(item, fieldName){
+            return WCP.getValue(item, fieldName);
         },
         sortDir(field){
             if (this.requestData.sortField === field.name) {
