@@ -136,6 +136,8 @@ class CubeHelper
 
     /**
      * @param EntityConfig $entityConfig
+     *
+     * @return $this
      */
     public function defaultCrud(EntityConfig $entityConfig)
     {
@@ -158,5 +160,7 @@ class CubeHelper
                 ->addMenuSection($menuSectionName, $menuSectionSort)
                 ->addMenuItem($menuSectionName, $titleList, "/list/$name", $menuItemSort);
         }
+
+        return $this;
     }
 }

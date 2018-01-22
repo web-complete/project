@@ -34,11 +34,11 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
     }
 
     /**
-     * @return null|Lang
+     * @return Lang
      */
-    public function getCurrentLang()
+    public function getCurrentLang(): Lang
     {
-        return $this->current;
+        return $this->current ?: $this->getMainLang();
     }
 
     /**
@@ -53,11 +53,11 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getCurrentLangCode()
+    public function getCurrentLangCode(): string
     {
-        return $this->current ? $this->current->code : null;
+        return $this->getCurrentLang()->code;
     }
 
     /**
@@ -78,9 +78,9 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
     }
 
     /**
-     * @return null
+     * @return string
      */
-    public function getMainLangCode()
+    public function getMainLangCode(): string
     {
         return $this->getMainLang()->code;
     }

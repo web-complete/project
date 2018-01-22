@@ -3,6 +3,7 @@
 use cubes\system\settings\Settings;
 use modules\pub\widgets\FooterWidget;
 use modules\pub\widgets\HeaderWidget;
+use cubes\multilang\translation\MultilangHelper;
 
 /** @var \WebComplete\mvc\view\View $this */
 /** @var $content */
@@ -32,6 +33,9 @@ $footerWidget = $this->getContainer()->get(FooterWidget::class);
 <?=$content ?>
 <?=$footerWidget->run(); ?>
 <?=$this->getAssetManager()->applyJs() ?>
+<script type="text/javascript">
+    Translations.data = <?=json_encode(MultilangHelper::getTextMap()) ?>;
+</script>
 
 </body>
 </html>
