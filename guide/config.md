@@ -40,7 +40,7 @@ return [
 ];
 ```
 #### commands.php
-Регистрация консольных комманд
+Регистрация консольных комманд ([компонент Symfony Console](https://symfony.com/doc/current/console.html))
 
 ```php
 return [
@@ -52,7 +52,7 @@ return [
 ];
 ```
 #### db.php
-Конфигурация базы данных
+Конфигурация базы данных ([компонент Doctrine RBAL](http://docs.doctrine-project.org/projects/doctrine-dbal))
 ```php
 return 'mysql://root@127.0.0.1/project?charset=UTF8';
 ```
@@ -76,14 +76,16 @@ return [
 ```
 
 Данные зависимости будут внедрены автоматически в необходимые классы с помощью
-технологии autowiring (см документацию PHP-DI), либо получены из контейнера приложения
+технологии autowiring (см документацию PHP-DI), либо могут юыть получены из контейнера приложения
 напрямую:
 ```php
 global $application;
 $request = $application->getContainer()->get(Request::class);
 ```
 #### routes.php
-Конфигурация глобальных маршрутов в следующем формате:
+Конфигурация глобальных маршрутов ([компонент FastRoute](https://github.com/nikic/FastRoute))
+
+Формат:
 ```
 [method, route, callable]
 ``` 
