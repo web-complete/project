@@ -14,6 +14,7 @@
 12. [CMS. Кастомизация страниц](admin/custom-page.md)
 13. [CMS. Поля](admin/fields.md)
 14. [CMS. Генератор кубов](admin/generator.md)
+15. [Работа с ассетами](assets.md)
 15. [Работа с изображениями](image.md)
 16. [Работа со статикой](static.md)
 17. [Работа с уведомлениями](notifications.md)
