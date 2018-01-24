@@ -124,7 +124,6 @@ class Controller extends AbstractEntityController
 ### getFieldTypes()
 
 Данный метод просто проксирует настройки полей в саму сущность и имеет следующий формат:
-За подробным описанием приведения типов см. библиотеку [TypeCast](https://github.com/mvkasatkin/typecast), встроенную в Core)
 
 ```php
     'title' => Cast::STRING,
@@ -142,6 +141,7 @@ class Controller extends AbstractEntityController
 
 В данном примере поле published_on имеет кастомное приведение к типу (дата).
 Приведение к типу происходит при установке поля через __set, set или через mapFromArray.
+За подробным описанием приведения типов см. библиотеку [TypeCast](https://github.com/mvkasatkin/typecast), встроенную в Core)
 
 ### getListFields()
 
