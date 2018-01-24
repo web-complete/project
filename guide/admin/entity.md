@@ -230,4 +230,3 @@ $fields->image('Изображение', 'image')->multiple(true),
 
 Далее: [CMS. Кастомизация сущностей](entity-customization.md)<br>
 Вверх: [Оглавление](../index.md)
-
