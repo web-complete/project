@@ -6,7 +6,7 @@
 4. [Конфигурация](config.md)
 5. [Кубы (Cube)](cubes.md)
 6. [Cущности (Entity)](entity.md)
-7. [Контроллеры (Controller)](controller.md)
+7. [MVC](mvc.md)
 8. [CMS](admin/index.md)
 9. [CMS. Архитектура](admin/architecture.md)
 10. [CMS. Управление сущностями](admin/entity.md)
