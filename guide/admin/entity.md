@@ -146,7 +146,7 @@ class Controller extends AbstractEntityController
 ### getListFields()
 
 Метод возвращает массив объектов CellAbstract[]
-Доступные поля: string, checkbox, date, dateTime, sex.
+Доступные поля: **string, checkbox, date, dateTime, sex**.
 
 Каждое поле имеет взаимосвязанный vue-компонент VueCell*.
 
@@ -166,7 +166,7 @@ class Controller extends AbstractEntityController
 ### getFilterFields()
 
 Метод возвращает пустой массив, либо массив объектов FilterAbstract[]
-Доступные поля: string, select и boolean.
+Доступные поля: **string, select и boolean**.
 Поле string может принимать 3-м аргументом режим сравнения:
 - FilterFactory::MODE_EQUAL - точное совпадение
 - FilterFactory::MODE_LIKE - частичное совпадение
