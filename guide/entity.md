@@ -52,6 +52,64 @@
     }
 ```
 
+##### Класс сущности
+
+На примере Article:
+
+```php
+<?php
+
+namespace cubes\content\article;
+
+use cubes\multilang\lang\classes\AbstractMultilangEntity;
+
+/**
+ *
+ * @property $title
+ * @property $description
+ * @property $text
+ * @property $viewed
+ * @property $tags
+ * @property $image_list
+ * @property $image_detail
+ * @property $is_active
+ * @property $created_on
+ * @property $updated_on
+ * @property $published_on
+ */
+class Article extends AbstractMultilangEntity
+{
+
+    /**
+     * @return array
+     */
+    public static function fields(): array
+    {
+        return [
+            'title' => Cast::STRING,
+            'image_list' => Cast::STRING,
+            'image_detail' => Cast::STRING,
+            'description' => Cast::STRING,
+            'text' => Cast::STRING,
+            'tags' => Cast::STRING,
+            'viewed' => Cast::INT,
+            'is_active' => Cast::BOOL,
+            'created_on' => Cast::STRING,
+            'updated_on' => Cast::STRING,
+            'published_on' => [AdminCast::class, 'date'],
+        ];
+    }
+}
+```
+
+Аннотации @property обеспечивают автокомплит доступа к данным сущности по средствам магических __get и __set.
+
+Помимо этого, у сущности есть возможность получить или изменить поле с помощью метода set/get, а также получить все данные
+в виде массива или загрузить новые: mapToArray, mapFromArray.
+
+Метод fields() определяет доступные поля сущности и их типы
+(а также старается привести данные к указанным типам с помощью класса библиотеки [TypeCast](https://github.com/mvkasatkin/typecast), встроенной в Core) 
+
 ##### Гибкость или сложность?
 
 Структура и архитектура сущности на первый взгляд может показаться избыточной,
