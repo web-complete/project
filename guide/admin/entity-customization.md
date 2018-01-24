@@ -52,5 +52,5 @@ staticBlock/
 
 Про кастомизацию полей см. раздел [CMS. Поля](fields.md).
 
-Далее: [CMS. Кастомизация страниц](admin/custom-page.md)<br>
+Далее: [CMS. Кастомизация страниц](custom-page.md)<br>
 Вверх: [Оглавление](../index.md)
