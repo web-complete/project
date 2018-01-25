@@ -16,7 +16,7 @@
 14. [CMS. Генератор кубов](admin/generator.md)
 15. [Работа с ассетами](assets.md)
 15. [Работа с изображениями](image.md)
-16. [Работа со статикой](static.md) (todo)
+16. [Работа со статикой](static.md)
 17. [Работа с уведомлениями](notifications.md) (todo)
 18. [Работа с SEO](seo.md) (todo)
 19. [Работа с поиском](search.md) (todo)
