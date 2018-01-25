@@ -1,7 +1,7 @@
 # Web Complete Platform (WCP)
 
 Web Complete Platform (WCP) — платформа для разработки веб-систем любой
-сложности, разработанная согласно ствндартам [PSR](https://en.wikipedia.org/wiki/PHP_Standard_Recommendation) и принципам проектирования [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
+сложности, разработанная согласно стандартам [PSR](https://en.wikipedia.org/wiki/PHP_Standard_Recommendation) и принципам проектирования [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
 
 WCP представляет собой набор независимых пакетов и модулей (кубов), а также встроенную CMS и позволяет:
 1. быстро решать рутинные задачи 
