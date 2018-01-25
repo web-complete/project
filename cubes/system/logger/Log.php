@@ -13,6 +13,21 @@ class Log
     protected static $context = [];
 
     /**
+     * @param int $level
+     * @param string $message
+     * @param string|array $category
+     */
+    public static function log(int $level, string $message, $category = 'app')
+    {
+        $categories = (array)$category;
+        $categories[] = '*';
+
+        foreach ($categories as $name) {
+            self::getService()->get($name)->log($level, $message, self::$context);
+        }
+    }
+
+    /**
      * @param string $message
      * @param string|array $category
      */
