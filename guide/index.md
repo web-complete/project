@@ -20,7 +20,7 @@
 17. [Работа с уведомлениями](notifications.md) (todo)
 18. [Работа с SEO](seo.md) (todo)
 19. [Работа с поиском](search.md) (todo)
-20. [Работа с мультиязычностью](multilang.md) (todo)
+20. [Работа с мультиязычностью](multilang.md)
 21. [Логгирование](logging.md) (todo)
 22. [Кеширование](caching.md) (todo)
 23. [Права доступа](auth.md) (todo)
