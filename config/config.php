@@ -10,5 +10,6 @@ return [
     ],
     'definitions' => require 'definitions.php',
     'settingsLocation' => __DIR__ . '/settings.php',
+    'logger' => require 'logger.php',
     'salt' => 'SomeSecretWord',
 ];

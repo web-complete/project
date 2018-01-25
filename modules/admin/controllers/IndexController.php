@@ -3,6 +3,7 @@
 namespace modules\admin\controllers;
 
 use cubes\multilang\lang\LangService;
+use cubes\system\logger\Log;
 use modules\admin\classes\Navigation;
 use modules\admin\classes\VueRoutes;
 use modules\admin\classes\state\SettingsState;
