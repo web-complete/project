@@ -12,7 +12,7 @@
 10. [CMS. Управление сущностями](admin/entity.md)
 11. [CMS. Кастомизация сущностей](admin/entity-customization.md)
 12. [CMS. Кастомизация страниц](admin/custom-page.md)
-13. [CMS. Поля](admin/fields.md) (todo)
+13. [CMS. Поля](admin/fields.md)
 14. [CMS. Генератор кубов](admin/generator.md)
 15. [Работа с ассетами](assets.md) (todo)
 15. [Работа с изображениями](image.md) (todo)
