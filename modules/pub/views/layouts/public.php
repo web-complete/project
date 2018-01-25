@@ -34,6 +34,7 @@ $footerWidget = $this->getContainer()->get(FooterWidget::class);
 <?=$footerWidget->run(); ?>
 <?=$this->getAssetManager()->applyJs() ?>
 <script type="text/javascript">
+    Log.initHandler();
     Translations.data = <?=json_encode(MultilangHelper::getTextMap()) ?>;
 </script>
 

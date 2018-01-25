@@ -30,7 +30,8 @@ class BaseAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            'js/jquery-3.2.1.min.js',
+            'js/lib/jquery-3.2.1.min.js',
+            'js/Log.js'
         ];
     }
 }

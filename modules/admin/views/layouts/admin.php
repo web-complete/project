@@ -25,5 +25,8 @@
 <body>
     <?=$content ?>
     <?=$this->getAssetManager()->applyJs() ?>
+    <script type="text/javascript">
+        Log.initHandler();
+    </script>
 </body>
 </html>

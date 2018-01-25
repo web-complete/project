@@ -20,6 +20,12 @@ $ chmod -R 777 web/assets
 $ chmod -R 777 web/usr
 ```
 
+либо выполнить команду, которая попробует сделать это самостоятельно:
+
+```
+php console.php admin:init
+```
+
 **4.** Получить зависимости пакетов
 ```
 $ composer update

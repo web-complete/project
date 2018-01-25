@@ -22,6 +22,7 @@ return [
     ],
     'definitions' => require 'definitions.php',
     'settingsLocation' => __DIR__ . '/settings.php',
+    'logger' => require 'logger.php',
     'salt' => 'SomeSecretWord',
 ];
 ```
@@ -100,6 +101,9 @@ return new Routes([
 ]);
 ```
 Важно! Каждый куб, при необходимости, может регистрировать свои собственные маршруты.
+
+#### logger.php
+Cм. раздел [Логгирование](logging.md)
 
 #### settings.php
 Настройки проекта. Доступны после инициализации приложения (Application).

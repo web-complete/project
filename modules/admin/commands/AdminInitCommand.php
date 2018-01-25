@@ -46,6 +46,7 @@ class AdminInitCommand extends Command
         $this->initDir('@storage', 0770, $output);
         $this->initDir('@storage/micro-db', 0770, $output);
         $this->initDir('@runtime', 0770, $output);
+        $this->initDir('@runtime/logs', 0770, $output);
         $this->initDir('@web/assets', 0775, $output);
         $this->initDir('@web/usr', 0770, $output);
         return null;
