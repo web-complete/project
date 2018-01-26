@@ -19,7 +19,7 @@
 
 ## Хелпер
 
-Для удобства работы с кешем, **Core** предоставляет статический хелпер **Cache** со следующими методами:
+Для удобства работы с пользовательским кешем, **Core** предоставляет статический хелпер **Cache** со следующими методами:
 ```php
 public static function get(string $key);
 public static function set(string $key, $value, int $ttl = null, array $tags = []);
