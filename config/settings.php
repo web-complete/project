@@ -7,6 +7,7 @@ $fields = FieldFactory::build();
 return [
     'sections' => [
         'common' => 'Основное',
+        'notifications' => 'Оповещения',
         'counters' => 'Счетчики',
         'examples' => 'Примеры',
         'system' => 'Система',
@@ -16,6 +17,14 @@ return [
         'common' => [
             'site_name' => $fields->string('Название сайта', 'site_name'),
             'site_description' => $fields->string('Описание сайта', 'site_description'),
+        ],
+        'notifications' => [
+            'from_name' => $fields->string('Имя отправитель', 'mail_from')
+                ->placeholder('Admin'),
+            'from_email' => $fields->string('E-mail отправителя', 'mail_from')
+                ->placeholder('admin@example.com'),
+            'bcc_emails' => $fields->string('Скрытые копии', 'bcc_emails')
+                ->placeholder('user1@example.com, user2@example.com'),
         ],
         'counters' => [
             'counter_yandex' => $fields->textarea('Яндекс.Метрика', 'counter_yandex'),

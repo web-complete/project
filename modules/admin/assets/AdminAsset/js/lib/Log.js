@@ -16,7 +16,7 @@ Log = {
         }.bind(this);
         if (Vue) {
             Vue.config.errorHandler = function (err, vm, info) {
-                this.error('Vue: ' + err + "\n" + info);
+                this.error('Vue [' + vm.$options.name + ']: ' + err.stack + "\n" + info);
             }.bind(this);
             Vue.config.warnHandler = function (msg, vm, trace) {
                 this.warning('Vue: ' + msg + "\n" + trace);

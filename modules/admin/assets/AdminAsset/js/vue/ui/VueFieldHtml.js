@@ -39,7 +39,9 @@ Vue.component('VueFieldHtml', {
 
             this.editor.setTheme("ace/theme/chrome");
             this.editor.getSession().setMode("ace/mode/php");
-            this.editor.setValue(this.value);
+            if (this.value) {
+                this.editor.setValue(this.value);
+            }
             this.editor.gotoLine(1);
             this.editor.getSession().on('change', function() {
                 update();

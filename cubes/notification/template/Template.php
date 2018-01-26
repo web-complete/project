@@ -1,0 +1,62 @@
+<?php
+
+namespace cubes\notification\template;
+
+use cubes\system\logger\Log;
+use WebComplete\core\entity\AbstractEntity;
+
+/**
+ *
+ * @property $code
+ * @property $subject
+ * @property $body
+*/
+class Template extends AbstractEntity
+{
+
+    /**
+     * @return array
+     */
+    public static function fields(): array
+    {
+        return TemplateConfig::getFieldTypes();
+    }
+
+    /**
+     * @param array $vars
+     *
+     * @return string
+     */
+    public function renderSubject(array $vars = []): string
+    {
+        return $this->render($this->subject, $vars);
+    }
+    /**
+     * @param array $vars
+     *
+     * @return string
+     */
+    public function renderBody(array $vars = []): string
+    {
+        return $this->render($this->body, $vars);
+    }
+
+    /**
+     * @param string $content
+     * @param array $vars
+     *
+     * @return string
+     */
+    protected function render(string $content, array $vars): string
+    {
+        $result = '';
+        try {
+            $loader = new \Twig_Loader_Array(['template' => $content]);
+            $twig = new \Twig_Environment($loader);
+            $result = $twig->render('template', $vars);
+        } catch (\Exception $e) {
+            Log::exception($e);
+        }
+        return $result;
+    }
+}
