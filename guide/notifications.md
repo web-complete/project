@@ -83,7 +83,7 @@ $mailService->sendTemplate(
     ['order' => $order->mapToArray()], // переменные для шаблона
     'NameFrom', // не обязательный, будет взят из Settings: from_name
     'from@example.com', // не обязательный, будет взят из Settings: from_email
-    'bcc1@example.com, bcc2@example.com', // не обязательный
+    'bcc1@example.com, bcc2@example.com', // не обязательный, будет взят из Settings: bcc_emails
     ['/tmp/invoice.pdf'] // не обязательный
 );
 ```
