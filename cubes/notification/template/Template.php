@@ -9,7 +9,8 @@ use WebComplete\core\entity\AbstractEntity;
  *
  * @property $code
  * @property $subject
- * @property $body
+ * @property $html
+ * @property $text
 */
 class Template extends AbstractEntity
 {
@@ -31,14 +32,25 @@ class Template extends AbstractEntity
     {
         return $this->render($this->subject, $vars);
     }
+
     /**
      * @param array $vars
      *
      * @return string
      */
-    public function renderBody(array $vars = []): string
+    public function renderHtml(array $vars = []): string
     {
-        return $this->render($this->body, $vars);
+        return $this->render($this->html, $vars);
+    }
+
+    /**
+     * @param array $vars
+     *
+     * @return string
+     */
+    public function renderText(array $vars = []): string
+    {
+        return $this->render($this->text, $vars);
     }
 
     /**

@@ -30,7 +30,8 @@ class TemplateConfig extends EntityConfig
         return [
             'code'    => Cast::STRING,
             'subject' => Cast::STRING,
-            'body'    => Cast::STRING,
+            'html'    => Cast::STRING,
+            'text'    => Cast::STRING,
         ];
     }
 
@@ -68,7 +69,8 @@ class TemplateConfig extends EntityConfig
         return [
             $fields->string('Код', 'code'),
             $fields->string('Тема', 'subject'),
-            $fields->html('Шаблон', 'body'),
+            $fields->html('Шаблон html', 'html'),
+            $fields->textarea('Шаблон text', 'text'),
         ];
     }
 
@@ -78,7 +80,8 @@ class TemplateConfig extends EntityConfig
     public function getForm(): AdminForm
     {
         return new AdminForm([
-            [['code', 'subject', 'body'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['code', 'subject', 'html'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['text']],
         ]);
     }
 }

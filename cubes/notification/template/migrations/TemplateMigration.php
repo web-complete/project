@@ -34,7 +34,8 @@ class TemplateMigration implements MigrationInterface
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `code` varchar(100) DEFAULT NULL,
         `subject` varchar(255) DEFAULT NULL,
-        `body` mediumtext,
+        `html` mediumtext,
+        `text` mediumtext,
         PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 

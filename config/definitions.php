@@ -48,5 +48,8 @@ return [
             'assets',
             \ENV === 'prod'
         );
-    }
+    },
+    Swift_Transport::class => function () {
+        return new \Swift_Transport_NullTransport(new Swift_Events_SimpleEventDispatcher());
+    },
 ];

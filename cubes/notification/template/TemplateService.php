@@ -19,4 +19,14 @@ class TemplateService extends AbstractEntityService implements TemplateRepositor
     {
         parent::__construct($repository);
     }
+
+    /**
+     * @param string $code
+     *
+     * @return null|\WebComplete\core\entity\AbstractEntity|Template
+     */
+    public function findByCode(string $code)
+    {
+        return $this->findOne($this->createCondition(['code' => $code]));
+    }
 }

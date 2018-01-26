@@ -55,8 +55,8 @@ class MailService
         $emailFrom = $emailFrom ?: $this->settings->get('from_email');
         $bcc = $bcc ?: $this->settings->get('bcc_emails');
         $subject = $template->renderSubject($vars);
-        $body = $template->renderBody($vars);
-        $bodyText = $this->toText($body);
+        $body = $template->renderHtml($vars);
+        $bodyText = $template->renderText($vars);
         return $this->send($nameFrom, $emailFrom, $emailTo, $subject, $body, $bodyText, $bcc, $files);
     }
 
@@ -86,7 +86,7 @@ class MailService
             ->setFrom([$emailFrom => $nameFrom])
             ->setTo([$emailTo])
             ->setBody($body, 'text/html')
-            ->addPart($bodyText ?: $this->toText($body), 'text/plain');
+            ->addPart(\trim($bodyText) ? $bodyText : $this->toText($body), 'text/plain');
 
         if ($bcc) {
             $message->setBcc($bcc);
