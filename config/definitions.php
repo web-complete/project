@@ -1,11 +1,10 @@
 <?php
 
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Simple\NullCache;
 use modules\admin\controllers\ErrorController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use WebComplete\core\utils\cache\CacheService;
 use WebComplete\core\utils\migration\MigrationRegistryInterface;
 use WebComplete\core\utils\migration\MigrationRegistryMysql;
 use WebComplete\microDb\MicroDb;
@@ -20,7 +19,11 @@ return [
         return $request;
     },
     MigrationRegistryInterface::class => \DI\object(MigrationRegistryMysql::class),
-    CacheInterface::class => \DI\object(NullCache::class),
+    CacheService::class => function () {
+        $systemCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
+        $userCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
+        return new CacheService($systemCache, $userCache);
+    },
     Doctrine\DBAL\Connection::class => function (\DI\Container $di) {
         return \Doctrine\DBAL\DriverManager::getConnection(
             ['url' => $di->get('db')],

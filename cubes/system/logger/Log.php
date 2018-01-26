@@ -2,7 +2,7 @@
 
 namespace cubes\system\logger;
 
-use WebComplete\core\utils\logger\LoggerService;
+use WebComplete\mvc\logger\LoggerService;
 
 class Log
 {

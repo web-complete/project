@@ -22,7 +22,7 @@
 19. [Работа с поиском](search.md) (todo)
 20. [Работа с мультиязычностью](multilang.md)
 21. [Логгирование](logging.md)
-22. [Кеширование](caching.md) (todo)
+22. [Кеширование](caching.md)
 23. [Права доступа](auth.md) (todo)
 24. [Обработка ошибок](errors.md) (todo)
 25. [CSRF](csrf.md) (todo)
