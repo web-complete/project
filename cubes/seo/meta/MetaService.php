@@ -36,14 +36,10 @@ class MetaService extends AbstractEntityService implements MetaRepositoryInterfa
      */
     protected function preventDuplicates(Meta $item)
     {
-        if (!$item->getId()) {
-            /** @var Meta $otherItem */
-            if ($otherItem = $this->findOne($this->createCondition(['url' => $item->url]))) {
-                $item->title = $item->title ?: $otherItem->title;
-                $item->description = $item->description ?: $otherItem->description;
-                $item->keywords = $item->keywords ?: $otherItem->keywords;
-                $this->delete($otherItem->getId());
-            }
+        /** @var Meta $otherItem */
+        $otherItem = $this->findOne($this->createCondition(['url' => $item->url]));
+        if ($otherItem !== null && $otherItem->getId() !== $item->getId()) {
+            $this->delete($otherItem->getId());
         }
     }
 }

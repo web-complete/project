@@ -1,12 +1,12 @@
 <?php
 
-namespace cubes\seo\meta\migrations;
+namespace cubes\seo\redirect\migrations;
 
 use Doctrine\DBAL\Connection;
 use WebComplete\core\utils\migration\MigrationInterface;
 use WebComplete\microDb\MicroDb;
 
-class MetaMigration implements MigrationInterface
+class RedirectMigration implements MigrationInterface
 {
 
     /**
@@ -30,25 +30,21 @@ class MetaMigration implements MigrationInterface
 
     public function up()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `meta` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `redirect` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
-        `url` varchar(255) DEFAULT NULL,
-        `title` varchar(255) DEFAULT NULL,
-        `description` varchar(255) DEFAULT NULL,
-        `keywords` varchar(255) DEFAULT NULL,
-        `canonical` varchar(255) DEFAULT NULL,
-        `noindex` tinyint(1) DEFAULT 0,
+        `url_from` varchar(500) DEFAULT NULL,
+        `url_to` varchar(500) DEFAULT NULL,
         PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 
         $this->db->exec($sql);
-        $this->db->exec('CREATE UNIQUE INDEX meta_idx1 ON `meta` (`url`)');
+        $this->db->exec('CREATE UNIQUE INDEX redirect_idx1 ON `redirect` (`url_from`)');
     }
 
     public function down()
     {
-        $sql = 'DROP TABLE IF EXISTS `meta`';
+        $sql = 'DROP TABLE IF EXISTS `redirect`';
         $this->db->exec($sql);
-        $this->microDb->getCollection('meta')->drop();
+        $this->microDb->getCollection('redirect')->drop();
     }
 }

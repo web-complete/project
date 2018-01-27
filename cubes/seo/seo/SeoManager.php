@@ -53,6 +53,52 @@ class SeoManager
     /**
      * @return string
      */
+    public function renderMetaTags(): string
+    {
+        $result = '';
+        if ($description = $this->getDescription()) {
+            $result .= $this->renderMetaTag('description', $description) . "\n";
+        }
+        if ($keywords = $this->getKeywords()) {
+            $result .= $this->renderMetaTag('Keywords', $keywords) . "\n";
+        }
+        if ($this->getNoindex()) {
+            $result .= $this->renderMetaTag('robots', 'noindex') . "\n";
+            $result .= $this->renderMetaTag('googlebot', 'noindex') . "\n";
+        }
+        if ($canonical = $this->getCanonical()) {
+            $result .= '<link rel="canonical" href="' . $canonical . "\"/>\n";
+        }
+        $result .= $this->renderMetaJsonLD();
+        return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function renderMetaJsonLD(): string
+    {
+        return '';
+    }
+
+    /**
+     * @return Meta
+     */
+    public function getCurrentPageMeta(): Meta
+    {
+        if (!$this->currentPageMeta) {
+            $url = \parse_url($this->request->getRequestUri(), \PHP_URL_PATH);
+            $condition = $this->metaService->createCondition(['url' => $url]);
+            if (!$this->currentPageMeta = $this->metaService->findOne($condition)) {
+                $this->currentPageMeta = $this->metaService->create();
+            }
+        }
+        return $this->currentPageMeta;
+    }
+
+    /**
+     * @return string
+     */
     public function getTitle(): string
     {
         $title = $this->getCurrentPageMeta()->title;
@@ -106,31 +152,55 @@ class SeoManager
     /**
      * @return string
      */
-    public function getMetaOG(): string
+    public function getCanonical(): string
     {
+        if ($canonical = $this->getCurrentPageMeta()->canonical) {
+            return $canonical;
+        }
+        if ($this->seoMeta) {
+            return $this->seoMeta->getCanonical();
+        }
         return '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function getNoindex(): bool
+    {
+        if ((bool)$this->getCurrentPageMeta()->noindex) {
+            return true;
+        }
+        if ($this->seoMeta) {
+            return $this->seoMeta->getNoindex();
+        }
+        return false;
+    }
+
+    /**
+     * @param string $name
+     * @param string $content
+     *
+     * @return string
+     */
+    protected function renderMetaTag(string $name, string $content): string
+    {
+        return '<meta name="' . $name . '" content="' . $content . '">';
     }
 
     /**
      * @return string
      */
-    public function getMetaJsonLD(): string
+    protected function renderMetaOG(): string
     {
-        return '';
-    }
-
-    /**
-     * @return Meta
-     */
-    public function getCurrentPageMeta(): Meta
-    {
-        if (!$this->currentPageMeta) {
-            $url = \parse_url($this->request->getRequestUri(), \PHP_URL_PATH);
-            $condition = $this->metaService->createCondition(['url' => $url]);
-            if (!$this->currentPageMeta = $this->metaService->findOne($condition)) {
-                $this->currentPageMeta = $this->metaService->create();
+        $result = '';
+        if ($this->seoMeta && ($seoMetaOg = $this->seoMeta->getMetaOG())) {
+            foreach (['url', 'title', 'description', 'image', 'type'] as $property) {
+                if ($seoMetaOg->$property) {
+                    $result .= '<meta property="og:' . $property . '" content="' . $seoMetaOg->$property . "\" />\n";
+                }
             }
         }
-        return $this->currentPageMeta;
+        return $result;
     }
 }

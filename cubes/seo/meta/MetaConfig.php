@@ -16,8 +16,8 @@ use WebComplete\core\utils\typecast\Cast;
 class MetaConfig extends EntityConfig
 {
     public $name = 'meta';
-    public $titleList = 'Мета теги страниц';
-    public $titleDetail = 'Мета теги страницы';
+    public $titleList = 'Метатеги страниц';
+    public $titleDetail = 'Метатеги страницы';
     public $menuSectionName = 'SEO';
     public $entityServiceClass = MetaService::class;
     public $controllerClass = Controller::class;
@@ -32,6 +32,8 @@ class MetaConfig extends EntityConfig
             'title' => Cast::STRING,
             'description' => Cast::STRING,
             'keywords' => Cast::STRING,
+            'canonical' => Cast::STRING,
+            'noindex' => Cast::BOOL,
         ];
     }
 
@@ -46,6 +48,8 @@ class MetaConfig extends EntityConfig
             $cells->checkbox('title', 'title'),
             $cells->checkbox('description', 'description'),
             $cells->checkbox('keywords', 'keywords'),
+            $cells->checkbox('canonical', 'canonical'),
+            $cells->checkbox('noindex', 'noindex'),
         ];
     }
 
@@ -71,6 +75,8 @@ class MetaConfig extends EntityConfig
             $fields->string('title', 'title'),
             $fields->string('description', 'description'),
             $fields->string('keywords', 'keywords'),
+            $fields->string('canonical', 'canonical'),
+            $fields->checkbox('noindex', 'noindex'),
         ];
     }
 
@@ -81,7 +87,7 @@ class MetaConfig extends EntityConfig
     {
         return new AdminForm([
             [['url'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            [['title', 'description', 'keywords']],
+            [['title', 'description', 'keywords', 'canonical', 'noindex']],
         ], [
             [['url'], function ($value) {
                 return '/' . \trim($value, '/');

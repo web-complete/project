@@ -170,6 +170,22 @@ abstract class AbstractEntitySeo implements SeoMetaInterface
     }
 
     /**
+     * @return string
+     */
+    public function getCanonical(): string
+    {
+        return '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function getNoindex(): bool
+    {
+        return false;
+    }
+
+    /**
      * @return SeoMetaOG
      */
     public function getMetaOG(): SeoMetaOG

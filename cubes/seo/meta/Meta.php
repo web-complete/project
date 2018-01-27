@@ -10,6 +10,8 @@ use WebComplete\core\entity\AbstractEntity;
 * @property $title
 * @property $description
 * @property $keywords
+* @property $canonical
+* @property $noindex
 */
 class Meta extends AbstractEntity
 {

@@ -20,6 +20,16 @@ interface SeoMetaInterface
     public function getKeywords(): string;
 
     /**
+     * @return string
+     */
+    public function getCanonical(): string;
+
+    /**
+     * @return bool
+     */
+    public function getNoindex(): bool;
+
+    /**
      * @return SeoMetaOG
      */
     public function getMetaOG(): SeoMetaOG;

@@ -3,7 +3,6 @@
 namespace modules\pub\controllers;
 
 use cubes\seo\seo\SeoManager;
-use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use modules\pub\assets\BaseAsset;
 use modules\pub\assets\PubAsset;
@@ -80,6 +79,28 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
         $meta = $this->seoManager->getCurrentPageMeta();
         if (!$meta->keywords) {
             $meta->keywords = $keywords;
+        }
+    }
+
+    /**
+     * @param string $canonical
+     */
+    protected function setCanonical(string $canonical)
+    {
+        $meta = $this->seoManager->getCurrentPageMeta();
+        if (!$meta->canonical) {
+            $meta->canonical = $canonical;
+        }
+    }
+
+    /**
+     * @param bool $noindex
+     */
+    protected function setNoindex(bool $noindex)
+    {
+        $meta = $this->seoManager->getCurrentPageMeta();
+        if (!$meta->noindex) {
+            $meta->noindex = $noindex;
         }
     }
 }
