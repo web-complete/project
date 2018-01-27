@@ -9,9 +9,8 @@ return [
         'common' => 'Основное',
         'notifications' => 'Оповещения',
         'counters' => 'Счетчики',
-        'examples' => 'Примеры',
-        'system' => 'Система',
         'theme' => 'Оформление',
+        'examples' => 'Примеры', // TODO remove
     ],
     'fields' => [
         'common' => [
@@ -19,7 +18,7 @@ return [
             'site_description' => $fields->string('Описание сайта', 'site_description'),
         ],
         'notifications' => [
-            'from_name' => $fields->string('Имя отправитель', 'mail_from')
+            'from_name' => $fields->string('Имя отправителя', 'mail_from')
                 ->placeholder('Admin'),
             'from_email' => $fields->string('E-mail отправителя', 'mail_from')
                 ->placeholder('admin@example.com'),
@@ -61,8 +60,6 @@ return [
                 ->cropRatio(400/200),
             'field_images' => $fields->image('images', 'field_images')
                 ->multiple(true),
-        ],
-        'system' => [
         ],
         'theme' => [
             'theme_logo' => $fields->file('Логотип', 'theme_logo'),

@@ -2,6 +2,7 @@
 
 namespace modules\pub\controllers;
 
+use cubes\seo\seo\SeoManager;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
 use modules\pub\assets\BaseAsset;
@@ -18,9 +19,9 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      */
     protected $userService;
     /**
-     * @var Settings
+     * @var SeoManager
      */
-    public $settings;
+    protected $seoManager;
 
     /**
      * @param ContainerInterface $container
@@ -30,8 +31,8 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-        $this->settings = $this->container->get(Settings::class);
         $this->userService = $this->container->get(UserService::class);
+        $this->seoManager = $this->container->get(SeoManager::class);
         if ($session = $this->request->getSession()) {
             $session->start();
         }
@@ -47,5 +48,38 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
         $this->view->getAssetManager()->registerAsset($this->container->get(BaseAsset::class));
         $this->view->getAssetManager()->registerAsset($this->container->get(PubAsset::class));
         return parent::beforeAction();
+    }
+
+    /**
+     * @param string $title
+     */
+    protected function setTitle(string $title)
+    {
+        $meta = $this->seoManager->getCurrentPageMeta();
+        if (!$meta->title) {
+            $meta->title = $title;
+        }
+    }
+
+    /**
+     * @param string $description
+     */
+    protected function setDescription(string $description)
+    {
+        $meta = $this->seoManager->getCurrentPageMeta();
+        if (!$meta->description) {
+            $meta->description = $description;
+        }
+    }
+
+    /**
+     * @param string $keywords
+     */
+    protected function setKeywords(string $keywords)
+    {
+        $meta = $this->seoManager->getCurrentPageMeta();
+        if (!$meta->keywords) {
+            $meta->keywords = $keywords;
+        }
     }
 }

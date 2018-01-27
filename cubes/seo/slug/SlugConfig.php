@@ -19,6 +19,7 @@ class SlugConfig extends EntityConfig
     public $titleList = 'Slugs';
     public $titleDetail = 'Slug';
     public $menuSectionName = 'SEO';
+    public $menuEnabled = false;
     public $entityServiceClass = SlugService::class;
     public $controllerClass = Controller::class;
 

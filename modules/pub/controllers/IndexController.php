@@ -13,7 +13,9 @@ class IndexController extends AbstractController
     public function actionIndex()
     {
         $articleSeo = $this->container->get(ArticleSeo::class);
-        $article = $articleSeo->findCurrentPageItem('super-zagolovok2');
+        if (!$article = $articleSeo->findCurrentPageItem('super-zagolovok')) {
+            return $this->responseNotFound();
+        }
         return $this->responseHtml('@pub/views/index/index.php', [
             'article' => $article,
         ]);

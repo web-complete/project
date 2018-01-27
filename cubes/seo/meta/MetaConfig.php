@@ -1,8 +1,8 @@
 <?php
 
-namespace cubes\notification\template;
+namespace cubes\seo\meta;
 
-use cubes\notification\template\admin\Controller;
+use cubes\seo\meta\admin\Controller;
 use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
@@ -13,14 +13,13 @@ use modules\admin\classes\filter\FilterField;
 use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\typecast\Cast;
 
-class TemplateConfig extends EntityConfig
+class MetaConfig extends EntityConfig
 {
-    public $name = 'template';
-    public $titleList = 'Шаблоны';
-    public $titleDetail = 'Шаблон';
-    public $menuSectionName = 'Оповещения';
-    public $menuSectionSort = 200;
-    public $entityServiceClass = TemplateService::class;
+    public $name = 'meta';
+    public $titleList = 'Мета теги страниц';
+    public $titleDetail = 'Мета теги страницы';
+    public $menuSectionName = 'SEO';
+    public $entityServiceClass = MetaService::class;
     public $controllerClass = Controller::class;
 
     /**
@@ -29,10 +28,10 @@ class TemplateConfig extends EntityConfig
     public static function getFieldTypes(): array
     {
         return [
-            'code'    => Cast::STRING,
-            'subject' => Cast::STRING,
-            'html'    => Cast::STRING,
-            'text'    => Cast::STRING,
+            'url' => Cast::STRING,
+            'title' => Cast::STRING,
+            'description' => Cast::STRING,
+            'keywords' => Cast::STRING,
         ];
     }
 
@@ -43,9 +42,10 @@ class TemplateConfig extends EntityConfig
     {
         $cells = CellFactory::build();
         return [
-            $cells->string('ID', 'id', \SORT_DESC),
-            $cells->string('Код', 'code', \SORT_ASC),
-            $cells->string('Тема', 'subject', \SORT_ASC),
+            $cells->string('URL', 'url', \SORT_DESC),
+            $cells->checkbox('title', 'title'),
+            $cells->checkbox('description', 'description'),
+            $cells->checkbox('keywords', 'keywords'),
         ];
     }
 
@@ -56,8 +56,7 @@ class TemplateConfig extends EntityConfig
     {
         $filters = FilterFactory::build();
         return [
-            $filters->string('ID', 'id', FilterFactory::MODE_EQUAL),
-            $filters->string('Код', 'code', FilterFactory::MODE_LIKE),
+            $filters->string('URL', 'url', FilterFactory::MODE_LIKE),
         ];
     }
 
@@ -68,10 +67,10 @@ class TemplateConfig extends EntityConfig
     {
         $fields = FieldFactory::build();
         return [
-            $fields->string('Код', 'code'),
-            $fields->string('Тема', 'subject'),
-            $fields->html('Шаблон html', 'html'),
-            $fields->textarea('Шаблон text', 'text'),
+            $fields->string('URL', 'url'),
+            $fields->string('title', 'title'),
+            $fields->string('description', 'description'),
+            $fields->string('keywords', 'keywords'),
         ];
     }
 
@@ -81,8 +80,12 @@ class TemplateConfig extends EntityConfig
     public function getForm(): AdminForm
     {
         return new AdminForm([
-            [['code', 'subject', 'html'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            [['text']],
+            [['url'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['title', 'description', 'keywords']],
+        ], [
+            [['url'], function ($value) {
+                return '/' . \trim($value, '/');
+            }]
         ]);
     }
 }
