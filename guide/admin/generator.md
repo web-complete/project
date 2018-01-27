@@ -5,7 +5,7 @@
 
 Вызов команды:
 ```
-php ./console.php admin:generate
+php console.php admin:generate
 ```
 
 Команда позволяет генерировать три типа кубов:
@@ -24,7 +24,7 @@ php ./console.php admin:generate common feedback -t empty -f
 
 ### сушности типовые
 ```
-php ./console.php admin:generate catalog product-property -t entity -f
+php console.php admin:generate catalog product-property -t entity -f
 ```
 
 Вышеприведенная команда создаст куб с типовой сущностью. После создания куба
@@ -35,7 +35,7 @@ php ./console.php admin:generate catalog product-property -t entity -f
 
 ### сущности кастомные
 ```
-php ./console.php admin:generate catalog product-property -t entity -a -f
+php console.php admin:generate catalog product-property -t entity -a -f
 ```
 
 Добавлена опция "-a", которая создаст дополнительно к типовой сущности ассеты с скопированными страницами
