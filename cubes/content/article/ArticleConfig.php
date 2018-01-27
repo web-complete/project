@@ -24,6 +24,7 @@ class ArticleConfig extends EntityConfig
     public $tagField = 'tags';
     public $entityServiceClass = ArticleService::class;
     public $controllerClass = Controller::class;
+    public $entitySeoClass = ArticleSeo::class;
 
     /**
      * @return array

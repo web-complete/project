@@ -20,12 +20,12 @@ interface SeoMetaInterface
     public function getKeywords(): string;
 
     /**
-     * @return SeoMetaOG|null
+     * @return SeoMetaOG
      */
-    public function getMetaOG();
+    public function getMetaOG(): SeoMetaOG;
 
     /**
-     * @return SeoMetaJsonLD|null
+     * @return SeoMetaJsonLD
      */
-    public function getJsonLD();
+    public function getMetaJsonLD(): SeoMetaJsonLD;
 }

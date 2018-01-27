@@ -1,5 +1,6 @@
 <?php
 
+use cubes\seo\seo\SeoManager;
 use cubes\system\settings\Settings;
 use modules\pub\widgets\FooterWidget;
 use modules\pub\widgets\HeaderWidget;
@@ -9,6 +10,7 @@ use cubes\multilang\translation\MultilangHelper;
 /** @var $content */
 
 $settings = $this->getContainer()->get(Settings::class);
+$seoManager = $this->getContainer()->get(SeoManager::class);
 $headerWidget = $this->getContainer()->get(HeaderWidget::class);
 $footerWidget = $this->getContainer()->get(FooterWidget::class);
 
@@ -16,8 +18,11 @@ $footerWidget = $this->getContainer()->get(FooterWidget::class);
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title></title>
+    <title><?=$seoManager->getTitle() ?></title>
     <meta charset="UTF-8"/>
+    <meta name="description" content="<?=$seoManager->getDescription() ?>">
+    <meta name="Keywords" content="<?=$seoManager->getKeywords() ?>">
+    <?=$seoManager->getMetaOG() ?>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type="text/javascript">
@@ -33,6 +38,7 @@ $footerWidget = $this->getContainer()->get(FooterWidget::class);
 <?=$content ?>
 <?=$footerWidget->run(); ?>
 <?=$this->getAssetManager()->applyJs() ?>
+<?=$seoManager->getMetaJsonLD() ?>
 <script type="text/javascript">
     Log.initHandler();
     Translations.data = <?=json_encode(MultilangHelper::getTextMap()) ?>;

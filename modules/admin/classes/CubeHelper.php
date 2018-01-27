@@ -2,6 +2,7 @@
 
 namespace modules\admin\classes;
 
+use cubes\seo\seo\SeoEntityObserver;
 use cubes\system\tags\TagObserver;
 use modules\admin\assets\AdminAsset;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -139,6 +140,22 @@ class CubeHelper
      *
      * @return $this
      */
+    public function observeEntitySeo(EntityConfig $entityConfig)
+    {
+        if ($entityConfig->entitySeoClass) {
+            $entityService = $this->container->get($entityConfig->entityServiceClass);
+            $entitySeo = $this->container->get($entityConfig->entitySeoClass);
+            $seoObserver = $this->container->get(SeoEntityObserver::class);
+            $seoObserver->listen($entityService, $entitySeo);
+        }
+        return $this;
+    }
+
+    /**
+     * @param EntityConfig $entityConfig
+     *
+     * @return $this
+     */
     public function defaultCrud(EntityConfig $entityConfig)
     {
         $name = $entityConfig->name;
@@ -153,7 +170,8 @@ class CubeHelper
             ->addBackendRoute(['GET', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDetail']])
             ->addBackendRoute(['POST', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionSave']])
             ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDelete']])
-            ->observeEntityTagField($entityConfig);
+            ->observeEntityTagField($entityConfig)
+            ->observeEntitySeo($entityConfig);
 
         if ($entityConfig->menuEnabled) {
             $this

@@ -3,6 +3,7 @@
 namespace cubes\content\article;
 
 use cubes\multilang\lang\classes\AbstractMultilangEntity;
+use cubes\seo\seo\SeoEntityTrait;
 
 /**
  *
@@ -20,6 +21,7 @@ use cubes\multilang\lang\classes\AbstractMultilangEntity;
  */
 class Article extends AbstractMultilangEntity
 {
+    use SeoEntityTrait;
 
     /**
      * @return array

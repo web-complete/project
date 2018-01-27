@@ -3,10 +3,7 @@ global $application;
 
 use cubes\content\staticBlock\StaticBlockHelper;
 
-$articleService = $application->getContainer()->get(\cubes\content\article\ArticleService::class);
 /** @var \cubes\content\article\Article $article */
-$article = $articleService->findById(1);
-$article->setLang('en');
 ?>
 
 index template

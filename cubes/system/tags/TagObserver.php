@@ -60,7 +60,7 @@ class TagObserver
 
     protected function listenDelete()
     {
-        $this->entityService->on(AbstractEntityService::EVENT_SAVE_BEFORE, function (array $eventData) {
+        $this->entityService->on(AbstractEntityService::EVENT_DELETE_BEFORE, function (array $eventData) {
             if ($id = $eventData['id'] ?? null) {
                 if (!$item = $eventData['item'] ?? null) {
                     $item = $this->entityService->findById($id);
