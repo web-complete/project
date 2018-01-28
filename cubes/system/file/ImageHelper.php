@@ -41,7 +41,8 @@ class ImageHelper
                     return $image->size((int)$width, (int)$height)->getResizedUrl();
                 }
                 return $defaultUrl;
-            }
+            },
+            Cache::TTL_MONTH
         );
     }
 
@@ -76,7 +77,8 @@ class ImageHelper
                     return $html;
                 }
                 return '';
-            }
+            },
+            Cache::TTL_MONTH
         );
     }
 

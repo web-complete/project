@@ -43,14 +43,6 @@ class SeoManager
     }
 
     /**
-     * @param SeoMetaInterface $seoMeta
-     */
-    public function registerSeoMeta(SeoMetaInterface $seoMeta)
-    {
-        $this->seoMeta = $seoMeta;
-    }
-
-    /**
      * @return string
      */
     public function renderMetaTags(): string
@@ -70,21 +62,6 @@ class SeoManager
             $result .= '<link rel="canonical" href="' . $canonical . "\"/>\n";
         }
         return $result;
-    }
-
-    /**
-     * @return Meta
-     */
-    public function getCurrentPageMeta(): Meta
-    {
-        if (!$this->currentPageMeta) {
-            $url = \parse_url($this->request->getRequestUri(), \PHP_URL_PATH);
-            $condition = $this->metaService->createCondition(['url' => $url]);
-            if (!$this->currentPageMeta = $this->metaService->findOne($condition)) {
-                $this->currentPageMeta = $this->metaService->create();
-            }
-        }
-        return $this->currentPageMeta;
     }
 
     /**
@@ -166,6 +143,37 @@ class SeoManager
             return $this->seoMeta->getNoindex();
         }
         return false;
+    }
+
+    /**
+     * @param SeoMetaInterface $seoMeta
+     */
+    public function registerSeoMeta(SeoMetaInterface $seoMeta)
+    {
+        $this->seoMeta = $seoMeta;
+    }
+
+    /**
+     * @return Meta
+     */
+    public function getCurrentPageMeta(): Meta
+    {
+        if (!$this->currentPageMeta) {
+            $url = $this->getCurrentUrl();
+            $condition = $this->metaService->createCondition(['url' => $url]);
+            if (!$this->currentPageMeta = $this->metaService->findOne($condition)) {
+                $this->currentPageMeta = $this->metaService->create();
+            }
+        }
+        return $this->currentPageMeta;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCurrentUrl(): string
+    {
+        return (string)\parse_url($this->request->getRequestUri(), \PHP_URL_PATH);
     }
 
     /**
