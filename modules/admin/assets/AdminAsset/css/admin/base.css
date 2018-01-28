@@ -12,6 +12,9 @@
     display: table;
     clear: both;
 }
+.hide {
+    display: none !important;
+}
 ._loading {
     opacity: 0.5;
     cursor: wait;

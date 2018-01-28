@@ -8,3 +8,4 @@ composer.lock
 /storage/
 /web/assets/
 /web/usr/
+/web/sitemap.xml

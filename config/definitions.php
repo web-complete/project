@@ -40,7 +40,7 @@ return [
         $storageDir = $aliasService->get('@storage/micro-db');
         return new MicroDb($storageDir, 'app');
     },
-    \WebComplete\mvc\assets\AssetManager::class => function (\DI\Container $di) {
+    \WebComplete\mvc\assets\AssetManager::class   => function (\DI\Container $di) {
         $aliasService = $di->get(\WebComplete\core\utils\alias\AliasService::class);
         return new \WebComplete\mvc\assets\AssetManager(
             new Filesystem(),
@@ -49,7 +49,8 @@ return [
             \ENV === 'prod'
         );
     },
-    Swift_Transport::class => function () {
+    Swift_Transport::class                        => function () {
         return new \Swift_Transport_NullTransport(new Swift_Events_SimpleEventDispatcher());
     },
+    \cubes\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
 ];

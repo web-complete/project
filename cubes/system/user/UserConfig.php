@@ -23,6 +23,7 @@ class UserConfig extends EntityConfig
     public $entityServiceClass = UserService::class;
     public $controllerClass = Controller::class;
     public $menuSectionName = 'Система';
+    public $menuSectionSort = 1000;
 
     /**
      * @return array

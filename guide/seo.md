@@ -116,6 +116,61 @@ Url является обязательным полем. Остальные п�
 
 ### Json-LD
 ### Sitemap
+
+Создать sitemap.xml можно тремя способами:
+
+Способ 1. Сгенерировать через консольную команду:
+```bash
+php console.php sitemap:generate
+```
+
+Способ 2. Сгенерировать в интерфейсе CRM: **SEO -> Sitemap -> Сгенерировать**
+
+Способ 3. Загрузить в интерфейсе CRM: **SEO -> Sitemap -> Загрузить**
+
+Для того, чтобы система знала как генерировать sitemap, необходимо создать класс, имплементирующий интерфейс
+**SeoSitemapInterface** и его единственный метод **generate**, а также зарегистрировать его в definitions.
+ 
+По умолчанию в definitions зарегистрирован и создан следующий класс:
+```php
+    \cubes\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
+```
+
+Данный класс будет передан в **SeoSitemapProcessor**, который запустит процесс генерации.
+
+**\modules\pub\classes\SeoSitemap** может реализовывать любой механизм генерации sitemap, но по умолчанию
+использует библиотеку [samdark/sitemap](https://github.com/samdark/sitemap).
+
+Пример **\modules\pub\classes\SeoSitemap**:
+```php
+class SeoSitemap implements SeoSitemapInterface
+{
+    ...
+    /** @var array [url, priority] */
+    public $staticPages = [
+        ['/', 1],
+        ['/about', 0.7],
+    ];
+    
+    /**
+     * @param Sitemap $sitemap
+     */
+    protected function generateDynamicPages(Sitemap $sitemap)
+    {
+        if($items = $articleService->findAll(['f_active' => 1])) {
+            /** @var Article $item */
+            foreach ($items as $item) {
+                $time = $item->updated_on ? \strtotime($item->updated_on) : \strtotime($item->created_on);
+                $sitemap->addItem($this->prefix . $item->getUrl(), $time, Sitemap::MONTHLY, 0.5);
+            }
+        }
+    }
+    ...
+}
+```
+
+_Необходимо убедиться, что у консоли или web-сервера есть доступ на запись **/web/sitemap.xml**_
+
 ### 301 редиректы
 
 За 301-е редиректы отвечает куб **cubes/seo/redirect**.<br>

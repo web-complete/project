@@ -14,6 +14,7 @@ return [
     ],
     'fields' => [
         'common' => [
+            'site_domain' => $fields->string('Домен сайта', 'site_domain')->placeholder('www.example.com'),
             'site_name' => $fields->string('Название сайта', 'site_name'),
             'site_description' => $fields->string('Описание сайта', 'site_description'),
         ],

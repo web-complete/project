@@ -20,7 +20,7 @@ class Cube extends AbstractCube
             ->addBackendRoute(['GET', '/admin/api/settings', [Controller::class, 'actionGet']])
             ->addBackendRoute(['POST', '/admin/api/settings', [Controller::class, 'actionSave']])
             ->addVueRoute(['path' => '/settings', 'component' => 'VuePageSettings'])
-            ->addMenuSection('Система', 900)
+            ->addMenuSection('Система', 1000)
             ->addMenuItem('Система', 'Настройки', '/settings', 100);
     }
 }

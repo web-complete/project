@@ -7,4 +7,5 @@ return [
     \WebComplete\core\utils\cache\CacheCommand::class,
     \WebComplete\core\utils\migration\commands\MigrationUpCommand::class,
     \WebComplete\core\utils\migration\commands\MigrationDownCommand::class,
+    \cubes\seo\sitemap\commands\SitemapCommand::class,
 ];

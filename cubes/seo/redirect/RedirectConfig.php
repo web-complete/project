@@ -19,6 +19,8 @@ class RedirectConfig extends EntityConfig
     public $titleList = '301 редиректы';
     public $titleDetail = '301 редирект';
     public $menuSectionName = 'SEO';
+    public $menuSectionSort = 200;
+    public $menuItemSort = 200;
     public $entityServiceClass = RedirectService::class;
     public $controllerClass = Controller::class;
 

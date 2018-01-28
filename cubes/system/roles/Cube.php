@@ -25,7 +25,7 @@ class Cube extends AbstractCube
             ->addBackendRoute(['DELETE', "/admin/api/roles/{id:\w+}", [$controllerClass, 'actionDelete']])
             ->addVueRoute(['path' => '/roles/:id', 'component' => 'VuePageRolesDetail'], 800)
             ->addVueRoute(['path' => '/roles', 'component' => 'VuePageRolesList'], 810)
-            ->addMenuSection('Система', 100)
+            ->addMenuSection('Система', 1000)
             ->addMenuItem('Система', 'Роли', '/roles', 105);
     }
 }
