@@ -22,6 +22,7 @@ class ArticleConfig extends EntityConfig
     public $titleDetail = 'Статья';
     public $menuSectionName = 'Контент';
     public $tagField = 'tags';
+    public $searchable = true;
     public $entityServiceClass = ArticleService::class;
     public $controllerClass = Controller::class;
     public $entitySeoClass = ArticleSeo::class;

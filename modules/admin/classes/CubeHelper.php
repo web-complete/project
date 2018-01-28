@@ -2,9 +2,12 @@
 
 namespace modules\admin\classes;
 
+use cubes\search\search\Searchable;
+use cubes\search\search\SearchObserver;
 use cubes\seo\seo\SeoEntityObserver;
 use cubes\system\tags\TagObserver;
 use modules\admin\assets\AdminAsset;
+use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\mvc\ApplicationConfig;
 use WebComplete\mvc\assets\AbstractAsset;
@@ -139,6 +142,27 @@ class CubeHelper
      * @param EntityConfig $entityConfig
      *
      * @return $this
+     * @throws \RuntimeException
+     */
+    public function observeEntitySearch(EntityConfig $entityConfig)
+    {
+        if ($entityConfig->searchable) {
+            /** @var AbstractEntityService $entityService */
+            $entityService = $this->container->get($entityConfig->entityServiceClass);
+            $entity = $entityService->create();
+            if (!$entity instanceof Searchable) {
+                throw new \RuntimeException(\get_class($entity) . ' must implement interface: ' . Searchable::class);
+            }
+            $searchObserver = $this->container->get(SearchObserver::class);
+            $searchObserver->listen($entityService);
+        }
+        return $this;
+    }
+
+    /**
+     * @param EntityConfig $entityConfig
+     *
+     * @return $this
      */
     public function observeEntitySeo(EntityConfig $entityConfig)
     {
@@ -155,6 +179,7 @@ class CubeHelper
      * @param EntityConfig $entityConfig
      *
      * @return $this
+     * @throws \RuntimeException
      */
     public function defaultCrud(EntityConfig $entityConfig)
     {
@@ -171,6 +196,7 @@ class CubeHelper
             ->addBackendRoute(['POST', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionSave']])
             ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDelete']])
             ->observeEntityTagField($entityConfig)
+            ->observeEntitySearch($entityConfig)
             ->observeEntitySeo($entityConfig);
 
         if ($entityConfig->menuEnabled) {
