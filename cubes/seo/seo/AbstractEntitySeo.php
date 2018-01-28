@@ -192,12 +192,4 @@ abstract class AbstractEntitySeo implements SeoMetaInterface
     {
         return new SeoMetaOG();
     }
-
-    /**
-     * @return SeoMetaJsonLD
-     */
-    public function getMetaJsonLD(): SeoMetaJsonLD
-    {
-        return new SeoMetaJsonLD();
-    }
 }

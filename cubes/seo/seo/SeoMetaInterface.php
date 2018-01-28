@@ -33,9 +33,4 @@ interface SeoMetaInterface
      * @return SeoMetaOG
      */
     public function getMetaOG(): SeoMetaOG;
-
-    /**
-     * @return SeoMetaJsonLD
-     */
-    public function getMetaJsonLD(): SeoMetaJsonLD;
 }

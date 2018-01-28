@@ -69,16 +69,7 @@ class SeoManager
         if ($canonical = $this->getCanonical()) {
             $result .= '<link rel="canonical" href="' . $canonical . "\"/>\n";
         }
-        $result .= $this->renderMetaJsonLD();
         return $result;
-    }
-
-    /**
-     * @return string
-     */
-    public function renderMetaJsonLD(): string
-    {
-        return '';
     }
 
     /**

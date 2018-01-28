@@ -36,7 +36,6 @@ $footerWidget = $this->getContainer()->get(FooterWidget::class);
 <?=$content ?>
 <?=$footerWidget->run(); ?>
 <?=$this->getAssetManager()->applyJs() ?>
-<?=$seoManager->renderMetaJsonLD() ?>
 <script type="text/javascript">
     Log.initHandler();
     Translations.data = <?=json_encode(MultilangHelper::getTextMap()) ?>;
