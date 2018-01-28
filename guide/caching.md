@@ -27,6 +27,7 @@ public static function getOrSet(string $key, \Closure $closure, int $ttl = null,
 public static function html(string $key, int $ttl = null, array $tags = []);
 public static function invalidate(string $key);
 public static function invalidateTags(array $tags);
+public static function clear();
 ```
 
 Примеры использования:
@@ -63,6 +64,18 @@ $result = Cache::getOrSet('key1', function () {
         Some page content to be cached here.
     </div>
 <?php $cache->end(); } ?>
+```
+
+## Runtime cache хелпер
+
+Также Core предоставляет хелпер **CacheRuntime**, который обеспечивает хранение данных в памяти в пределах текущего
+запроса и предоставляет следующие, схожие с хелпером **Cache**, методы:
+```php
+public static function get(string $key);
+public static function set(string $key, $value);
+public static function getOrSet(string $key, \Closure $closure);
+public static function invalidate(string $key);
+public static function clear();
 ```
 
 Далее: [Права доступа](auth.md)<br>
