@@ -9,5 +9,6 @@ return [
     \WebComplete\core\utils\migration\commands\MigrationDownCommand::class,
     \cubes\seo\sitemap\commands\SitemapCommand::class,
     \cubes\search\search\commands\SearchClearCommand::class,
+    \cubes\search\search\commands\SearchCountCommand::class,
     \cubes\search\search\commands\SearchReindexCommand::class,
 ];
