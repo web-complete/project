@@ -64,7 +64,7 @@ class Article extends AbstractMultilangEntity implements Searchable
 }
 ```
 
-Остальную работы выполнит **SearchObserver**
+Остальную работу выполнит **SearchObserver**
 
 ## Консольные команды
 
@@ -86,7 +86,7 @@ $ php console.php search:reindex
 
 В платформе предусмотрены следующие адаптеры:
 1. **NullSearchAdapter** - заглушка
-2. **MicroSearchAdapter** - с использованием файлового (MicroDb)[https://github.com/web-complete/microDb]
+2. **MicroSearchAdapter** - с использованием файлового [MicroDb](https://github.com/web-complete/microDb)
 3. **ZendLuceneSearchAdapter** 
 4. **ElasticSearchAdapter**
 
