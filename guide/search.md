@@ -19,7 +19,7 @@
 
 и далее отправить в поисковый сервис на индекс:
 ```php
-$searchService->index($doc);
+$searchService->indexDoc($doc);
 ```
 
 Поиск:
