@@ -1,5 +1,6 @@
 <?php
 
+use cubes\system\elastic\ElasticSearch;
 use modules\admin\controllers\ErrorController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,4 +55,7 @@ return [
     },
     \cubes\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
     \cubes\search\search\SearchInterface::class => \DI\object(\cubes\search\search\adapters\MicroSearchAdapter::class),
+    \cubes\system\elastic\ElasticSearch::class => function () {
+        return new ElasticSearch('wcp', ['localhost:9200']);
+    },
 ];
