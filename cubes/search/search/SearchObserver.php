@@ -2,6 +2,7 @@
 
 namespace cubes\search\search;
 
+use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 
 class SearchObserver
@@ -11,16 +12,22 @@ class SearchObserver
      */
     protected $searchService;
     /**
+     * @var SearchEntityIndexer
+     */
+    protected $entityIndexer;
+    /**
      * @var AbstractEntityService
      */
     protected $entityService;
 
     /**
      * @param SearchService $searchService
+     * @param SearchEntityIndexer $entityIndexer
      */
-    public function __construct(SearchService $searchService)
+    public function __construct(SearchService $searchService, SearchEntityIndexer $entityIndexer)
     {
         $this->searchService = $searchService;
+        $this->entityIndexer = $entityIndexer;
     }
 
     /**
@@ -36,20 +43,24 @@ class SearchObserver
     protected function listenSave()
     {
         $this->entityService->on(AbstractEntityService::EVENT_SAVE_AFTER, function (array $eventData) {
-            /** @var Searchable $item */
+            /** @var AbstractEntity $item */
             if ($item = $eventData['item'] ?? null) {
-                $doc = $this->searchService->createDoc();
-                $item->prepareSearchDoc($doc);
-                $this->searchService->indexDoc($doc);
+                $this->entityIndexer->index($item);
             }
         });
     }
 
     protected function listenDelete()
     {
-        $this->entityService->on(AbstractEntityService::EVENT_DELETE_AFTER, function (array $eventData) {
+        $this->entityService->on(AbstractEntityService::EVENT_DELETE_BEFORE, function (array $eventData) {
             if ($id = $eventData['id'] ?? null) {
-                $this->searchService->deleteDoc($id);
+                if (!$item = $eventData['item'] ?? null) {
+                    $item = $this->entityService->findById($id);
+                }
+
+                $doc = $this->searchService->createDoc();
+                $item->prepareSearchDoc($doc);
+                $this->searchService->deleteDoc($doc->type, $id);
             }
         });
     }

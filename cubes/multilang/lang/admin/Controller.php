@@ -20,7 +20,7 @@ class Controller extends AbstractEntityController
     public function actionSave(): Response
     {
         $id = (int)$this->request->get('id');
-        $data = $this->request->request->all();
+        $data = (array)$this->request->request->all();
         $entityConfig = $this->getEntityConfig();
         /** @var LangService $entityService */
         $entityService = $this->getEntityService();
@@ -30,7 +30,7 @@ class Controller extends AbstractEntityController
 
         $itemOldData = $item->mapToArray();
         $form = $entityConfig->getForm();
-        $form->setData($data);
+        $form->setData($this->processNestedData($data['data'] ?? []));
         if ($form->validate() && $this->beforeSave($item, $form)) {
             $entityService->save($item, $itemOldData);
             $this->afterSave($item, $form);

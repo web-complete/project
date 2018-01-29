@@ -64,10 +64,11 @@ class TagObserver
             if ($id = $eventData['id'] ?? null) {
                 if (!$item = $eventData['item'] ?? null) {
                     $item = $this->entityService->findById($id);
-                    if ($tags = (string)$item->get($this->tagField)) {
-                        foreach (\explode(',', $tags) as $tag) {
-                            $this->tagService->detachTag($tag, \get_class($this->entityService), $id);
-                        }
+                }
+
+                if ($tags = (string)$item->get($this->tagField)) {
+                    foreach (\explode(',', $tags) as $tag) {
+                        $this->tagService->detachTag($tag, \get_class($this->entityService), $id);
                     }
                 }
             }

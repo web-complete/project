@@ -2,6 +2,7 @@
 
 namespace cubes\search\search;
 
+use WebComplete\core\utils\helpers\StringHelper;
 use WebComplete\core\utils\paginator\Paginator;
 
 class SearchService implements SearchInterface
@@ -15,15 +16,21 @@ class SearchService implements SearchInterface
      * @var SearchDocFactory
      */
     protected $factory;
+    /**
+     * @var StringHelper
+     */
+    protected $stringHelper;
 
     /**
      * @param SearchInterface $adapter
      * @param SearchDocFactory $factory
+     * @param StringHelper $stringHelper
      */
-    public function __construct(SearchInterface $adapter, SearchDocFactory $factory)
+    public function __construct(SearchInterface $adapter, SearchDocFactory $factory, StringHelper $stringHelper)
     {
         $this->adapter = $adapter;
         $this->factory = $factory;
+        $this->stringHelper = $stringHelper;
     }
 
     /**
@@ -39,17 +46,23 @@ class SearchService implements SearchInterface
      */
     public function indexDoc(SearchDoc $doc)
     {
-        return $doc->isToDelete()
-            ? $this->deleteDoc($doc->getId())
-            : $this->adapter->indexDoc($doc);
+        if ($doc->isToDelete()) {
+            return $this->deleteDoc($doc->type, $doc->item_id);
+        }
+
+        $doc->weight = $doc->weight ?: 1;
+        $doc->content = $this->stringHelper->html2text($doc->content);
+        return $this->adapter->indexDoc($doc);
     }
 
     /**
-     * @param $id
+     * @param string $type
+     * @param string|int $itemId
+     * @param string $langCode
      */
-    public function deleteDoc($id)
+    public function deleteDoc(string $type, $itemId, string $langCode = null)
     {
-        return $this->adapter->deleteDoc($id);
+        return $this->adapter->deleteDoc($type, $itemId, $langCode);
     }
 
     /**
@@ -63,6 +76,16 @@ class SearchService implements SearchInterface
     public function search(Paginator $paginator, string $query, string $type = null, string $langCode = null): array
     {
         return $this->adapter->search($paginator, $query, $type, $langCode);
+    }
+
+    /**
+     * @param string|null $type
+     *
+     * @return int
+     */
+    public function count(string $type = null): int
+    {
+        return $this->adapter->count($type);
     }
 
     /**

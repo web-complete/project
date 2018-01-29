@@ -272,7 +272,7 @@ class AbstractEntityController extends AbstractController
      *
      * @return mixed|null
      */
-    private function getNestedValue(AbstractEntity $item, string $field)
+    protected function getNestedValue(AbstractEntity $item, string $field)
     {
         $path = \explode('.', $field);
         $node = \array_shift($path);
@@ -295,7 +295,7 @@ class AbstractEntityController extends AbstractController
      *
      * @return array
      */
-    private function processNestedData(array $data): array
+    protected function processNestedData(array $data): array
     {
         $arrayHelper = $this->container->get(ArrayHelper::class);
         foreach ($data as $field => $value) {

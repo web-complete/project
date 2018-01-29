@@ -43,12 +43,15 @@ class Article extends AbstractMultilangEntity implements Searchable
      */
     public function prepareSearchDoc(SearchDoc $doc)
     {
-        $doc->setId($this->getId());
         $doc->type = 'article';
+        $doc->item_id = $this->getId();
         $doc->title = $this->title;
         $doc->content = $this->text;
         $doc->image = $this->image_detail ? ImageHelper::getUrl($this->image_detail) : '';
         $doc->url = $this->getUrl();
         $doc->weight = 1;
+        if (!$this->is_active) {
+            $doc->markToDelete();
+        }
     }
 }

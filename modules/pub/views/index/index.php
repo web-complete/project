@@ -4,6 +4,9 @@ global $application;
 use cubes\content\staticBlock\StaticBlockHelper;
 
 /** @var \cubes\content\article\Article $article */
+
+$search = $application->getContainer()->get(\cubes\search\search\SearchService::class);
+$docs = $search->search(new \WebComplete\core\utils\paginator\Paginator(), 'aaa');
 ?>
 
 index template

@@ -53,5 +53,5 @@ return [
         return new \Swift_Transport_NullTransport(new Swift_Events_SimpleEventDispatcher());
     },
     \cubes\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
-    \cubes\search\search\SearchInterface::class => \DI\object(\cubes\search\search\adapters\NullSearchAdapter::class),
+    \cubes\search\search\SearchInterface::class => \DI\object(\cubes\search\search\adapters\MicroSearchAdapter::class),
 ];
