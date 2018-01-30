@@ -89,6 +89,23 @@ $ php console.php search:reindex
 2. **MicroSearchAdapter** - с использованием файлового [MicroDb](https://github.com/web-complete/microDb)
 4. **ElasticSearchAdapter**
 
+## ElasticSearch
+
+Для подключения **ElasticSearchAdapter**, в definitions.php необходимо сконфигурировать **ElasticSearchDriver**:
+```php
+    \cubes\system\elastic\ElasticSearchDriver::class => function () {
+        return new ElasticSearchDriver('wcp', ['localhost:9200']);
+    },
+    SearchInterface::class => \DI\object(\cubes\search\search\adapters\ElasticSearchAdapter::class),
+```
+
+**ElasticSearchDriver** используется для доступа к elastic-серверу классами-индексами **AbstractElasticIndex**.
+Данные классы-индексы обеспечивают единый интерфейс взаимодействия с ElasticSearch, на базе официальной библиотеки
+[elasticsearch/elasticsearch](https://github.com/elastic/elasticsearch-php).
+
+Поисковый адаптер **ElasticSearchAdapter** использует класс-индекс **ElasticSearchDocIndex**
+(содержит логику построения запроса и матчинга), унаследованный от **AbstractElasticIndex**.
+
 ## Мультиязычный поиск
 
 Про мультиязычный поиск см. раздел [Работа с мультиязычностью](multilang.md).

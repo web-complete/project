@@ -5,12 +5,12 @@ namespace cubes\system\elastic;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 
-class ElasticSearch
+class ElasticSearchDriver
 {
     /**
      * @var bool
      */
-    public $safe;
+    public $debug;
     /**
      * @var string
      */
@@ -23,17 +23,18 @@ class ElasticSearch
      * @var Client
      */
     protected $client;
+    protected $lastSearchQuery = '';
 
     /**
      * @param string $prefix
      * @param string[] $hosts
-     * @param bool $safe
+     * @param bool $debug
      */
-    public function __construct(string $prefix, array $hosts, bool $safe = true)
+    public function __construct(string $prefix, array $hosts, bool $debug = false)
     {
         $this->prefix = $prefix;
         $this->hosts = $hosts;
-        $this->safe = $safe;
+        $this->debug = $debug;
     }
 
     /**
@@ -55,5 +56,23 @@ class ElasticSearch
     public function getIndexName(string $name): string
     {
         return $this->prefix . ':' . $name;
+    }
+
+    /**
+     * @param array $params
+     */
+    public function setLastSearchQuery(array $params)
+    {
+        $this->lastSearchQuery = $this->debug
+            ? \json_encode($params, \JSON_PRETTY_PRINT)
+            : \json_encode($params);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastSearchQuery(): string
+    {
+        return $this->lastSearchQuery;
     }
 }

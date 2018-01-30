@@ -8,7 +8,6 @@ class ElasticSearchDocIndex extends AbstractElasticIndex
 {
 
     /**
-     * Warning! Use getRealIndexName() instead
      * @return string
      */
     public function getIndexName(): string
@@ -25,7 +24,8 @@ class ElasticSearchDocIndex extends AbstractElasticIndex
             'index' => $this->getRealIndexName(),
             'body' => [
                 'settings' => [
-                    'number_of_shards' => 1, // https://www.elastic.co/guide/en/elasticsearch/guide/current/relevance-is-broken.html
+                    // https://www.elastic.co/guide/en/elasticsearch/guide/current/relevance-is-broken.html
+                    'number_of_shards' => 1,
                     'max_result_window' => 1000000,
                     'analysis' => [
                         'filter' => [
@@ -47,19 +47,14 @@ class ElasticSearchDocIndex extends AbstractElasticIndex
                                 'min_gram' => 3,
                                 'max_gram' => 10,
                             ],
-                            'synonym' => [
-                                'type' => 'synonym',
-                                // TODO INJECT
-                                'synonyms' => ServiceManager::getInstance()->searchSynonymService->getRepository()->getSynonyms(),
-                            ],
                         ],
                         'analyzer' => [
                             'index_text' => [
                                 'char_filter' => ['html_strip', 'ru_chars'],
                                 'tokenizer' => 'standard',
                                 // установить морфологию https://github.com/imotov/elasticsearch-analysis-morphology
-//                                'filter' => ['lowercase', 'synonym', 'ru_stop', 'ru_stemmer'], // простой вариант без плагина
-                                'filter' => ['lowercase', 'synonym', 'russian_morphology', 'english_morphology'],
+//                                'filter' => ['lowercase', 'russian_morphology', 'english_morphology'],
+                                'filter' => ['lowercase', 'ru_stop', 'ru_stemmer'], // простой вариант без плагина
                             ],
                             'index_autocomplete' => [
                                 'type' => 'custom',
@@ -72,11 +67,6 @@ class ElasticSearchDocIndex extends AbstractElasticIndex
                                 'tokenizer' => 'standard',
                                 'filter' => ['lowercase', 'ngram_3_10_filter',]
                             ],
-                            'search_partial' => [
-                                'type' => 'custom',
-                                'tokenizer' => 'standard',
-                                'filter' => ['lowercase',]
-                            ]
                         ],
                         'char_filter' => [
                             'ru_chars' => [
@@ -92,12 +82,17 @@ class ElasticSearchDocIndex extends AbstractElasticIndex
                 'mappings' => [
                     '_default_' => [
                         'properties' => [
-                            'title'   => ['type' => 'text', 'analyzer' => 'index_text', 'term_vector' => 'with_positions_offsets'],
-                            'auto'    => ['type' => 'text', 'analyzer' => 'index_autocomplete'],
-                            'partial' => ['type' => 'text', 'analyzer' => 'index_partial', 'search_analyzer' => 'search_partial'],
-                            'content' => ['type' => 'text', 'analyzer' => 'index_text', 'term_vector' => 'with_positions_offsets'],
-                            'extra'   => ['type' => 'text', 'analyzer' => 'index_text'],
-                            'tags'    => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'type'      => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'auto'      => ['type' => 'text', 'analyzer' => 'index_autocomplete'],
+                            'title'     => ['type' => 'text', 'analyzer' => 'index_text',
+                                            'term_vector' => 'with_positions_offsets'],
+                            'content'   => ['type' => 'text', 'analyzer' => 'index_text',
+                                            'term_vector' => 'with_positions_offsets'],
+                            'extra'     => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'image'     => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'url'       => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'lang_code' => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'weight'    => ['type' => 'integer'],
                         ]
                     ],
                 ],

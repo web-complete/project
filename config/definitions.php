@@ -1,6 +1,7 @@
 <?php
 
-use cubes\system\elastic\ElasticSearch;
+use cubes\search\search\SearchInterface;
+use cubes\system\elastic\ElasticSearchDriver;
 use modules\admin\controllers\ErrorController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,8 +55,8 @@ return [
         return new \Swift_Transport_NullTransport(new Swift_Events_SimpleEventDispatcher());
     },
     \cubes\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
-    \cubes\search\search\SearchInterface::class => \DI\object(\cubes\search\search\adapters\MicroSearchAdapter::class),
-    \cubes\system\elastic\ElasticSearch::class => function () {
-        return new ElasticSearch('wcp', ['localhost:9200']);
+    \cubes\system\elastic\ElasticSearchDriver::class => function () {
+        return new ElasticSearchDriver('wcp', ['localhost:9200']);
     },
+    SearchInterface::class => \DI\object(\cubes\search\search\adapters\ElasticSearchAdapter::class),
 ];

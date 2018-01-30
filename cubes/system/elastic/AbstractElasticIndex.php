@@ -8,15 +8,16 @@ abstract class AbstractElasticIndex
 {
 
     /**
-     * @var ElasticSearch
+     * @var ElasticSearchDriver
      */
     protected $elasticSearch;
     protected $defaultType = 'main';
+    protected $refresh = false; // true | wait_for
 
     /**
-     * @param ElasticSearch $elasticSearch
+     * @param ElasticSearchDriver $elasticSearch
      */
-    public function __construct(ElasticSearch $elasticSearch)
+    public function __construct(ElasticSearchDriver $elasticSearch)
     {
         $this->elasticSearch = $elasticSearch;
     }
@@ -89,6 +90,7 @@ abstract class AbstractElasticIndex
         $params['index'] = $this->getRealIndexName();
         $params['type'] = $type ?: $this->defaultType;
         $params['body'] = $body;
+        $params['refresh'] = $this->refresh;
         return $this->safe(function () use ($params) {
             return $this->elasticSearch->getClient()->index($params);
         }, false);
@@ -125,6 +127,7 @@ abstract class AbstractElasticIndex
         $params['type'] = $type ?: $this->defaultType;
 
         return (array)$this->safe(function () use ($params) {
+            $this->elasticSearch->setLastSearchQuery($params);
             return (array)$this->elasticSearch->getClient()->search($params);
         });
     }
@@ -164,18 +167,18 @@ abstract class AbstractElasticIndex
 
     /**
      * @param \Closure $closure
-     * @param array $default
+     * @param string|array|mixed $default
      *
      * @return array|mixed
      * @throws \Exception
      */
-    protected function safe(\Closure $closure, array $default = [])
+    protected function safe(\Closure $closure, $default = null)
     {
         try {
             return $closure();
         } catch (\Exception $e) {
             Log::exception($e);
-            if (!$this->elasticSearch->safe) {
+            if ($this->elasticSearch->debug) {
                 throw $e;
             }
             return $default;
