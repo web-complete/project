@@ -113,7 +113,6 @@ class ElasticSearchTest extends \AppTestCase
         $this->assertEquals(3, $this->searchService->count(), $this->driver->getLastSearchQuery());
         $this->searchService->clear();
         $this->assertEquals(0, $this->searchService->count(), $this->driver->getLastSearchQuery());
-
     }
 
     public function testSearchMultilang()

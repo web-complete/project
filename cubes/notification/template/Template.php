@@ -2,8 +2,8 @@
 
 namespace cubes\notification\template;
 
+use cubes\multilang\lang\classes\AbstractMultilangEntity;
 use cubes\system\logger\Log;
-use WebComplete\core\entity\AbstractEntity;
 
 /**
  *
@@ -12,7 +12,7 @@ use WebComplete\core\entity\AbstractEntity;
  * @property $html
  * @property $text
 */
-class Template extends AbstractEntity
+class Template extends AbstractMultilangEntity
 {
 
     /**

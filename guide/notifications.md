@@ -88,5 +88,15 @@ $mailService->sendTemplate(
 );
 ```
 
+## Мультиязычность
+
+Шаблоны поддерживают мультиязычность, как и любая сущность:
+```php
+$template = $templateService->findByCode('new_order');
+$template->setLang('en');
+$mailService->sendTemplate(
+...
+```
+
 Далее: [Работа с SEO](seo.md)<br>
 Вверх: [Оглавление](index.md)

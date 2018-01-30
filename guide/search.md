@@ -91,6 +91,8 @@ $ php console.php search:reindex
 
 ## ElasticSearch
 
+ElasticSearch помимо гибкости настройки и релевантности поиска, также обеспечивает и подсветку текста тегом \<em>.
+
 Для подключения **ElasticSearchAdapter**, в definitions.php необходимо сконфигурировать **ElasticSearchDriver**:
 ```php
     \cubes\system\elastic\ElasticSearchDriver::class => function () {

@@ -69,9 +69,9 @@ class TemplateConfig extends EntityConfig
         $fields = FieldFactory::build();
         return [
             $fields->string('Код', 'code'),
-            $fields->string('Тема', 'subject'),
-            $fields->html('Шаблон html', 'html'),
-            $fields->textarea('Шаблон text', 'text'),
+            $fields->string('Тема', 'subject')->multilang(true),
+            $fields->html('Шаблон html', 'html')->multilang(true),
+            $fields->textarea('Шаблон text', 'text')->multilang(true),
         ];
     }
 
