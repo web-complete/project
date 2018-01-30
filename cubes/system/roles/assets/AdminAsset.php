@@ -4,7 +4,7 @@ namespace cubes\system\roles\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
-class RolesAsset extends AbstractAsset
+class AdminAsset extends AbstractAsset
 {
 
     /**
@@ -12,7 +12,7 @@ class RolesAsset extends AbstractAsset
      */
     public function getBasePath(): string
     {
-        return __DIR__ . '/RolesAsset';
+        return __DIR__ . '/AdminAsset';
     }
 
     /**

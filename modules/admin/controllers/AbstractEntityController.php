@@ -297,10 +297,9 @@ class AbstractEntityController extends AbstractController
      */
     protected function processNestedData(array $data): array
     {
-        $arrayHelper = $this->container->get(ArrayHelper::class);
         foreach ($data as $field => $value) {
             if (\strrpos($field, '.') !== false) {
-                $arrayHelper->setValue($data, $field, $value);
+                ArrayHelper::setValue($data, $field, $value);
                 unset($data[$field]);
             }
         }

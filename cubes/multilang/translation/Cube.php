@@ -8,13 +8,15 @@ use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\multilang\translation\migrations\TranslationMigration;
 use modules\admin\classes\CubeHelper;
-use cubes\multilang\translation\assets\TranslationAsset;
+use cubes\multilang\translation\assets\AdminAsset;
 use cubes\multilang\translation\assets\PubAsset as MultilangPubAsset;
 
 class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function bootstrap(ContainerInterface $container)
     {
@@ -24,7 +26,7 @@ class Cube extends AbstractCube
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper
             ->defaultCrud($entityConfig)
-            ->appendAsset($container->get(TranslationAsset::class))
+            ->appendAsset($container->get(AdminAsset::class))
             ->addVueRoute(['path' => '/list/' . $name, 'component' => 'VuePageTranslationList'])
             ->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageTranslationDetail'])
             ->addBackendRoute(['POST', '/admin/api/translation/create',

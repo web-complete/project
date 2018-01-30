@@ -17,11 +17,11 @@
 ```
 staticBlock/
     assets/
-        StaticBlockAsset/
+        AdminAsset/
             js/
                 VuePageStaticBlockList.js
                 VuePageStaticBlockDetail.js
-        StaticBlockAsset.php
+        AdminAsset.php
 ```
 
 В данном примере мы переопределяем и страницу листинга, и детальную страницу
@@ -30,20 +30,20 @@ staticBlock/
 
 При необходимости, можно добавлять новые vue-компоненты.
 
-Класс ассета StaticBlockAsset.php (наследуемый от AbstractAsset) регистрирует новые js-файлы.
+Класс ассета AdminAsset.php (наследуемый от AbstractAsset) регистрирует новые js-файлы.
 
 Далее необходимо добавить маршруты и подключить ассет. Это происходит в классе Cube,
 метод bootstrap:
 
 ```php
     $cubeHelper->defaultCrud($entityConfig);
-    $cubeHelper->appendAsset($container->get(StaticBlockAsset::class));
+    $cubeHelper->appendAsset($container->get(AdminAsset::class));
     $cubeHelper->addVueRoute(['path' => '/list/' . $name, 'component' => 'VuePageStaticBlockList']);
     $cubeHelper->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageStaticBlockDetail']);
 ```
 
 Помимо стандартного подключения куба defaultCrud(), в данном примере мы:
-1. регистрируем ассет (он добавляется прицепом к AdminAsset)
+1. регистрируем ассет (он добавляется прицепом к основному modules\admin\assets\AdminAsset)
 2. добавляем vue-маршруты, указывающие на переопределенные компоненты страниц.
 
 При необходимости можно использовать вместо defaultCrud() полностью кастомное подключение.

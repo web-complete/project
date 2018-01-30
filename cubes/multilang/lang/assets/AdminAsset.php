@@ -4,7 +4,7 @@ namespace cubes\multilang\lang\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
-class LangAsset extends AbstractAsset
+class AdminAsset extends AbstractAsset
 {
 
     /**
@@ -12,7 +12,7 @@ class LangAsset extends AbstractAsset
      */
     public function getBasePath(): string
     {
-        return __DIR__ . '/LangAsset';
+        return __DIR__ . '/AdminAsset';
     }
 
     /**

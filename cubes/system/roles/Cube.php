@@ -3,7 +3,7 @@
 namespace cubes\system\roles;
 
 use cubes\system\roles\admin\Controller;
-use cubes\system\roles\assets\RolesAsset;
+use cubes\system\roles\assets\AdminAsset;
 use modules\admin\classes\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -18,7 +18,7 @@ class Cube extends AbstractCube
         $controllerClass = Controller::class;
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper
-            ->appendAsset($container->get(RolesAsset::class))
+            ->appendAsset($container->get(AdminAsset::class))
             ->addBackendRoute(['GET', '/admin/api/roles', [$controllerClass, 'actionList']])
             ->addBackendRoute(['GET', "/admin/api/roles/{id:\w+}", [$controllerClass, 'actionDetail']])
             ->addBackendRoute(['POST', "/admin/api/roles/{id:\w+}", [$controllerClass, 'actionSave']])

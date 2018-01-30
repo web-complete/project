@@ -11,6 +11,7 @@
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./cubes</directory>
+            <directory suffix="Test.php">./modules</directory>
             <directory suffix="Test.php">./tests/application</directory>
         </testsuite>
     </testsuites>

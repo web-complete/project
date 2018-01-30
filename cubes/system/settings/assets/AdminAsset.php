@@ -1,10 +1,10 @@
 <?php
 
-namespace cubes\multilang\translation\assets;
+namespace cubes\system\settings\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
-class TranslationAsset extends AbstractAsset
+class AdminAsset extends AbstractAsset
 {
 
     /**
@@ -12,7 +12,7 @@ class TranslationAsset extends AbstractAsset
      */
     public function getBasePath(): string
     {
-        return __DIR__ . '/TranslationAsset';
+        return __DIR__ . '/AdminAsset';
     }
 
     /**
@@ -29,8 +29,7 @@ class TranslationAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            'js/VuePageTranslationList.js',
-            'js/VuePageTranslationDetail.js',
+            'js/VuePageSettings.js',
         ];
     }
 }

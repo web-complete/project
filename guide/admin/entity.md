@@ -68,7 +68,9 @@ class Controller extends AbstractEntityController
             ->addBackendRoute(['GET', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDetail']])
             ->addBackendRoute(['POST', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionSave']])
             ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDelete']])
-            ->observeEntityTagField($entityConfig); // поддерживаем функционал тэгов
+            ->observeEntityTagField($entityConfig) // поддерживаем функционал тэгов
+            ->observeEntitySearch($entityConfig) // поддерживаем функционал поиска
+            ->observeEntitySeo($entityConfig); // поддерживаем функционал seo
 
         // добавляем раздел (если еще не создан) и ссылку на страницу в левое меню CMS
         if ($entityConfig->menuEnabled) {

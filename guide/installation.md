@@ -14,10 +14,10 @@ $ rm -rf .git
 
 **3.** Установить **необходимые** права на запись для следующих директорий
 ```
-$ chmod -R 777 runtime
-$ chmod -R 777 storage
-$ chmod -R 777 web/assets
-$ chmod -R 777 web/usr
+$ chmod -R g+w runtime
+$ chmod -R g+w storage
+$ chmod -R g+w web/assets
+$ chmod -R g+w web/usr
 ```
 
 либо выполнить команду, которая попробует сделать это самостоятельно:

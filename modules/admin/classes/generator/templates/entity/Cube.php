@@ -21,6 +21,8 @@ class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function bootstrap(ContainerInterface $container)
     {

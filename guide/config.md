@@ -112,5 +112,19 @@ Cм. раздел [Логгирование](logging.md)
 
 Сервис Settings должен быть внедрен, либо получен из контейнера.
 
+## Локальный конфиг
+
+Для локальной конфигурации можно создать **config/config_local.php** и добавить его в .gitignore/.hgignore.
+Локальный конфиг будет мержиться с основным.
+
+config/config_local.php:
+```php
+return [
+    'definitions' => [
+        'db' => 'mysql://root@127.0.0.1/local_project?charset=UTF8',
+    ],
+];
+```
+
 Далее: [Кубы](cubes.md)<br>
 Вверх: [Оглавление](index.md)

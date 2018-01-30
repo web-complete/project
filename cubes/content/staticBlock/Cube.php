@@ -2,7 +2,7 @@
 
 namespace cubes\content\staticBlock;
 
-use cubes\content\staticBlock\assets\StaticBlockAsset;
+use cubes\content\staticBlock\assets\AdminAsset;
 use cubes\content\staticBlock\migrations\StaticBlockMigration;
 use modules\admin\classes\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
@@ -12,13 +12,15 @@ class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function bootstrap(ContainerInterface $container)
     {
         $entityConfig = $container->get(StaticBlockConfig::class);
         $name = $entityConfig->name;
         $cubeHelper = $container->get(CubeHelper::class);
-        $cubeHelper->appendAsset($container->get(StaticBlockAsset::class));
+        $cubeHelper->appendAsset($container->get(AdminAsset::class));
         $cubeHelper->defaultCrud($entityConfig);
         $cubeHelper->addVueRoute(['path' => '/list/' . $name, 'component' => 'VuePageStaticBlockList']);
         $cubeHelper->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageStaticBlockDetail']);

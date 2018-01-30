@@ -1,10 +1,10 @@
 <?php
 
-namespace cubes\content\staticBlock\assets;
+namespace cubes\multilang\translation\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
-class StaticBlockAsset extends AbstractAsset
+class AdminAsset extends AbstractAsset
 {
 
     /**
@@ -12,7 +12,7 @@ class StaticBlockAsset extends AbstractAsset
      */
     public function getBasePath(): string
     {
-        return __DIR__ . '/StaticBlockAsset';
+        return __DIR__ . '/AdminAsset';
     }
 
     /**
@@ -29,8 +29,8 @@ class StaticBlockAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            'js/VuePageStaticBlockList.js',
-            'js/VuePageStaticBlockDetail.js',
+            'js/VuePageTranslationList.js',
+            'js/VuePageTranslationDetail.js',
         ];
     }
 }
