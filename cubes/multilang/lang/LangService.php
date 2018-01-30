@@ -130,7 +130,7 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
         $items = $this->findAll();
         $hasMain = false;
         foreach ($items as $listItem) {
-            if ($listItem->is_main) {
+            if ($listItem->is_main && $listItem->getId() !== $item->getId()) {
                 $hasMain = true;
                 if ($item->is_main) {
                     $listItem->is_main = false;
@@ -144,5 +144,28 @@ class LangService extends AbstractEntityService implements LangRepositoryInterfa
         }
 
         parent::save($item, $oldData);
+    }
+
+    /**
+     * @param $id
+     * @param AbstractEntity|null $item
+     */
+    public function delete($id, AbstractEntity $item = null)
+    {
+        if ($this->count($this->createCondition()) <= 1) {
+            return; // cannot delete last lang
+        }
+        /** @var Lang $loadedItem */
+        if (!$item && $loadedItem = $this->findById($id)) {
+            $item = $loadedItem;
+        }
+        parent::delete($id, $item);
+        if ($item->is_main) {
+            /** @var Lang $someItem */
+            if ($someItem = $this->findOne($this->createCondition())) {
+                $someItem->is_main = true;
+                $this->save($someItem);
+            }
+        }
     }
 }
