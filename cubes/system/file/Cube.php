@@ -4,7 +4,8 @@ namespace cubes\system\file;
 
 use cubes\system\file\admin\Controller;
 use cubes\system\file\migrations\FileMigration;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 
@@ -31,9 +32,15 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[FileRepositoryInterface::class] = \DI\object(FileRepositoryMicro::class);
+        $definitions[FileRepositoryInterface::class] = RepositorySelector::get(
+            FileRepositoryMicro::class,
+            FileRepositoryDb::class
+        );
     }
 
+    /**
+     * @return array
+     */
     public function getMigrations(): array
     {
         return [

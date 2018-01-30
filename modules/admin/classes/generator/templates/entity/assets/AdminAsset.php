@@ -11,7 +11,7 @@ namespace <?=$config->namespace ?>\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
-class <?=$config->nameCamel ?>Asset extends AbstractAsset
+class AdminAsset extends AbstractAsset
 {
 
     /**
@@ -19,7 +19,7 @@ class <?=$config->nameCamel ?>Asset extends AbstractAsset
      */
     public function getBasePath(): string
     {
-        return __DIR__ . '/<?=$config->nameCamel ?>Asset';
+        return __DIR__ . '/AdminAsset';
     }
 
     /**

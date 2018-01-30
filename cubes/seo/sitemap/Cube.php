@@ -4,7 +4,7 @@ namespace cubes\seo\sitemap;
 
 use cubes\seo\sitemap\admin\Controller;
 use cubes\seo\sitemap\assets\AdminAsset;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 

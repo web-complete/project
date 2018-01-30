@@ -3,11 +3,12 @@
 namespace cubes\multilang\translation;
 
 use cubes\multilang\translation\admin\TranslationController;
+use modules\admin\classes\cube\RepositorySelector;
 use modules\pub\assets\PubAsset;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\multilang\translation\migrations\TranslationMigration;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
 use cubes\multilang\translation\assets\AdminAsset;
 use cubes\multilang\translation\assets\PubAsset as MultilangPubAsset;
 
@@ -42,7 +43,10 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[TranslationRepositoryInterface::class] = \DI\object(TranslationRepositoryMicro::class);
+        $definitions[TranslationRepositoryInterface::class] = RepositorySelector::get(
+            TranslationRepositoryMicro::class,
+            TranslationRepositoryDb::class
+        );
     }
 
     /**

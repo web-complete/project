@@ -52,17 +52,17 @@ class CubeEntity
 
         if ($this->config->customize) {
             $this->createDir('assets');
-            $this->createDir('assets/' . $nameCamel . 'Asset');
-            $this->createDir('assets/' . $nameCamel . 'Asset/js');
-            $this->renderFile('assets/EntityAsset.php', 'assets/' . $nameCamel . 'Asset.php');
+            $this->createDir('assets/AdminAsset');
+            $this->createDir('assets/AdminAsset/js');
+            $this->renderFile('assets/AdminAsset.php', 'assets/AdminAsset.php');
             $this->renderFile(
                 'assets/js/VuePageEntityList.php',
-                'assets/' . $nameCamel . 'Asset/js/VuePage' . $nameCamel . 'List.js',
+                'assets/AdminAsset/js/VuePage' . $nameCamel . 'List.js',
                 false
             );
             $this->renderFile(
                 'assets/js/VuePageEntityDetail.php',
-                'assets/' . $nameCamel . 'Asset/js/VuePage' . $nameCamel . 'Detail.js',
+                'assets/AdminAsset/js/VuePage' . $nameCamel . 'Detail.js',
                 false
             );
         }

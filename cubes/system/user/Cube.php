@@ -3,7 +3,8 @@
 namespace cubes\system\user;
 
 use cubes\system\user\migrations\UserMigration;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 
@@ -11,6 +12,8 @@ class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function bootstrap(ContainerInterface $container)
     {
@@ -26,9 +29,15 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[UserRepositoryInterface::class] = \DI\object(UserRepositoryMicro::class);
+        $definitions[UserRepositoryInterface::class] = RepositorySelector::get(
+            UserRepositoryMicro::class,
+            UserRepositoryDb::class
+        );
     }
 
+    /**
+     * @return array
+     */
     public function getMigrations(): array
     {
         return [

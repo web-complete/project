@@ -4,7 +4,7 @@ namespace cubes\system\roles;
 
 use cubes\system\roles\admin\Controller;
 use cubes\system\roles\assets\AdminAsset;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 

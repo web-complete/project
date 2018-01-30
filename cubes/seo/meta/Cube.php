@@ -2,15 +2,18 @@
 
 namespace cubes\seo\meta;
 
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\seo\meta\migrations\MetaMigration;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
 
 class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function bootstrap(ContainerInterface $container)
     {
@@ -26,7 +29,10 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[MetaRepositoryInterface::class] = \DI\object(MetaRepositoryMicro::class);
+        $definitions[MetaRepositoryInterface::class] = RepositorySelector::get(
+            MetaRepositoryMicro::class,
+            MetaRepositoryDb::class
+        );
     }
 
     /**

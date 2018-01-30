@@ -4,7 +4,8 @@ namespace cubes\content\staticBlock;
 
 use cubes\content\staticBlock\assets\AdminAsset;
 use cubes\content\staticBlock\migrations\StaticBlockMigration;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 
@@ -33,7 +34,10 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[StaticBlockRepositoryInterface::class] = \DI\object(StaticBlockRepositoryMicro::class);
+        $definitions[StaticBlockRepositoryInterface::class] = RepositorySelector::get(
+            StaticBlockRepositoryMicro::class,
+            StaticBlockRepositoryDb::class
+        );
     }
 
     /**

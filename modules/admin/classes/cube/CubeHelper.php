@@ -1,12 +1,15 @@
 <?php
 
-namespace modules\admin\classes;
+namespace modules\admin\classes\cube;
 
 use cubes\search\search\Searchable;
 use cubes\search\search\SearchObserver;
 use cubes\seo\seo\SeoEntityObserver;
 use cubes\system\tags\TagObserver;
 use modules\admin\assets\AdminAsset;
+use modules\admin\classes\EntityConfig;
+use modules\admin\classes\Navigation;
+use modules\admin\classes\VueRoutes;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\mvc\ApplicationConfig;

@@ -3,7 +3,7 @@
 namespace cubes\system\logger;
 
 use cubes\system\logger\controllers\Controller;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 

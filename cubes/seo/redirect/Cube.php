@@ -2,15 +2,18 @@
 
 namespace cubes\seo\redirect;
 
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\seo\redirect\migrations\RedirectMigration;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
 
 class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function bootstrap(ContainerInterface $container)
     {
@@ -28,7 +31,10 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[RedirectRepositoryInterface::class] = \DI\object(RedirectRepositoryMicro::class);
+        $definitions[RedirectRepositoryInterface::class] = RepositorySelector::get(
+            RedirectRepositoryMicro::class,
+            RedirectRepositoryDb::class
+        );
     }
 
     /**

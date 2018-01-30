@@ -3,10 +3,11 @@
 namespace cubes\multilang\lang;
 
 use cubes\multilang\lang\assets\AdminAsset;
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\multilang\lang\migrations\LangMigration;
-use modules\admin\classes\CubeHelper;
+use modules\admin\classes\cube\CubeHelper;
 
 class Cube extends AbstractCube
 {
@@ -32,7 +33,10 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[LangRepositoryInterface::class] = \DI\object(LangRepositoryMicro::class);
+        $definitions[LangRepositoryInterface::class] = RepositorySelector::get(
+            LangRepositoryMicro::class,
+            LangRepositoryDb::class
+        );
     }
 
     /**
