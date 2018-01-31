@@ -5,7 +5,7 @@ Vue.component('VueTree', {
             <div class="tree-node" v-if="selectedNode">
                     <h2>{{selectedNode.text}}</h2>
                     <button @click="addNode" class="button node-button">Добавить элемент</button>
-                    <button @click="deleteNode" class="button gray node-button">Удалить</button>
+                    <button v-if="selectedNode.id > 0" @click="deleteNode" class="button gray node-button">Удалить</button>
                 <hr class="clear">
             </div>
         </div>
@@ -42,7 +42,15 @@ Vue.component('VueTree', {
                 },
                 core: {
                     check_callback: function(operation, node, node_parent, node_position, more){
-                        return !(operation === 'move_node' && (node.id === '#' || node_parent.id === '#'));
+                        switch (operation) {
+                            case 'move_node':
+                                return !(operation === 'move_node' && (node.id === '#' || node_parent.id === '#'));
+                                break;
+                            case 'delete_node':
+                                return !(operation === 'delete_node' && !node.id);
+                                break;
+                        }
+                        return true;
                     },
                     data: this.computedTree
                 }
