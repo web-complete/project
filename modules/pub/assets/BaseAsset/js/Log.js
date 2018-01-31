@@ -19,7 +19,7 @@ Log = {
                 this.error('Vue [' + vm.$options.name + ']: ' + err.stack + "\n" + info);
             }.bind(this);
             Vue.config.warnHandler = function (msg, vm, trace) {
-                this.warning('Vue: ' + msg + "\n" + trace);
+                this.error('Vue: ' + msg + "\n" + trace);
             }.bind(this);
         }
     },

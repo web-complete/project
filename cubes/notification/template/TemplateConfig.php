@@ -19,7 +19,7 @@ class TemplateConfig extends EntityConfig
     public $titleList = 'Шаблоны';
     public $titleDetail = 'Шаблон';
     public $menuSectionName = 'Оповещения';
-    public $menuSectionSort = 200;
+    public $menuSectionSort = 500;
     public $entityServiceClass = TemplateService::class;
     public $controllerClass = Controller::class;
 

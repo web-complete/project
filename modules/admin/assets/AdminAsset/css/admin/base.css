@@ -79,6 +79,18 @@ h1 .back i {
     font-size: 25px;
     margin: 8px 0 0 18px;
 }
+h2 {
+    margin: 0 0 20px 0;
+    float: left;
+    color: #000;
+    font-size: 24px;
+    font-weight: 600;
+}
+hr {
+    height: 1px;
+    border: 0;
+    background: #ddd;
+}
 .text-left {
     text-align: left !important;
 }
@@ -1115,77 +1127,29 @@ a.field-edit,
     font-size: 30px;
     color: #fff;
 }
-#message {
-    position: fixed;
-    top: 15px;
-    right: -30px;
-    padding: 15px 25px;
-    border-radius: 5px;
-    background: #226fa4;
-    color: #fff;
-    font-size: 12px;
-    transition: all 0.2s;
-    opacity: 0;
-    visibility: hidden;
+.tree h2 {
+    margin-bottom: 10px;
 }
-#message._visible {
-    right: 30px;
-    opacity: 1;
-    visibility: visible;
+.tree-root {
+    margin-bottom: 30px;
 }
-
-.order-totals {
-    float: right;
-    display: inline-table;
-    margin-top: 20px;
-    background: #f8f8f8;
-}
-.order-totals tr td {
-    vertical-align: middle;
-}
-.order-totals tr td:first-child {
-    padding: 5px 20px;
-}
-.order-totals tr td:last-child {
-    padding: 5px 20px;
+.tree-root .jstree-icon {
     font-size: 16px;
-    font-weight: 600;
 }
-.order-totals tr:first-child td {
-    padding-top: 15px;
+.tree-root .jstree-icon._disabled {
+    color: #aaa;
 }
-.order-totals tr:last-child td {
-    padding-bottom: 15px;
-}
-
-.page-order .payed {
-    color: #89ac37 !important;
-}
-
-.catalog-tree .jstree-default .jstree-anchor ._actions {
-    display: none;
-    position: absolute;
-    left: 100%;
-    width: 80px;
-    top: 0;
-}
-.catalog-tree .jstree-default .jstree-anchor .field-edit {
-    float: left;
-}
-.catalog-tree .jstree-default .jstree-clicked {
-    position: relative;
-}
-.catalog-tree .jstree-default .jstree-clicked ._actions {
-    display: block;
-}
-.catalog-tree .jstree-icon {
-    font-size: 8px;
-}
-.jstree-default .jstree-clicked {
+.tree-root .jstree-clicked {
     background: #ddd;
 }
-.jstree-default .jstree-hovered {
+.tree-root .jstree-hovered {
     background: #eee;
+}
+.tree-node .node-button {
+    margin: 3px 0 0 5px;
+}
+.tree-node h2 + .node-button {
+    margin-left: 20px;
 }
 
 .catalog-property-summary {

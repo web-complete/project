@@ -20,6 +20,7 @@ class LangConfig extends EntityConfig
     public $titleList = 'Языки';
     public $titleDetail = 'Язык';
     public $menuSectionName = 'Мультиязычность';
+    public $menuSectionSort = 600;
     public $entityServiceClass = LangService::class;
     public $controllerClass = Controller::class;
 

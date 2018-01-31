@@ -20,6 +20,8 @@ class TranslationConfig extends EntityConfig
     public $titleList = 'Переводы';
     public $titleDetail = 'Перевод';
     public $menuSectionName = 'Мультиязычность';
+    public $menuSectionSort = 600;
+    public $menuItemSort = 200;
     public $entityServiceClass = TranslationService::class;
     public $controllerClass = Controller::class;
 

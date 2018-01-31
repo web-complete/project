@@ -19,6 +19,7 @@ class MetaConfig extends EntityConfig
     public $titleList = 'Метатеги страниц';
     public $titleDetail = 'Метатеги страницы';
     public $menuSectionName = 'SEO';
+    public $menuSectionSort = 700;
     public $entityServiceClass = MetaService::class;
     public $controllerClass = Controller::class;
 

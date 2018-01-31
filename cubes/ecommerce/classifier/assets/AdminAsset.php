@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\seo\sitemap\assets;
+namespace cubes\ecommerce\classifier\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
@@ -28,7 +28,7 @@ class AdminAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            'js/VuePageSitemap.js'
+            'js/VuePageClassifier.js'
         ];
     }
 }

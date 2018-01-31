@@ -32,9 +32,9 @@ $themeColor2 = $settings->get('theme_color2', '#E77E15');
     }
 
     a.help:hover,
-    .catalog-tree .jstree-icon,
     .datepicker--day-name,
     .datepicker--cell.-current-,
+    .tree-root .jstree-icon,
     .header ._logout:hover {
         color: <?=$themeColor1 ?>;
     }

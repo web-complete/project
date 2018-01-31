@@ -21,7 +21,7 @@ class Cube extends AbstractCube
             ->addBackendRoute(['POST', '/admin/api/sitemap/generate', [Controller::class, 'actionGenerate']])
             ->addBackendRoute(['POST', '/admin/api/sitemap/upload', [Controller::class, 'actionUpload']])
             ->addVueRoute(['path' => '/sitemap', 'component' => 'VuePageSitemap'])
-            ->addMenuSection('SEO', 200)
-            ->addMenuItem('SEO', 'Sitemap', '/sitemap', 150);
+            ->addMenuSection('SEO', 700)
+            ->addMenuItem('SEO', 'Sitemap', '/sitemap', 300);
     }
 }

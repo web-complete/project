@@ -25,6 +25,7 @@ class AdminAsset extends AbstractAsset
             'bower_components/cropper/dist/cropper.css',
             'bower_components/air-datepicker/dist/css/datepicker.min.css',
             'bower_components/selectize/dist/css/selectize.default.css',
+            'bower_components/jstree/dist/themes/default/style.min.css',
             'js/lib/jqueryui-custom/jquery-ui.min.css',
             'js/lib/jqueryui-custom/jquery-ui.theme.css',
             'js/lib/select2/select2.min.css',
@@ -52,6 +53,7 @@ class AdminAsset extends AbstractAsset
             'bower_components/moment/min/moment.min.js',
             'bower_components/air-datepicker/dist/js/datepicker.js',
             'bower_components/selectize/dist/js/standalone/selectize.min.js',
+            'bower_components/jstree/dist/jstree.min.js',
             'js/lib/wcp/functions.js',
             'js/lib/blueimp-upload/jquery.fileupload.js',
             'js/lib/blueimp-upload/jquery.iframe-transport.js',
@@ -97,6 +99,7 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueButton.js',
             'js/vue/ui/VuePager.js',
             'js/vue/ui/VueFilter.js',
+            'js/vue/ui/VueTree.js',
             'js/vue/ui/VueEntityList.js',
 
             'js/vue/VueApp.js',
