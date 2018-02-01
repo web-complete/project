@@ -4,7 +4,7 @@ Vue.component('VueTree', {
             <div class="tree-root"></div>
             <div class="tree-node" v-if="selectedNode">
                 <h2>{{selectedNode.text}}</h2>
-                <button @click="open" class="button node-button">Создать элемент</button>
+                <button @click="open()" class="button node-button">Создать элемент</button>
             </div>
         </div>
     `,
@@ -52,7 +52,9 @@ Vue.component('VueTree', {
             }).on('changed.jstree', function (e, data) {
                 if(data.action === 'select_node') {
                     this.selectedNode = data.node;
-                    this.open(data.node.id);
+                    if (parseInt(data.node.id) !== 0) {
+                        this.open(data.node.id);
+                    }
                 }
             }.bind(this)).jstree(true);
         },

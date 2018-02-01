@@ -28,6 +28,7 @@ VuePageEntityDetail = {
     </transition>
 </div>
     `,
+    mixins: [VueMixinGetEntityData, VueMixinProcessEntityErrors],
     data(){
         return {
             title: '',
@@ -70,7 +71,7 @@ VuePageEntityDetail = {
             }.bind(this));
         },
         saveItem($e, toContinue){
-            Request.post(this.apiUrl, this.getCurrentData(), function(response){
+            Request.post(this.apiUrl, this.getEntityData(), function(response){
                 if (response.result) {
                     Notify.successDefault();
                     if (toContinue) {
@@ -81,7 +82,7 @@ VuePageEntityDetail = {
                 } else {
                     Notify.error(response.error || 'Ошибка сохранения');
                 }
-                this.processErrors(response);
+                this.processEntityErrors(response);
             }.bind(this));
         },
         deleteItem(){
@@ -91,40 +92,6 @@ VuePageEntityDetail = {
                     this.$router.push(this.listRoute);
                 }.bind(this));
             }.bind(this));
-        },
-        processErrors(response){
-            _.each(this.detailFields, function(field) {
-                this.$set(field, 'error', null);
-                if (response.errors && response.errors[field.name]) {
-                    field.error = response.errors[field.name];
-                }
-                this.$set(field, 'multilangError', null);
-                if (response.multilangErrors && response.multilangErrors[field.name]) {
-                    field.multilangError = response.multilangErrors[field.name];
-                }
-            }.bind(this));
-        },
-        getCurrentData(){
-            let data = {};
-            _.each(this.detailFields, function(field){
-                data[field.name] = field.value;
-            });
-
-            if (this.isMultilang) {
-                data.multilang = {};
-                _.each(this.detailFields, function(field){
-                    if (field.isMultilang) {
-                        _.each(this.$store.state.lang.langs, function(lang){
-                            if (!lang.is_main) {
-                                data.multilang[lang.code] = data.multilang[lang.code] || {};
-                                data.multilang[lang.code][field.name] = field.multilangData[lang.code] || '';
-                            }
-                        }.bind(this));
-                    }
-                }.bind(this));
-            }
-
-            return {id: this.entityId, data: data};
         }
     }
 };
