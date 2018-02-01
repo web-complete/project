@@ -12,30 +12,11 @@ use cubes\multilang\lang\classes\AbstractMultilangEntity;
  */
 class MenuItem extends AbstractMultilangEntity
 {
-    /** @var MenuItem[] */
-    protected $children;
-
     /**
      * @return array
      */
     public static function fields(): array
     {
         return MenuItemConfig::getFieldTypes();
-    }
-
-    /**
-     * @param MenuItem $item
-     */
-    public function addChild(MenuItem $item)
-    {
-        $this->children[$item->getId()] = $item;
-    }
-
-    /**
-     * @return MenuItem[]
-     */
-    public function getChildren(): array
-    {
-        return $this->children;
     }
 }

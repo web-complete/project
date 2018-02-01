@@ -1,6 +1,6 @@
 VueMixinGetEntityData = {
     methods: {
-        getEntityData(){
+        getEntityData(append){
             let data = {};
             _.each(this.detailFields, function(field){
                 data[field.name] = field.value;
@@ -20,6 +20,7 @@ VueMixinGetEntityData = {
                 }.bind(this));
             }
 
+            _.extend(data, append || {});
             return {id: this.entityId, data: data};
         }
     }

@@ -36,6 +36,7 @@ class MenuMigration implements MigrationInterface
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 
         $this->db->exec($sql);
+        $this->db->exec('CREATE INDEX menu_idx1 ON `menu` (`parent_id`)');
     }
 
     public function down()

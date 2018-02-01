@@ -8,11 +8,13 @@ VuePageContentMenu = {
         
         <transition name="fade">
             <div v-if="isLoaded">
-                <vue-tree @open="editItem"
+                <vue-tree @open="openItem"
+                          @move="moveItem"
                           :tree="tree"
                           name="classifier"
+                          ref="tree"
                 ></vue-tree>
-                <hr class="clear">
+                <hr class="mb10 clear">
                 <form v-if="this.detailFields.length" @submit.prevent="saveItem" class="form-detail">
                     <vue-multilang-select @input="currentLang = $event"></vue-multilang-select>
                     <vue-field v-for="field in detailFields"
@@ -35,8 +37,10 @@ VuePageContentMenu = {
     data(){
         return {
             apiUrl: '/admin/api/entity/menu/',
+            titleField: 'title',
             isLoaded: false,
             tree: [],
+            parentId: null,
             entityId: null,
             detailFields: [],
             isMultilang: true,
@@ -54,17 +58,34 @@ VuePageContentMenu = {
                 this.tree = response.tree;
             }.bind(this));
         },
-        editItem(id){
+        openItem(id, parentId){
+            if (parentId === '#') {
+                this.closeItem(false);
+                return;
+            }
             this.entityId = id;
+            this.parentId = parentId;
             this.detailFields = [];
             Request.get(this.apiUrl + this.entityId, function(response){
                 this.detailFields = response.detailFields;
             }.bind(this));
         },
+        moveItem(parentId, childrenIds){
+            Request.post(this.apiUrl + 'move', {
+                parent_id: parentId,
+                children_ids: childrenIds,
+            });
+        },
         saveItem(){
-            Request.post(this.apiUrl + this.entityId, this.getEntityData(), function(response){
+            let data = this.getEntityData({
+                parent_id: this.parentId
+            });
+            Request.post(this.apiUrl + this.entityId, data, function(response){
                 if (response.result) {
-                    this.fetchTree();
+                    (parseInt(this.entityId) !== parseInt(response.id))
+                        ? this.$refs['tree'].createNode(this.parentId, response.id, response.data[this.titleField])
+                        : this.$refs['tree'].renameNode(this.entityId, response.data[this.titleField]);
+                    this.closeItem(true);
                     Notify.successDefault();
                 } else {
                     Notify.error(response.error || 'Ошибка сохранения');
@@ -75,11 +96,19 @@ VuePageContentMenu = {
         deleteItem(){
             Modal.confirm('Вы уверены?', function(){
                 Request.delete(this.apiUrl + this.entityId, {id: this.entityId}, function(){
-                    this.entityId = null;
-                    this.fetchTree();
+                    this.$refs['tree'].deleteNode(this.entityId);
+                    this.closeItem(true);
                     Notify.successDefault();
                 }.bind(this));
             }.bind(this));
+        },
+        closeItem(closeNode){
+            this.entityId = null;
+            this.parentId = null;
+            this.detailFields = [];
+            if (closeNode) {
+                this.$refs['tree'].closeNode();
+            }
         }
     }
 };

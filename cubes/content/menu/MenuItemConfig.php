@@ -66,7 +66,7 @@ class MenuItemConfig extends EntityConfig
     public function getForm(): AdminForm
     {
         return new AdminForm([
-            [['title'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['parent_id', 'title'], 'required', [], AdminForm::MESSAGE_REQUIRED],
         ]);
     }
 }

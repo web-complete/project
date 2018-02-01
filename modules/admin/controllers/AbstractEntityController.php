@@ -109,6 +109,7 @@ class AbstractEntityController extends AbstractController
             $this->afterSave($item, $form);
             return $this->responseJsonSuccess([
                 'id' => $item->getId(),
+                'data' => $item->mapToArray(),
             ]);
         }
 
