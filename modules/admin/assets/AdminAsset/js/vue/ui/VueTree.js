@@ -3,10 +3,8 @@ Vue.component('VueTree', {
         <div class="tree">
             <div class="tree-root"></div>
             <div class="tree-node" v-if="selectedNode">
-                    <h2>{{selectedNode.text}}</h2>
-                    <button @click="addNode" class="button node-button">Добавить элемент</button>
-                    <button v-if="selectedNode.id > 0" @click="deleteNode" class="button gray node-button">Удалить</button>
-                <hr class="clear">
+                <h2>{{selectedNode.text}}</h2>
+                <button @click="open" class="button node-button">Создать элемент</button>
             </div>
         </div>
     `,
@@ -46,9 +44,6 @@ Vue.component('VueTree', {
                             case 'move_node':
                                 return !(operation === 'move_node' && (node.id === '#' || node_parent.id === '#'));
                                 break;
-                            case 'delete_node':
-                                return !(operation === 'delete_node' && !node.id);
-                                break;
                         }
                         return true;
                     },
@@ -57,6 +52,7 @@ Vue.component('VueTree', {
             }).on('changed.jstree', function (e, data) {
                 if(data.action === 'select_node') {
                     this.selectedNode = data.node;
+                    this.open(data.node.id);
                 }
             }.bind(this)).jstree(true);
         },
@@ -68,18 +64,12 @@ Vue.component('VueTree', {
             }.bind(this));
         },
         destroyTree(){
-            this.jstree.destroy();
+            if (this.jstree) {
+                this.jstree.destroy();
+            }
         },
-        addNode(){
-            let node = { id: 111, text: 'Новый элемент'};
-            this.jstree.create_node(this.selectedNode.id, node);
-            this.jstree.open_node(this.selectedNode.id);
-        },
-        deleteNode(){
-            Modal.confirm('Удалить?', function(){
-                this.jstree.delete_node(this.selectedNode.id);
-                this.selectedNode = null;
-            }.bind(this));
+        open(id){
+            this.$emit('open', id || 0);
         }
     }
 });

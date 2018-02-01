@@ -42,17 +42,24 @@ Vue.component('VueFieldString', {
 
     methods: {
         initMask: function(){
+            var self = this;
             var fieldParams = this.fieldParams instanceof Array ? {} : this.fieldParams;
-            var options = {mask: /^.*$/};
+            var options = {};
             if (fieldParams.filter) {
                 options.mask = new RegExp(fieldParams.filter);
             } else if (fieldParams.mask) {
                 options.mask = fieldParams.mask;
             }
-            this.mask = new IMask(this.$el.querySelector('input'), options);
-            this.mask.on('accept', function(){
-                this.$emit('input', this.mask.value);
-            }.bind(this));
+            if (options.mask) {
+                this.mask = new IMask(this.$el.querySelector('input'), options);
+                this.mask.on('accept', function(){
+                    this.$emit('input', this.mask.value);
+                }.bind(this));
+            } else {
+                $(this.$el).find('input').on('input', function(){
+                    self.$emit('input', $(this).val());
+                })
+            }
         },
         destroyMask: function(){
             if (this.mask) {

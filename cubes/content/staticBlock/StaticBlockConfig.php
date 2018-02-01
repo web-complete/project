@@ -18,7 +18,7 @@ class StaticBlockConfig extends EntityConfig
     public $name = 'static-block';
     public $titleList = 'Статические блоки';
     public $titleDetail = 'Статический блок';
-    public $menuItemSort = 50;
+    public $menuItemSort = 70;
     public $menuSectionName = 'Контент';
     public $entityServiceClass = StaticBlockService::class;
     public $controllerClass = Controller::class;

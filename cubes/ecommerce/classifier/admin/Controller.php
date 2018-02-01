@@ -7,7 +7,7 @@ use modules\admin\controllers\AbstractController;
 class Controller extends AbstractController
 {
 
-    public function actionGet()
+    public function actionTree()
     {
         return $this->responseJsonSuccess();
     }

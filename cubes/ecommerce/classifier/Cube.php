@@ -17,7 +17,7 @@ class Cube extends AbstractCube
     {
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper->appendAsset($container->get(AdminAsset::class))
-            ->addBackendRoute(['GET', '/admin/api/classifier/get', [Controller::class, 'actionGet']])
+            ->addBackendRoute(['GET', '/admin/api/classifier/tree', [Controller::class, 'actionTree']])
             ->addVueRoute(['path' => '/ecommerce/classifier', 'component' => 'VuePageClassifier'])
             ->addMenuSection('Магазин', 120)
             ->addMenuItem('Магазин', 'Классификатор', '/ecommerce/classifier', 100);

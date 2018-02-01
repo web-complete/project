@@ -3,7 +3,6 @@
 namespace cubes\content\article;
 
 use cubes\content\article\admin\Controller;
-use cubes\multilang\lang\classes\MultilangForm;
 use modules\admin\classes\AdminCast;
 use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\cells\CellAbstract;

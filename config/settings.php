@@ -66,15 +66,9 @@ return [
             'theme_logo' => $fields->file('Логотип', 'theme_logo'),
             'theme_color1' => $fields->string('Основной цвет', 'theme_color1')
                 ->type('color')
-                ->filter('^\#[0-9a-fA-F]*$')
-                ->maxlength(7)
-                ->placeholder('#F1A800')
                 ->value('#F1A800'),
             'theme_color2' => $fields->string('Дополнительный цвет', 'theme_color2')
                 ->type('color')
-                ->filter('^\#[0-9a-fA-F]*$')
-                ->maxlength(7)
-                ->placeholder('#E77E15')
                 ->value('#E77E15'),
         ],
     ],
