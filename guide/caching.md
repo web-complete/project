@@ -17,6 +17,38 @@
 
 **CacheService** конфигурируется в **config/definitions.php**
 
+Пример 1 (кеш-заглушка):
+```php
+    CacheService::class => function () {
+        $systemCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
+        $userCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
+        return new CacheService($systemCache, $userCache);
+    },
+```
+
+Пример 2 (file + file):
+```php
+    CacheService::class => function (\DI\Container $di) {
+        $aliasService = $di->get(\WebComplete\core\utils\alias\AliasService::class);
+        $dir = $aliasService->get('@runtime/cache');
+        $systemCache = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('system', 0, $dir);
+        $userCache = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('user', 0, $dir);
+        return new CacheService($systemCache, $userCache);
+    },
+```
+Пример 3 (apc + redis):
+```php
+    CacheService::class => function (\DI\Container $di) {
+        $redis = $di->get(Redis::class);
+        $systemCache = new \Symfony\Component\Cache\Adapter\ApcuAdapter();
+        $userCache = new \Symfony\Component\Cache\Adapter\RedisAdapter($redis);
+        return new CacheService($systemCache, $userCache);
+    },
+```
+
+_Следует обратить внимание, что большинство адаптеров поддерживают указание namespace, чтобы кеш не пересекался между
+проектами._
+
 ## Хелпер
 
 Для удобства работы с пользовательским кешем, **Core** предоставляет статический хелпер **Cache** со следующими методами:

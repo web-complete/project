@@ -9,6 +9,9 @@ use cubes\multilang\lang\classes\AbstractMultilangEntity;
  * @property $parent_id
  * @property $sort
  * @property $title
+ * @property $type
+ * @property $url
+ * @property $page
  */
 class MenuItem extends AbstractMultilangEntity
 {

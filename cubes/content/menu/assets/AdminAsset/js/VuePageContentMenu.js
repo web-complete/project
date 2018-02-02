@@ -18,6 +18,7 @@ VuePageContentMenu = {
                 <form v-if="this.detailFields.length" @submit.prevent="saveItem" class="form-detail">
                     <vue-multilang-select @input="currentLang = $event"></vue-multilang-select>
                     <vue-field v-for="field in detailFields"
+                               v-show="isVisibleField(field.name)"
                                :field="field"
                                :currentLang="currentLang || $store.getters.mainLang.code"
                                :key="field.name"
@@ -109,6 +110,22 @@ VuePageContentMenu = {
             if (closeNode) {
                 this.$refs['tree'].closeNode();
             }
+        },
+        isVisibleField(name){
+            if (name === 'url') {
+                return parseInt(this.getField('type').value) === 1;
+            }
+            if (name === 'page') {
+                return parseInt(this.getField('type').value) === 2;
+            }
+            return true;
+        },
+        getField(name){
+            let result = null;
+            _.each(this.detailFields, function(field){
+                if (field.name === name) result = field;
+            });
+            return result;
         }
     }
 };

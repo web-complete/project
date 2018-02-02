@@ -31,6 +31,9 @@ class MenuMigration implements MigrationInterface
               `parent_id` INT(11),
               `sort` INT,
               `title` varchar(100) DEFAULT NULL,
+              `type` INT,
+              `url` varchar(200) DEFAULT NULL,
+              `page` INT(11),
               `multilang` text,
               PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';

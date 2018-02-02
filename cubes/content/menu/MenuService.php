@@ -9,6 +9,8 @@ use WebComplete\core\utils\tree\Tree;
 
 class MenuService extends AbstractEntityService implements MenuItemRepositoryInterface
 {
+    const TYPE_URL = 1;
+    const TYPE_PAGE = 2;
 
     /**
      * @var MenuItemRepositoryInterface

@@ -3,6 +3,7 @@
 namespace cubes\content\menu;
 
 use cubes\content\menu\admin\Controller;
+use cubes\content\staticPage\StaticPageService;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
 use modules\admin\classes\fields\FieldFactory;
@@ -30,6 +31,9 @@ class MenuItemConfig extends EntityConfig
             'parent_id' => Cast::INT,
             'sort' => Cast::INT,
             'title' => Cast::STRING,
+            'type' => Cast::INT,
+            'url' => Cast::STRING,
+            'page' => Cast::STRING,
         ];
     }
 
@@ -54,9 +58,17 @@ class MenuItemConfig extends EntityConfig
      */
     public function getDetailFields(): array
     {
+        $staticPageService = $this->container->get(StaticPageService::class);
+        $staticPageMap = $staticPageService->getMap('title');
         $fields = FieldFactory::build();
         return [
             $fields->string('Название', 'title')->multilang(),
+            $fields->select('Тип', 'type')->options([
+                MenuService::TYPE_URL => 'Ссылка',
+                MenuService::TYPE_PAGE => 'Статическая страница',
+            ]),
+            $fields->string('Ссылка', 'url'),
+            $fields->select('Статическая страница', 'page')->options($staticPageMap),
         ];
     }
 
@@ -67,6 +79,7 @@ class MenuItemConfig extends EntityConfig
     {
         return new AdminForm([
             [['parent_id', 'title'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['type', 'url', 'page']],
         ]);
     }
 }
