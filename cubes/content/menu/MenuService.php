@@ -52,9 +52,6 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
     public function move(int $parentId, array $childrenIds)
     {
         $tree = $this->getTree();
-        if (!$tree->getItem($parentId)) {
-            return;
-        }
         foreach ($childrenIds as $sort => $itemId) {
             /** @var MenuItem $item */
             if ($item = $tree->getItem($itemId)) {
