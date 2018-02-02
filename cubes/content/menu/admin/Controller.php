@@ -28,13 +28,13 @@ class Controller extends AbstractEntityController
 
     public function actionMove()
     {
-        $parentId = (int)$this->request->get('parent_id');
+        $parentId = $this->request->get('parent_id');
         $childrenIds = (array)$this->request->get('children_ids');
-        if (!$parentId || !$childrenIds) {
+        if ($parentId === null || !$childrenIds) {
             return $this->responseJsonFail('Ошибка параметров');
         }
         $menuService = $this->container->get(MenuService::class);
-        $menuService->move($parentId, $childrenIds);
+        $menuService->move((int)$parentId, $childrenIds);
         return $this->responseJsonSuccess();
     }
 }

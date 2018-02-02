@@ -4,6 +4,7 @@ namespace cubes\content\menu;
 
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
+use WebComplete\core\utils\cache\Cache;
 use WebComplete\core\utils\tree\Tree;
 
 class MenuService extends AbstractEntityService implements MenuItemRepositoryInterface
@@ -24,12 +25,17 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
 
     /**
      * @return Tree
+     * @throws \RuntimeException
+     * @throws \Symfony\Component\Cache\Exception\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
      * @throws \InvalidArgumentException
      */
     public function getTree(): Tree
     {
-        $items = $this->findAll();
-        return new Tree($items);
+        return Cache::getOrSet('menu_tree', function () {
+            $items = $this->findAll();
+            return new Tree($items);
+        });
     }
 
     /**
@@ -37,6 +43,9 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
      * @param array $childrenIds
      *
      * @throws \InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \Symfony\Component\Cache\Exception\InvalidArgumentException
      */
     public function move(int $parentId, array $childrenIds)
     {
@@ -52,6 +61,7 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
                 $this->save($item);
             }
         }
+        Cache::invalidate('menu_tree');
     }
 
     /**
@@ -59,6 +69,9 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
      * @param array $oldData
      *
      * @throws \InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \Symfony\Component\Cache\Exception\InvalidArgumentException
      */
     public function save(AbstractEntity $item, array $oldData = [])
     {
@@ -70,6 +83,7 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
             }
         }
         parent::save($item, $oldData);
+        Cache::invalidate('menu_tree');
     }
 
     /**
@@ -77,6 +91,9 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
      * @param MenuItem|AbstractEntity|null $item
      *
      * @throws \InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \Symfony\Component\Cache\Exception\InvalidArgumentException
      */
     public function delete($id, AbstractEntity $item = null)
     {
@@ -85,5 +102,6 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
             $this->delete($childItem->getId(), $childItem);
         }
         parent::delete($id, $item);
+        Cache::invalidate('menu_tree');
     }
 }
