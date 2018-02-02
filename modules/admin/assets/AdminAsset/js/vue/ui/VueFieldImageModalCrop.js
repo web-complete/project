@@ -24,7 +24,6 @@ Vue.component('VueFieldImageModalCrop', {
     },
     data: function(){
         return {
-            filename: '',
             dataUrl: '',
             cropRatio: null,
             mimeType: 'image/jpeg',
@@ -34,15 +33,14 @@ Vue.component('VueFieldImageModalCrop', {
         this.destroy();
     },
     methods: {
-        open: function(filename, dataUrl, cropRatio, mimeType){
+        open: function(dataUrl, cropRatio, mimeType){
             this.$modal.show('image-modal-crop-'+this.name);
-            this.filename = filename;
             this.dataUrl = dataUrl;
             this.cropRatio = cropRatio;
             this.mimeType = mimeType;
         },
         opened: function(){
-            $(this.$el).find('img._data').cropper({
+            this.cropper = new $.fn.cropper.Constructor($(this.$el).find('img._data')[0], {
                 viewMode: 3,
                 autoCropArea: 1,
                 aspectRatio: this.cropRatio,
@@ -54,15 +52,14 @@ Vue.component('VueFieldImageModalCrop', {
             this.$modal.hide('image-modal-crop-'+this.name);
         },
         save: function(){
-            let canvas = $(this.$el).find('img._data').cropper('getCroppedCanvas');
-            if (canvas) {
-                let dataUrl = canvas.toDataURL(this.mimeType);
-                this.$emit('save', this.filename, dataUrl);
-            }
+            let cropData = this.cropper.getData();
+            this.$emit('crop', cropData);
             this.close();
         },
         destroy: function(){
-            $(this.$el).find('img').cropper('destroy');
+            if (this.cropper) {
+                this.cropper.destroy();
+            }
         }
     }
 });

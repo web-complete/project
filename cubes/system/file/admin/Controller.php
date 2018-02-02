@@ -4,6 +4,7 @@ namespace cubes\system\file\admin;
 
 use cubes\system\file\File;
 use cubes\system\file\FileService;
+use cubes\system\file\ImageHelper;
 use modules\admin\controllers\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
@@ -114,5 +115,27 @@ class Controller extends AbstractController
         }
 
         return $this->responseJsonFail('File not found');
+    }
+
+    /**
+     * @return Response
+     * @throws \Exception
+     */
+    public function actionCropImage(): Response
+    {
+        $id = $this->request->get('id');
+        $crop = (array)$this->request->get('crop');
+        if ($id && $crop) {
+            if ($image = ImageHelper::getImage($id)) {
+                $image->crop($crop);
+
+                return $this->responseJsonSuccess([
+                    'id' => $id,
+                    'name' => $image->getFilename(),
+                    'filelink' => $image->getUrl(),
+                ]);
+            }
+        }
+        return $this->responseJsonFail('Crop error');
     }
 }

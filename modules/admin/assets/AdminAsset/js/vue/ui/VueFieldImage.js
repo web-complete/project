@@ -15,7 +15,7 @@ Vue.component('VueFieldImage', {
 
         <vue-field-image-modal-crop ref="crop"
                                     :name="name"
-                                    @save="uploadDataUrl"
+                                    @crop="cropImage"
         ></vue-field-image-modal-crop>        
         <vue-field-image-modal-edit ref="edit"
                                     :name="name"
@@ -109,10 +109,10 @@ Vue.component('VueFieldImage', {
             }
             bus.$emit('deleteFileId', id);
         },
-        uploadDataUrl: function(filename, dataUrl){
-            Request.post('/admin/api/upload-image', {
-                filename: filename,
-                content: dataUrl
+        cropImage: function(cropData){
+            Request.post('/admin/api/crop-image', {
+                id: this.values[0],
+                crop: cropData
             }, function(response){
                 this.onUploaded(response);
             }.bind(this));
@@ -128,7 +128,6 @@ Vue.component('VueFieldImage', {
                         let reader = new FileReader();
                         reader.onload = function(e){
                             self.$refs['crop'].open(
-                                file.name,
                                 e.target.result,
                                 self.fileFieldParams['cropRatio'],
                                 self.fileFieldParams['cropMimeType']
@@ -143,7 +142,9 @@ Vue.component('VueFieldImage', {
                 done: function (e, data) {
                     if(data.result.result) {
                         $(Request).trigger('stop');
-                        self.onUploaded(data.result);
+                        if (!self.fileFieldParams['cropRatio']) {
+                            self.onUploaded(data.result);
+                        }
                     }
                     else {
                         $(Request).trigger('error');
@@ -157,6 +158,7 @@ Vue.component('VueFieldImage', {
             });
         },
         onUploaded: function(response){
+            console.log('onUploaded', response);
             this.fileFieldParams.data[response.id] = {
                 name: response.name,
                 url: response.filelink

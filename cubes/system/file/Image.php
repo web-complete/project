@@ -87,6 +87,28 @@ class Image
     }
 
     /**
+     * @param array $cropData
+     */
+    public function crop(array $cropData)
+    {
+        $x = $cropData['x'] ?? null;
+        $y = $cropData['y'] ?? null;
+        $width = $cropData['width'] ?? null;
+        $height = $cropData['height'] ?? null;
+        if ($x !== null && $y !== null && $width && $height) {
+            $filePath = $this->file->getFilePath();
+            $this->createCroppedImage(
+                $filePath,
+                $filePath,
+                (int)$x,
+                (int)$y,
+                (int)$width,
+                (int)$height
+            );
+        }
+    }
+
+    /**
      * @param string $srcFile
      * @param string $destFile
      * @param int $width
@@ -97,5 +119,18 @@ class Image
         $height
             ? ImageManagerStatic::make($srcFile)->fit($width, $height)->save($destFile)
             : ImageManagerStatic::make($srcFile)->widen($width)->save($destFile);
+    }
+
+    /**
+     * @param string $srcFile
+     * @param string $destFile
+     * @param int $x
+     * @param int $y
+     * @param int $width
+     * @param int $height
+     */
+    protected function createCroppedImage(string $srcFile, string $destFile, int $x, int $y, int $width, int $height)
+    {
+        ImageManagerStatic::make($srcFile)->crop($width, $height, $x, $y)->save($destFile);
     }
 }

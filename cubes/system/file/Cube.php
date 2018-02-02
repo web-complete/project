@@ -22,7 +22,8 @@ class Cube extends AbstractCube
             ->addBackendRoute(['POST', '/admin/api/upload-file', [Controller::class, 'actionUploadFile']])
             ->addBackendRoute(['POST', '/admin/api/upload-image', [Controller::class, 'actionUploadImage']])
             ->addBackendRoute(['POST', '/admin/api/delete-file', [Controller::class, 'actionDeleteFile']])
-            ->addBackendRoute(['POST', '/admin/api/update-image', [Controller::class, 'actionUpdateImage']]);
+            ->addBackendRoute(['POST', '/admin/api/update-image', [Controller::class, 'actionUpdateImage']])
+            ->addBackendRoute(['POST', '/admin/api/crop-image', [Controller::class, 'actionCropImage']]);
     }
 
     /**
