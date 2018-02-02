@@ -142,9 +142,7 @@ Vue.component('VueFieldImage', {
                 done: function (e, data) {
                     if(data.result.result) {
                         $(Request).trigger('stop');
-                        if (!self.fileFieldParams['cropRatio']) {
-                            self.onUploaded(data.result);
-                        }
+                        self.onUploaded(data.result);
                     }
                     else {
                         $(Request).trigger('error');
@@ -158,10 +156,9 @@ Vue.component('VueFieldImage', {
             });
         },
         onUploaded: function(response){
-            console.log('onUploaded', response);
             this.fileFieldParams.data[response.id] = {
                 name: response.name,
-                url: response.filelink
+                url: response.filelink + '?' + new Date().getTime(),
             };
             if (this.fileFieldParams.multiple) {
                 let values = this.values;
