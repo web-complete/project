@@ -22,8 +22,8 @@ return [
     },
     MigrationRegistryInterface::class => \DI\object(MigrationRegistryMysql::class),
     CacheService::class => function () {
-        $systemCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
-        $userCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
+        $systemCache = new \Symfony\Component\Cache\Adapter\FilesystemAdapter();
+        $userCache = new \Symfony\Component\Cache\Adapter\FilesystemAdapter();
         return new CacheService($systemCache, $userCache);
     },
     Doctrine\DBAL\Connection::class => function (\DI\Container $di) {
