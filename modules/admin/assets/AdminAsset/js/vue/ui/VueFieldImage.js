@@ -15,7 +15,6 @@ Vue.component('VueFieldImage', {
 
         <vue-field-image-modal-crop ref="crop"
                                     :name="name"
-                                    @crop="cropImage"
         ></vue-field-image-modal-crop>        
         <vue-field-image-modal-edit ref="edit"
                                     :name="name"
@@ -83,6 +82,62 @@ Vue.component('VueFieldImage', {
         this.destroyUploader();
     },
     methods: {
+        initUploader: function(){
+            let self = this;
+            $(this.$el).find('input[type=file]').fileupload({
+                dataType: 'json',
+                url: '/admin/api/upload-file',
+                add: function (e, data) {
+                    data.formData = {};
+                    if (self.fileFieldParams['cropRatio']) {
+                        let file = data.files[0];
+                        let reader = new FileReader();
+                        reader.onload = function(e){
+                            self.$refs['crop'].open(
+                                e.target.result,
+                                self.fileFieldParams['cropRatio'],
+                                self.fileFieldParams['cropMimeType']
+                            ).then(function(cropData){
+                                $(Request).trigger('start');
+                                data.formData['cropData'] = JSON.stringify(cropData);
+                                data.submit();
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        $(Request).trigger('start');
+                        data.submit();
+                    }
+                },
+                done: function (e, data) {
+                    if(data.result.result) {
+                        $(Request).trigger('stop');
+                        self.onUploaded(data.result);
+                    }
+                    else {
+                        $(Request).trigger('error');
+                        Notify.error(data.result.error || 'Ошибка загрузки изображения');
+                    }
+                },
+                fail: function () {
+                    $(Request).trigger('error');
+                    Notify.error('Ошибка загрузки изображения');
+                }
+            });
+        },
+        onUploaded: function(response){
+            this.fileFieldParams.data[response.id] = {
+                name: response.name,
+                url: response.filelink,
+            };
+            if (this.fileFieldParams.multiple) {
+                let values = this.values;
+                values.push(response.id);
+                this.$emit('input', values);
+            } else {
+                this.$emit('input', response.id);
+            }
+        },
         openImage: function(id){
             this.$refs['edit'].open(id);
         },
@@ -108,65 +163,6 @@ Vue.component('VueFieldImage', {
                 this.$emit('input', '');
             }
             bus.$emit('deleteFileId', id);
-        },
-        cropImage: function(cropData){
-            Request.post('/admin/api/crop-image', {
-                id: this.values[0],
-                crop: cropData
-            }, function(response){
-                this.onUploaded(response);
-            }.bind(this));
-        },
-        initUploader: function(){
-            let self = this;
-            $(this.$el).find('input[type=file]').fileupload({
-                dataType: 'json',
-                url: '/admin/api/upload-file',
-                add: function (e, data) {
-                    if (self.fileFieldParams['cropRatio']) {
-                        let file = data.files[0];
-                        let reader = new FileReader();
-                        reader.onload = function(e){
-                            self.$refs['crop'].open(
-                                e.target.result,
-                                self.fileFieldParams['cropRatio'],
-                                self.fileFieldParams['cropMimeType']
-                            );
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                    $(Request).trigger('start');
-                    data.formData = {};
-                    data.submit();
-                },
-                done: function (e, data) {
-                    if(data.result.result) {
-                        $(Request).trigger('stop');
-                        self.onUploaded(data.result);
-                    }
-                    else {
-                        $(Request).trigger('error');
-                        Notify.error(data.result.error || 'Ошибка загрузки изображения');
-                    }
-                },
-                fail: function () {
-                    $(Request).trigger('error');
-                    Notify.error('Ошибка загрузки изображения');
-                }
-            });
-        },
-        onUploaded: function(response){
-            this.fileFieldParams.data[response.id] = {
-                name: response.name,
-                url: response.filelink + '?' + new Date().getTime(),
-            };
-            if (this.fileFieldParams.multiple) {
-                let values = this.values;
-                values.push(response.id);
-                this.$emit('input', values);
-            } else {
-                this.$emit('input', response.id);
-            }
         },
         destroyUploader: function(){
             $(this.$el).find('input[type=file]').fileupload('destroy');

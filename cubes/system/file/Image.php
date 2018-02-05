@@ -87,6 +87,14 @@ class Image
     }
 
     /**
+     * @return File
+     */
+    public function getFile(): File
+    {
+        return $this->file;
+    }
+
+    /**
      * @param array $cropData
      */
     public function crop(array $cropData)

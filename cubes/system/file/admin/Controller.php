@@ -23,6 +23,7 @@ class Controller extends AbstractController
         $code = $this->request->get('code');
         $sort = (int)$this->request->get('sort', 100);
         $data = (array)$this->request->get('data', []);
+        $cropData = (array)\json_decode($this->request->get('cropData'), true);
 
         $uploadedFiles = $this->request->files->all();
         /** @var UploadedFile $uploadedFile */
@@ -36,36 +37,11 @@ class Controller extends AbstractController
                 $data
             );
             if ($file && $file->getId()) {
-                return $this->responseJsonSuccess([
-                    'id' => $file->getId(),
-                    'name' => $file->file_name,
-                    'filelink' => $file->url,
-                ]);
-            }
+                if ($cropData && ($image = ImageHelper::getImage($file->getId()))) {
+                    $image->crop($cropData);
+                    $file = $image->getFile();
+                }
 
-            return $this->responseJsonFail('File upload error');
-        }
-
-        return $this->responseJsonFail('No file uploaded');
-    }
-
-    /**
-     * @return Response
-     * @throws \Exception
-     */
-    public function actionUploadImage(): Response
-    {
-        $fileService = $this->container->get(FileService::class);
-        $filename = $this->request->get('filename');
-        $content = $this->request->get('content');
-        $mime = $this->request->get('mime');
-        $code = $this->request->get('code');
-        $sort = (int)$this->request->get('sort', 100);
-        $data = (array)$this->request->get('data', []);
-
-        if ($filename && $content) {
-            $file = $fileService->createFileFromContent($content, $filename, $mime, $code, $sort, $data);
-            if ($file && $file->getId()) {
                 return $this->responseJsonSuccess([
                     'id' => $file->getId(),
                     'name' => $file->file_name,
@@ -115,27 +91,5 @@ class Controller extends AbstractController
         }
 
         return $this->responseJsonFail('File not found');
-    }
-
-    /**
-     * @return Response
-     * @throws \Exception
-     */
-    public function actionCropImage(): Response
-    {
-        $id = $this->request->get('id');
-        $crop = (array)$this->request->get('crop');
-        if ($id && $crop) {
-            if ($image = ImageHelper::getImage($id)) {
-                $image->crop($crop);
-
-                return $this->responseJsonSuccess([
-                    'id' => $id,
-                    'name' => $image->getFilename(),
-                    'filelink' => $image->getUrl(),
-                ]);
-            }
-        }
-        return $this->responseJsonFail('Crop error');
     }
 }

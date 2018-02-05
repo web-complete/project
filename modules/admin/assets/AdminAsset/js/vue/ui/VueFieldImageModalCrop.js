@@ -27,6 +27,7 @@ Vue.component('VueFieldImageModalCrop', {
             dataUrl: '',
             cropRatio: null,
             mimeType: 'image/jpeg',
+            promiseResolver: function(){}
         }
     },
     destroyed: function(){
@@ -38,6 +39,9 @@ Vue.component('VueFieldImageModalCrop', {
             this.dataUrl = dataUrl;
             this.cropRatio = cropRatio;
             this.mimeType = mimeType;
+            return new Promise(function(resolve){
+                this.promiseResolver = resolve;
+            }.bind(this));
         },
         opened: function(){
             this.cropper = new $.fn.cropper.Constructor($(this.$el).find('img._data')[0], {
@@ -53,7 +57,7 @@ Vue.component('VueFieldImageModalCrop', {
         },
         save: function(){
             let cropData = this.cropper.getData();
-            this.$emit('crop', cropData);
+            this.promiseResolver(cropData);
             this.close();
         },
         destroy: function(){
