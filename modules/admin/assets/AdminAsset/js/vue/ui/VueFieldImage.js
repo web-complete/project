@@ -21,7 +21,7 @@ Vue.component('VueFieldImage', {
                                     :fileFieldParams="fileFieldParams"
                                     @updateImage="updateImage"
                                     @deleteImage="deleteImage"
-        ></vue-field-image-modal-edit>        
+        ></vue-field-image-modal-edit>
     </div>
 </div>    
     `,
@@ -101,14 +101,14 @@ Vue.component('VueFieldImage', {
                                 $(Request).trigger('start');
                                 data.formData['cropData'] = JSON.stringify(cropData);
                                 data.submit();
-                            });
-                        };
+                            }.bind(this));
+                        }.bind(this);
                         reader.readAsDataURL(file);
                     } else {
                         $(Request).trigger('start');
                         data.submit();
                     }
-                },
+                }.bind(this),
                 done: function (e, data) {
                     if(data.result.result) {
                         $(Request).trigger('stop');
@@ -118,7 +118,7 @@ Vue.component('VueFieldImage', {
                         $(Request).trigger('error');
                         Notify.error(data.result.error || 'Ошибка загрузки изображения');
                     }
-                },
+                }.bind(this),
                 fail: function () {
                     $(Request).trigger('error');
                     Notify.error('Ошибка загрузки изображения');

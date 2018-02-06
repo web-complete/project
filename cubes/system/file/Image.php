@@ -6,6 +6,7 @@ use Intervention\Image\ImageManagerStatic;
 
 class Image
 {
+    const MEMORY_LIMIT = '500M';
 
     /**
      * @var File
@@ -124,6 +125,7 @@ class Image
      */
     protected function createResizedImage(string $srcFile, string $destFile, int $width, int $height = null)
     {
+        \ini_set('memory_limit', self::MEMORY_LIMIT);
         $height
             ? ImageManagerStatic::make($srcFile)->fit($width, $height)->save($destFile)
             : ImageManagerStatic::make($srcFile)->widen($width)->save($destFile);
@@ -139,6 +141,7 @@ class Image
      */
     protected function createCroppedImage(string $srcFile, string $destFile, int $x, int $y, int $width, int $height)
     {
+        \ini_set('memory_limit', self::MEMORY_LIMIT);
         ImageManagerStatic::make($srcFile)->crop($width, $height, $x, $y)->save($destFile);
     }
 }
