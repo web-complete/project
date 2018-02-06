@@ -28,10 +28,6 @@ abstract class AbstractEntitySeo implements SeoMetaInterface
      */
     protected $entityService;
     /**
-     * @var StringHelper
-     */
-    protected $stringHelper;
-    /**
      * @var AbstractEntity
      */
     protected $item;
@@ -54,7 +50,6 @@ abstract class AbstractEntitySeo implements SeoMetaInterface
         }
         $this->seoManager = $container->get(SeoManager::class);
         $this->slugService = $container->get(SlugService::class);
-        $this->stringHelper = $container->get(StringHelper::class);
         $this->entityService = $container->get($this->entityServiceClass);
     }
 
@@ -126,7 +121,7 @@ abstract class AbstractEntitySeo implements SeoMetaInterface
             }
 
             $title = $item->get($this->titleField);
-            return $this->stringHelper->str2url($title);
+            return StringHelper::str2url($title);
         }
         return '';
     }

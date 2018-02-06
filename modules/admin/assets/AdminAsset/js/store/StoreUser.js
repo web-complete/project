@@ -1,5 +1,6 @@
 window.store = window.store || new Vuex.Store();
 window.store.registerModule('user', {
+    namespaced: true,
     state: {
         loginError: false,
         token: '',

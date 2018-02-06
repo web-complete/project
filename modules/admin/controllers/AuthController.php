@@ -60,6 +60,10 @@ class AuthController extends AbstractController
             return $this->responseAccessDenied();
         }
 
+        if (!$user->can('admin:login')) {
+            return $this->responseAccessDenied();
+        }
+
         return $this->responseJson([
             'result' => true,
             'token' => $user->getMaskedToken(),

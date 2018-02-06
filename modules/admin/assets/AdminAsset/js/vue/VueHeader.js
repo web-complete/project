@@ -31,7 +31,7 @@ Vue.component('VueHeader', {
 
     methods: {
         logout: function(){
-            this.$store.dispatch('logout');
+            this.$store.dispatch('user/logout');
         }
     }
 });

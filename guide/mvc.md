@@ -43,7 +43,7 @@
 GET-параметры, определенные в маршруте, передаются в качестве аргументов метода действия.
 Допусти определен маршрут с параметром id:
 ```php
-['GET', "/admin/api/entity/user/{id:\d+}", [UserController::class, 'actionDetail']
+['GET', "/admin/api/entity/user/{id}", [UserController::class, 'actionDetail']
 ```
 
 Таким образом, метод действия получает параметр $id в своих аргументах:

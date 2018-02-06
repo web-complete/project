@@ -195,9 +195,9 @@ class CubeHelper
 
         $this
             ->addBackendRoute(['GET', "/admin/api/entity/$name", [$controllerClass, 'actionList']])
-            ->addBackendRoute(['GET', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDetail']])
-            ->addBackendRoute(['POST', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionSave']])
-            ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDelete']])
+            ->addBackendRoute(['GET', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDetail']])
+            ->addBackendRoute(['POST', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionSave']])
+            ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDelete']])
             ->observeEntityTagField($entityConfig)
             ->observeEntitySearch($entityConfig)
             ->observeEntitySeo($entityConfig);

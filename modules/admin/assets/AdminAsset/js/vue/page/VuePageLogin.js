@@ -40,7 +40,7 @@ Vue.component('VuePageLogin', {
     methods: {
         submit: function(){
             let self = this;
-            self.$store.dispatch('login', {
+            self.$store.dispatch('user/login', {
                 login: this.login,
                 password: this.password,
                 redirect: true

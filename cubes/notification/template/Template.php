@@ -59,11 +59,11 @@ class Template extends AbstractMultilangEntity
      *
      * @return string
      */
-    protected function render(string $content, array $vars): string
+    protected function render($content, array $vars): string
     {
         $result = '';
         try {
-            $loader = new \Twig_Loader_Array(['template' => $content]);
+            $loader = new \Twig_Loader_Array(['template' => (string)$content]);
             $twig = new \Twig_Environment($loader);
             $result = $twig->render('template', $vars);
         } catch (\Exception $e) {

@@ -16,21 +16,15 @@ class SearchService implements SearchInterface
      * @var SearchDocFactory
      */
     protected $factory;
-    /**
-     * @var StringHelper
-     */
-    protected $stringHelper;
 
     /**
      * @param SearchInterface $adapter
      * @param SearchDocFactory $factory
-     * @param StringHelper $stringHelper
      */
-    public function __construct(SearchInterface $adapter, SearchDocFactory $factory, StringHelper $stringHelper)
+    public function __construct(SearchInterface $adapter, SearchDocFactory $factory)
     {
         $this->adapter = $adapter;
         $this->factory = $factory;
-        $this->stringHelper = $stringHelper;
     }
 
     /**
@@ -51,7 +45,7 @@ class SearchService implements SearchInterface
         }
 
         $doc->weight = $doc->weight ?: 1;
-        $doc->content = $this->stringHelper->html2text($doc->content);
+        $doc->content = StringHelper::html2text($doc->content);
         return $this->adapter->indexDoc($doc);
     }
 

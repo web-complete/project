@@ -40,6 +40,7 @@ class AdminAuthAsset extends AbstractAsset
     public function css(): array
     {
         return [
+            'bower_components/vue-toasted/dist/vue-toasted.min.css',
             'css/normalize.css',
             'css/ionicons.min.css',
             'css/font-awesome.min.css',
@@ -55,6 +56,8 @@ class AdminAuthAsset extends AbstractAsset
     public function js(): array
     {
         return \array_merge(self::baseJs(), [
+            'bower_components/vue-toasted/dist/vue-toasted.min.js',
+            'js/model/Notify.js',
             'js/store/StoreSettings.js',
             'js/vue/VueApp.js',
             'js/vue/page/VuePageLogin.js',

@@ -12,19 +12,13 @@ class TagService extends AbstractEntityService implements TagRepositoryInterface
      * @var TagRepositoryInterface
      */
     protected $repository;
-    /**
-     * @var StringHelper
-     */
-    protected $stringHelper;
 
     /**
      * @param TagRepositoryInterface $repository
-     * @param StringHelper $stringHelper
      */
-    public function __construct(TagRepositoryInterface $repository, StringHelper $stringHelper)
+    public function __construct(TagRepositoryInterface $repository)
     {
         parent::__construct($repository);
-        $this->stringHelper = $stringHelper;
     }
 
     /**
@@ -40,7 +34,7 @@ class TagService extends AbstractEntityService implements TagRepositoryInterface
         if (!$tag = $this->findOne($this->createCondition(['name' => $name, 'namespace' => $namespace]))) {
             $tag = $this->create();
             $tag->name = $name;
-            $tag->slug = $this->stringHelper->str2url($name);
+            $tag->slug = StringHelper::str2url($name);
             $tag->namespace = $namespace;
         }
         $ids = (array)$tag->ids;

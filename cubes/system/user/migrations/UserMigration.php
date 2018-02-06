@@ -96,5 +96,6 @@ class UserMigration implements MigrationInterface
         } else {
             echo "WARNING! 'admin' role not found\n";
         }
+        $this->rbac->save();
     }
 }

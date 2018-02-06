@@ -7,7 +7,6 @@ use cubes\search\search\SearchDoc;
 use cubes\search\search\SearchDocFactory;
 use cubes\search\search\SearchService;
 use cubes\system\elastic\ElasticSearchDriver;
-use WebComplete\core\utils\helpers\StringHelper;
 use WebComplete\core\utils\paginator\Paginator;
 
 class ElasticSearchTest extends \AppTestCase
@@ -27,7 +26,7 @@ class ElasticSearchTest extends \AppTestCase
         $this->driver = new ElasticSearchDriver('wcp_test', ['localhost:9200'], true);
         $index = new ElasticTestingDocIndex($this->driver);
         $adapter = new ElasticSearchAdapter(new SearchDocFactory(), $index);
-        $this->searchService = new SearchService($adapter, new SearchDocFactory(), new StringHelper());
+        $this->searchService = new SearchService($adapter, new SearchDocFactory());
     }
 
     public function testSearch()

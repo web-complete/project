@@ -6,7 +6,6 @@ use cubes\search\search\adapters\MicroSearchAdapter;
 use cubes\search\search\SearchDoc;
 use cubes\search\search\SearchDocFactory;
 use cubes\search\search\SearchService;
-use WebComplete\core\utils\helpers\StringHelper;
 use WebComplete\core\utils\paginator\Paginator;
 use WebComplete\microDb\MicroDb;
 
@@ -74,7 +73,7 @@ class SearchTest extends \AppTestCase
 
         $microDb = new MicroDb(__DIR__, 'test');
         $searchAdapter = new MicroSearchAdapter(new SearchDocFactory(), $microDb);
-        $searchService = new SearchService($searchAdapter, new SearchDocFactory(), new StringHelper());
+        $searchService = new SearchService($searchAdapter, new SearchDocFactory());
         foreach ($data as $row) {
             $doc = new SearchDoc();
             $doc->mapFromArray($row);
@@ -145,7 +144,7 @@ class SearchTest extends \AppTestCase
 
         $microDb = new MicroDb(__DIR__, 'test');
         $searchAdapter = new MicroSearchAdapter(new SearchDocFactory(), $microDb);
-        $searchService = new SearchService($searchAdapter, new SearchDocFactory(), new StringHelper());
+        $searchService = new SearchService($searchAdapter, new SearchDocFactory());
         foreach ($data as $row) {
             $doc = new SearchDoc();
             $doc->mapFromArray($row);

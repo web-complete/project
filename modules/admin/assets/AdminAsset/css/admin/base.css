@@ -12,6 +12,9 @@
     display: table;
     clear: both;
 }
+.nowrap {
+    white-space: nowrap !important;
+}
 .hide {
     display: none !important;
 }

@@ -55,8 +55,5 @@ return [
         return new \Swift_Transport_NullTransport(new Swift_Events_SimpleEventDispatcher());
     },
     \cubes\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
-    \cubes\system\elastic\ElasticSearchDriver::class => function () {
-        return new ElasticSearchDriver('wcp', ['localhost:9200']);
-    },
-    SearchInterface::class => \DI\object(\cubes\search\search\adapters\ElasticSearchAdapter::class),
+    SearchInterface::class => \DI\object(\cubes\search\search\adapters\NullSearchAdapter::class),
 ];

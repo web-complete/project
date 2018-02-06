@@ -65,9 +65,9 @@ class Controller extends AbstractEntityController
         // добавляем стандартные бэкенд-маршруты, настроенные на контроллер сущности
         $this
             ->addBackendRoute(['GET', "/admin/api/entity/$name", [$controllerClass, 'actionList']])
-            ->addBackendRoute(['GET', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDetail']])
-            ->addBackendRoute(['POST', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionSave']])
-            ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id:\d+}", [$controllerClass, 'actionDelete']])
+            ->addBackendRoute(['GET', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDetail']])
+            ->addBackendRoute(['POST', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionSave']])
+            ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDelete']])
             ->observeEntityTagField($entityConfig) // поддерживаем функционал тэгов
             ->observeEntitySearch($entityConfig) // поддерживаем функционал поиска
             ->observeEntitySeo($entityConfig); // поддерживаем функционал seo

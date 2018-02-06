@@ -10,6 +10,8 @@
 <script type="text/javascript">
     $(document).ready(function(){
         store.state.settings = <?=\json_encode($settingsState) ?>;
+        window.bus = new Vue();
+        Vue.use(Toasted);
         new Vue(VueApp);
     });
 </script>
