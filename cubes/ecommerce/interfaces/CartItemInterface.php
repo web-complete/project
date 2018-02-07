@@ -1,9 +1,15 @@
 <?php
 
-namespace cubes\ecommerce\catalog;
+namespace cubes\ecommerce\interfaces;
 
 interface CartItemInterface
 {
+
+    /**
+     * @return mixed
+     */
+    public function getId();
+
     /**
      * @return CartInterface
      */
@@ -13,6 +19,21 @@ interface CartItemInterface
      * @return ProductOfferInterface|null
      */
     public function getProductOffer();
+
+    /**
+     * @return string
+     */
+    public function getSku(): string;
+
+    /**
+     * @return string
+     */
+    public function getName(): string;
+
+    /**
+     * @return float
+     */
+    public function getPrice(): float;
 
     /**
      * @return int

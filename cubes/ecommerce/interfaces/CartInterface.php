@@ -1,15 +1,17 @@
 <?php
 
-namespace cubes\ecommerce\catalog;
+namespace cubes\ecommerce\interfaces;
 
 interface CartInterface
 {
     /**
      * @param ProductOfferInterface $productOffer
      *
+     * @param int $qty
+     *
      * @return CartItemInterface
      */
-    public function addProductOffer(ProductOfferInterface $productOffer): CartItemInterface;
+    public function addProductOffer(ProductOfferInterface $productOffer, int $qty = 1): CartItemInterface;
 
     /**
      * @return CartItemInterface[]

@@ -19,24 +19,34 @@ class AppTestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
         Mocker::init($this);
-        $this->cloneContainer();
+        $this->initApplication();
         $this->db->beginTransaction();
-        $this->config = $this->container->get(ApplicationConfig::class);
         \WebComplete\microDb\StorageRuntime::clear();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\ConnectionException
+     */
     public function tearDown()
     {
         $this->db->rollBack();
         parent::tearDown();
     }
 
-    private function cloneContainer()
+    private function initApplication()
     {
+        global $config;
         global $application;
-        $containerAdapter = $application->getContainer();
-        $this->db = $containerAdapter->get(Connection::class); // original db instance
-        $container = Mocker::getProperty($containerAdapter, 'container');
-        $this->container = new \WebComplete\core\utils\container\ContainerAdapter(clone $container);
+        try {
+            $application = new \WebComplete\mvc\Application($config, false);
+        } catch (\Exception $e) {
+            echo "ERROR: Cannot init test application!\n";
+        }
+        $microDb = $application->getContainer()->get(\WebComplete\microDb\MicroDb::class);
+        $microDb->setType('runtime');
+
+        $this->container = $application->getContainer();
+        $this->config = $this->container->get(ApplicationConfig::class);
+        $this->db = $this->container->get(Connection::class); // original db instance
     }
 }

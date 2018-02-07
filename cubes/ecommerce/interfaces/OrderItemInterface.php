@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\ecommerce\catalog;
+namespace cubes\ecommerce\interfaces;
 
 interface OrderItemInterface
 {
