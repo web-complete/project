@@ -5,6 +5,11 @@ namespace cubes\ecommerce\interfaces;
 interface CartInterface
 {
     /**
+     * @return string|int
+     */
+    public function getUserId();
+
+    /**
      * @param ProductOfferInterface $productOffer
      *
      * @param int $qty

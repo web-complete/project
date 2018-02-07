@@ -51,6 +51,14 @@ class Cart extends AbstractEntity implements CartInterface
     }
 
     /**
+     * @return string|int
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
      * @param ProductOfferInterface $productOffer
      * @param int $qty
      *

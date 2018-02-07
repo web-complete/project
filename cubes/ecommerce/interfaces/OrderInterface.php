@@ -5,6 +5,21 @@ namespace cubes\ecommerce\interfaces;
 interface OrderInterface
 {
     /**
+     * @return string|int
+     */
+    public function getUserId();
+
+    /**
+     * @return CheckoutInterface
+     */
+    public function getCheckout(): CheckoutInterface;
+
+    /**
+     * @param CheckoutInterface $checkout
+     */
+    public function setCheckout(CheckoutInterface $checkout);
+
+    /**
      * @return array
      */
     public function getItems(): array;

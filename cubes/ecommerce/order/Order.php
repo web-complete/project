@@ -2,13 +2,15 @@
 
 namespace cubes\ecommerce\order;
 
+use cubes\ecommerce\interfaces\CheckoutInterface;
 use cubes\ecommerce\interfaces\OrderInterface;
 use cubes\ecommerce\interfaces\OrderItemInterface;
 use WebComplete\core\entity\AbstractEntity;
+use WebComplete\core\utils\typecast\Cast;
 
 /**
 *
-* @property $name
+* @property $user_id
 */
 class Order extends AbstractEntity implements OrderInterface
 {
@@ -18,7 +20,36 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public static function fields(): array
     {
-        return [];
+        return [
+            'user_id' => Cast::STRING,
+            'checkout_data' => Cast::ARRAY,
+        ];
+    }
+
+    public function __construct() { }
+
+    /**
+     * @return string|int
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @return CheckoutInterface
+     */
+    public function getCheckout(): CheckoutInterface
+    {
+        // TODO: Implement getCheckout() method.
+    }
+
+    /**
+     * @param CheckoutInterface $checkout
+     */
+    public function setCheckout(CheckoutInterface $checkout)
+    {
+        // TODO: Implement setCheckout() method.
     }
 
     /**
