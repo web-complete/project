@@ -5,6 +5,11 @@ namespace cubes\ecommerce\interfaces;
 interface OrderItemInterface
 {
     /**
+     * @return int|string
+     */
+    public function getId();
+
+    /**
      * @return OrderInterface
      */
     public function getOrder(): OrderInterface;
@@ -20,17 +25,22 @@ interface OrderItemInterface
     public function getName(): string;
 
     /**
+     * @return int
+     */
+    public function getQty(): int;
+
+    /**
      * @return float
      */
     public function getPrice(): float;
 
     /**
+     * @return array
+     */
+    public function getProductData(): array;
+
+    /**
      * @return mixed
      */
     public function getTotals();
-
-    /**
-     * @param $totals
-     */
-    public function setTotals($totals);
 }

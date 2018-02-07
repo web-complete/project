@@ -135,7 +135,7 @@ class CartService extends AbstractEntityService implements CartRepositoryInterfa
     {
         /** @var AbstractEntity|CartItemInterface|CartItem $cartItem */
         foreach ($cart->getItems() as $cartItem) {
-            $cartItem->cart_id = $cartItem->getCart()->getId();
+            $cartItem->cart_id = $cart->getId();
             $this->cartItemService->save($cartItem);
         }
 

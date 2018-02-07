@@ -2,9 +2,11 @@
 
 namespace cubes\ecommerce\order;
 
+use cubes\ecommerce\checkout\CheckoutFactory;
 use cubes\ecommerce\interfaces\CheckoutInterface;
 use cubes\ecommerce\interfaces\OrderInterface;
 use cubes\ecommerce\interfaces\OrderItemInterface;
+use cubes\ecommerce\orderItem\OrderItem;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\utils\typecast\Cast;
 
@@ -14,6 +16,18 @@ use WebComplete\core\utils\typecast\Cast;
 */
 class Order extends AbstractEntity implements OrderInterface
 {
+    /**
+     * @var CheckoutFactory
+     */
+    protected $checkoutFactory;
+    /**
+     * @var OrderItemInterface[]
+     */
+    protected $items = [];
+    /**
+     * @var OrderItemInterface[]
+     */
+    protected $deleted = [];
 
     /**
      * @return array
@@ -23,10 +37,18 @@ class Order extends AbstractEntity implements OrderInterface
         return [
             'user_id' => Cast::STRING,
             'checkout_data' => Cast::ARRAY,
+            'status' => Cast::INT,
+            'totals' => Cast::ARRAY,
         ];
     }
 
-    public function __construct() { }
+    /**
+     * @param CheckoutFactory $checkoutFactory
+     */
+    public function __construct(CheckoutFactory $checkoutFactory)
+    {
+        $this->checkoutFactory = $checkoutFactory;
+    }
 
     /**
      * @return string|int
@@ -41,7 +63,9 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function getCheckout(): CheckoutInterface
     {
-        // TODO: Implement getCheckout() method.
+        $checkout = $this->checkoutFactory->create();
+        $checkout->setData((array)$this->get('checkout_data'));
+        return $checkout;
     }
 
     /**
@@ -49,15 +73,26 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function setCheckout(CheckoutInterface $checkout)
     {
-        // TODO: Implement setCheckout() method.
+        $this->set('checkout_data', $checkout->getData());
     }
 
     /**
-     * @return array
+     * @return OrderItemInterface[]
      */
     public function getItems(): array
     {
-        // TODO: Implement getItems() method.
+        return $this->items;
+    }
+
+    /**
+     * @param OrderItemInterface[]|OrderItem[] $items
+     */
+    public function setItems(array $items)
+    {
+        $this->items = $items;
+        foreach ($items as $item) {
+            $item->setOrder($this);
+        }
     }
 
     /**
@@ -67,7 +102,12 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function getItemById($id)
     {
-        // TODO: Implement getItemById() method.
+        foreach ($this->getItems() as $item) {
+            if ((string)$item->getId() === (string)$id) {
+                return $item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -77,7 +117,12 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function getItemBySku($sku)
     {
-        // TODO: Implement getItemBySku() method.
+        foreach ($this->getItems() as $item) {
+            if ($item->getSku() === (string)$sku) {
+                return $item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -85,7 +130,7 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function addItem(OrderItemInterface $item)
     {
-        // TODO: Implement addItem() method.
+        $this->items[] = $item;
     }
 
     /**
@@ -93,23 +138,29 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function deleteItem(OrderItemInterface $item)
     {
-        // TODO: Implement deleteItem() method.
+        $id = (string)$item->getId();
+        foreach ($this->items as $k => $orderItem) {
+            if ((string)$orderItem->getId() === $id) {
+                $this->deleted[] = $orderItem;
+                unset($this->items[$k]);
+            }
+        }
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getStatus()
+    public function getStatus(): int
     {
-        // TODO: Implement getStatus() method.
+        return (int)$this->get('status');
     }
 
     /**
-     * @param $status
+     * @param int $status
      */
-    public function setStatus($status)
+    public function setStatus(int $status)
     {
-        // TODO: Implement setStatus() method.
+        $this->set('status', $status);
     }
 
     /**
@@ -117,7 +168,7 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function getTotals()
     {
-        // TODO: Implement getTotals() method.
+        return $this->get('totals');
     }
 
     /**
@@ -125,6 +176,20 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function setTotals($totals)
     {
-        // TODO: Implement setTotals() method.
+        $this->set('totals', $totals);
+    }
+
+    /**
+     * @param bool $clear
+     *
+     * @return OrderItemInterface[]
+     */
+    public function getDeletedItems(bool $clear = true): array
+    {
+        $deleted = $this->deleted;
+        if ($clear) {
+            $this->deleted = [];
+        }
+        return $deleted;
     }
 }

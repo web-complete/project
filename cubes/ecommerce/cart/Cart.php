@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\cart;
 
+use cubes\ecommerce\cartItem\CartItem;
 use cubes\ecommerce\cartItem\CartItemFactory;
 use cubes\ecommerce\interfaces\CartInterface;
 use cubes\ecommerce\interfaces\CartItemInterface;
@@ -70,7 +71,6 @@ class Cart extends AbstractEntity implements CartInterface
         $item->setCart($this);
         $item->setQty($qty);
         $this->items[] = $item;
-        $this->setTotals([]);
         return $item;
     }
 
@@ -83,7 +83,7 @@ class Cart extends AbstractEntity implements CartInterface
     }
 
     /**
-     * @param CartItemInterface[] $items
+     * @param CartItemInterface[]|CartItem[] $items
      */
     public function setItems(array $items)
     {
@@ -134,7 +134,6 @@ class Cart extends AbstractEntity implements CartInterface
             if ((string)$cartItem->getId() === $id) {
                 $this->deleted[] = $cartItem;
                 unset($this->items[$k]);
-                $this->setTotals([]);
             }
         }
     }
@@ -160,7 +159,7 @@ class Cart extends AbstractEntity implements CartInterface
      *
      * @return CartItemInterface[]
      */
-    public function getDeletedItems(bool $clear = true)
+    public function getDeletedItems(bool $clear = true): array
     {
         $deleted = $this->deleted;
         if ($clear) {

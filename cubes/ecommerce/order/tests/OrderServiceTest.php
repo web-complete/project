@@ -9,14 +9,4 @@ class OrderServiceTest extends \AppTestCase
     {
 
     }
-
-    public function testFindOrderById()
-    {
-
-    }
-
-    public function testFindOrdersByUserId()
-    {
-
-    }
 }

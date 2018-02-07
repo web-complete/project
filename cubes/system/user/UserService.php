@@ -10,6 +10,12 @@ use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\helpers\SecurityHelper;
 
+/**
+ * @method User create()
+ * @method User|null findById($id)
+ * @method User|null findOne(Condition $condition)
+ * @method User[] findAll(Condition $condition = null)
+ */
 class UserService extends AbstractEntityService implements UserRepositoryInterface, IdentityServiceInterface
 {
 

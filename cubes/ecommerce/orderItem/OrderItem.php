@@ -4,21 +4,43 @@ namespace cubes\ecommerce\orderItem;
 
 use cubes\ecommerce\interfaces\OrderInterface;
 use cubes\ecommerce\interfaces\OrderItemInterface;
+use cubes\ecommerce\order\Order;
 use WebComplete\core\entity\AbstractEntity;
+use WebComplete\core\utils\typecast\Cast;
 
 /**
 *
-* @property $name
+* @property $order_id
 */
 class OrderItem extends AbstractEntity implements OrderItemInterface
 {
+    /**
+     * @var OrderInterface|Order
+     */
+    protected $order;
 
     /**
      * @return array
      */
     public static function fields(): array
     {
-        return [];
+        return [
+            'order_id' => Cast::STRING,
+            'product_data' => Cast::ARRAY,
+            'sku' => Cast::STRING,
+            'name' => Cast::STRING,
+            'price' => Cast::FLOAT,
+            'qty' => Cast::INT,
+            'totals' => Cast::ARRAY
+        ];
+    }
+
+    /**
+     * @param OrderInterface|Order $order
+     */
+    public function setOrder(OrderInterface $order)
+    {
+        $this->order = $order;
     }
 
     /**
@@ -26,7 +48,7 @@ class OrderItem extends AbstractEntity implements OrderItemInterface
      */
     public function getOrder(): OrderInterface
     {
-        // TODO: Implement getOrder() method.
+        return $this->order;
     }
 
     /**
@@ -34,7 +56,7 @@ class OrderItem extends AbstractEntity implements OrderItemInterface
      */
     public function getSku(): string
     {
-        // TODO: Implement getSku() method.
+        return (string)$this->get('sku');
     }
 
     /**
@@ -42,7 +64,7 @@ class OrderItem extends AbstractEntity implements OrderItemInterface
      */
     public function getName(): string
     {
-        // TODO: Implement getName() method.
+        return (string)$this->get('name');
     }
 
     /**
@@ -50,22 +72,30 @@ class OrderItem extends AbstractEntity implements OrderItemInterface
      */
     public function getPrice(): float
     {
-        // TODO: Implement getPrice() method.
+        return (float)$this->get('price');
     }
 
     /**
-     * @return mixed
+     * @return int
+     */
+    public function getQty(): int
+    {
+        return (int)$this->get('qty');
+    }
+
+    /**
+     * @return array
+     */
+    public function getProductData(): array
+    {
+        return (array)$this->get('product_data');
+    }
+
+    /**
+     * @return mixed|array
      */
     public function getTotals()
     {
-        // TODO: Implement getTotals() method.
-    }
-
-    /**
-     * @param $totals
-     */
-    public function setTotals($totals)
-    {
-        // TODO: Implement setTotals() method.
+        return (array)$this->get('totals');
     }
 }

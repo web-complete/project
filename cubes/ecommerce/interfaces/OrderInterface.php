@@ -49,14 +49,14 @@ interface OrderInterface
     public function deleteItem(OrderItemInterface $item);
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getStatus();
+    public function getStatus(): int;
 
     /**
-     * @param $status
+     * @param int $status
      */
-    public function setStatus($status);
+    public function setStatus(int $status);
 
     /**
      * @return mixed
