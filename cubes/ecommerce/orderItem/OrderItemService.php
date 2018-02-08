@@ -2,8 +2,12 @@
 
 namespace cubes\ecommerce\orderItem;
 
+use cubes\ecommerce\interfaces\OrderItemInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
+/**
+ * @method OrderItemInterface|OrderItem create()
+ */
 class OrderItemService extends AbstractEntityService implements OrderItemRepositoryInterface
 {
 

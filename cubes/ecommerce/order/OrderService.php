@@ -2,8 +2,9 @@
 
 namespace cubes\ecommerce\order;
 
+use cubes\ecommerce\cart\Cart;
+use cubes\ecommerce\cart\CartService;
 use cubes\ecommerce\cartItem\CartItem;
-use cubes\ecommerce\checkout\Checkout;
 use cubes\ecommerce\interfaces\CartInterface;
 use cubes\ecommerce\interfaces\CheckoutInterface;
 use cubes\ecommerce\interfaces\OrderInterface;
@@ -17,7 +18,11 @@ use cubes\system\user\UserService;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
+use WebComplete\core\utils\traits\TraitData;
 
+/**
+ * @method OrderInterface|Order create()
+ */
 class OrderService extends AbstractEntityService implements OrderRepositoryInterface, OrderServiceInterface
 {
 
@@ -34,6 +39,10 @@ class OrderService extends AbstractEntityService implements OrderRepositoryInter
      */
     protected $orderItemFactory;
     /**
+     * @var CartService
+     */
+    protected $cartService;
+    /**
      * @var UserService
      */
     protected $userService;
@@ -42,44 +51,51 @@ class OrderService extends AbstractEntityService implements OrderRepositoryInter
      * @param OrderRepositoryInterface $repository
      * @param OrderItemService $orderItemService
      * @param OrderItemFactory $orderItemFactory
+     * @param CartService $cartService
      * @param UserService $userService
      */
     public function __construct(
         OrderRepositoryInterface $repository,
         OrderItemService $orderItemService,
         OrderItemFactory $orderItemFactory,
+        CartService $cartService,
         UserService $userService
     ) {
         parent::__construct($repository);
         $this->orderItemService = $orderItemService;
         $this->orderItemFactory = $orderItemFactory;
+        $this->cartService = $cartService;
         $this->userService = $userService;
     }
 
     /**
-     * @param CartInterface $cart
-     * @param CheckoutInterface $checkout
+     * @param CartInterface|Cart $cart
      *
      * @return OrderInterface
      */
-    public function createOrder(CartInterface $cart, CheckoutInterface $checkout): OrderInterface
+    public function createOrder(CartInterface $cart): OrderInterface
     {
-        $user = $this->getOrCreateUser($cart, $checkout);
+        $user = $this->getOrCreateUser($cart);
         /** @var Order|OrderInterface $order */
         $order = $this->create();
         $order->user_id = $user->getId();
-        $order->setCheckout($checkout);
+        $order->getCheckout()->setData($cart->getCheckout()->getData());
         $order->setStatus(OrderStatus::NEW);
         $this->save($order);
         if ($order->getId()) {
+            $orderItems = [];
             /** @var CartItem $cartItem */
             foreach ($cart->getItems() as $cartItem) {
                 $orderItem = $this->orderItemFactory->createFromCartItem($cartItem);
                 $orderItem->setOrder($order);
+                $this->orderItemService->save($orderItem);
+                $orderItems[] = $orderItem;
             }
+            $order->setItems($orderItems);
             $this->save($order);
         }
 
+        $this->cartService->delete($cart->getId(), $cart);
         return $order;
     }
 
@@ -147,11 +163,10 @@ class OrderService extends AbstractEntityService implements OrderRepositoryInter
 
     /**
      * @param CartInterface $cart
-     * @param CheckoutInterface|Checkout $checkout
      *
      * @return User
      */
-    protected function getOrCreateUser(CartInterface $cart, $checkout): User
+    protected function getOrCreateUser(CartInterface $cart): User
     {
         $user = null;
         if ($userId = $cart->getUserId()) {
@@ -159,6 +174,8 @@ class OrderService extends AbstractEntityService implements OrderRepositoryInter
         }
 
         if (!$user) {
+            /** @var TraitData|CheckoutInterface $checkout */
+            $checkout = $cart->getCheckout();
             $user = $this->userService->create();
             $user->first_name = $checkout->get('first_name');
             $user->last_name = $checkout->get('last_name');

@@ -10,6 +10,11 @@ interface CartInterface
     public function getUserId();
 
     /**
+     * @return CheckoutInterface
+     */
+    public function getCheckout(): CheckoutInterface;
+
+    /**
      * @param ProductOfferInterface $productOffer
      *
      * @param int $qty

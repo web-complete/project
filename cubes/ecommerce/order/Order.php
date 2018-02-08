@@ -17,10 +17,6 @@ use WebComplete\core\utils\typecast\Cast;
 class Order extends AbstractEntity implements OrderInterface
 {
     /**
-     * @var CheckoutFactory
-     */
-    protected $checkoutFactory;
-    /**
      * @var OrderItemInterface[]
      */
     protected $items = [];
@@ -28,6 +24,14 @@ class Order extends AbstractEntity implements OrderInterface
      * @var OrderItemInterface[]
      */
     protected $deleted = [];
+    /**
+     * @var CheckoutFactory
+     */
+    protected $checkoutFactory;
+    /**
+     * @var CheckoutInterface
+     */
+    protected $checkout;
 
     /**
      * @return array
@@ -63,17 +67,11 @@ class Order extends AbstractEntity implements OrderInterface
      */
     public function getCheckout(): CheckoutInterface
     {
-        $checkout = $this->checkoutFactory->create();
-        $checkout->setData((array)$this->get('checkout_data'));
-        return $checkout;
-    }
-
-    /**
-     * @param CheckoutInterface $checkout
-     */
-    public function setCheckout(CheckoutInterface $checkout)
-    {
-        $this->set('checkout_data', $checkout->getData());
+        if (!$this->checkout) {
+            $this->checkout = $this->checkoutFactory->create();
+            $this->checkout->setData((array)$this->get('checkout_data'));
+        }
+        return $this->checkout;
     }
 
     /**
@@ -86,11 +84,15 @@ class Order extends AbstractEntity implements OrderInterface
 
     /**
      * @param OrderItemInterface[]|OrderItem[] $items
+     * @throws \RuntimeException
      */
     public function setItems(array $items)
     {
         $this->items = $items;
         foreach ($items as $item) {
+            if (!$item->getId()) {
+                throw new \RuntimeException('Item without id');
+            }
             $item->setOrder($this);
         }
     }
@@ -127,9 +129,13 @@ class Order extends AbstractEntity implements OrderInterface
 
     /**
      * @param OrderItemInterface $item
+     * @throws \RuntimeException
      */
     public function addItem(OrderItemInterface $item)
     {
+        if (!$item->getId()) {
+            throw new \RuntimeException('Item without id');
+        }
         $this->items[] = $item;
     }
 
@@ -191,5 +197,14 @@ class Order extends AbstractEntity implements OrderInterface
             $this->deleted = [];
         }
         return $deleted;
+    }
+
+    /**
+     * @return array
+     */
+    public function mapToArray(): array
+    {
+        $this->set('checkout_data', $this->getCheckout()->getData());
+        return parent::mapToArray();
     }
 }

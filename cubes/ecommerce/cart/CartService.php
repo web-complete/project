@@ -12,7 +12,7 @@ use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 
 /**
- * @method CartInterface|Cart create
+ * @method CartInterface|Cart create()
  */
 class CartService extends AbstractEntityService implements CartRepositoryInterface, CartServiceInterface
 {

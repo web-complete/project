@@ -4,8 +4,11 @@ namespace cubes\ecommerce\cart;
 
 use cubes\ecommerce\cartItem\CartItem;
 use cubes\ecommerce\cartItem\CartItemFactory;
+use cubes\ecommerce\checkout\Checkout;
+use cubes\ecommerce\checkout\CheckoutFactory;
 use cubes\ecommerce\interfaces\CartInterface;
 use cubes\ecommerce\interfaces\CartItemInterface;
+use cubes\ecommerce\interfaces\CheckoutInterface;
 use cubes\ecommerce\interfaces\ProductOfferInterface;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\utils\typecast\Cast;
@@ -30,6 +33,14 @@ class Cart extends AbstractEntity implements CartInterface
      * @var CartItemFactory
      */
     protected $cartItemFactory;
+    /**
+     * @var CheckoutFactory
+     */
+    protected $checkoutFactory;
+    /**
+     * @var CheckoutInterface
+     */
+    protected $checkout;
     protected $totals = [];
 
     /**
@@ -40,15 +51,19 @@ class Cart extends AbstractEntity implements CartInterface
         return [
             'user_id' => Cast::STRING,
             'hash' => Cast::STRING,
+            'checkout_data' => Cast::ARRAY,
+            'totals' => Cast::ARRAY,
         ];
     }
 
     /**
      * @param CartItemFactory $cartItemFactory
+     * @param CheckoutFactory $checkoutFactory
      */
-    public function __construct(CartItemFactory $cartItemFactory)
+    public function __construct(CartItemFactory $cartItemFactory, CheckoutFactory $checkoutFactory)
     {
         $this->cartItemFactory = $cartItemFactory;
+        $this->checkoutFactory = $checkoutFactory;
     }
 
     /**
@@ -57,6 +72,18 @@ class Cart extends AbstractEntity implements CartInterface
     public function getUserId()
     {
         return $this->user_id;
+    }
+
+    /**
+     * @return CheckoutInterface|Checkout
+     */
+    public function getCheckout(): CheckoutInterface
+    {
+        if (!$this->checkout) {
+            $this->checkout = $this->checkoutFactory->create();
+            $this->checkout->setData((array)$this->get('checkout_data'));
+        }
+        return $this->checkout;
     }
 
     /**
@@ -84,11 +111,15 @@ class Cart extends AbstractEntity implements CartInterface
 
     /**
      * @param CartItemInterface[]|CartItem[] $items
+     * @throws \RuntimeException
      */
     public function setItems(array $items)
     {
         $this->items = $items;
         foreach ($items as $item) {
+            if (!$item->getId()) {
+                throw new \RuntimeException('Item without id');
+            }
             $item->setCart($this);
         }
     }
@@ -143,7 +174,7 @@ class Cart extends AbstractEntity implements CartInterface
      */
     public function getTotals()
     {
-        return (array)$this->totals;
+        return $this->get('totals');
     }
 
     /**
@@ -151,7 +182,7 @@ class Cart extends AbstractEntity implements CartInterface
      */
     public function setTotals($totals)
     {
-        $this->totals = $totals ? (array)$totals : [];
+        $this->set('totals', $totals);
     }
 
     /**
@@ -166,5 +197,14 @@ class Cart extends AbstractEntity implements CartInterface
             $this->deleted = [];
         }
         return $deleted;
+    }
+
+    /**
+     * @return array
+     */
+    public function mapToArray(): array
+    {
+        $this->set('checkout_data', $this->getCheckout()->getData());
+        return parent::mapToArray();
     }
 }

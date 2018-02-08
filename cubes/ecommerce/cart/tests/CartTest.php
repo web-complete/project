@@ -10,6 +10,22 @@ use cubes\ecommerce\product\ProductService;
 class CartTest extends \AppTestCase
 {
 
+    public function testCheckout()
+    {
+        $cartService = $this->container->get(CartService::class);
+        $cart = $cartService->create();
+        $checkoutData = [
+            'first_name' => 'FirstName1',
+            'last_name' => 'LastName1',
+            'email' => 'email1@example.com'
+        ];
+        $cart->getCheckout()->setData($checkoutData);
+        $this->assertEquals($checkoutData, $cart->getCheckout()->getData());
+        $cartService->save($cart);
+        $cart = $cartService->findById($cart->getId());
+        $this->assertEquals($checkoutData, $cart->getCheckout()->getData());
+    }
+
     public function testAddProductOffer()
     {
         $productService = $this->container->get(ProductService::class);
@@ -32,10 +48,13 @@ class CartTest extends \AppTestCase
 
     public function testGetSetItems()
     {
-        $cartItemFactory = $this->container->get(CartItemFactory::class);
-        $item1 = $cartItemFactory->create();
-        $item2 = $cartItemFactory->create();
-        $item3 = $cartItemFactory->create();
+        $cartItemService = $this->container->get(CartItemService::class);
+        $item1 = $cartItemService->create();
+        $item2 = $cartItemService->create();
+        $item3 = $cartItemService->create();
+        $cartItemService->save($item1);
+        $cartItemService->save($item2);
+        $cartItemService->save($item3);
         $cartService = $this->container->get(CartService::class);
         $cart = $cartService->create();
         $this->assertEquals([], $cart->getItems());
@@ -81,7 +100,7 @@ class CartTest extends \AppTestCase
     {
         $cartService = $this->container->get(CartService::class);
         $cart = $cartService->create();
-        $this->assertEquals([], $cart->getTotals());
+        $this->assertEmpty($cart->getTotals());
         $cart->setTotals(['subtotal' => 110, 'total' => 100]);
         $this->assertEquals(['subtotal' => 110, 'total' => 100], $cart->getTotals());
     }
@@ -113,5 +132,15 @@ class CartTest extends \AppTestCase
         $this->assertNotNull($cartItemService->findById($item1->getId()));
         $this->assertNotNull($cartItemService->findById($item3->getId()));
         $this->assertNull($cartItemService->findById($item2->getId()));
+    }
+
+    public function testSetItemsWithoutIdThrowsException()
+    {
+        $this->expectException(\RuntimeException::class);
+        $cartItemService = $this->container->get(CartItemService::class);
+        $item = $cartItemService->create();
+        $cartService = $this->container->get(CartService::class);
+        $cart = $cartService->create();
+        $cart->setItems([$item]);
     }
 }

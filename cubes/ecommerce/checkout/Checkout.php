@@ -4,6 +4,7 @@ namespace cubes\ecommerce\checkout;
 
 use cubes\ecommerce\interfaces\CheckoutInterface;
 use WebComplete\core\utils\traits\TraitData;
+use WebComplete\core\utils\typecast\Cast;
 
 class Checkout implements CheckoutInterface
 {
@@ -14,7 +15,11 @@ class Checkout implements CheckoutInterface
      */
     public static function fields(): array
     {
-        return [];
+        return [
+            'first_name' => Cast::STRING,
+            'last_name' => Cast::STRING,
+            'email' => Cast::STRING,
+        ];
     }
 
     /**
