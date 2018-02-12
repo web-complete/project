@@ -57,7 +57,7 @@ class UserConfig extends EntityConfig
             $cells->checkbox('Активность', 'is_active', \SORT_DESC),
             $cells->string('Логин', 'login'),
             $cells->string('E-mail', 'email'),
-            $cells->string('Роли', 'roles'),
+            $cells->map('Роли', 'roles', $this->getAvailableRolesMap()),
             $cells->string('Имя', 'full_name'),
             $cells->sex('Пол', 'sex', \SORT_ASC),
             $cells->dateTime('Последний визит', 'last_visit', \SORT_DESC),
@@ -100,7 +100,7 @@ class UserConfig extends EntityConfig
     }
 
     /**
-     * @return AbstractForm
+     * @return AdminForm
      */
     public function getForm(): AdminForm
     {
@@ -120,7 +120,7 @@ class UserConfig extends EntityConfig
         $rbac = $this->container->get(Rbac::class);
         foreach ($rbac->getRoles() as $role) {
             $name = $role->getName();
-            $rolesMap[$name] = $name;
+            $rolesMap[$name] = $role->getDescription();
         }
         return $rolesMap;
     }

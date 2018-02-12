@@ -4,7 +4,8 @@ window.store.registerModule('user', {
     state: {
         loginError: false,
         token: '',
-        fullName: ''
+        fullName: '',
+        permissions: []
     },
     mutations: {
         updateState: function(state, payload){

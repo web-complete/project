@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace cubes\system\logger;
 
@@ -13,6 +13,8 @@ class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \Exception
      */
     public function bootstrap(ContainerInterface $container)
     {
@@ -22,7 +24,8 @@ class Cube extends AbstractCube
             ->addBackendRoute(['DELETE', '/admin/api/log', [Controller::class, 'actionClear']])
             ->addBackendRoute(['GET', '/admin/api/log/last/{num:\d+}', [Controller::class, 'actionLast']])
             ->addVueRoute(['path' => '/log', 'component' => 'VuePageLog'])
+            ->addPermission('admin:cubes:logger', 'Журнал')
             ->addMenuSection('Система', 1000)
-            ->addMenuItem('Система', 'Журнал ошибок', '/log', 450);
+            ->addMenuItem('Система', 'Журнал ошибок', '/log', 450, 'admin:cubes:logger');
     }
 }

@@ -88,14 +88,8 @@ class UserMigration implements MigrationInterface
         $user->first_name = 'Administrator';
         $user->login = 'admin';
         $user->is_active = true;
+        $user->roles = ['admin'];
         $user->setNewPassword('123qwe4');
         $this->userService->save($user);
-
-        if ($adminRole = $this->rbac->getRole('admin')) {
-            $adminRole->assignUserId($user->getId());
-        } else {
-            echo "WARNING! 'admin' role not found\n";
-        }
-        $this->rbac->save();
     }
 }

@@ -15,6 +15,7 @@ $config = [
     ],
     'definitions' => require 'definitions.php',
     'settingsLocation' => __DIR__ . '/settings.php',
+    'rbac' => require 'rbac.php',
     'logger' => require 'logger.php',
     'salt' => 'SomeSecretWord',
 ];

@@ -8,7 +8,7 @@ Request = {
     get: function(url, payload, success, fail){
         success = success || function(){};
         $(Request).trigger('start');
-        return $.get(url, payload, 'json')
+        return $.get(url, this._processPayload(payload), 'json')
             .done(function(response){
                 $(Request).trigger('stop');
                 success(response);
@@ -22,7 +22,7 @@ Request = {
     post: function(url, payload, success, fail){
         success = success || function(){};
         $(Request).trigger('start');
-        return $.post(url, payload, 'json')
+        return $.post(url, this._processPayload(payload), 'json')
             .done(function(response){
                 $(Request).trigger('stop');
                 success(response);
@@ -38,7 +38,7 @@ Request = {
         $(Request).trigger('start');
         $.ajax({
             url: url,
-            data: payload,
+            data: this._processPayload(payload),
             dataType: 'json',
             type: 'DELETE',
         })
@@ -59,5 +59,13 @@ Request = {
             Notify.error(this.messageError);
         }
         if (userCallback) userCallback(jqXHR, status, error);
+    },
+
+    _processPayload: function(payload){
+        return _.cloneDeepWith(payload, function(value){
+            if (_.isArray(value) && !value.length) {
+                return null;
+            }
+        });
     }
 };

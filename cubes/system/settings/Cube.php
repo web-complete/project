@@ -12,6 +12,8 @@ class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \Exception
      */
     public function bootstrap(ContainerInterface $container)
     {
@@ -20,7 +22,8 @@ class Cube extends AbstractCube
             ->addBackendRoute(['GET', '/admin/api/settings', [Controller::class, 'actionGet']])
             ->addBackendRoute(['POST', '/admin/api/settings', [Controller::class, 'actionSave']])
             ->addVueRoute(['path' => '/settings', 'component' => 'VuePageSettings'])
+            ->addPermission('admin:cubes:settings', 'Настройки')
             ->addMenuSection('Система', 1000)
-            ->addMenuItem('Система', 'Настройки', '/settings', 500);
+            ->addMenuItem('Система', 'Настройки', '/settings', 500, 'admin:cubes:settings');
     }
 }

@@ -12,6 +12,8 @@ class Cube extends AbstractCube
 {
     /**
      * @param ContainerInterface $container
+     *
+     * @throws \Exception
      */
     public function bootstrap(ContainerInterface $container)
     {
@@ -21,7 +23,8 @@ class Cube extends AbstractCube
             ->addBackendRoute(['POST', '/admin/api/sitemap/generate', [Controller::class, 'actionGenerate']])
             ->addBackendRoute(['POST', '/admin/api/sitemap/upload', [Controller::class, 'actionUpload']])
             ->addVueRoute(['path' => '/sitemap', 'component' => 'VuePageSitemap'])
+            ->addPermission('admin:cubes:sitemap:edit', 'Sitemap [редактирование]')
             ->addMenuSection('SEO', 700)
-            ->addMenuItem('SEO', 'Sitemap', '/sitemap', 300);
+            ->addMenuItem('SEO', 'Sitemap', '/sitemap', 300, 'admin:cubes:sitemap:edit');
     }
 }

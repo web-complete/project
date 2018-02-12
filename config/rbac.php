@@ -3,39 +3,21 @@
 return [
     'permissions' => [
         'admin' => [
-            'admin:login',
-            'admin:content' => [
-                'admin:content:article' => [
-                    'admin:content:article:view',
-                    'admin:content:article:edit',
-                ],
-            ]
-        ]
-    ],
-    'roles' => [
-        'admin' => ['admin'],
-        'manager' => ['admin:login', 'admin:content'],
-    ]
-];
-
-return [
-    'permissions' => [
-        'admin' => [
             'description' => 'Полное администрирование',
             'permissions' => [
-                'admin:login' => ['description' => 'Вход в административную панель'],
-                'content' => ['description' => 'Управление контентом'],
+                'admin:login' => ['description' => 'Вход в CMS'],
+                'admin:cubes' => ['description' => 'Управление в CMS'],
             ],
         ],
     ],
     'roles' => [
         'admin' => [
             'description' => 'Администратор',
-            'permissions' => [],
+            'permissions' => ['admin'],
         ],
         'manager' => [
             'description' => 'Контент-менеджер',
-            'permissions' => [],
+            'permissions' => ['admin:login'],
         ]
     ],
 ];

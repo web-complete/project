@@ -15,19 +15,20 @@ class Cube extends AbstractCube
     /**
      * @param ContainerInterface $container
      *
-     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function bootstrap(ContainerInterface $container)
     {
         $entityConfig = $container->get(MenuItemConfig::class);
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper->defaultCrud($entityConfig);
+        $permissionView = 'admin:cubes:menu:view';
         $cubeHelper->appendAsset($container->get(AdminAsset::class))
             ->addBackendRoute(['GET', '/admin/api/entity/menu/tree', [Controller::class, 'actionTree']])
             ->addBackendRoute(['POST', '/admin/api/entity/menu/move', [Controller::class, 'actionMove']])
             ->addVueRoute(['path' => '/content/menu', 'component' => 'VuePageContentMenu'])
             ->addMenuSection('Контент', 100)
-            ->addMenuItem('Контент', 'Динамическое меню', '/content/menu', 50);
+            ->addMenuItem('Контент', 'Динамическое меню', '/content/menu', 50, $permissionView);
     }
 
     /**

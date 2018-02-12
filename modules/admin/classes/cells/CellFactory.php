@@ -87,6 +87,19 @@ class CellFactory
     /**
      * @param string $label
      * @param string $name
+     * @param array $map
+     * @param int $sortable \SORT_ASC, \SORT_DESC or null
+     *
+     * @return CellMap
+     */
+    public function map(string $label, string $name, array $map, int $sortable = null): CellMap
+    {
+        return new CellMap($label, $name, $map, $sortable);
+    }
+
+    /**
+     * @param string $label
+     * @param string $name
      * @param int $sortable \SORT_ASC, \SORT_DESC or null
      *
      * @return CellSex

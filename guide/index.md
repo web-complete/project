@@ -23,7 +23,7 @@
 20. [Работа с мультиязычностью](multilang.md)
 21. [Логгирование](logging.md)
 22. [Кеширование](caching.md)
-23. [Права доступа](auth.md) (todo)
+23. [Права доступа](rbac.md) (todo...)
 24. [Обработка ошибок](errors.md) (todo)
 25. [CSRF](csrf.md) (todo)
 26. [Публичная часть](pub.md) (todo)

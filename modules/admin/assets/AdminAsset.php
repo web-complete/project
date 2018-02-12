@@ -95,6 +95,7 @@ class AdminAsset extends AbstractAsset
             'js/vue/ui/VueFieldTags.js',
             'js/vue/ui/VueCellString.js',
             'js/vue/ui/VueCellCheckbox.js',
+            'js/vue/ui/VueCellMap.js',
             'js/vue/ui/VueCellSex.js',
             'js/vue/ui/VueCellDate.js',
             'js/vue/ui/VueCellDateTime.js',

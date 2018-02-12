@@ -19,7 +19,7 @@ class AdminAuthAsset extends AbstractAsset
             \ENV === 'prod' ? 'node_modules/vue/dist/vue.min.js' : 'node_modules/vue/dist/vue.js',
             'node_modules/vuex/dist/vuex.min.js',
             'node_modules/vue-router/dist/vue-router.min.js',
-            'node_modules/underscore/underscore-min.js',
+            'bower_components/lodash/dist/lodash.min.js',
             'js/store/StoreUser.js',
             'js/model/App.js',
             'js/model/Request.js',

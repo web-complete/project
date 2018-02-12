@@ -114,7 +114,7 @@ class User extends AbstractEntity implements IdentityInterface
      *
      * @return bool
      */
-    public function can(string $permissionName, $ruleParams = [], bool $checkActive = true): bool
+    public function can(string $permissionName, array $ruleParams = [], bool $checkActive = true): bool
     {
         try {
             if ($checkActive && !$this->is_active) {

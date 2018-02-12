@@ -3,7 +3,7 @@
 namespace modules\admin\controllers;
 
 use cubes\multilang\lang\LangService;
-use cubes\system\logger\Log;
+use cubes\system\user\UserService;
 use modules\admin\classes\Navigation;
 use modules\admin\classes\VueRoutes;
 use modules\admin\classes\state\SettingsState;
@@ -17,6 +17,7 @@ class IndexController extends AbstractController
      */
     public function actionApp()
     {
+        $userService = $this->container->get(UserService::class);
         $settingsState = $this->container->get(SettingsState::class);
         $userState = $this->container->get(UserState::class);
         $langState = $this->container->get(LangService::class)->getState();
@@ -27,7 +28,7 @@ class IndexController extends AbstractController
             'settingsState' => $settingsState->getState(),
             'userState' => $userState->getState(),
             'langState' => $langState,
-            'navigation' => $navigation->get(),
+            'navigation' => $navigation->get($userService->current()),
             'routesJson' => $pageRoutes->getRoutesJson(),
         ]);
     }
