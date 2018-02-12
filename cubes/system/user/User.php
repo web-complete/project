@@ -3,9 +3,11 @@
 namespace cubes\system\user;
 
 use cubes\system\auth\IdentityInterface;
+use cubes\system\logger\Log;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\utils\helpers\SecurityHelper;
 use WebComplete\mvc\ApplicationConfig;
+use WebComplete\rbac\entity\RoleInterface;
 use WebComplete\rbac\exception\RbacException;
 use WebComplete\rbac\Rbac;
 
@@ -19,6 +21,7 @@ use WebComplete\rbac\Rbac;
  * @property $last_name
  * @property $sex
  * @property $last_visit
+ * @property $roles
  * @property $is_active
  * @property $created_on
  * @property $updated_on
@@ -106,34 +109,40 @@ class User extends AbstractEntity implements IdentityInterface
      * Check access rights by rbac permission
      *
      * @param string $permissionName
-     * @param null $ruleParams
-     *
+     * @param array $ruleParams
      * @param bool $checkActive
      *
      * @return bool
      */
-    public function can(string $permissionName, $ruleParams = null, bool $checkActive = true): bool
+    public function can(string $permissionName, $ruleParams = [], bool $checkActive = true): bool
     {
         try {
-            return (!$checkActive || $this->is_active)
-                ? $this->rbac->checkAccess($this->getId(), $permissionName, $ruleParams)
-                : false;
+            if ($checkActive && !$this->is_active) {
+                return false;
+            }
+
+            $ruleParams['userId'] = $this->getId();
+            $roles = $this->getRoles();
+            foreach ($roles as $role) {
+                if ($role->checkAccess($permissionName, $ruleParams)) {
+                    return true;
+                }
+            }
         } catch (RbacException $e) {
-            return false;
+            Log::exception($e);
         }
+        return false;
     }
 
     /**
-     * @return array
+     * @return RoleInterface[]
      */
     public function getRoles(): array
     {
         $result = [];
-        if ($this->id) {
-            foreach ($this->rbac->getRoles() as $role) {
-                if ($role->hasUserId($this->id)) {
-                    $result[$role->getName()] = $role;
-                }
+        foreach ((array)$this->roles as $roleName) {
+            if ($role = $this->rbac->getRole($roleName)) {
+                $result[$roleName] = $role;
             }
         }
         return $result;

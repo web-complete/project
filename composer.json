@@ -5,7 +5,7 @@
     "web-complete/core": "dev-master",
     "web-complete/mvc": "dev-master",
     "web-complete/form": "^1",
-    "web-complete/rbac": "^1",
+    "web-complete/rbac": "^2",
     "intervention/image": "^2.4",
     "swiftmailer/swiftmailer": "^6.0",
     "twig/twig": "^2.0",

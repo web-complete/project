@@ -28,29 +28,4 @@ class UserTest extends \AppTestCase
         $this->assertFalse($user->checkPassword('123456'));
         $this->assertTrue($user->checkPassword('123password'));
     }
-
-    public function testCan()
-    {
-        /** @var Rbac $rbac */
-        $rbac = Mocker::create(Rbac::class, [
-            Mocker::method('checkAccess', 1)->with([11, 'update', ['id' => 22]])->returns(true)
-        ]);
-        $user = new User(new SecurityHelper(), $this->config, $rbac);
-        $user->setId(11);
-        $this->assertFalse($user->can('update', ['id' => 22]));
-        $user->is_active = true;
-        $this->assertTrue($user->can('update', ['id' => 22]));
-    }
-
-    public function testCanNot()
-    {
-        /** @var Rbac $rbac */
-        $rbac = Mocker::create(Rbac::class, [
-            Mocker::method('checkAccess', 1)->returns(false)
-        ]);
-        $user = new User(new SecurityHelper(), $this->config, $rbac);
-        $user->is_active = true;
-        $user->setId(11);
-        $this->assertFalse($user->can('update', ['id' => 22]));
-    }
 }
