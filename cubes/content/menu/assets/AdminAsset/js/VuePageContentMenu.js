@@ -54,7 +54,7 @@ VuePageContentMenu = {
     watch: {'$route': 'fetchTree'},
     methods: {
         fetchTree(){
-            Request.get(this.apiUrl + 'tree', function(response){
+            Request.get(this.apiUrl + 'tree', {}, function(response){
                 this.isLoaded = true;
                 this.tree = response.tree;
                 this.permissions = response.permissions;
@@ -68,7 +68,7 @@ VuePageContentMenu = {
             this.entityId = id;
             this.parentId = parentId;
             this.detailFields = [];
-            Request.get(this.apiUrl + this.entityId, function(response){
+            Request.get(this.apiUrl + this.entityId, {}, function(response){
                 this.detailFields = response.detailFields;
             }.bind(this));
         },

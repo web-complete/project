@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\mvc\exception\Exception;
 use modules\admin\assets\AdminAsset;
+use WebComplete\mvc\router\exception\NotAllowedException;
 
 class AbstractController extends \WebComplete\mvc\controller\AbstractController
 {
@@ -16,6 +17,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
 
     protected $needAuth = true;
     protected $layout = '@admin/views/layouts/admin.php';
+    protected $permission;
 
     /**
      * @var UserService
@@ -50,6 +52,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      * @return bool|string|Response
      * @throws \InvalidArgumentException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws NotAllowedException
      */
     public function beforeAction()
     {
@@ -59,6 +62,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
                 : $this->responseRedirect('/admin/login');
         }
 
+        $this->checkPermission($this->permission);
         $this->view->getAssetManager()->registerAsset($this->adminAsset);
         return parent::beforeAction();
     }
@@ -105,5 +109,22 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
             throw new Exception('FieldFactory "result" is not allowed');
         }
         return parent::responseJson(\array_merge($data, ['result' => false, 'error' => $error]));
+    }
+
+    /**
+     * @param string|null $permissionName
+     * @param array $params
+     *
+     * @return bool
+     * @throws NotAllowedException
+     */
+    protected function checkPermission(string $permissionName = null, array $params = []): bool
+    {
+        if ($permissionName) {
+            if ((!$user = $this->userService->current()) || !$user->can($permissionName, $params)) {
+                throw new NotAllowedException('Access denied');
+            }
+        }
+        return true;
     }
 }

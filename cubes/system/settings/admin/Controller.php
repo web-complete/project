@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 class Controller extends AbstractController
 {
 
+    protected $permission = 'admin:cubes:settings';
+
     /**
      * @return Response
      * @throws \Exception

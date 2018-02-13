@@ -28,6 +28,7 @@ class Controller extends AbstractEntityController
 
     public function actionMove()
     {
+        $this->checkPermission($this->getPermissions()['edit']);
         $parentId = $this->request->get('parent_id');
         $childrenIds = (array)$this->request->get('children_ids');
         if ($parentId === null || !$childrenIds) {

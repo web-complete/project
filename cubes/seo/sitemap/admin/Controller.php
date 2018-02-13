@@ -10,6 +10,8 @@ use WebComplete\core\utils\alias\AliasService;
 
 class Controller extends AbstractController
 {
+    protected $permission = 'admin:cubes:sitemap:edit';
+
     /**
      * @return Response
      * @throws \Exception

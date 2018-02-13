@@ -25,6 +25,19 @@ class AbstractEntityController extends AbstractController
     protected $defaultSortDir = 'desc';
 
     /**
+     * @return bool|string|Response
+     * @throws \InvalidArgumentException
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \WebComplete\mvc\router\exception\NotAllowedException
+     */
+    public function beforeAction()
+    {
+        $result = parent::beforeAction();
+        $this->checkPermission($this->getPermissions()['view']);
+        return $result;
+    }
+
+    /**
      * @return Response
      * @throws \Exception
      */
@@ -59,7 +72,7 @@ class AbstractEntityController extends AbstractController
             'itemsTotal' => $paginator->getTotal(),
             'listFields' => $listFields,
             'filterFields' => $this->getFilterFields($entityConfig),
-            'permissions' => $this->getPermissions($entityConfig),
+            'permissions' => $this->getPermissions(),
             'items' => $items
         ]);
     }
@@ -85,7 +98,7 @@ class AbstractEntityController extends AbstractController
             'title' => $entityConfig->titleDetail,
             'detailFields' => $detailFields,
             'isMultilang' => $item instanceof AbstractMultilangEntity,
-            'permissions' => $this->getPermissions($entityConfig),
+            'permissions' => $this->getPermissions(),
         ]);
     }
 
@@ -95,6 +108,7 @@ class AbstractEntityController extends AbstractController
      */
     public function actionSave(): Response
     {
+        $this->checkPermission($this->getPermissions()['edit']);
         $id = (int)$this->request->get('id');
         $data = (array)$this->request->request->all();
         $entityConfig = $this->getEntityConfig();
@@ -127,6 +141,7 @@ class AbstractEntityController extends AbstractController
      */
     public function actionDelete(): Response
     {
+        $this->checkPermission($this->getPermissions()['edit']);
         if ($id = (int)$this->request->get('id')) {
             $entityService = $this->getEntityService();
             if ($this->beforeDelete($id)) {
@@ -196,16 +211,15 @@ class AbstractEntityController extends AbstractController
     }
 
     /**
-     * @param EntityConfig $entityConfig
-     *
      * @return array
      */
-    protected function getPermissions(EntityConfig $entityConfig): array
+    protected function getPermissions(): array
     {
         $result = [
             'view' => '',
             'edit' => ''
         ];
+        $entityConfig = $this->getEntityConfig();
         if ($entityConfig->rbac) {
             $result['view'] = 'admin:cubes:' . $entityConfig->name . ':view';
             $result['edit'] = 'admin:cubes:' . $entityConfig->name . ':edit';

@@ -9,6 +9,7 @@ use WebComplete\core\utils\helpers\FileHelper;
 
 class Controller extends AbstractController
 {
+    protected $permission = 'admin:cubes:logger';
 
     /**
      * @param int $num

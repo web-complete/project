@@ -45,12 +45,12 @@ VuePageSitemap = {
     watch: {'$route': 'fetchData'},
     methods: {
         fetchData(){
-            Request.get('/admin/api/sitemap/get', function(response){
+            Request.get('/admin/api/sitemap/get', {}, function(response){
                 this.updateDataFromResponse(response);
             }.bind(this));
         },
         generate(){
-            Request.post('/admin/api/sitemap/generate', function(response){
+            Request.post('/admin/api/sitemap/generate', {}, function(response){
                 if (response.result) {
                     Notify.success('Новый sitemap сгенерирован');
                     this.updateDataFromResponse(response);

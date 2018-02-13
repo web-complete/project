@@ -99,12 +99,29 @@ $cubeHelper->addMenuItem('Мой раздел', 'Моя страница', "/myP
 управлять статьями. User не может ничего.
 
 ## Проверка прав на бэкенде
+
+В действиях контроллера, либо в моделях проверить права доступа можно следующим образом:
 ```php
 if ($user->can('my:permission') {
     ...
 }
 ```
 Либо более продвинутое, с использованием правил (Rules) - см. [Web Complete RBAC](https://github.com/web-complete/rbac)
+
+В контроллерах CMS (унаследованных от **modules\admin\controllers\AbstractController**) можно указать права
+на все действия контроллера, определив свойство **$permission**:
+```php
+protected $permission = 'admin:cubes:my-custom';
+```
+
+либо произвести проверку в начале любого действия:
+```php
+public function actionIndex(){
+    $this->checkPermission('admin:cubes:my-custom');
+    ...
+}
+```
+в случае нехватки прав будет брошен NotAllowedException.
 
 ## Проверка прав на фронтенде
 
@@ -124,11 +141,7 @@ if (Rbac.check('my:permission')) {
 <a v-if="isAllowed(permissions.edit)" @click="deleteItem(item.id)" class="field-edit"><i class="ion-close"></i></a>
 ```
 
-Необходимо понимать, что проверка прав на фронтенде обязательно должна быть обеспечена проверкой прав на бэкенде.
-
-## Уровни проверки прав доступа
-
-TODO
+_Необходимо понимать, что проверка прав на фронтенде обязательно должна быть обеспечена проверкой прав на бэкенде._
 
 Далее: [Обработка ошибок](errors.md)<br>
 Вверх: [Оглавление](index.md)

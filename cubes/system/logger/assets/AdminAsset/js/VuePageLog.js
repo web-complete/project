@@ -40,7 +40,7 @@ VuePageLog = {
     watch: {'$route': 'fetchData'},
     methods: {
         fetchData(){
-            Request.get('/admin/api/log/last/25', function(response){
+            Request.get('/admin/api/log/last/25', {}, function(response){
                 if (response.result) {
                     this.rows = response.rows;
                     this.isLoaded = true;
