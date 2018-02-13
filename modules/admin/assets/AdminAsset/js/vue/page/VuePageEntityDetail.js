@@ -18,7 +18,7 @@ VuePageEntityDetail = {
                            :key="field.name"
                 ></vue-field>
 
-                <div class="form-actions">
+                <div v-if="isAllowed(permissions.edit)" class="form-actions">
                     <vue-button @click="saveItem">Сохранить</vue-button>
                     <vue-button @click.prevent="saveItem($event, true)">Применить</vue-button>
                     <vue-button @click.prevent="deleteItem" class="gray">Удалить</vue-button>
@@ -28,13 +28,17 @@ VuePageEntityDetail = {
     </transition>
 </div>
     `,
-    mixins: [VueMixinGetEntityData, VueMixinProcessEntityErrors],
+    mixins: [VueMixinRbac, VueMixinGetEntityData, VueMixinProcessEntityErrors],
     data(){
         return {
             title: '',
             detailFields: [],
             isMultilang: false,
-            currentLang: null
+            currentLang: null,
+            permissions: {
+                view: '',
+                edit: ''
+            }
         }
     },
     computed: {
@@ -65,6 +69,7 @@ VuePageEntityDetail = {
                     this.title = response.title;
                     this.detailFields = response.detailFields;
                     this.isMultilang = response.isMultilang;
+                    this.permissions = response.permissions;
                 } else {
                     Notify.errorDefault();
                 }

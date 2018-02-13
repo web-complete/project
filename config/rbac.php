@@ -13,7 +13,7 @@ return [
     'roles' => [
         'admin' => [
             'description' => 'Администратор',
-            'permissions' => ['admin', 'admin:cubes:user:view', 'admin:cubes:user:edit'],
+            'permissions' => ['admin:login', 'admin:cubes:user:view', 'admin:cubes:user:edit'],
         ],
         'manager' => [
             'description' => 'Контент-менеджер',

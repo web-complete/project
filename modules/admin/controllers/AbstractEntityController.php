@@ -85,6 +85,7 @@ class AbstractEntityController extends AbstractController
             'title' => $entityConfig->titleDetail,
             'detailFields' => $detailFields,
             'isMultilang' => $item instanceof AbstractMultilangEntity,
+            'permissions' => $this->getPermissions($entityConfig),
         ]);
     }
 
