@@ -20,6 +20,7 @@ class AdminAuthAsset extends AbstractAsset
             'node_modules/vuex/dist/vuex.min.js',
             'node_modules/vue-router/dist/vue-router.min.js',
             'bower_components/lodash/dist/lodash.min.js',
+            'js/functions.js',
             'js/store/StoreUser.js',
             'js/model/App.js',
             'js/model/Rbac.js',
