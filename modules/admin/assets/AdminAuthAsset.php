@@ -22,6 +22,7 @@ class AdminAuthAsset extends AbstractAsset
             'bower_components/lodash/dist/lodash.min.js',
             'js/store/StoreUser.js',
             'js/model/App.js',
+            'js/model/Rbac.js',
             'js/model/Request.js',
         ];
     }

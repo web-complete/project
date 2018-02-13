@@ -240,18 +240,23 @@ class CubeHelper
         $menuSectionName = $entityConfig->menuSectionName;
         $menuItemSort = $entityConfig->menuItemSort;
         $menuSectionSort = $entityConfig->menuSectionSort;
-        $permissionView = 'admin:cubes:' . $name . ':view';
 
         $this
             ->addBackendRoute(['GET', "/admin/api/entity/$name", [$controllerClass, 'actionList']])
             ->addBackendRoute(['GET', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDetail']])
             ->addBackendRoute(['POST', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionSave']])
             ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDelete']])
-            ->addPermissionSimple($entityConfig, 'view', 'просмотр')
-            ->addPermissionSimple($entityConfig, 'edit', 'редактирование')
             ->observeEntityTagField($entityConfig)
             ->observeEntitySearch($entityConfig)
             ->observeEntitySeo($entityConfig);
+
+        $permissionView = null;
+        if ($entityConfig->rbac) {
+            $permissionView = 'admin:cubes:' . $name . ':view';
+            $this
+                ->addPermissionSimple($entityConfig, 'view', 'просмотр')
+                ->addPermissionSimple($entityConfig, 'edit', 'редактирование');
+        }
 
         if ($entityConfig->menuEnabled) {
             $this

@@ -37,11 +37,7 @@ class AppTestCase extends \PHPUnit\Framework\TestCase
     {
         global $config;
         global $application;
-        try {
-            $application = new \WebComplete\mvc\Application($config, false);
-        } catch (\Exception $e) {
-            echo "ERROR: Cannot init test application!\n";
-        }
+        $application = new \modules\Application($config, false);
         $microDb = $application->getContainer()->get(\WebComplete\microDb\MicroDb::class);
         $microDb->setType('runtime');
 

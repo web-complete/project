@@ -1,6 +1,6 @@
 <?php
 
-use WebComplete\mvc\Application;
+use modules\Application;
 use WebComplete\mvc\front\FrontController;
 
 require __DIR__ . '/../vendor/autoload.php';

@@ -74,6 +74,7 @@ class AdminAsset extends AbstractAsset
             'js/model/Notify.js',
             'js/model/Modal.js',
 
+            'js/vue/mixin/VueMixinRbac.js',
             'js/vue/mixin/VueMixinGetEntityData.js',
             'js/vue/mixin/VueMixinProcessEntityErrors.js',
             'js/vue/ui/VueTabs.js',

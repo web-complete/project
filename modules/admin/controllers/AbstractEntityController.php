@@ -59,6 +59,7 @@ class AbstractEntityController extends AbstractController
             'itemsTotal' => $paginator->getTotal(),
             'listFields' => $listFields,
             'filterFields' => $this->getFilterFields($entityConfig),
+            'permissions' => $this->getPermissions($entityConfig),
             'items' => $items
         ]);
     }
@@ -191,6 +192,24 @@ class AbstractEntityController extends AbstractController
     {
         $fieldService = $this->container->get(FieldService::class);
         return $fieldService->populateEntityFields($detailFields, $item);
+    }
+
+    /**
+     * @param EntityConfig $entityConfig
+     *
+     * @return array
+     */
+    protected function getPermissions(EntityConfig $entityConfig): array
+    {
+        $result = [
+            'view' => '',
+            'edit' => ''
+        ];
+        if ($entityConfig->rbac) {
+            $result['view'] = 'admin:cubes:' . $entityConfig->name . ':view';
+            $result['edit'] = 'admin:cubes:' . $entityConfig->name . ':edit';
+        }
+        return $result;
     }
 
     /**

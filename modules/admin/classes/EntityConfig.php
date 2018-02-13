@@ -26,6 +26,7 @@ abstract class EntityConfig
     public $menuItemSort = 100;
     public $tagField = null;
     public $searchable = false;
+    public $rbac = true;
 
     /**
      * @var ContainerInterface

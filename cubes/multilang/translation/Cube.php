@@ -17,19 +17,15 @@ class Cube extends AbstractCube
     /**
      * @param ContainerInterface $container
      *
-     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function bootstrap(ContainerInterface $container)
     {
         require 'functions.php';
         $entityConfig = $container->get(TranslationConfig::class);
-        $name = $entityConfig->name;
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper
             ->defaultCrud($entityConfig)
-            ->appendAsset($container->get(AdminAsset::class))
-            ->addVueRoute(['path' => '/list/' . $name, 'component' => 'VuePageTranslationList'])
-            ->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageTranslationDetail'])
             ->addBackendRoute(['POST', '/admin/api/translation/create',
                 [TranslationController::class, 'actionCreateTranslation']]);
 

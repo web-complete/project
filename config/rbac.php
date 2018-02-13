@@ -13,11 +13,15 @@ return [
     'roles' => [
         'admin' => [
             'description' => 'Администратор',
-            'permissions' => ['admin'],
+            'permissions' => ['admin', 'admin:cubes:user:view', 'admin:cubes:user:edit'],
         ],
         'manager' => [
             'description' => 'Контент-менеджер',
             'permissions' => ['admin:login'],
+        ],
+        'user' => [
+            'description' => 'Пользователь',
+            'permissions' => [],
         ]
     ],
 ];

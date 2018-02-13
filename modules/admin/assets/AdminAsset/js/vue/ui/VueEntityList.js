@@ -25,7 +25,7 @@ Vue.component('VueEntityList', {
                         <component :is="field.component" :cellParams="field.cellParams" :value="getCellValue(item, field.name)"></component>
                     </td>
                     <td>
-                        <a @click="deleteItem(item.id)" href="javascript://" class="field-edit"><i class="ion-close"></i></a>
+                        <a v-if="isAllowed(permissions.edit)" @click="deleteItem(item.id)" href="javascript://" class="field-edit"><i class="ion-close"></i></a>
                         <router-link class="field-edit" :to="'/detail/'+entityName+'/'+item.id"><i class="ion-edit"></i></router-link>
                     </td>
                 </tr>
@@ -38,6 +38,7 @@ Vue.component('VueEntityList', {
     <vue-pager @page="setPage" :page="page" :items-per-page="itemsPerPage" :items-total="itemsTotal"></vue-pager>
 </div>
     `,
+    mixins: [VueMixinRbac],
     props: {
         entityName: {required: true}
     },
@@ -50,6 +51,10 @@ Vue.component('VueEntityList', {
             listFields: [],
             filterFields: '',
             items: [],
+            permissions: {
+                view: '',
+                edit: ''
+            },
             requestData: {
                 page: 1,
                 sortField: null,
@@ -114,7 +119,9 @@ Vue.component('VueEntityList', {
                     this.listFields = response.listFields;
                     this.filterFields = this.filterFields || response.filterFields;
                     this.items = response.items;
+                    this.permissions = response.permissions;
                     this.$emit('title', this.title);
+                    this.$emit('permissions', this.permissions);
                 } else {
                     Notify.errorDefault();
                 }

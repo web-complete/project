@@ -39,7 +39,7 @@ web/ - document root
 ![workflow2](img/workflow2.png)
 
 1. index.php. Создание приложения
-1. Application. Конструктор класса, инициализация конфига (**WebComplete\mvc\Application**)
+1. Application. Конструктор класса, инициализация конфига (**modules\Application**)
 3. Application. Инициализация обработчика ошибок
 4. Application. Инициализация глобальных зависимостей (из config/definitions.php)
 5. Application. Рекурсивная загрузка кубов из путей, указанных в конфиге (config -> cubesLocations)

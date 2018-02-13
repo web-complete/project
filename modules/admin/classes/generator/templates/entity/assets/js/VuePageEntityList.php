@@ -11,18 +11,27 @@ VuePage<?=$config->nameCamel ?>List = {
     <div class="page-list">
         <div class="page-top" v-show="isLoaded">
             <h1>{{title}}</h1>
-            <router-link class="button" :to="'/detail/'+entityName+'/0'">Добавить</router-link>
+            <router-link v-if="isAllowed(permissions.edit)" class="button" :to="'/detail/'+entityName+'/0'">Добавить</router-link>
         </div>
         
         <transition name="fade">
-            <vue-entity-list @title="title = $event" :entityName="entityName" :key="entityName"></vue-entity-list>
+            <vue-entity-list @title="title = $event"
+                             @permissions="permissions = $event"
+                             :entityName="entityName"
+                             :key="entityName"
+            ></vue-entity-list>
         </transition>
     </div>
 </div>
     `,
+    mixins: [VueMixinRbac],
     data(){
         return {
-            title: ''
+            title: '',
+            permissions: {
+                view: '',
+                edit: ''
+            }
         }
     },
     computed: {
