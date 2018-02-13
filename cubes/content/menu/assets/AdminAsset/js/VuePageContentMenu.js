@@ -57,6 +57,7 @@ VuePageContentMenu = {
             Request.get(this.apiUrl + 'tree', function(response){
                 this.isLoaded = true;
                 this.tree = response.tree;
+                this.permissions = response.permissions;
             }.bind(this));
         },
         openItem(id, parentId){

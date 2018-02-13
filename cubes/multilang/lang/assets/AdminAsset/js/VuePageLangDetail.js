@@ -17,7 +17,7 @@ VuePageLangDetail = {
                            :key="field.name"
                 ></vue-field>
 
-                <div class="form-actions">
+                <div v-if="isAllowed(permissions.edit)" class="form-actions">
                     <vue-button @click="saveItem">Сохранить</vue-button>
                     <vue-button @click.prevent="saveItem($event, true)">Применить</vue-button>
                     <vue-button @click.prevent="deleteItem" class="gray">Удалить</vue-button>
@@ -27,12 +27,17 @@ VuePageLangDetail = {
     </transition>
 </div>
     `,
+    mixins: [VueMixinRbac, VueMixinGetEntityData, VueMixinProcessEntityErrors],
     data(){
         return {
             title: '',
             detailFields: [],
             isMultilang: false,
-            currentLang: null
+            currentLang: null,
+            permissions: {
+                view: '',
+                edit: ''
+            }
         }
     },
     computed: {
@@ -63,13 +68,14 @@ VuePageLangDetail = {
                     this.title = response.title;
                     this.detailFields = response.detailFields;
                     this.isMultilang = response.isMultilang;
+                    this.permissions = response.permissions;
                 } else {
                     Notify.errorDefault();
                 }
             }.bind(this));
         },
         saveItem($e, toContinue){
-            Request.post(this.apiUrl, this.getCurrentData(), function(response){
+            Request.post(this.apiUrl, this.getEntityData(), function(response){
                 if (response.result) {
                     if (response.state) {
                         this.$store.commit('updateLangState', response.state);
@@ -83,7 +89,7 @@ VuePageLangDetail = {
                 } else {
                     Notify.error(response.error || 'Ошибка сохранения');
                 }
-                this.processErrors(response);
+                this.processEntityErrors(response);
             }.bind(this));
         },
         deleteItem(){
@@ -96,40 +102,6 @@ VuePageLangDetail = {
                     this.$router.push(this.listRoute);
                 }.bind(this));
             }.bind(this));
-        },
-        processErrors(response){
-            _.each(this.detailFields, function(field) {
-                this.$set(field, 'error', null);
-                if (response.errors && response.errors[field.name]) {
-                    field.error = response.errors[field.name];
-                }
-                this.$set(field, 'multilangError', null);
-                if (response.multilangErrors && response.multilangErrors[field.name]) {
-                    field.multilangError = response.multilangErrors[field.name];
-                }
-            }.bind(this));
-        },
-        getCurrentData(){
-            let data = {};
-            _.each(this.detailFields, function(field){
-                data[field.name] = field.value;
-            });
-
-            if (this.isMultilang) {
-                data.multilang = {};
-                _.each(this.detailFields, function(field){
-                    if (field.isMultilang) {
-                        _.each(this.$store.state.lang.langs, function(lang){
-                            if (!lang.is_main) {
-                                data.multilang[lang.code] = data.multilang[lang.code] || {};
-                                data.multilang[lang.code][field.name] = field.multilangData[lang.code] || '';
-                            }
-                        }.bind(this));
-                    }
-                }.bind(this));
-            }
-
-            return {id: this.entityId, data: data};
         }
     }
 };

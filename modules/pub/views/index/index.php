@@ -12,7 +12,7 @@ $docs = $search->search(new \WebComplete\core\utils\paginator\Paginator(), 'aaa'
 ?>
 
 index template
-
+<?=StaticBlockHelper::get('ns1', 'name1', StaticBlockHelper::TYPE_TEXT) ?>
 <?=\cubes\system\file\ImageHelper::getTag($settings->get('field_image')) ?>
 <!--<h1>--><?//=$article->title ?><!--</h1>-->
 <!--<h2>--><?//=StaticBlockHelper::get('ns1', 'static1', StaticBlockHelper::TYPE_STRING, 'en') ?><!--</h2>-->
