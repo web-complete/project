@@ -21,7 +21,7 @@ VuePageEntityDetail = {
                 <div v-if="isAllowed(permissions.edit)" class="form-actions">
                     <vue-button @click="saveItem">Сохранить</vue-button>
                     <vue-button @click.prevent="saveItem($event, true)">Применить</vue-button>
-                    <vue-button @click.prevent="deleteItem" class="gray">Удалить</vue-button>
+                    <vue-button v-if="entityId" @click.prevent="deleteItem" class="gray">Удалить</vue-button>
                 </div>
             </form>
         </div>

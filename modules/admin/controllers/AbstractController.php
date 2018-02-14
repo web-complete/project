@@ -5,6 +5,7 @@ namespace modules\admin\controllers;
 use cubes\system\auth\IdentityInterface;
 use cubes\system\settings\Settings;
 use cubes\system\user\UserService;
+use modules\admin\classes\csrf\CSRF;
 use Symfony\Component\HttpFoundation\Response;
 use WebComplete\core\utils\container\ContainerInterface;
 use WebComplete\mvc\exception\Exception;
@@ -56,6 +57,7 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      */
     public function beforeAction()
     {
+        $this->container->get(CSRF::class)->process();
         if (!$this->authorizeUser()) {
             return $this->request->isXmlHttpRequest()
                 ? false

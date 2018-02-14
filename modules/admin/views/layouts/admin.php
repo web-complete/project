@@ -1,8 +1,9 @@
 <?php
 
+use modules\admin\classes\csrf\CSRF;
+
 /** @var \WebComplete\mvc\view\View $this */
 /** @var $content */
-
 ?>
 
 <!DOCTYPE html>

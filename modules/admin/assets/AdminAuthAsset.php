@@ -15,6 +15,7 @@ class AdminAuthAsset extends AbstractAsset
         return [
             'js/lib/jquery-3.2.1.min.js',
             'js/lib/jquery-migrate-3.0.0.min.js',
+            'js/lib/js.cookie.min.js',
             'js/lib/Log.js',
             \ENV === 'prod' ? 'node_modules/vue/dist/vue.min.js' : 'node_modules/vue/dist/vue.js',
             'node_modules/vuex/dist/vuex.min.js',

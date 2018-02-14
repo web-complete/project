@@ -6,41 +6,26 @@ Request = {
     messageForbidden: 'Доступ запрещен',
 
     get: function(url, payload, success, fail){
-        success = success || function(){};
-        $(Request).trigger('start');
-        return $.get(url, this._processPayload(payload), 'json')
-            .done(function(response){
-                $(Request).trigger('stop');
-                success(response);
-            })
-            .fail(function(jqXHR, status, error){
-                $(Request).trigger('error');
-                this.failCallback(fail, jqXHR, status, error);
-            }.bind(this));
+        this.do('GET', url, payload, success, fail);
     },
 
     post: function(url, payload, success, fail){
-        success = success || function(){};
-        $(Request).trigger('start');
-        return $.post(url, this._processPayload(payload), 'json')
-            .done(function(response){
-                $(Request).trigger('stop');
-                success(response);
-            })
-            .fail(function(jqXHR, status, error){
-                $(Request).trigger('error');
-                this.failCallback(fail, jqXHR, status, error);
-            }.bind(this));
+        this.do('POST', url, payload, success, fail);
     },
 
     delete: function(url, payload, success, fail){
+        this.do('DELETE', url, payload, success, fail);
+    },
+
+    do: function(method, url, payload, success, fail){
         success = success || function(){};
         $(Request).trigger('start');
+        Cookies.set('_csrf_check', Cookies.get('_csrf'));
         $.ajax({
             url: url,
+            type: method,
             data: this._processPayload(payload),
-            dataType: 'json',
-            type: 'DELETE',
+            dataType: 'json'
         })
             .done(function(response){
                 $(Request).trigger('stop');
