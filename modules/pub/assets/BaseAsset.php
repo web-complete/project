@@ -30,8 +30,13 @@ class BaseAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            'js/lib/jquery-3.2.1.min.js',
-            'js/Log.js'
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/lodash/dist/lodash.min.js',
+            ENV === 'dev' ? 'bower_components/vue/dist/vue.js' : 'bower_components/vue/dist/vue.min.js',
+            'js/jquery-migrate-3.0.0.min.js',
+            'js/js.cookie.min.js',
+            'js/Log.js',
+            'js/Request.js',
         ];
     }
 }

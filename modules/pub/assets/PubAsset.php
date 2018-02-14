@@ -7,6 +7,8 @@ use WebComplete\mvc\assets\AbstractAsset;
 class PubAsset extends AbstractAsset
 {
 
+    public $publish = false;
+
     /**
      * @return string
      */
@@ -21,7 +23,7 @@ class PubAsset extends AbstractAsset
     public function css(): array
     {
         return [
-            'css/pub.css',
+            '/css/style.css'
         ];
     }
 

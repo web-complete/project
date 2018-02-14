@@ -4,6 +4,7 @@ namespace modules\pub\controllers;
 
 use cubes\seo\seo\SeoManager;
 use cubes\system\user\UserService;
+use modules\admin\classes\csrf\CSRF;
 use modules\pub\assets\BaseAsset;
 use modules\pub\assets\PubAsset;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,9 +42,11 @@ class AbstractController extends \WebComplete\mvc\controller\AbstractController
      * @return bool|string|Response
      * @throws \InvalidArgumentException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \WebComplete\mvc\router\exception\NotAllowedException
      */
     public function beforeAction()
     {
+        $this->container->get(CSRF::class)->process();
         $this->view->getAssetManager()->registerAsset($this->container->get(BaseAsset::class));
         $this->view->getAssetManager()->registerAsset($this->container->get(PubAsset::class));
         return parent::beforeAction();

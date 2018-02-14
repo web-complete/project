@@ -5,22 +5,24 @@ Log = {
     LEVEL_CRITICAL: 500,
 
     initHandler: function () {
-        $(document).ready(function(){
-            $(document).ajaxError(function (event, jqxhr, settings, errorObj) {
-                this.exception('ajaxError', document.location.href, errorObj);
+        if (typeof jQuery !== 'undefined') {
+            $(document).ready(function(){
+                $(document).ajaxError(function (event, jqxhr, settings, errorObj) {
+                    this.exception('ajaxError', document.location.href, errorObj);
+                }.bind(this));
             }.bind(this));
-        }.bind(this));
-        window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
-            this.exception(errorMsg, url, errorObj);
-            return false;
-        }.bind(this);
-        if (Vue) {
-            Vue.config.errorHandler = function (err, vm, info) {
-                this.error('Vue [' + vm.$options.name + ']: ' + err.stack + "\n" + info);
+            window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+                this.exception(errorMsg, url, errorObj);
+                return false;
             }.bind(this);
-            Vue.config.warnHandler = function (msg, vm, trace) {
-                this.error('Vue: ' + msg + "\n" + trace);
-            }.bind(this);
+            if (window.Vue) {
+                Vue.config.errorHandler = function (err, vm, info) {
+                    this.error('Vue [' + vm.$options.name + ']: ' + err.stack + "\n" + info);
+                }.bind(this);
+                Vue.config.warnHandler = function (msg, vm, trace) {
+                    this.error('Vue: ' + msg + "\n" + trace);
+                }.bind(this);
+            }
         }
     },
 
