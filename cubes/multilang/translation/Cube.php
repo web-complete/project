@@ -9,7 +9,6 @@ use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\multilang\translation\migrations\TranslationMigration;
 use modules\admin\classes\cube\CubeHelper;
-use cubes\multilang\translation\assets\AdminAsset;
 use cubes\multilang\translation\assets\PubAsset as MultilangPubAsset;
 
 class Cube extends AbstractCube

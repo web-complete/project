@@ -24,7 +24,7 @@
 21. [Логгирование](logging.md)
 22. [Кеширование](caching.md)
 23. [Права доступа](rbac.md)
-24. [Обработка ошибок](errors.md) (todo)
+24. [Обработка ошибок](errors.md)
 25. [CSRF](csrf.md) (todo)
 26. [Публичная часть](pub.md) (todo)
 27. [Деплой](deploy.md) (todo)

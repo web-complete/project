@@ -15,7 +15,7 @@ class ErrorController extends AbstractErrorController
      */
     public function action403(\Exception $exception = null)
     {
-        return 'action 403';
+        return $this->responseHtmlPartial('@admin/views/error/common.php', ['status' => 403]);
     }
 
     /**
@@ -26,7 +26,7 @@ class ErrorController extends AbstractErrorController
      */
     public function action404(\Exception $exception = null)
     {
-        return 'action 404';
+        return $this->responseHtmlPartial('@admin/views/error/common.php', ['status' => 404]);
     }
 
     /**
@@ -37,6 +37,6 @@ class ErrorController extends AbstractErrorController
      */
     public function action500(\Exception $exception = null)
     {
-        return 'action 500';
+        return $this->responseHtmlPartial('@admin/views/error/common.php', ['status' => 500]);
     }
 }
