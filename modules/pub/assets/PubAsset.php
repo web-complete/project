@@ -23,7 +23,8 @@ class PubAsset extends AbstractAsset
     public function css(): array
     {
         return [
-            '/css/style.css'
+            'css/normalize.css',
+            'css/style.css',
         ];
     }
 
