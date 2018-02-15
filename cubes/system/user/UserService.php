@@ -58,6 +58,10 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     public function login(IdentityInterface $user)
     {
         $this->currentUser = $user;
+        if ($user->restore_token) {
+            $user->restore_token = '';
+            $this->save($user);
+        }
     }
 
     /**
@@ -96,6 +100,17 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     public function findByToken(string $token)
     {
         $condition = $this->repository->createCondition(['token' => $token]);
+        return $this->repository->findOne($condition);
+    }
+
+    /**
+     * @param string $token Token for password restore
+     *
+     * @return User|AbstractEntity|IdentityInterface|null
+     */
+    public function findByRestoreToken(string $token)
+    {
+        $condition = $this->repository->createCondition(['restore_token' => $token]);
         return $this->repository->findOne($condition);
     }
 

@@ -36,6 +36,7 @@ class UserConfig extends EntityConfig
             'email' => Cast::STRING,
             'password' => Cast::STRING,
             'token' => Cast::STRING,
+            'restore_token' => Cast::STRING,
             'first_name' => Cast::STRING,
             'last_name' => Cast::STRING,
             'sex' => Cast::STRING,

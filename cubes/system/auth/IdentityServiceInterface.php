@@ -28,8 +28,6 @@ interface IdentityServiceInterface
 
     /**
      * @param SessionInterface|null $session
-     *
-     * @return
      */
     public function logout($session);
 

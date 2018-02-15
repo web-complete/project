@@ -31,5 +31,6 @@
 
 ### Дополнительный функционал
 
-1. [ECommerce](extra/ecommerce.md)
-2. [Social Auth](extra/social-auth.md)
+1. [Интернет-магазин](extra/ecommerce.md)
+2. [Авторизация через соц.сети](extra/social-auth.md)
+2. [Восстановление пароля](extra/password-restore.md)

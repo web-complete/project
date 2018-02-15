@@ -17,6 +17,7 @@ use WebComplete\rbac\Rbac;
  * @property $email
  * @property $password
  * @property $token
+ * @property $restore_token
  * @property $first_name
  * @property $last_name
  * @property $sex
@@ -82,6 +83,23 @@ class User extends AbstractEntity implements IdentityInterface
     public function checkPassword(string $password): bool
     {
         return $this->password === $this->securityHelper->cryptPassword($password, $this->config['salt']);
+    }
+
+    /**
+     * @throws \RuntimeException
+     */
+    public function generateToken()
+    {
+        $this->token = $this->securityHelper->generateRandomString(32);
+    }
+
+    /**
+     * Token for password restore
+     * @throws \RuntimeException
+     */
+    public function generateRestoreToken()
+    {
+        $this->restore_token = $this->securityHelper->generateRandomString(32);
     }
 
     /**

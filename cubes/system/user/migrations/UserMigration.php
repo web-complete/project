@@ -55,6 +55,7 @@ class UserMigration implements MigrationInterface
               `email` varchar(100) DEFAULT NULL,
               `password` varchar(50) DEFAULT NULL,
               `token` varchar(50) DEFAULT NULL,
+              `restore_token` varchar(50) DEFAULT NULL,
               `first_name` varchar(50) DEFAULT NULL,
               `last_name` varchar(50) DEFAULT NULL,
               `sex` ENUM(\'M\', \'F\') DEFAULT \'M\',
@@ -70,6 +71,7 @@ class UserMigration implements MigrationInterface
         $this->db->exec('CREATE UNIQUE INDEX user_idx1 ON `user` (`login`)');
         $this->db->exec('CREATE UNIQUE INDEX user_idx2 ON `user` (`email`)');
         $this->db->exec('CREATE UNIQUE INDEX user_idx3 ON `user` (`token`)');
+        $this->db->exec('CREATE UNIQUE INDEX user_idx4 ON `user` (`restore_token`)');
 
         $this->createAdmin();
     }
