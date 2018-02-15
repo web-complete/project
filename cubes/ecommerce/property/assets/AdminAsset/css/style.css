@@ -2,7 +2,14 @@
 
 .properties-table {
     max-width: none;
-    width: auto;
+    width: 800px;
+}
+.properties-table._wide,
+.properties-table ._wide {
+    width: 100%;
+}
+.properties-table td input[type=text] {
+    height: 28px;
 }
 .properties-table tbody tr td {
     border: 0;
@@ -18,10 +25,29 @@
     color: #000;
 }
 .properties-table ._name {
-    width: 300px;
+    width: 200px;
 }
 .properties-table ._type {
-    width: 300px;
+    width: 200px;
+}
+.properties-table ._cog {
+    color: #aaa;
+    font-size: 14px;
+}
+.properties-table ._cog:hover,
+.properties-table ._cog._active {
+    color: #000;
+}
+.properties-table ._enum {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.properties-table ._enum input {
+    margin-bottom: 5px;
+    width: 80%;
 }
 .properties-table .sortable-ghost {
     opacity: 1;

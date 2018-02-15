@@ -18,12 +18,14 @@
 .hide {
     display: none !important;
 }
+.mt0 { margin-top: 0 !important; }
 .mt10 { margin-top: 10px !important; }
 .mt20 { margin-top: 20px !important; }
 .mt50 { margin-top: 50px !important; }
 .mb10 { margin-bottom: 10px !important; }
 .mb20 { margin-bottom: 20px !important; }
 .mb50 { margin-bottom: 50px !important; }
+.pt0 { padding-top: 0 !important; }
 ._loading {
     opacity: 0.5;
     cursor: wait;
@@ -48,7 +50,8 @@ button {
 a.button {
     color: #fff;
 }
-button:disabled {
+button[disabled] {
+    cursor: not-allowed;
     opacity: 0.5;
 }
 h1 {
@@ -172,6 +175,13 @@ ul, li {
     color: #909090;
 }
 
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+.flex .spacer {
+    opacity: 0;
+}
 .info {
     position: relative;
     border-radius: 5px;

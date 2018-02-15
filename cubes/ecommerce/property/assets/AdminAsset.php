@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\ecommerce\property\admin;
+namespace cubes\ecommerce\property\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
@@ -30,6 +30,7 @@ class AdminAsset extends AbstractAsset
     public function js(): array
     {
         return [
+            'js/VueEcommercePropertyEnumPopup.js',
             'js/VueEcommercePropertyItem.js',
             'js/VuePageEcommerceProperty.js',
         ];
