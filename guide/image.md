@@ -27,6 +27,40 @@
 загруженные изображения и сохраняет их в системе как файлы, с помощью сервиса **FileService**. Каждое изображение (=файл)
 становится сущностью класса **File**.
 
+### Пример ручной загрузки файла или изображения
+
+Из файловой системы:
+```php
+$fileService = $container->get(FileService::class);
+if ($file = $fileService->createFileFromPath('/tmp/some.jpg')) {
+    $item->image_id = $file->getId();
+}
+```
+
+По URL (аналогично файловой системе):
+```php
+$fileService = $container->get(FileService::class);
+if ($file = $fileService->createFileFromPath('http://example.com/some.jpg')) {
+    $item->image_id = $file->getId();
+}
+```
+
+Или из $_FILES:
+```php
+$uploadedFiles = $this->request->files->all();
+/** @var UploadedFile $uploadedFile */
+if ($uploadedFile = \reset($uploadedFiles)) {
+    $file = $fileService->createFileFromPath(
+        $uploadedFile->getPathname(),
+        $uploadedFile->getClientOriginalName(),
+        $uploadedFile->getMimeType(),
+    );
+    if ($file) {
+        $item->image_id = $file->getId();
+    }
+}
+```
+
 ### Механизм вывода изображений в публичной части
 
 Для вывода изображения в публичной части (то есть по сути преобразования id изображения из поля сущности в url данного изображения)
