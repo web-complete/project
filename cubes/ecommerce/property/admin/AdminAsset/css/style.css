@@ -1,0 +1,43 @@
+.page-ecommerce-property {}
+
+.properties-table {
+    max-width: none;
+    width: auto;
+}
+.properties-table tbody tr td {
+    border: 0;
+}
+.properties-table ._sort {
+    cursor: move;
+    width: 30px;
+    text-align: center;
+    color: #aaa;
+    transition: all 0.3s;
+}
+.properties-table ._sort:hover {
+    color: #000;
+}
+.properties-table ._name {
+    width: 300px;
+}
+.properties-table ._type {
+    width: 300px;
+}
+.properties-table .sortable-ghost {
+    opacity: 1;
+    background: #fffbe6;
+}
+.properties-table .checkbox-nice {
+    top: -3px;
+}
+.properties-table ._add,
+.properties-table ._remove {
+    width: 30px;
+    text-align: center;
+    color: #aaa;
+    transition: all 0.3s;
+}
+.properties-table ._add:hover,
+.properties-table ._remove:hover {
+    color: #000;
+}
