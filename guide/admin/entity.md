@@ -55,7 +55,7 @@ class Controller extends AbstractEntityController
     public function defaultCrud(EntityConfig $entityConfig)
     {
         // получаем параметры сущности
-        $name = $entityConfig->name;
+        $name = $entityConfig->getSystemName();
         $titleList = $entityConfig->titleList;
         $controllerClass = $entityConfig->controllerClass;
         $menuSectionName = $entityConfig->menuSectionName;
@@ -93,6 +93,7 @@ class Controller extends AbstractEntityController
 и имплементировать следующие свойства и методы:
 
 ```php
+    public $namespace = null; // нэймспэйс в snake-case. Пример: project (параметр не обязателен)
     public $name = null; // название в snake-case. Пример: order-item
     public $titleList = null; // заголовок на списке
     public $titleDetail = null; // заголовок на детальной
@@ -122,6 +123,12 @@ class Controller extends AbstractEntityController
 ```
 
 Для примера можно обращаться к ArticleConfig и UserConfig
+
+### Пространство имен сущности (Namespace)
+
+Для разрешения конфликтных ситуаций в маршрутах и правах у одноименных сунщностей используется
+параметр **namespace** класса **EntityConfig**. По умолчанию пустой.
+Метод **EntityConfig::getSystemName()** возвращает системное имя сущности с учетом namespace.
 
 ### getFieldTypes()
 

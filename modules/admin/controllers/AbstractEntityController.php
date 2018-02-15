@@ -221,8 +221,8 @@ class AbstractEntityController extends AbstractController
         ];
         $entityConfig = $this->getEntityConfig();
         if ($entityConfig->rbac) {
-            $result['view'] = 'admin:cubes:' . $entityConfig->name . ':view';
-            $result['edit'] = 'admin:cubes:' . $entityConfig->name . ':edit';
+            $result['view'] = 'admin:cubes:' . $entityConfig->getSystemName() . ':view';
+            $result['edit'] = 'admin:cubes:' . $entityConfig->getSystemName() . ':edit';
         }
         return $result;
     }

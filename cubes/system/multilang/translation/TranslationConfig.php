@@ -16,6 +16,7 @@ use WebComplete\core\utils\typecast\Cast;
 
 class TranslationConfig extends EntityConfig
 {
+    public $namespace = 'system';
     public $name = 'translation';
     public $titleList = 'Переводы';
     public $titleDetail = 'Перевод';

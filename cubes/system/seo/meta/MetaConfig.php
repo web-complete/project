@@ -15,6 +15,7 @@ use WebComplete\core\utils\typecast\Cast;
 
 class MetaConfig extends EntityConfig
 {
+    public $namespace = 'system';
     public $name = 'meta';
     public $titleList = 'Метатеги страниц';
     public $titleDetail = 'Метатеги страницы';

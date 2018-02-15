@@ -15,6 +15,7 @@ use WebComplete\core\utils\typecast\Cast;
 
 class SlugConfig extends EntityConfig
 {
+    public $namespace = 'system';
     public $name = 'slug';
     public $titleList = 'Slugs';
     public $titleDetail = 'Slug';

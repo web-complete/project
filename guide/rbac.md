@@ -63,11 +63,21 @@ CubeHelper::addPermission()
 CubeHelper::addPermissionSimple()
 ```
 
-Кубы **сущностей** автоматически (в **CubeHelper::defaultCrud**) добавляют два права: **view** (просмотр) и **edit** (редактирование).
+Кубы **сущностей** автоматически (в **CubeHelper::defaultCrud**) добавляют два права: **view** (просмотр) и **edit** (редактирование)
+по следующему правилу:
+```
+admin:cubes:[system-name]:view
+admin:cubes:[system-name]:edit
+```
+Где system-name - это системное имя сущности, состоящее из **namespace** и **name**.
 
-Примеры:
+Пример прав сущности Article:
 - **admin:cubes:article:view**
 - **admin:cubes:article:edit**
+
+Пример прав сущности User (указан нэймспэйс system в конфиге сущности):
+- **admin:cubes:system-user:view**
+- **admin:cubes:system-user:edit**
 
 Также **CubeHelper::defaultCrud** регистрирует элемент бокового меню с учетом права **view**. В ручную это можно сделать так:
 ```php

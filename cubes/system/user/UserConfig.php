@@ -17,6 +17,7 @@ use WebComplete\rbac\Rbac;
 
 class UserConfig extends EntityConfig
 {
+    public $namespace = 'system';
     public $name = 'user';
     public $titleList = 'Пользователи';
     public $titleDetail = 'Пользователь';

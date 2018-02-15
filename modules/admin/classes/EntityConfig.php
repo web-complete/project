@@ -11,6 +11,11 @@ use WebComplete\core\utils\container\ContainerInterface;
 abstract class EntityConfig
 {
     /**
+     * entity namespace in snake-case (not necessary)
+     * @var string
+     */
+    public $namespace;
+    /**
      * entity name in snake-case
      * @var string
      */
@@ -39,6 +44,14 @@ abstract class EntityConfig
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSystemName(): string
+    {
+        return trim(implode('-', [$this->namespace, $this->name]), '-');
     }
 
     /**

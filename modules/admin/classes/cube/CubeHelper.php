@@ -57,7 +57,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function appendAsset(AbstractAsset $asset)
+    public function appendAsset(AbstractAsset $asset): self
     {
         $this->adminAsset->addAssetAfter($asset);
         return $this;
@@ -68,7 +68,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function prependAsset(AbstractAsset $asset)
+    public function prependAsset(AbstractAsset $asset): self
     {
         $this->adminAsset->addAssetBefore($asset);
         return $this;
@@ -80,7 +80,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function addBackendRoute(array $routeDefinition, string $beforeRoute = null)
+    public function addBackendRoute(array $routeDefinition, string $beforeRoute = null): self
     {
         /** @var Routes $routes */
         $routes = $this->config['routes'];
@@ -95,7 +95,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function addVueRoute(array $routeDefinition, int $position = 100)
+    public function addVueRoute(array $routeDefinition, int $position = 100): self
     {
         $this->pageRoutes->addRoute($position, $routeDefinition);
         return $this;
@@ -107,7 +107,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function addMenuSection(string $name, int $sort)
+    public function addMenuSection(string $name, int $sort): self
     {
         $this->navigation->addSection($name, $sort);
         return $this;
@@ -129,7 +129,7 @@ class CubeHelper
         string $frontUrl,
         int $sort,
         string $permission = null
-    ) {
+    ): self {
         $this->navigation->addItem($sectionName, $name, $frontUrl, $sort, $permission);
         return $this;
     }
@@ -143,7 +143,7 @@ class CubeHelper
      * @throws \RuntimeException
      * @throws \WebComplete\rbac\exception\RbacException
      */
-    public function addPermission(string $name, string $description, string $parentName = 'admin:cubes')
+    public function addPermission(string $name, string $description, string $parentName = 'admin:cubes'): self
     {
         $rbac = $this->container->get(Rbac::class);
         $permission = $rbac->createPermission($name, $description);
@@ -163,13 +163,13 @@ class CubeHelper
      * @param string $title
      *
      * @return $this
-     * @throws \WebComplete\rbac\exception\RbacException
+     * @throws \Exception
      */
-    public function addPermissionSimple(EntityConfig $entityConfig, string $suffix, string $title)
+    public function addPermissionSimple(EntityConfig $entityConfig, string $suffix, string $title): self
     {
-        $name = $entityConfig->name;
+        $sysName = $entityConfig->getSystemName();
         $titleList = $entityConfig->titleList;
-        $permissionName = 'admin:cubes:' . $name . ':' . $suffix;
+        $permissionName = 'admin:cubes:' . $sysName . ':' . $suffix;
         $permissionTitle = $titleList . ' [' . $title . ']';
         return $this->addPermission($permissionName, $permissionTitle);
     }
@@ -179,7 +179,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function observeEntityTagField(EntityConfig $entityConfig)
+    public function observeEntityTagField(EntityConfig $entityConfig): self
     {
         if ($entityConfig->tagField) {
             $entityService = $this->container->get($entityConfig->entityServiceClass);
@@ -195,7 +195,7 @@ class CubeHelper
      * @return $this
      * @throws \RuntimeException
      */
-    public function observeEntitySearch(EntityConfig $entityConfig)
+    public function observeEntitySearch(EntityConfig $entityConfig): self
     {
         if ($entityConfig->searchable) {
             /** @var AbstractEntityService $entityService */
@@ -215,7 +215,7 @@ class CubeHelper
      *
      * @return $this
      */
-    public function observeEntitySeo(EntityConfig $entityConfig)
+    public function observeEntitySeo(EntityConfig $entityConfig): self
     {
         if ($entityConfig->entitySeoClass) {
             $entityService = $this->container->get($entityConfig->entityServiceClass);
@@ -232,9 +232,9 @@ class CubeHelper
      * @return $this
      * @throws \Exception
      */
-    public function defaultCrud(EntityConfig $entityConfig)
+    public function defaultCrud(EntityConfig $entityConfig): self
     {
-        $name = $entityConfig->name;
+        $sysName = $entityConfig->getSystemName();
         $titleList = $entityConfig->titleList;
         $controllerClass = $entityConfig->controllerClass;
         $menuSectionName = $entityConfig->menuSectionName;
@@ -242,17 +242,17 @@ class CubeHelper
         $menuSectionSort = $entityConfig->menuSectionSort;
 
         $this
-            ->addBackendRoute(['GET', "/admin/api/entity/$name", [$controllerClass, 'actionList']])
-            ->addBackendRoute(['GET', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDetail']])
-            ->addBackendRoute(['POST', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionSave']])
-            ->addBackendRoute(['DELETE', "/admin/api/entity/$name/{id}", [$controllerClass, 'actionDelete']])
+            ->addBackendRoute(['GET', "/admin/api/entity/$sysName", [$controllerClass, 'actionList']])
+            ->addBackendRoute(['GET', "/admin/api/entity/$sysName/{id}", [$controllerClass, 'actionDetail']])
+            ->addBackendRoute(['POST', "/admin/api/entity/$sysName/{id}", [$controllerClass, 'actionSave']])
+            ->addBackendRoute(['DELETE', "/admin/api/entity/$sysName/{id}", [$controllerClass, 'actionDelete']])
             ->observeEntityTagField($entityConfig)
             ->observeEntitySearch($entityConfig)
             ->observeEntitySeo($entityConfig);
 
         $permissionView = null;
         if ($entityConfig->rbac) {
-            $permissionView = 'admin:cubes:' . $name . ':view';
+            $permissionView = 'admin:cubes:' . $sysName . ':view';
             $this
                 ->addPermissionSimple($entityConfig, 'view', 'просмотр')
                 ->addPermissionSimple($entityConfig, 'edit', 'редактирование');
@@ -261,7 +261,7 @@ class CubeHelper
         if ($entityConfig->menuEnabled) {
             $this
                 ->addMenuSection($menuSectionName, $menuSectionSort)
-                ->addMenuItem($menuSectionName, $titleList, "/list/$name", $menuItemSort, $permissionView);
+                ->addMenuItem($menuSectionName, $titleList, "/list/$sysName", $menuItemSort, $permissionView);
         }
 
         return $this;

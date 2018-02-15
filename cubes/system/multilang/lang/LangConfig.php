@@ -16,6 +16,7 @@ use WebComplete\form\AbstractForm;
 
 class LangConfig extends EntityConfig
 {
+    public $namespace = 'system';
     public $name = 'lang';
     public $titleList = 'Языки';
     public $titleDetail = 'Язык';

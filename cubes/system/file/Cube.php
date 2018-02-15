@@ -11,7 +11,6 @@ use WebComplete\core\utils\container\ContainerInterface;
 
 class Cube extends AbstractCube
 {
-
     /**
      * @param ContainerInterface $container
      */
