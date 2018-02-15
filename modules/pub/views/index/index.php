@@ -11,6 +11,13 @@ $search = $application->getContainer()->get(\cubes\system\search\search\SearchSe
 $docs = $search->search(new \WebComplete\core\utils\paginator\Paginator(), 'aaa');
 ?>
 
+<?php $fields = 'first_name,last_name,bdate,sex,phone,photo,photo_big,city,country'; ?>
+<?php $optional = 'phone'; ?>
+<?php $providers = 'facebook,twitter,vkontakte'; ?>
+<?php $callback = 'http://' . $_SERVER['HTTP_HOST'] . '/api/social-auth'; ?>
+<script src="//ulogin.ru/js/ulogin.js"></script>
+<div id="uLogin" data-ulogin="display=panel;theme=flat;fields=<?=$fields ?>;optional=<?=$optional ?>;providers=<?=$providers ?>;hidden=other;redirect_uri=<?=$callback ?>;mobilebuttons=0;"></div>
+
 index template
 <?=StaticBlockHelper::get('ns1', 'name1', StaticBlockHelper::TYPE_TEXT) ?>
 <?=\cubes\system\file\ImageHelper::getTag($settings->get('field_image')) ?>

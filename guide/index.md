@@ -28,3 +28,8 @@
 25. [CSRF](csrf.md)
 26. [Публичная часть](pub.md)
 27. [Деплой](deploy.md) (todo)
+
+### Дополнительный функционал
+
+1. [ECommerce](extra/ecommerce.md)
+2. [Social Auth](extra/social-auth.md)

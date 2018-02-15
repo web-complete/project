@@ -78,6 +78,17 @@ class UserService extends AbstractEntityService implements UserRepositoryInterfa
     }
 
     /**
+     * @param string $login
+     *
+     * @return User|AbstractEntity|IdentityInterface|null
+     */
+    public function findByLogin(string $login)
+    {
+        $condition = $this->repository->createCondition(['login' => $login]);
+        return $this->repository->findOne($condition);
+    }
+
+    /**
      * @param string $token
      *
      * @return User|AbstractEntity|IdentityInterface|null
