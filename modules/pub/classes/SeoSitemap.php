@@ -2,7 +2,7 @@
 
 namespace modules\pub\classes;
 
-use cubes\seo\sitemap\SeoSitemapInterface;
+use cubes\system\seo\sitemap\SeoSitemapInterface;
 use cubes\system\settings\Settings;
 use samdark\sitemap\Sitemap;
 use WebComplete\core\utils\alias\AliasService;

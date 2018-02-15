@@ -2,7 +2,7 @@
 
 namespace cubes\content\staticPage;
 
-use cubes\seo\seo\AbstractEntitySeo;
+use cubes\system\seo\seo\AbstractEntitySeo;
 
 class StaticPageSeo extends AbstractEntitySeo
 {

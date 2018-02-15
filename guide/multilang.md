@@ -5,9 +5,9 @@
 - мультиязычность у статических блоков
 - переводы (заголовки, кнопки и прочий неуправляемый контент)
 
-За мультиязычность отвечает нэймспэйс кубов - **cubes/multilang**, который содержит в себе кубы:
-- **cubes/multilang/lang**
-- **cubes/multilang/translation**
+За мультиязычность отвечает нэймспэйс кубов - **cubes/system/multilang**, который содержит в себе кубы:
+- **cubes/system/multilang/lang**
+- **cubes/system/multilang/translation**
 
 ### языки
 
@@ -106,7 +106,7 @@
 
 ### переводы (заголовки, кнопки и прочий неуправляемый контент)
 
-За переводы отвечает куб **cubes/multilang/translation**, сервис TranslationService
+За переводы отвечает куб **cubes/system/multilang/translation**, сервис TranslationService
 
 Использование в публичной части:
 ```php

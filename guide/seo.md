@@ -131,7 +131,7 @@ php console.php sitemap:generate
  
 По умолчанию в definitions зарегистрирован и создан следующий класс:
 ```php
-    \cubes\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
+    \cubes\system\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
 ```
 
 Данный класс будет передан в **SeoSitemapProcessor**, который запустит процесс генерации.
@@ -172,7 +172,7 @@ _Необходимо убедиться, что у консоли или web-с
 
 ### 301 редиректы
 
-За 301-е редиректы отвечает куб **cubes/seo/redirect**.<br>
+За 301-е редиректы отвечает куб **cubes/system/seo/redirect**.<br>
 Редиректы можно настроить в интерфейсе CRM (**SEO -> 301 редиректы**)
 
 Далее: [Работа с поиском](search.md)<br>

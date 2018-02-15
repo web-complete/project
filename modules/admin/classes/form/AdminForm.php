@@ -2,7 +2,7 @@
 
 namespace modules\admin\classes\form;
 
-use cubes\multilang\lang\classes\MultilangForm;
+use cubes\system\multilang\lang\classes\MultilangForm;
 
 class AdminForm extends MultilangForm
 {

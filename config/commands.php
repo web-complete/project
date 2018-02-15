@@ -7,8 +7,8 @@ return [
     \WebComplete\core\utils\cache\CacheCommand::class,
     \WebComplete\core\utils\migration\commands\MigrationUpCommand::class,
     \WebComplete\core\utils\migration\commands\MigrationDownCommand::class,
-    \cubes\seo\sitemap\commands\SitemapCommand::class,
-    \cubes\search\search\commands\SearchClearCommand::class,
-    \cubes\search\search\commands\SearchCountCommand::class,
-    \cubes\search\search\commands\SearchReindexCommand::class,
+    \cubes\system\seo\sitemap\commands\SitemapCommand::class,
+    \cubes\system\search\search\commands\SearchClearCommand::class,
+    \cubes\system\search\search\commands\SearchCountCommand::class,
+    \cubes\system\search\search\commands\SearchReindexCommand::class,
 ];

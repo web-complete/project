@@ -2,7 +2,7 @@
 
 namespace modules\pub\controllers;
 
-use cubes\seo\seo\SeoManager;
+use cubes\system\seo\seo\SeoManager;
 use cubes\system\user\UserService;
 use modules\admin\classes\csrf\CSRF;
 use modules\pub\assets\BaseAsset;

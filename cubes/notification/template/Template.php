@@ -2,7 +2,7 @@
 
 namespace cubes\notification\template;
 
-use cubes\multilang\lang\classes\AbstractMultilangEntity;
+use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
 use cubes\system\logger\Log;
 
 /**

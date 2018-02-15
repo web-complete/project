@@ -2,7 +2,7 @@
 
 namespace modules\admin\controllers;
 
-use cubes\multilang\lang\LangService;
+use cubes\system\multilang\lang\LangService;
 use cubes\system\user\UserService;
 use modules\admin\classes\Navigation;
 use modules\admin\classes\VueRoutes;

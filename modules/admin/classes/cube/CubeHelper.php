@@ -2,9 +2,9 @@
 
 namespace modules\admin\classes\cube;
 
-use cubes\search\search\Searchable;
-use cubes\search\search\SearchObserver;
-use cubes\seo\seo\SeoEntityObserver;
+use cubes\system\search\search\Searchable;
+use cubes\system\search\search\SearchObserver;
+use cubes\system\seo\seo\SeoEntityObserver;
 use cubes\system\tags\TagObserver;
 use modules\admin\assets\AdminAsset;
 use modules\admin\classes\EntityConfig;

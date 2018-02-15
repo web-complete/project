@@ -2,7 +2,7 @@
 
 namespace cubes\content\article;
 
-use cubes\seo\seo\AbstractEntitySeo;
+use cubes\system\seo\seo\AbstractEntitySeo;
 
 class ArticleSeo extends AbstractEntitySeo
 {

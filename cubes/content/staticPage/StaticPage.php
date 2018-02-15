@@ -2,10 +2,10 @@
 
 namespace cubes\content\staticPage;
 
-use cubes\multilang\lang\classes\AbstractMultilangEntity;
-use cubes\search\search\Searchable;
-use cubes\search\search\SearchDoc;
-use cubes\seo\seo\SeoEntityTrait;
+use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
+use cubes\system\search\search\Searchable;
+use cubes\system\search\search\SearchDoc;
+use cubes\system\seo\seo\SeoEntityTrait;
 
 /**
 *

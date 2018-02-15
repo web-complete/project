@@ -1,10 +1,10 @@
 <?php
 
-use cubes\seo\seo\SeoManager;
+use cubes\system\seo\seo\SeoManager;
 use cubes\system\settings\Settings;
 use modules\pub\widgets\FooterWidget;
 use modules\pub\widgets\HeaderWidget;
-use cubes\multilang\translation\MultilangHelper;
+use cubes\system\multilang\translation\MultilangHelper;
 
 /** @var \WebComplete\mvc\view\View $this */
 /** @var $content */

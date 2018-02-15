@@ -2,7 +2,7 @@
 
 namespace modules\admin\classes\fields;
 
-use cubes\multilang\lang\classes\AbstractMultilangEntity;
+use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
 use WebComplete\core\entity\AbstractEntity;
 
 class FieldService
