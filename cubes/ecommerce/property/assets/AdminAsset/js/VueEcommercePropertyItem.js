@@ -5,7 +5,7 @@ Vue.component('VueEcommercePropertyItem', {
                 <div class="_sort"><i class="fa fa-reorder"></i></div>
             </td>
             <td>
-                <input class="_code" type="text" v-model="property.code" />
+                <masked-input class="_code" v-model="property.code" :mask="/^[a-z0-9-_]+$/"></masked-input>
             </td>
             <td>
                 <input class="_name" type="text" v-model="property.name" />
@@ -20,7 +20,7 @@ Vue.component('VueEcommercePropertyItem', {
             </td>
             <td>
                 <div class="checkbox-nice">
-                    <input :id="'prop'+property.uid" type="checkbox" v-model="property.enabled">
+                    <input :id="'prop'+property.uid" type="checkbox" v-model="property.enabled" :true-value="1" :false-value="0">
                     <label :for="'prop'+property.uid"></label>
                 </div>
             </td>
@@ -29,6 +29,7 @@ Vue.component('VueEcommercePropertyItem', {
             </td>
         </tr>
     `,
+    components: {'masked-input': VueIMask.IMaskComponent},
     props: {
         property: {type: Object, required: true}
     },
@@ -49,15 +50,24 @@ Vue.component('VueEcommercePropertyItem', {
         }
     },
     mounted: function(){
-        let self = this;
-        $(this.$el).find('select').select2().on('change', function(){
-            self.property.type = $(this).val();
-            if (self.property.type === 'enum') {
-                self.property.data = {enum: []};
-            }
-        });
+        this.initSelect();
+    },
+    destroyed: function(){
+        this.destroySelect();
     },
     methods: {
+        initSelect(){
+            let self = this;
+            $(this.$el).find('select').select2().on('change', function(){
+                self.property.type = $(this).val();
+                if (self.property.type === 'enum') {
+                    self.property.data = {enum: []};
+                }
+            });
+        },
+        destroySelect(){
+            $(this.$el).hide().find('select').select2('destroy');
+        },
         openSettings(){
             if (this.property.type === 'enum') {
                 this.$emit('enumPopup');

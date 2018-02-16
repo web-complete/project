@@ -19,7 +19,7 @@ Vue.component('VueEcommercePropertyEnumPopup', {
                 <draggable element="tbody" v-model="items" :options="{handle: '._sort', draggable: '._item'}" class="_list">
                     <tr v-for="(item, k) in items" class="_item">
                         <td><div class="_sort"><i class="fa fa-reorder"></i></div></td>
-                        <td><input class="_wide" type="text" v-model="item.code"></td>
+                        <td><masked-input class="_wide _code" v-model="item.code" :mask="/^[a-z0-9-_]+$/"></masked-input></td>
                         <td><input class="_wide" type="text" v-model="item.value"></td>
                         <td><a @click="remove(k)" class="_remove" href="javascript://"><i class="fa fa-minus"></i></a></td>
                     </tr>
@@ -41,6 +41,8 @@ Vue.component('VueEcommercePropertyEnumPopup', {
             </div>
         </modal>
     `,
+    components: {'masked-input': VueIMask.IMaskComponent},
+    directives: {mask: VueIMask.IMaskDirective},
     data(){
         return {
             property: {},

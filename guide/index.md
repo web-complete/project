@@ -33,4 +33,5 @@
 
 1. [Интернет-магазин](extra/ecommerce.md)
 2. [Авторизация через соц.сети](extra/social-auth.md)
-2. [Восстановление пароля](extra/password-restore.md)
+3. [Восстановление пароля](extra/password-restore.md)
+4. [Vue masked input](extra/masked-input.md)

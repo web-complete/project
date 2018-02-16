@@ -32,6 +32,7 @@ class AdminAsset extends AbstractAsset
         return [
             'js/VueEcommercePropertyEnumPopup.js',
             'js/VueEcommercePropertyItem.js',
+            'js/VueEcommercePropertyList.js',
             'js/VuePageEcommerceProperty.js',
         ];
     }

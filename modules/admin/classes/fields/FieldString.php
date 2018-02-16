@@ -15,8 +15,8 @@ class FieldString extends FieldAbstract
             'disabled' => false,
             'maxlength' => '',
             'placeholder' => '',
-            'filter' => '',
-            'mask' => '',
+            'filter' => '', // example: '^[a-z0-9-_]+$', '^[0-9]*$', '^\w+$'
+            'mask' => '', // example: '00.00.0000', '+{7} (000) 000-00-00'
         ]
     ];
 
