@@ -38,8 +38,8 @@ staticBlock/
 ```php
     $cubeHelper->defaultCrud($entityConfig);
     $cubeHelper->appendAsset($container->get(AdminAsset::class));
-    $cubeHelper->addVueRoute(['path' => '/list/' . $name, 'component' => 'VuePageStaticBlockList']);
-    $cubeHelper->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageStaticBlockDetail']);
+    $cubeHelper->addVueRoute(['path' => '/list/' . $sysName, 'component' => 'VuePageStaticBlockList']);
+    $cubeHelper->addVueRoute(['path' => '/detail/' . $sysName . '/:id', 'component' => 'VuePageStaticBlockDetail']);
 ```
 
 Помимо стандартного подключения куба defaultCrud(), в данном примере мы:

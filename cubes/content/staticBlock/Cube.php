@@ -14,17 +14,17 @@ class Cube extends AbstractCube
     /**
      * @param ContainerInterface $container
      *
-     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function bootstrap(ContainerInterface $container)
     {
         $entityConfig = $container->get(StaticBlockConfig::class);
-        $name = $entityConfig->name;
+        $sysName = $entityConfig->getSystemName();
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper->appendAsset($container->get(AdminAsset::class));
         $cubeHelper->defaultCrud($entityConfig);
-        $cubeHelper->addVueRoute(['path' => '/list/' . $name, 'component' => 'VuePageStaticBlockList']);
-        $cubeHelper->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageStaticBlockDetail']);
+        $cubeHelper->addVueRoute(['path' => '/list/' . $sysName, 'component' => 'VuePageStaticBlockList']);
+        $cubeHelper->addVueRoute(['path' => '/detail/' . $sysName . '/:id', 'component' => 'VuePageStaticBlockDetail']);
     }
 
     /**

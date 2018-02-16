@@ -19,11 +19,11 @@ class Cube extends AbstractCube
     public function bootstrap(ContainerInterface $container)
     {
         $entityConfig = $container->get(LangConfig::class);
-        $name = $entityConfig->name;
+        $sysName = $entityConfig->getSystemName();
         $cubeHelper = $container->get(CubeHelper::class);
         $cubeHelper->appendAsset($container->get(AdminAsset::class));
         $cubeHelper->defaultCrud($entityConfig);
-        $cubeHelper->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePageLangDetail']);
+        $cubeHelper->addVueRoute(['path' => '/detail/' . $sysName . '/:id', 'component' => 'VuePageLangDetail']);
     }
 
     /**

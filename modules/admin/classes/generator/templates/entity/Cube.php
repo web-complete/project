@@ -32,10 +32,10 @@ class Cube extends AbstractCube
         $cubeHelper->defaultCrud($entityConfig);
 <?php if ($config->customize) { ?>
 
-        $name = $entityConfig->name;
+        $sysName = $entityConfig->getSystemName();
         $cubeHelper->appendAsset($container->get(AdminAsset::class));
-        $cubeHelper->addVueRoute(['path' => '/list/' . $name, 'component' => 'VuePage<?=$config->nameCamel ?>List']);
-        $cubeHelper->addVueRoute(['path' => '/detail/' . $name . '/:id', 'component' => 'VuePage<?=$config->nameCamel ?>Detail']);
+        $cubeHelper->addVueRoute(['path' => '/list/' . $sysName, 'component' => 'VuePage<?=$config->nameCamel ?>List']);
+        $cubeHelper->addVueRoute(['path' => '/detail/' . $sysName . '/:id', 'component' => 'VuePage<?=$config->nameCamel ?>Detail']);
 <?php } ?>
     }
 

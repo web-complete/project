@@ -22,18 +22,19 @@ class PropertyService
     }
 
     /**
-     * @return array
+     * @return PropertyBag
      */
-    public function getGlobalProperties(): array
+    public function getGlobalProperties(): PropertyBag
     {
-        return (array)$this->storage->get(self::STORAGE_GLOBAL_PROPERTIES, []);
+        $data = (array)$this->storage->get(self::STORAGE_GLOBAL_PROPERTIES, []);
+        return new PropertyBag($data);
     }
 
     /**
-     * @param array $properties
+     * @param PropertyBag $propertyBag
      */
-    public function setGlobalProperties(array $properties)
+    public function setGlobalProperties(PropertyBag $propertyBag)
     {
-        $this->storage->set(self::STORAGE_GLOBAL_PROPERTIES, $properties);
+        $this->storage->set(self::STORAGE_GLOBAL_PROPERTIES, $propertyBag->mapToArray());
     }
 }

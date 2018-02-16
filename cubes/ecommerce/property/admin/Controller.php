@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\property\admin;
 
+use cubes\ecommerce\property\PropertyBag;
 use cubes\ecommerce\property\PropertyService;
 use modules\admin\controllers\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class Controller extends AbstractController
     {
         $propertyService = $this->container->get(PropertyService::class);
         return $this->responseJsonSuccess([
-            'properties' => $propertyService->getGlobalProperties()
+            'properties' => $propertyService->getGlobalProperties()->mapToArray()
         ]);
     }
 
@@ -27,8 +28,10 @@ class Controller extends AbstractController
     public function actionSaveProperties(): Response
     {
         $properties = (array)$this->request->get('properties', []);
+        $propertyBag = $this->container->get(PropertyBag::class);
+        $propertyBag->mapFromArray($properties);
         $propertyService = $this->container->get(PropertyService::class);
-        $propertyService->setGlobalProperties($properties);
+        $propertyService->setGlobalProperties($propertyBag);
         return $this->responseJsonSuccess();
     }
 }
