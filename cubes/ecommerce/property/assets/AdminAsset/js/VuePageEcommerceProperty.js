@@ -8,7 +8,7 @@ VuePageEcommerceProperty = {
         </div>
 
         <div v-if="isLoaded">
-            <vue-ecommerce-property-list v-model="properties"></vue-ecommerce-property-list>
+            <vue-ecommerce-property-list v-model="properties" @valid="isValid = $event"></vue-ecommerce-property-list>
             <div class="form-actions">
                 <vue-button @click="save" :disabled="!isValid">Сохранить</vue-button>
             </div>
@@ -20,18 +20,8 @@ VuePageEcommerceProperty = {
         return {
             apiUrl: '/admin/api/ecommerce-properties',
             isLoaded: false,
+            isValid: false,
             properties: []
-        }
-    },
-    computed: {
-        isValid(){
-            let result = true;
-            _.each(this.properties, function(property){
-                if (!property.name || !property.code) {
-                    result = false;
-                }
-            });
-            return result;
         }
     },
     created(){

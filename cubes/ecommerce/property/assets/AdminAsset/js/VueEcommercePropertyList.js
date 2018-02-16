@@ -18,6 +18,7 @@ Vue.component('VueEcommercePropertyList', {
                         <tr is="VueEcommercePropertyItem"
                             @remove="removeProperty(property.uid)"
                             @enumPopup="enumPopup(property)"
+                            :class="{'_error': (errors[property.uid])}"
                             :property="property"
                             :key="property.uid"
                         ></tr>
@@ -39,6 +40,11 @@ Vue.component('VueEcommercePropertyList', {
     props: {
         value: {type: Array, required: true},
     },
+    data(){
+        return {
+            errors: {}
+        }
+    },
     computed: {
         properties: {
             get(){
@@ -47,6 +53,36 @@ Vue.component('VueEcommercePropertyList', {
             set(value){
                 this.$emit('input', value);
             }
+        },
+        isValid(){
+            let result = true;
+            let codes = [];
+            let names = [];
+            this.errors = {};
+            _.each(this.properties, function(property){
+                if (!property.name || !property.code) {
+                    this.errors[property.uid] = true;
+                    result = false;
+                }
+                if (_.indexOf(codes, property.code) !== -1) {
+                    this.errors[property.uid] = true;
+                    result = false;
+                }
+                if (_.indexOf(names, property.name) !== -1) {
+                    this.errors[property.uid] = true;
+                    result = false;
+                }
+                codes.push(property.code);
+                names.push(property.name);
+            }.bind(this));
+            return result;
+        }
+    },
+    watch: {
+        properties: {
+            handler: function(){ this.$emit('valid', this.isValid) },
+            immediate: true,
+            deep: true
         }
     },
     methods: {

@@ -17,7 +17,7 @@ Vue.component('VueEcommercePropertyEnumPopup', {
                 </tr>
                 </thead>
                 <draggable element="tbody" v-model="items" :options="{handle: '._sort', draggable: '._item'}" class="_list">
-                    <tr v-for="(item, k) in items" class="_item">
+                    <tr v-for="(item, k) in items" class="_item" :class="{'_error': errors[k]}">
                         <td><div class="_sort"><i class="fa fa-reorder"></i></div></td>
                         <td><masked-input class="_wide _code" v-model="item.code" :mask="/^[a-z0-9-_]+$/"></masked-input></td>
                         <td><input class="_wide" type="text" v-model="item.value"></td>
@@ -46,18 +46,33 @@ Vue.component('VueEcommercePropertyEnumPopup', {
     data(){
         return {
             property: {},
-            items: []
+            items: [],
+            errors: {}
         }
     },
     computed: {
         isValid(){
             if (this.items.length === 0) return false;
             let result = true;
-            _.each(this.items, function(item){
+            let codes = [];
+            let values = [];
+            this.errors = {};
+            _.each(this.items, function(item, k){
                 if (!item.code.trim() || !item.value.trim()) {
+                    this.errors[k] = true;
                     result = false;
                 }
-            });
+                if (_.indexOf(codes, item.code) !== -1) {
+                    this.errors[k] = true;
+                    result = false;
+                }
+                if (_.indexOf(values, item.value) !== -1) {
+                    this.errors[k] = true;
+                    result = false;
+                }
+                codes.push(item.code);
+                values.push(item.values);
+            }.bind(this));
             return result;
         }
     },
