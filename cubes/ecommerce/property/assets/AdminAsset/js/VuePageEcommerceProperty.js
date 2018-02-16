@@ -4,7 +4,7 @@ VuePageEcommerceProperty = {
 <div class="page block">
     <div class="page-detail page-ecommerce-property">
         <div class="page-top">
-            <h1>Общие товарные свойства</h1>
+            <h1>Глобальные товарные свойства</h1>
         </div>
 
         <div v-if="isLoaded">
