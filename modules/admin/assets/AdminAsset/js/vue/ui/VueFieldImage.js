@@ -99,6 +99,7 @@ Vue.component('VueFieldImage', {
                                 self.fileFieldParams['cropMimeType']
                             ).then(function(cropData){
                                 $(Request).trigger('start');
+                                Request.csrf();
                                 data.formData['cropData'] = JSON.stringify(cropData);
                                 data.submit();
                             }.bind(this));

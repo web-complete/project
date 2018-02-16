@@ -2,6 +2,10 @@ extendVuePage = function(parent, current){
     return _.merge({}, parent, current);
 };
 
+unReact = function(value){
+    return JSON.parse(JSON.stringify(value));
+};
+
 uniqueId = function(length){
     length = length || 32;
     var idStr = String.fromCharCode(Math.floor((Math.random()*25)+65));

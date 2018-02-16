@@ -57,6 +57,7 @@ Vue.component('VueFieldFile', {
                 url: '/admin/api/upload-file',
                 add: function (e, data) {
                     $(Request).trigger('start');
+                    Request.csrf();
                     data.formData = {};
                     data.submit();
                 },
@@ -85,7 +86,7 @@ Vue.component('VueFieldFile', {
         },
         deleteFile: function(id){
             this.$emit('input', '');
-            bus.$emit('deleteFileId', id);
+            bus.$emit('deleteFileId', unReact(id));
         },
         destroyUploader: function(){
             $(this.$el).find('input[type=file]').fileupload('destroy');

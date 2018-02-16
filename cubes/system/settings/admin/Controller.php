@@ -45,8 +45,8 @@ class Controller extends AbstractController
     public function actionSave(): Response
     {
         $fileService = $this->container->get(FileService::class);
-        if ($deleteFileIds = (array)$this->request->get('deleteFileIds')) {
-            foreach ($deleteFileIds as $deleteFileId) {
+        if ($deleteFileIds = $this->request->get('deleteFileIds', [])) {
+            foreach ((array)$deleteFileIds as $deleteFileId) {
                 @$fileService->delete($deleteFileId);
             }
         }

@@ -20,7 +20,7 @@ Request = {
     do: function(method, url, payload, success, fail){
         success = success || function(){};
         $(Request).trigger('start');
-        Cookies.set('_csrf_check', Cookies.get('_csrf'));
+        this.csrf();
         $.ajax({
             url: url,
             type: method,
@@ -35,6 +35,10 @@ Request = {
                 $(Request).trigger('error');
                 this.failCallback(fail, jqXHR, status, error);
             }.bind(this));
+    },
+
+    csrf: function(){
+        Cookies.set('_csrf_check', Cookies.get('_csrf'));
     },
 
     failCallback: function(userCallback, jqXHR, status, error){
