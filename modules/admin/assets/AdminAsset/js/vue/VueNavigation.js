@@ -14,23 +14,24 @@ Vue.component('VueNavigation', {
             </ul>
         </nav>
     `,
-    stickyAttached: false,
-
     data: function(){
         return {
-            nav: this.$store.state.navigation.nav
+            nav: this.$store.state.navigation.nav,
+            stickyAttached: false,
         }
     },
-
     mounted: function(){
         this.updateStick();
+        var $activeEl = $(this.$el).find('.router-link-active').closest('li');
+        if ($activeEl.length) {
+            this.mark($activeEl[0]);
+        }
     },
-
     methods: {
         mark: function(target){
             var $el = $(this.$el);
             $el.find('._active').removeClass('_active');
-            $(target).addClass('_active').parents('li').addClass('_active');
+            $(target).addClass('_active').parents('li').addClass('_active').find('> ul').show();
         },
         toggle: function(item){
             item.open = !item.open;
