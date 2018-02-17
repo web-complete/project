@@ -1,25 +1,29 @@
 <?php
 
-namespace cubes\content\menu;
+namespace cubes\ecommerce\classifier;
 
-use cubes\content\menu\admin\Controller;
-use cubes\content\staticPage\StaticPageService;
+use cubes\ecommerce\classifier\admin\Controller;
+use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\EntityConfig;
 use modules\admin\classes\fields\FieldFactory;
 use modules\admin\classes\fields\FieldAbstract;
+use modules\admin\classes\filter\FilterFactory;
 use modules\admin\classes\filter\FilterField;
 use modules\admin\classes\form\AdminForm;
 use WebComplete\core\utils\typecast\Cast;
 
-class MenuItemConfig extends EntityConfig
+class ClassifierItemConfig extends EntityConfig
 {
-    public $name = 'menu';
-    public $titleList = 'Элементы меню';
-    public $titleDetail = 'Элемент меню';
-    public $menuSectionName = 'Контент';
+    public $namespace = 'ecommerce';
+    public $name = 'classifier';
+    public $titleList = 'Классификатор';
+    public $titleDetail = 'Раздел';
+    public $menuSectionName = 'Магазин';
+    public $menuSectionSort = 120;
+    public $menuItemSort = 130;
     public $menuEnabled = false;
-    public $entityServiceClass = MenuService::class;
+    public $entityServiceClass = ClassifierService::class;
     public $controllerClass = Controller::class;
 
     /**
@@ -31,9 +35,6 @@ class MenuItemConfig extends EntityConfig
             'parent_id' => Cast::INT,
             'sort' => Cast::INT,
             'title' => Cast::STRING,
-            'type' => Cast::INT,
-            'url' => Cast::STRING,
-            'page' => Cast::STRING,
         ];
     }
 
@@ -42,7 +43,11 @@ class MenuItemConfig extends EntityConfig
      */
     public function getListFields(): array
     {
-        return [];
+        $cells = CellFactory::build();
+        return [
+            $cells->string('ID', 'id', \SORT_DESC),
+            $cells->string('Название', 'title', \SORT_DESC),
+        ];
     }
 
     /**
@@ -50,26 +55,21 @@ class MenuItemConfig extends EntityConfig
      */
     public function getFilterFields(): array
     {
-        return [];
+        $filters = FilterFactory::build();
+        return [
+            $filters->string('ID', 'id', FilterFactory::MODE_EQUAL),
+            $filters->string('Название', 'title', FilterFactory::MODE_LIKE),
+        ];
     }
 
     /**
      * @return FieldAbstract[]
-     * @throws \TypeError
      */
     public function getDetailFields(): array
     {
-        $staticPageService = $this->container->get(StaticPageService::class);
-        $staticPageMap = $staticPageService->getMap('title');
         $fields = FieldFactory::build();
         return [
             $fields->string('Название', 'title')->multilang(),
-            $fields->select('Тип', 'type')->options([
-                MenuService::TYPE_URL => 'Ссылка',
-                MenuService::TYPE_PAGE => 'Статическая страница',
-            ]),
-            $fields->string('Ссылка', 'url'),
-            $fields->select('Статическая страница', 'page')->options($staticPageMap),
         ];
     }
 
@@ -80,7 +80,6 @@ class MenuItemConfig extends EntityConfig
     {
         return new AdminForm([
             [['parent_id', 'title'], 'required', [], AdminForm::MESSAGE_REQUIRED],
-            [['type', 'url', 'page']],
         ]);
     }
 }

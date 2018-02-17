@@ -1,12 +1,12 @@
 <?php
 
-namespace cubes\ecommerce\category\migrations;
+namespace cubes\ecommerce\classifier\migrations;
 
 use Doctrine\DBAL\Connection;
 use WebComplete\core\utils\migration\MigrationInterface;
 use WebComplete\microDb\MicroDb;
 
-class CategoryMigration implements MigrationInterface
+class ClassifierMigration implements MigrationInterface
 {
 
     /**
@@ -30,13 +30,13 @@ class CategoryMigration implements MigrationInterface
 
     public function up()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `category` (
-                `id` INT(11) NOT NULL AUTO_INCREMENT,
-                `name` varchar(500) DEFAULT NULL,
-                `properties` text,
-                `properties_enabled` text,
-                `multilang` text,
-                PRIMARY KEY(`id`)
+        $sql = 'CREATE TABLE IF NOT EXISTS `classifier` (
+              `id` INT(11) NOT NULL AUTO_INCREMENT,
+              `parent_id` INT(11),
+              `sort` INT,
+              `title` varchar(100) DEFAULT NULL,
+              `multilang` text,
+              PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 
         $this->db->exec($sql);
@@ -44,8 +44,8 @@ class CategoryMigration implements MigrationInterface
 
     public function down()
     {
-        $sql = 'DROP TABLE IF EXISTS `category`';
+        $sql = 'DROP TABLE IF EXISTS `classifier`';
         $this->db->exec($sql);
-        $this->microDb->getCollection('category')->drop();
+        $this->microDb->getCollection('classifier')->drop();
     }
 }

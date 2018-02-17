@@ -1,27 +1,25 @@
 <?php
 
-namespace cubes\content\menu;
+namespace cubes\ecommerce\classifier;
 
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\cache\Cache;
 use WebComplete\core\utils\tree\Tree;
 
-class MenuService extends AbstractEntityService implements MenuItemRepositoryInterface
+class ClassifierService extends AbstractEntityService implements ClassifierItemRepositoryInterface
 {
-    const CACHE_KEY = 'menu_tree';
-    const TYPE_URL = 1;
-    const TYPE_PAGE = 2;
+    const CACHE_KEY = 'classifier_tree';
 
     /**
-     * @var MenuItemRepositoryInterface
+     * @var ClassifierItemRepositoryInterface
      */
     protected $repository;
 
     /**
-     * @param MenuItemRepositoryInterface $repository
+     * @param ClassifierItemRepositoryInterface $repository
      */
-    public function __construct(MenuItemRepositoryInterface $repository)
+    public function __construct(ClassifierItemRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }
@@ -54,7 +52,7 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
     {
         $tree = $this->getTree();
         foreach ($childrenIds as $sort => $itemId) {
-            /** @var MenuItem $item */
+            /** @var ClassifierItem $item */
             if ($item = $tree->getItem($itemId)) {
                 $item->parent_id = $parentId;
                 $item->sort = $sort;
@@ -65,7 +63,7 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
     }
 
     /**
-     * @param MenuItem|AbstractEntity $item
+     * @param ClassifierItem|AbstractEntity $item
      * @param array $oldData
      *
      * @throws \InvalidArgumentException
@@ -78,7 +76,7 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
         if (!$item->getId()) {
             $tree = $this->getTree();
             foreach ($tree->getChildren($item->parent_id) as $sibling) {
-                /** @var MenuItem $sibling */
+                /** @var ClassifierItem $sibling */
                 $item->sort = ($sibling->sort >= $item->sort) ? $sibling->sort+1 : $item->sort;
             }
         }
@@ -88,7 +86,7 @@ class MenuService extends AbstractEntityService implements MenuItemRepositoryInt
 
     /**
      * @param $id
-     * @param MenuItem|AbstractEntity|null $item
+     * @param ClassifierItem|AbstractEntity|null $item
      *
      * @throws \InvalidArgumentException
      * @throws \Psr\Cache\InvalidArgumentException

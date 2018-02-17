@@ -1,25 +1,25 @@
 <?php
 
-namespace cubes\ecommerce\category;
+namespace cubes\ecommerce\classifier;
 
 use Doctrine\DBAL\Connection;
 use WebComplete\core\condition\ConditionDbParser;
 use WebComplete\core\entity\AbstractEntityRepositoryDb;
 
-class CategoryRepositoryDb extends AbstractEntityRepositoryDb implements CategoryRepositoryInterface
+class ClassifierItemRepositoryDb extends AbstractEntityRepositoryDb implements ClassifierItemRepositoryInterface
 {
 
-    protected $table = 'category';
+    protected $table = 'classifier';
 
-    protected $serializeFields = ['multilang', 'properties', 'properties_enabled'];
+    protected $serializeFields = ['multilang'];
 
     /**
-     * @param CategoryFactory $factory
+     * @param ClassifierItemFactory $factory
      * @param ConditionDbParser $conditionParser
      * @param Connection $db
      */
     public function __construct(
-        CategoryFactory $factory,
+        ClassifierItemFactory $factory,
         ConditionDbParser $conditionParser,
         Connection $db
     ) {

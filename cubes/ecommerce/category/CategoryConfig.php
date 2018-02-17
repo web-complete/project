@@ -68,7 +68,7 @@ class CategoryConfig extends EntityConfig
     {
         $fields = FieldFactory::build();
         return [
-            $fields->string('Название', 'name'),
+            $fields->string('Название', 'name')->multilang(),
         ];
     }
 

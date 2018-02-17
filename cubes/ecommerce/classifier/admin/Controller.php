@@ -1,16 +1,16 @@
 <?php
 
-namespace cubes\content\menu\admin;
+namespace cubes\ecommerce\classifier\admin;
 
-use cubes\content\menu\MenuItem;
-use cubes\content\menu\MenuItemConfig;
-use cubes\content\menu\MenuService;
+use cubes\ecommerce\classifier\ClassifierItem;
+use cubes\ecommerce\classifier\ClassifierItemConfig;
+use cubes\ecommerce\classifier\ClassifierService;
 use modules\admin\controllers\AbstractEntityController;
 use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends AbstractEntityController
 {
-    protected $entityConfigClass = MenuItemConfig::class;
+    protected $entityConfigClass = ClassifierItemConfig::class;
 
     /**
      * @return Response
@@ -19,11 +19,11 @@ class Controller extends AbstractEntityController
      */
     public function actionTree(): Response
     {
-        $menuService = $this->container->get(MenuService::class);
-        $menuTree = $menuService->getTree();
+        $classifierService = $this->container->get(ClassifierService::class);
+        $classifierTree = $classifierService->getTree();
         $dataTree = [];
-        foreach ($menuTree->getAllItems() as $item) {
-            /** @var MenuItem $item */
+        foreach ($classifierTree->getAllItems() as $item) {
+            /** @var ClassifierItem $item */
             $dataTree[] = ['id' => $item->getId(), 'parent' => (int)$item->parent_id, 'text' => $item->title];
         }
 
@@ -46,8 +46,8 @@ class Controller extends AbstractEntityController
         if ($parentId === null || !$childrenIds) {
             return $this->responseJsonFail('Ошибка параметров');
         }
-        $menuService = $this->container->get(MenuService::class);
-        $menuService->move((int)$parentId, $childrenIds);
+        $classifierService = $this->container->get(ClassifierService::class);
+        $classifierService->move((int)$parentId, $childrenIds);
         return $this->responseJsonSuccess();
     }
 }
