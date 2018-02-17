@@ -8,7 +8,10 @@ VuePageEcommerceProperty = {
         </div>
 
         <div v-if="isLoaded">
-            <vue-ecommerce-property-list v-model="properties" @valid="isValid = $event"></vue-ecommerce-property-list>
+            <vue-ecommerce-property-list v-model="properties"
+                                         :global="true"
+                                         @valid="isValid = $event"
+            ></vue-ecommerce-property-list>
             <div class="form-actions">
                 <vue-button @click="save" :disabled="!isValid">Сохранить</vue-button>
             </div>

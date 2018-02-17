@@ -8,6 +8,9 @@
 .properties-table ._wide {
     width: 100%;
 }
+.properties-table tbody tr._disabled {
+    background: #eee;
+}
 .properties-table tbody tr._error {
     background: rgba(226, 21, 61, 0.07);
 }

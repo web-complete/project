@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\category;
 
+use cubes\ecommerce\property\PropertyBag;
 use cubes\ecommerce\property\PropertyService;
 use WebComplete\core\entity\AbstractEntity;
 
@@ -34,12 +35,22 @@ class Category extends AbstractEntity
     }
 
     /**
-     * @return array
+     * @param bool $onlyEnabled
+     *
+     * @return PropertyBag
      */
-    public function getProperties(): array
+    public function getProperties(bool $onlyEnabled = false): PropertyBag
     {
-        // TODO runtime cache
-        $globalProperties = $this->propertyService->getGlobalProperties();
-        return \array_merge($globalProperties, $this->get('properties') ?: []);
+        $propertiesEnabled = (array)$this->get('properties_enabled');
+        $categoryProperties = $this->propertyService->createBag($this->get('properties') ?? []);
+        $properties = $this->propertyService->getGlobalProperties(true);
+        $properties->merge($categoryProperties);
+        foreach ($properties->all() as $property) {
+            $property->enabled = !$this->getId() || \in_array($property->code, $propertiesEnabled, true);
+            if ($onlyEnabled && !$property->enabled) {
+                $properties->remove($property->code);
+            }
+        }
+        return $properties;
     }
 }

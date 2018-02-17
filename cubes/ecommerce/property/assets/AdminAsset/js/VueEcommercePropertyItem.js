@@ -1,22 +1,22 @@
 Vue.component('VueEcommercePropertyItem', {
     template: `
-        <tr class="_item">
+        <tr class="_item" :class="{_disabled: isDisabled}">
             <td>
                 <div class="_sort"><i class="fa fa-reorder"></i></div>
             </td>
             <td>
-                <masked-input class="_code" v-model="property.code" :mask="/^[a-z0-9-_]+$/"></masked-input>
+                <masked-input class="_code" v-model="property.code" :mask="/^[a-z0-9-_]+$/" :disabled="isDisabled"></masked-input>
             </td>
             <td>
-                <input class="_name" type="text" v-model="property.name" />
+                <input class="_name" type="text" v-model="property.name" :disabled="isDisabled" />
             </td>
             <td>
-                <select class="_type" v-model="property.type">
+                <select class="_type" v-model="property.type" :disabled="isDisabled">
                     <option v-for="type in types" :value="type.value" :selected="type.value === property.type">{{type.name}}</option>
                 </select>
             </td>
             <td>
-                <a v-if="hasSettings" @click="openSettings" class="_cog" href="javascript://"><i class="fa fa-cog"></i></a>
+                <a v-if="hasSettings && !isDisabled" @click="openSettings" class="_cog" href="javascript://"><i class="fa fa-cog"></i></a>
             </td>
             <td>
                 <div class="checkbox-nice">
@@ -25,13 +25,14 @@ Vue.component('VueEcommercePropertyItem', {
                 </div>
             </td>
             <td>
-                <a @click="$emit('remove')" class="_remove" href="javascript://"><i class="fa fa-minus"></i></a>
+                <a v-if="!isDisabled" @click="$emit('remove')" class="_remove" href="javascript://"><i class="fa fa-minus"></i></a>
             </td>
         </tr>
     `,
     components: {'masked-input': VueIMask.IMaskComponent},
     props: {
-        property: {type: Object, required: true}
+        property: {type: Object, required: true},
+        global: {type: Boolean, required: true}
     },
     data(){
         return {
@@ -47,6 +48,9 @@ Vue.component('VueEcommercePropertyItem', {
     computed: {
         hasSettings: function(){
             return this.property.type === 'enum';
+        },
+        isDisabled: function(){
+            return !this.global && this.property.global !== 0;
         }
     },
     mounted: function(){

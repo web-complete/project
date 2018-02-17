@@ -27,9 +27,18 @@ class Controller extends AbstractController
      */
     public function actionSaveProperties(): Response
     {
-        $properties = (array)$this->request->get('properties', []);
-        $propertyBag = $this->container->get(PropertyBag::class);
-        $propertyBag->mapFromArray($properties);
+        $data = (array)$this->request->get('properties', []);
+        $propertyService = $this->container->get(PropertyService::class);
+        $propertyBag = $propertyService->createBag($data);
+
+        $sort = 1000;
+        foreach ($propertyBag->all() as $property) {
+            $property->global = true;
+            $property->sort = $sort;
+            $sort += 1000;
+        }
+        $propertyBag->sort();
+
         $propertyService = $this->container->get(PropertyService::class);
         $propertyService->setGlobalProperties($propertyBag);
         return $this->responseJsonSuccess();

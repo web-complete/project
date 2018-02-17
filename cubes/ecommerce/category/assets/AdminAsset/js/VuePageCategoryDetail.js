@@ -1,4 +1,5 @@
 VuePageCategoryDetail = extendVuePage(VuePageEntityDetail, {
+    // language=Vue
     template: `
 <div class="page block">
     <transition name="fade">
@@ -21,7 +22,10 @@ VuePageCategoryDetail = extendVuePage(VuePageEntityDetail, {
                         ></vue-field>
                     </vue-tab>
                     <vue-tab :name="'Товарные свойства'" :key="'tab2'">
-                        <vue-ecommerce-property-list v-model="properties" @valid="isValid = $event"></vue-ecommerce-property-list>
+                        <vue-ecommerce-property-list v-model="properties"
+                                                     :global="false"
+                                                     @valid="isValid = $event"
+                        ></vue-ecommerce-property-list>
                     </vue-tab>
                 </vue-tabs>
 
@@ -64,6 +68,11 @@ VuePageCategoryDetail = extendVuePage(VuePageEntityDetail, {
             if (this.isValid) {
                 VuePageEntityDetail.methods.saveItem.call(this, $e, toContinue);
             }
+        },
+        getEntityData(){
+            return VueMixinGetEntityData.methods.getEntityData.call(this, {
+                properties: this.properties
+            });
         }
     }
 });

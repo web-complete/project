@@ -20,6 +20,7 @@ Vue.component('VueEcommercePropertyList', {
                             @enumPopup="enumPopup(property)"
                             :class="{'_error': (errors[property.uid])}"
                             :property="property"
+                            :global="global"
                             :key="property.uid"
                         ></tr>
                     </template>
@@ -39,6 +40,7 @@ Vue.component('VueEcommercePropertyList', {
     `,
     props: {
         value: {type: Array, required: true},
+        global: {type: Boolean, required: true}
     },
     data(){
         return {
@@ -91,7 +93,7 @@ Vue.component('VueEcommercePropertyList', {
                 uid: uniqueId(12),
                 name: '',
                 type: 'string',
-                enabled: true,
+                enabled: 1,
                 data: {}
             });
         },

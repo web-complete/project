@@ -1,7 +1,7 @@
 VuePageCategoryList = extendVuePage(VuePageEntityList, {
     computed: {
         entityName(){
-            return 'category';
+            return 'ecommerce-category';
         }
     }
 });

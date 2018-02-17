@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\property;
 
+use cubes\ecommerce\property\property\PropertyFactory;
 use cubes\system\storage\Storage;
 
 class PropertyService
@@ -12,22 +13,49 @@ class PropertyService
      * @var Storage
      */
     protected $storage;
+    /**
+     * @var PropertyFactory
+     */
+    protected $propertyFactory;
 
     /**
      * @param Storage $storage
      */
-    public function __construct(Storage $storage)
+    public function __construct(Storage $storage, PropertyFactory $propertyFactory)
     {
         $this->storage = $storage;
+        $this->propertyFactory = $propertyFactory;
     }
 
     /**
+     * @param array $data
+     *
      * @return PropertyBag
      */
-    public function getGlobalProperties(): PropertyBag
+    public function createBag(array $data = []): PropertyBag
+    {
+        $properties = new PropertyBag($this->propertyFactory);
+        $properties->mapFromArray($data);
+        return $properties;
+    }
+
+    /**
+     * @param bool $onlyEnabled
+     *
+     * @return PropertyBag
+     */
+    public function getGlobalProperties(bool $onlyEnabled = false): PropertyBag
     {
         $data = (array)$this->storage->get(self::STORAGE_GLOBAL_PROPERTIES, []);
-        return new PropertyBag($data);
+        $properties = $this->createBag($data);
+        if ($onlyEnabled) {
+            foreach ($properties->all() as $property) {
+                if (!$property->enabled) {
+                    $properties->remove($property->code);
+                }
+            }
+        }
+        return $properties;
     }
 
     /**
