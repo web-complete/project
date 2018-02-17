@@ -11,6 +11,8 @@ class ProductRepositoryDb extends AbstractEntityRepositoryDb implements ProductR
 
     protected $table = 'product';
 
+    protected $serializeFields = ['multilang'];
+
     /**
      * @param ProductFactory $factory
      * @param ConditionDbParser $conditionParser

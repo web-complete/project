@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\product;
 
+use cubes\ecommerce\category\CategoryService;
 use cubes\ecommerce\product\admin\Controller;
 use modules\admin\classes\cells\CellAbstract;
 use modules\admin\classes\cells\CellFactory;
@@ -32,6 +33,7 @@ class ProductConfig extends EntityConfig
     {
         return [
             'name' => Cast::STRING,
+            'category_id' => Cast::INT,
             'price' => Cast::FLOAT,
         ];
     }
@@ -62,12 +64,17 @@ class ProductConfig extends EntityConfig
 
     /**
      * @return FieldAbstract[]
+     * @throws \TypeError
      */
     public function getDetailFields(): array
     {
+        $categoryService = $this->container->get(CategoryService::class);
+        $categoryMap = $categoryService->getMap('name');
+
         $fields = FieldFactory::build();
         return [
             $fields->string('Название', 'name')->multilang(),
+            $fields->select('Категория', 'category_id')->options($categoryMap),
             $fields->number('Цена', 'price'),
         ];
     }
@@ -78,7 +85,7 @@ class ProductConfig extends EntityConfig
     public function getForm(): AdminForm
     {
         return new AdminForm([
-            [['name', 'price'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['name', 'category_id', 'price'], 'required', [], AdminForm::MESSAGE_REQUIRED],
         ]);
     }
 }

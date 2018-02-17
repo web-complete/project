@@ -8,6 +8,7 @@ use WebComplete\core\entity\AbstractEntity;
 /**
 *
 * @property string $name
+* @property string $category_id
 * @property float $price
 */
 class Product extends AbstractEntity implements ProductOfferInterface

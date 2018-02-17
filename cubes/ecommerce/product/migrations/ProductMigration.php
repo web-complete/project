@@ -33,7 +33,9 @@ class ProductMigration implements MigrationInterface
         $sql = 'CREATE TABLE IF NOT EXISTS `product` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(500) DEFAULT NULL,
+        `category_id` INT(11),
         `price` DECIMAL(10,2),
+        `multilang` text,
         PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 
