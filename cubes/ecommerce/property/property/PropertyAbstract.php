@@ -20,6 +20,8 @@ abstract class PropertyAbstract
 {
     use TraitData;
 
+    protected $value;
+
     /**
      * @return array
      */
@@ -43,5 +45,21 @@ abstract class PropertyAbstract
     public function __construct(array $data)
     {
         $this->mapFromArray($data);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
     }
 }

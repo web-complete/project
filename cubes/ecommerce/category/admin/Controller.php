@@ -38,7 +38,7 @@ class Controller extends AbstractEntityController
             'detailFields' => $detailFields,
             'isMultilang' => $item instanceof AbstractMultilangEntity,
             'permissions' => $this->getPermissions(),
-            'properties' => $item->getProperties()->mapToArray(),
+            'properties' => $item->getPropertyBag()->mapToArray(),
         ]);
     }
 

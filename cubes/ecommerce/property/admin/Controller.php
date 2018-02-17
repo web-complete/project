@@ -17,7 +17,7 @@ class Controller extends AbstractController
     {
         $propertyService = $this->container->get(PropertyService::class);
         return $this->responseJsonSuccess([
-            'properties' => $propertyService->getGlobalProperties()->mapToArray()
+            'properties' => $propertyService->getGlobalPropertyBag()->mapToArray()
         ]);
     }
 

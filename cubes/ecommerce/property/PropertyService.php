@@ -44,7 +44,7 @@ class PropertyService
      *
      * @return PropertyBag
      */
-    public function getGlobalProperties(bool $onlyEnabled = false): PropertyBag
+    public function getGlobalPropertyBag(bool $onlyEnabled = false): PropertyBag
     {
         $data = (array)$this->storage->get(self::STORAGE_GLOBAL_PROPERTIES, []);
         $properties = $this->createBag($data);

@@ -35,6 +35,7 @@ class ProductConfig extends EntityConfig
             'name' => Cast::STRING,
             'category_id' => Cast::INT,
             'price' => Cast::FLOAT,
+            'properties' => Cast::ARRAY,
         ];
     }
 

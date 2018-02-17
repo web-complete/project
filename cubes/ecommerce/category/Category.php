@@ -39,11 +39,11 @@ class Category extends AbstractEntity
      *
      * @return PropertyBag
      */
-    public function getProperties(bool $onlyEnabled = false): PropertyBag
+    public function getPropertyBag(bool $onlyEnabled = false): PropertyBag
     {
         $propertiesEnabled = (array)$this->get('properties_enabled');
         $categoryProperties = $this->propertyService->createBag($this->get('properties') ?? []);
-        $properties = $this->propertyService->getGlobalProperties(true);
+        $properties = $this->propertyService->getGlobalPropertyBag(true);
         $properties->merge($categoryProperties);
         foreach ($properties->all() as $property) {
             $property->enabled = !$this->getId() || \in_array($property->code, $propertiesEnabled, true);
