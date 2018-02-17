@@ -35,6 +35,7 @@ class ClassifierMigration implements MigrationInterface
               `parent_id` INT(11),
               `sort` INT,
               `title` varchar(100) DEFAULT NULL,
+              `category_id` INT(11),
               `multilang` text,
               PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';

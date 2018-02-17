@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\classifier;
 
+use cubes\ecommerce\category\CategoryService;
 use cubes\ecommerce\classifier\admin\Controller;
 use modules\admin\classes\cells\CellFactory;
 use modules\admin\classes\cells\CellAbstract;
@@ -35,6 +36,7 @@ class ClassifierItemConfig extends EntityConfig
             'parent_id' => Cast::INT,
             'sort' => Cast::INT,
             'title' => Cast::STRING,
+            'category_id' => Cast::INT,
         ];
     }
 
@@ -64,12 +66,14 @@ class ClassifierItemConfig extends EntityConfig
 
     /**
      * @return FieldAbstract[]
+     * @throws \TypeError
      */
     public function getDetailFields(): array
     {
         $fields = FieldFactory::build();
         return [
             $fields->string('Название', 'title')->multilang(),
+            $fields->select('Категория', 'category_id')->options($this->getCategoryMap()),
         ];
     }
 
@@ -80,6 +84,17 @@ class ClassifierItemConfig extends EntityConfig
     {
         return new AdminForm([
             [['parent_id', 'title'], 'required', [], AdminForm::MESSAGE_REQUIRED],
+            [['category_id']],
         ]);
+    }
+
+    /**
+     * @return array
+     * @throws \TypeError
+     */
+    protected function getCategoryMap(): array
+    {
+        $categoryService = $this->container->get(CategoryService::class);
+        return $categoryService->getMap('name');
     }
 }
