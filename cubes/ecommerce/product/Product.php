@@ -4,7 +4,6 @@ namespace cubes\ecommerce\product;
 
 use cubes\ecommerce\interfaces\ProductOfferInterface;
 use WebComplete\core\entity\AbstractEntity;
-use WebComplete\core\utils\typecast\Cast;
 
 /**
 *
@@ -19,10 +18,7 @@ class Product extends AbstractEntity implements ProductOfferInterface
      */
     public static function fields(): array
     {
-        return [
-            'name' => Cast::STRING,
-            'price' => Cast::FLOAT,
-        ];
+        return ProductConfig::getFieldTypes();
     }
 
     /**

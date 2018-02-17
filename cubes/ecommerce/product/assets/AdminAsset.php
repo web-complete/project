@@ -1,6 +1,6 @@
 <?php
 
-namespace cubes\ecommerce\category\assets;
+namespace cubes\ecommerce\product\assets;
 
 use WebComplete\mvc\assets\AbstractAsset;
 
@@ -29,7 +29,7 @@ class AdminAsset extends AbstractAsset
     public function js(): array
     {
         return [
-            'js/VuePageCategoryDetail.js',
+            'js/VuePageProductDetail.js',
         ];
     }
 }

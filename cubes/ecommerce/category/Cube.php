@@ -24,7 +24,6 @@ class Cube extends AbstractCube
 
         $sysName = $entityConfig->getSystemName();
         $cubeHelper->appendAsset($container->get(AdminAsset::class));
-        $cubeHelper->addVueRoute(['path' => '/list/' . $sysName, 'component' => 'VuePageCategoryList']);
         $cubeHelper->addVueRoute(['path' => '/detail/' . $sysName . '/:id', 'component' => 'VuePageCategoryDetail']);
     }
 
