@@ -33,7 +33,7 @@ class CategoryConfig extends EntityConfig
         return [
             'name' => Cast::STRING,
             'properties' => Cast::ARRAY,
-            'properties_enabled' => Cast::ARRAY,
+            'properties_settings' => Cast::ARRAY,
         ];
     }
 

@@ -14,6 +14,9 @@ use WebComplete\core\utils\typecast\Cast;
  * @property $sort
  * @property $global
  * @property $enabled
+ * @property $for_main
+ * @property $for_list
+ * @property $for_filter
  * @property array $data
  * @property array $multilang
  */
@@ -36,6 +39,9 @@ abstract class PropertyAbstract
             'sort' => Cast::INT,
             'global' => Cast::INT,
             'enabled' => Cast::INT,
+            'for_main' => Cast::INT,
+            'for_list' => Cast::INT,
+            'for_filter' => Cast::INT,
             'data' => Cast::ARRAY,
             'multilang' => Cast::ARRAY,
         ];

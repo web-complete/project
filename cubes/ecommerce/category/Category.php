@@ -41,7 +41,12 @@ class Category extends AbstractMultilangEntity
      */
     public function getPropertyBag(bool $onlyEnabled = false): PropertyBag
     {
-        $propertiesEnabled = (array)$this->get('properties_enabled');
+        $propertiesSettings = (array)$this->get('properties_settings', []);
+        $propertiesEnabled = (array)($propertiesSettings['enabled'] ?? []);
+        $propertiesForMain = (array)($propertiesSettings['for_main'] ?? []);
+        $propertiesForList = (array)($propertiesSettings['for_list'] ?? []);
+        $propertiesForFilter = (array)($propertiesSettings['for_filter'] ?? []);
+
         $categoryProperties = $this->propertyService->createBag($this->get('properties') ?? []);
         $properties = $this->propertyService->getGlobalPropertyBag(true);
         $properties->merge($categoryProperties);
@@ -49,6 +54,12 @@ class Category extends AbstractMultilangEntity
             $property->enabled = !$this->getId() || \in_array($property->code, $propertiesEnabled, true);
             if ($onlyEnabled && !$property->enabled) {
                 $properties->remove($property->code);
+                continue;
+            }
+            if ($this->getId()) {
+                $property->for_main = \in_array($property->code, $propertiesForMain, true);
+                $property->for_list = \in_array($property->code, $propertiesForList, true);
+                $property->for_filter = \in_array($property->code, $propertiesForFilter, true);
             }
         }
         return $properties;

@@ -102,6 +102,7 @@ Vue.component('VueEcommercePropertyList', {
                 uid: uniqueId(12),
                 name: '',
                 type: 'string',
+                global: this.global ? 1 : 0,
                 enabled: 1,
                 for_main: 0,
                 for_list: 0,

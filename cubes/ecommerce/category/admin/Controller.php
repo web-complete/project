@@ -43,7 +43,7 @@ class Controller extends AbstractEntityController
     }
 
     /**
-     * @param AbstractEntity $item
+     * @param AbstractEntity|Category $item
      * @param AbstractForm $form
      *
      * @return bool
@@ -57,19 +57,32 @@ class Controller extends AbstractEntityController
     }
 
     /**
-     * @param AbstractEntity $item
+     * @param Category $category
      * @param array $data
      */
-    protected function saveProperties(AbstractEntity $item, array $data)
+    protected function saveProperties(Category $category, array $data)
     {
         $propertyService = $this->container->get(PropertyService::class);
         $propertyBag = $propertyService->createBag($data);
 
         $sort = 1;
         $enabled = [];
+        $forMain = [];
+        $forList = [];
+        $forFilter = [];
+
         foreach ($propertyBag->all() as $property) {
             if ($property->enabled) {
                 $enabled[] = $property->code;
+            }
+            if ($property->for_main) {
+                $forMain[] = $property->code;
+            }
+            if ($property->for_list) {
+                $forList[] = $property->code;
+            }
+            if ($property->for_filter) {
+                $forFilter[] = $property->code;
             }
             if ($property->global) {
                 $sort = $property->sort + 1;
@@ -80,7 +93,12 @@ class Controller extends AbstractEntityController
             }
         }
         $propertyBag->sort();
-        $item->set('properties', $propertyBag->mapToArray());
-        $item->set('properties_enabled', $enabled);
+        $category->set('properties', $propertyBag->mapToArray());
+        $category->set('properties_settings', [
+            'enabled' => $enabled,
+            'for_main' => $forMain,
+            'for_list' => $forList,
+            'for_filter' => $forFilter,
+        ]);
     }
 }

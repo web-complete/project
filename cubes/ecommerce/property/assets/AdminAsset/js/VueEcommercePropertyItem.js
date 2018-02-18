@@ -26,19 +26,19 @@ Vue.component('VueEcommercePropertyItem', {
                 </div>
             </td>
             <td v-if="extended" class="center">
-                <div class="checkbox-nice">
+                <div v-if="property.enabled" class="checkbox-nice">
                     <input :id="'id2-'+property.uid" type="checkbox" v-model="property.for_main" :true-value="1" :false-value="0">
                     <label :for="'id2-'+property.uid"></label>
                 </div>
             </td>
             <td v-if="extended" class="center">
-                <div class="checkbox-nice">
+                <div v-if="property.enabled" class="checkbox-nice">
                     <input :id="'id3-'+property.uid" type="checkbox" v-model="property.for_list" :true-value="1" :false-value="0">
                     <label :for="'id3-'+property.uid"></label>
                 </div>
             </td>
             <td v-if="extended" class="center">
-                <div class="checkbox-nice">
+                <div v-if="property.enabled" class="checkbox-nice">
                     <input :id="'id4-'+property.uid" type="checkbox" v-model="property.for_filter" :true-value="1" :false-value="0">
                     <label :for="'id4-'+property.uid"></label>
                 </div>
