@@ -84,9 +84,12 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
             $this->runtimeProperties = [];
             if ($category = $this->getCategory()) {
                 $propertiesValues = (array)($this->get('properties') ?? []);
+                $propertiesMultilangData = (array)($this->get('properties_multilang') ?? []);
+
                 $propertyBag = $category->getPropertyBag(true);
                 foreach ($propertyBag->all() as $property) {
                     $property->setValue($propertiesValues[$property->code] ?? null);
+                    $property->multilang = (array)($propertiesMultilangData[$property->code] ?? []);
                     $this->runtimeProperties[] = $property;
                 }
             }
@@ -101,6 +104,9 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
     public function setPropertiesValues(array $propertiesValues)
     {
         if ($category = $this->getCategory()) {
+            $propertiesMultilangData = (array)($propertiesValues['multilang'] ?? []);
+            unset($propertiesValues['multilang']);
+
             $propertyBag = $category->getPropertyBag(true);
             $values = [];
             foreach ($propertiesValues as $code => $value) {
@@ -109,6 +115,7 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
                 }
             }
             $this->set('properties', $values);
+            $this->set('properties_multilang', $propertiesMultilangData);
         }
     }
 }

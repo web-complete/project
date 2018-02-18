@@ -74,12 +74,12 @@ VuePageProductDetail = extendVuePage(VuePageEntityDetail, {
 
             if (this.isMultilang) {
                 propertiesData.multilang = {};
-                _.each(this.detailFields, function(field){
+                _.each(this.propertyFields, function(field){
                     if (field.isMultilang) {
                         _.each(this.$store.state.lang.langs, function(lang){
                             if (!lang.is_main) {
-                                propertiesData.multilang[lang.code] = propertiesData.multilang[lang.code] || {};
-                                propertiesData.multilang[lang.code][field.name] = field.multilangData[lang.code] || '';
+                                propertiesData.multilang[field.name] = propertiesData.multilang[field.name] || {};
+                                propertiesData.multilang[field.name][lang.code] = field.multilangData[lang.code] || '';
                             }
                         }.bind(this));
                     }

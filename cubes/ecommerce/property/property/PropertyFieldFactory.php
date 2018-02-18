@@ -32,6 +32,7 @@ class PropertyFieldFactory
         switch ($property->type) {
             case 'string':
                 $field = $this->fieldFactory->string($property->name, $property->code)->multilang();
+                $field->multilangData($property->multilang ?? []);
                 break;
             case 'enum':
                 /** @var PropertyEnum $property */

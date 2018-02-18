@@ -1,7 +1,7 @@
 VuePageLangDetail = extendVuePage(VuePageEntityDetail, {
     computed: {
         entityName(){
-            return 'lang';
+            return 'system-lang';
         }
     },
     methods: {

@@ -15,6 +15,7 @@ use WebComplete\core\utils\typecast\Cast;
  * @property $global
  * @property $enabled
  * @property array $data
+ * @property array $multilang
  */
 abstract class PropertyAbstract
 {
@@ -36,6 +37,7 @@ abstract class PropertyAbstract
             'global' => Cast::INT,
             'enabled' => Cast::INT,
             'data' => Cast::ARRAY,
+            'multilang' => Cast::ARRAY,
         ];
     }
 

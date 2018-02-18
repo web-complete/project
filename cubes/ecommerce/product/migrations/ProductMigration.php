@@ -36,6 +36,7 @@ class ProductMigration implements MigrationInterface
         `category_id` INT(11),
         `price` DECIMAL(10,2),
         `properties` text,
+        `properties_multilang` text,
         `multilang` text,
         PRIMARY KEY(`id`)
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
