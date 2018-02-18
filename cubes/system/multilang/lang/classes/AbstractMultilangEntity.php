@@ -10,12 +10,12 @@ abstract class AbstractMultilangEntity extends AbstractEntity
      * @var array
      */
     private $multilang = [];
-    private $currentLangCode = null;
+    private $currentLangCode;
 
     /**
      * @param string $code
      *
-     * @return $this
+     * @return $this|AbstractMultilangEntity
      */
     public function setLang(string $code = null)
     {

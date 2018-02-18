@@ -25,6 +25,7 @@ abstract class PropertyAbstract
     use TraitData;
 
     protected $value;
+    protected $currentLangCode;
 
     /**
      * @return array
@@ -56,10 +57,24 @@ abstract class PropertyAbstract
     }
 
     /**
+     * @param string|null $code
+     *
+     * @return $this
+     */
+    public function setLang(string $code = null): self
+    {
+        $this->currentLangCode = $code;
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getValue()
     {
+        if ($this->currentLangCode) {
+            return $this->multilang[$this->currentLangCode] ?? $this->value;
+        }
         return $this->value;
     }
 

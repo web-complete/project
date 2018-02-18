@@ -29,6 +29,14 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
     private $runtimePropertyBag;
 
     /**
+     * @return array
+     */
+    public static function fields(): array
+    {
+        return ProductConfig::getFieldTypes();
+    }
+
+    /**
      * @param CategoryService $categoryService
      * @param PropertyService $propertyService
      */
@@ -39,11 +47,14 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
     }
 
     /**
-     * @return array
+     * @param string|null $code
+     *
+     * @return $this|AbstractMultilangEntity
      */
-    public static function fields(): array
+    public function setLang(string $code = null)
     {
-        return ProductConfig::getFieldTypes();
+        $this->getPropertyBag()->setLang($code);
+        return parent::setLang($code);
     }
 
     /**
