@@ -36,9 +36,29 @@ class Controller extends AbstractEntityController
         return $this->responseJsonSuccess([
             'title' => $entityConfig->titleDetail,
             'detailFields' => $detailFields,
-            'propertyFields' => $this->getPropertyFieldsData($item),
+            'propertyFields' => $this->getPropertyFieldsData($item, $item->category_id),
             'isMultilang' => $item instanceof AbstractMultilangEntity,
             'permissions' => $this->getPermissions(),
+        ]);
+    }
+
+    /**
+     * @param $productId
+     * @param $categoryId
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function actionProperties($productId, $categoryId): Response
+    {
+        $entityService = $this->getEntityService();
+        /** @var Product $item */
+        if (!$productId || !($item = $entityService->findById($productId))) {
+            $item = $entityService->create();
+        }
+
+        return $this->responseJsonSuccess([
+            'propertyFields' => $this->getPropertyFieldsData($item, $categoryId),
         ]);
     }
 
@@ -52,6 +72,7 @@ class Controller extends AbstractEntityController
     {
         $data = (array)($this->request->get('data') ?? []);
         $propertiesData = (array)($data['propertiesData'] ?? []);
+        $item->category_id = $form->getValue('category_id');
         $item->setPropertiesValues($propertiesData);
         return parent::beforeSave($item, $form);
     }
@@ -59,13 +80,15 @@ class Controller extends AbstractEntityController
     /**
      * @param Product $product
      *
+     * @param $categoryId
+     *
      * @return array
-     * @throws \RuntimeException
      */
-    protected function getPropertyFieldsData(Product $product): array
+    protected function getPropertyFieldsData(Product $product, $categoryId): array
     {
         $result = [];
         $propertyFieldFactory = $this->container->get(PropertyFieldFactory::class);
+        $product->category_id = $categoryId;
         foreach ($product->getProperties() as $property) {
             $field = $propertyFieldFactory->createField($property);
             $field->processField();

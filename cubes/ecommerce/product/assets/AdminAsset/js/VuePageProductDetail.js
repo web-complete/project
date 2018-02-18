@@ -50,6 +50,18 @@ VuePageProductDetail = extendVuePage(VuePageEntityDetail, {
     computed: {
         entityName(){
             return 'ecommerce-product';
+        },
+        categoryValue(){
+            let categoryField = _.find(this.detailFields, function(o){ return o.name === 'category_id'; });
+            return categoryField ? categoryField.value : null;
+        }
+    },
+    watch: {
+        '$route': 'fetchData',
+        'categoryValue': function (newValue, oldValue){
+            if (newValue !== oldValue) {
+                this.fetchProperties(newValue || 0);
+            }
         }
     },
     methods: {
@@ -64,6 +76,11 @@ VuePageProductDetail = extendVuePage(VuePageEntityDetail, {
                 } else {
                     Notify.errorDefault();
                 }
+            }.bind(this));
+        },
+        fetchProperties(categoryId){
+            Request.get(this.apiUrl + '/properties/' + categoryId, {}, function(response){
+                this.propertyFields = response.propertyFields;
             }.bind(this));
         },
         getEntityData(){

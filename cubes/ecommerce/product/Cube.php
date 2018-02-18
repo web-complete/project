@@ -3,6 +3,7 @@
 namespace cubes\ecommerce\product;
 
 use cubes\ecommerce\interfaces\ProductOfferServiceInterface;
+use cubes\ecommerce\product\admin\Controller;
 use cubes\ecommerce\product\assets\AdminAsset;
 use modules\admin\classes\cube\CubeHelper;
 use WebComplete\core\cube\AbstractCube;
@@ -20,12 +21,15 @@ class Cube extends AbstractCube
     public function bootstrap(ContainerInterface $container)
     {
         $entityConfig = $container->get(ProductConfig::class);
-        $cubeHelper = $container->get(CubeHelper::class);
-        $cubeHelper->defaultCrud($entityConfig);
-
         $sysName = $entityConfig->getSystemName();
-        $cubeHelper->appendAsset($container->get(AdminAsset::class));
-        $cubeHelper->addVueRoute(['path' => '/detail/' . $sysName . '/:id', 'component' => 'VuePageProductDetail']);
+        $cubeHelper = $container->get(CubeHelper::class);
+        $cubeHelper
+            ->defaultCrud($entityConfig)
+            ->addBackendRoute(['GET', "/admin/api/entity/$sysName/{productId}/properties/{categoryId}", [
+                Controller::class, 'actionProperties'
+            ]])
+            ->appendAsset($container->get(AdminAsset::class))
+            ->addVueRoute(['path' => '/detail/' . $sysName . '/:id', 'component' => 'VuePageProductDetail']);
     }
 
     /**
