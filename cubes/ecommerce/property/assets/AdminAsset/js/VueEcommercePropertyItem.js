@@ -1,4 +1,5 @@
 Vue.component('VueEcommercePropertyItem', {
+    // language=Vue
     template: `
         <tr class="_item" :class="{_disabled: isDisabled}">
             <td>
@@ -18,10 +19,28 @@ Vue.component('VueEcommercePropertyItem', {
             <td>
                 <a v-if="hasSettings && !isDisabled" @click="openSettings" class="_cog" href="javascript://"><i class="fa fa-cog"></i></a>
             </td>
-            <td>
+            <td class="center">
                 <div class="checkbox-nice">
-                    <input :id="'prop'+property.uid" type="checkbox" v-model="property.enabled" :true-value="1" :false-value="0">
-                    <label :for="'prop'+property.uid"></label>
+                    <input :id="'id1-'+property.uid" type="checkbox" v-model="property.enabled" :true-value="1" :false-value="0">
+                    <label :for="'id1-'+property.uid"></label>
+                </div>
+            </td>
+            <td v-if="extended" class="center">
+                <div class="checkbox-nice">
+                    <input :id="'id2-'+property.uid" type="checkbox" v-model="property.for_main" :true-value="1" :false-value="0">
+                    <label :for="'id2-'+property.uid"></label>
+                </div>
+            </td>
+            <td v-if="extended" class="center">
+                <div class="checkbox-nice">
+                    <input :id="'id3-'+property.uid" type="checkbox" v-model="property.for_list" :true-value="1" :false-value="0">
+                    <label :for="'id3-'+property.uid"></label>
+                </div>
+            </td>
+            <td v-if="extended" class="center">
+                <div class="checkbox-nice">
+                    <input :id="'id4-'+property.uid" type="checkbox" v-model="property.for_filter" :true-value="1" :false-value="0">
+                    <label :for="'id4-'+property.uid"></label>
                 </div>
             </td>
             <td>
@@ -32,7 +51,8 @@ Vue.component('VueEcommercePropertyItem', {
     components: {'masked-input': VueIMask.IMaskComponent},
     props: {
         property: {type: Object, required: true},
-        global: {type: Boolean, required: true}
+        global: {type: Boolean, required: true},
+        extended: {type: Boolean}
     },
     data(){
         return {

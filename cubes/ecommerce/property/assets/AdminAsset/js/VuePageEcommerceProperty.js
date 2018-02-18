@@ -10,6 +10,7 @@ VuePageEcommerceProperty = {
         <div v-if="isLoaded">
             <vue-ecommerce-property-list v-model="properties"
                                          :global="true"
+                                         :extended="false"
                                          @valid="isValid = $event"
             ></vue-ecommerce-property-list>
             <div class="form-actions">

@@ -24,6 +24,7 @@ VuePageCategoryDetail = extendVuePage(VuePageEntityDetail, {
                     <vue-tab :name="'Товарные свойства'" :key="'tab2'">
                         <vue-ecommerce-property-list v-model="properties"
                                                      :global="false"
+                                                     :extended="true"
                                                      @valid="isValid = $event"
                         ></vue-ecommerce-property-list>
                     </vue-tab>

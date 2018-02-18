@@ -1,4 +1,5 @@
 Vue.component('VueEcommercePropertyList', {
+    // language=Vue
     template: `
         <div>
             <table class="table properties-table">
@@ -10,6 +11,9 @@ Vue.component('VueEcommercePropertyList', {
                     <th>Тип</th>
                     <th width="30"></th>
                     <th>Вкл.</th>
+                    <th v-if="extended">Главное</th>
+                    <th v-if="extended">Список</th>
+                    <th v-if="extended">Фильтр</th>
                     <th width="30"></th>
                 </tr>
                 </thead>
@@ -21,6 +25,7 @@ Vue.component('VueEcommercePropertyList', {
                             :class="{'_error': (errors[property.uid])}"
                             :property="property"
                             :global="global"
+                            :extended="extended"
                             :key="property.uid"
                         ></tr>
                     </template>
@@ -31,6 +36,9 @@ Vue.component('VueEcommercePropertyList', {
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td v-if="extended"></td>
+                        <td v-if="extended"></td>
+                        <td v-if="extended"></td>
                         <td><a @click="addProperty" class="_add" href="javascript://"><i class="fa fa-plus"></i></a></td>
                     </tr>
                 </draggable>
@@ -40,7 +48,8 @@ Vue.component('VueEcommercePropertyList', {
     `,
     props: {
         value: {type: Array, required: true},
-        global: {type: Boolean, required: true}
+        global: {type: Boolean, required: true},
+        extended: {type: Boolean}
     },
     data(){
         return {
@@ -94,6 +103,9 @@ Vue.component('VueEcommercePropertyList', {
                 name: '',
                 type: 'string',
                 enabled: 1,
+                for_main: 0,
+                for_list: 0,
+                for_filter: 0,
                 data: {}
             });
         },
