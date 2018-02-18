@@ -81,6 +81,48 @@ class PropertyBag
     }
 
     /**
+     * @return PropertyAbstract[]
+     */
+    public function allForMain(): array
+    {
+        $result = [];
+        foreach ($this->all() as $property) {
+            if ($property->for_main) {
+                $result[] = $property;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return PropertyAbstract[]
+     */
+    public function allForList(): array
+    {
+        $result = [];
+        foreach ($this->all() as $property) {
+            if ($property->for_list) {
+                $result[] = $property;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return PropertyAbstract[]
+     */
+    public function allForFilter(): array
+    {
+        $result = [];
+        foreach ($this->all() as $property) {
+            if ($property->for_filter) {
+                $result[] = $property;
+            }
+        }
+        return $result;
+    }
+
+    /**
      * @param string $code
      *
      * @return PropertyAbstract|null

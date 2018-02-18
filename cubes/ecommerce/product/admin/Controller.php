@@ -79,17 +79,17 @@ class Controller extends AbstractEntityController
 
     /**
      * @param Product $product
-     *
      * @param $categoryId
      *
      * @return array
+     * @throws \RuntimeException
      */
     protected function getPropertyFieldsData(Product $product, $categoryId): array
     {
         $result = [];
         $propertyFieldFactory = $this->container->get(PropertyFieldFactory::class);
         $product->category_id = $categoryId;
-        foreach ($product->getProperties() as $property) {
+        foreach ($product->getPropertyBag()->all() as $property) {
             $field = $propertyFieldFactory->createField($property);
             $field->processField();
             $result[] = $field->get();

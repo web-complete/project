@@ -5,7 +5,8 @@ namespace cubes\ecommerce\product;
 use cubes\ecommerce\category\Category;
 use cubes\ecommerce\category\CategoryService;
 use cubes\ecommerce\interfaces\ProductOfferInterface;
-use cubes\ecommerce\property\property\PropertyAbstract;
+use cubes\ecommerce\property\PropertyBag;
+use cubes\ecommerce\property\PropertyService;
 use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
 use WebComplete\core\utils\cache\CacheRuntime;
 
@@ -21,14 +22,20 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
      * @var CategoryService
      */
     protected $categoryService;
-    protected $runtimeProperties;
+    /**
+     * @var PropertyService
+     */
+    protected $propertyService;
+    private $runtimePropertyBag;
 
     /**
      * @param CategoryService $categoryService
+     * @param PropertyService $propertyService
      */
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, PropertyService $propertyService)
     {
         $this->categoryService = $categoryService;
+        $this->propertyService = $propertyService;
     }
 
     /**
@@ -76,12 +83,13 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
     }
 
     /**
-     * @return PropertyAbstract[]
+     * @return PropertyBag
      */
-    public function getProperties(): array
+    public function getPropertyBag(): PropertyBag
     {
-        if ($this->runtimeProperties === null) {
-            $this->runtimeProperties = [];
+        if ($this->runtimePropertyBag === null) {
+            $this->runtimePropertyBag = $this->propertyService->createBag();
+
             if ($category = $this->getCategory()) {
                 $propertiesValues = (array)($this->get('properties') ?? []);
                 $propertiesMultilangData = (array)($this->get('properties_multilang') ?? []);
@@ -90,12 +98,12 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
                 foreach ($propertyBag->all() as $property) {
                     $property->setValue($propertiesValues[$property->code] ?? null);
                     $property->multilang = (array)($propertiesMultilangData[$property->code] ?? []);
-                    $this->runtimeProperties[] = $property;
                 }
+                $this->runtimePropertyBag = $propertyBag;
             }
         }
 
-        return $this->runtimeProperties;
+        return $this->runtimePropertyBag;
     }
 
     /**
