@@ -96,6 +96,21 @@ class PropertyBag
     }
 
     /**
+     * @param string $code
+     *
+     * @return bool
+     */
+    public function has(string $code): bool
+    {
+        foreach ($this->all() as $property) {
+            if ($property->code === $code) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @param PropertyBag $properties
      */
     public function merge(PropertyBag $properties)

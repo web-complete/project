@@ -41,6 +41,7 @@ class ProductConfig extends EntityConfig
 
     /**
      * @return CellAbstract[]
+     * @throws \TypeError
      */
     public function getListFields(): array
     {
@@ -48,11 +49,13 @@ class ProductConfig extends EntityConfig
         return [
             $cells->string('ID', 'id', \SORT_DESC),
             $cells->string('Название', 'name', \SORT_DESC),
+            $cells->map('Категория', 'category_id', $this->getCategoryMap()),
         ];
     }
 
     /**
      * @return FilterField[]
+     * @throws \TypeError
      */
     public function getFilterFields(): array
     {
@@ -60,6 +63,7 @@ class ProductConfig extends EntityConfig
         return [
             $filters->string('ID', 'id', FilterFactory::MODE_EQUAL),
             $filters->string('Название', 'name', FilterFactory::MODE_LIKE),
+            $filters->select('Категория', 'category_id', $this->getCategoryMap()),
         ];
     }
 
@@ -69,13 +73,10 @@ class ProductConfig extends EntityConfig
      */
     public function getDetailFields(): array
     {
-        $categoryService = $this->container->get(CategoryService::class);
-        $categoryMap = $categoryService->getMap('name');
-
         $fields = FieldFactory::build();
         return [
             $fields->string('Название', 'name')->multilang(),
-            $fields->select('Категория', 'category_id')->options($categoryMap),
+            $fields->select('Категория', 'category_id')->options($this->getCategoryMap()),
             $fields->number('Цена', 'price'),
         ];
     }
@@ -88,5 +89,15 @@ class ProductConfig extends EntityConfig
         return new AdminForm([
             [['name', 'category_id', 'price'], 'required', [], AdminForm::MESSAGE_REQUIRED],
         ]);
+    }
+
+    /**
+     * @return array
+     * @throws \TypeError
+     */
+    protected function getCategoryMap(): array
+    {
+        $categoryService = $this->container->get(CategoryService::class);
+        return $categoryService->getMap('name');
     }
 }

@@ -13,7 +13,7 @@ use modules\admin\classes\csrf\CSRF;
     <title>Web Complete Admin Panel</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
 
     <script type="text/javascript">
         window.ready = function(cb){document.addEventListener("DOMContentLoaded", function(){ cb.call(window); })};

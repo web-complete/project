@@ -4,13 +4,13 @@ namespace cubes\ecommerce\category;
 
 use cubes\ecommerce\property\PropertyBag;
 use cubes\ecommerce\property\PropertyService;
-use WebComplete\core\entity\AbstractEntity;
+use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
 
 /**
 *
 * @property $name
 */
-class Category extends AbstractEntity
+class Category extends AbstractMultilangEntity
 {
 
     /**

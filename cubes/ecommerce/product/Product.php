@@ -6,7 +6,7 @@ use cubes\ecommerce\category\Category;
 use cubes\ecommerce\category\CategoryService;
 use cubes\ecommerce\interfaces\ProductOfferInterface;
 use cubes\ecommerce\property\property\PropertyAbstract;
-use WebComplete\core\entity\AbstractEntity;
+use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
 use WebComplete\core\utils\cache\CacheRuntime;
 
 /**
@@ -15,7 +15,7 @@ use WebComplete\core\utils\cache\CacheRuntime;
 * @property string $category_id
 * @property float $price
 */
-class Product extends AbstractEntity implements ProductOfferInterface
+class Product extends AbstractMultilangEntity implements ProductOfferInterface
 {
     /**
      * @var CategoryService
@@ -83,15 +83,32 @@ class Product extends AbstractEntity implements ProductOfferInterface
         if ($this->runtimeProperties === null) {
             $this->runtimeProperties = [];
             if ($category = $this->getCategory()) {
-                $propertyValues = (array)($this->get('properties') ?? []);
-                $properties = $category->getPropertyBag(true);
-                foreach ($properties->all() as $property) {
-                    $property->setValue($propertyValues[$property->code] ?? null);
+                $propertiesValues = (array)($this->get('properties') ?? []);
+                $propertyBag = $category->getPropertyBag(true);
+                foreach ($propertyBag->all() as $property) {
+                    $property->setValue($propertiesValues[$property->code] ?? null);
                     $this->runtimeProperties[] = $property;
                 }
             }
         }
 
         return $this->runtimeProperties;
+    }
+
+    /**
+     * @param array $propertiesValues [code => value]
+     */
+    public function setPropertiesValues(array $propertiesValues)
+    {
+        if ($category = $this->getCategory()) {
+            $propertyBag = $category->getPropertyBag(true);
+            $values = [];
+            foreach ($propertiesValues as $code => $value) {
+                if ($propertyBag->has($code)) {
+                    $values[$code] = $value;
+                }
+            }
+            $this->set('properties', $values);
+        }
     }
 }
