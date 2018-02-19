@@ -60,6 +60,28 @@ abstract class AbstractEntitySeo implements SeoMetaInterface
      */
     public function findCurrentPageItem(string $slug)
     {
+        if (!$itemId = $this->findCurrentPageItemId($slug)) {
+            return null;
+        }
+
+        if ($item = $this->entityService->findById($itemId)) {
+            if ($item->has('is_active') && !$item->get('is_active')) {
+                return null;
+            }
+            $this->setCurrentItem($item);
+            $this->seoManager->registerSeoMeta($this);
+        }
+
+        return $item;
+    }
+
+    /**
+     * @param string $slug
+     *
+     * @return null|string|int
+     */
+    public function findCurrentPageItemId(string $slug)
+    {
         if (!$slug) {
             return null;
         }
@@ -74,15 +96,7 @@ abstract class AbstractEntitySeo implements SeoMetaInterface
             return null;
         }
 
-        if ($item = $this->entityService->findById($slugItem->item_id)) {
-            if ($item->has('is_active') && !$item->get('is_active')) {
-                return null;
-            }
-            $this->setCurrentItem($item);
-            $this->seoManager->registerSeoMeta($this);
-        }
-
-        return $item;
+        return $slugItem->item_id;
     }
 
     /**
