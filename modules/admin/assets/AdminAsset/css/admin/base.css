@@ -178,6 +178,36 @@ ul, li {
 .grey {
     color: #909090;
 }
+.button-set {
+    display: inline-flex;
+}
+.button-set button {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 10px;
+}
+.button-set button:first-child {
+    border-left: 1px solid #ccc;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.button-set button:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.button-set button:hover {
+    background: #f7f7f7;
+}
+.button-set button._active {
+    cursor: default;
+    background: #333;
+    border-color: #333;
+    color: #fff;
+}
 
 .flex {
     display: flex;

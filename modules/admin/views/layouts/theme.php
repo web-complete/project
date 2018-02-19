@@ -20,6 +20,7 @@ $themeColor2 = $settings->get('theme_color2', '#E77E15');
     .nav > ul > li._active > span,
     .nav > ul > li > ul > li._active > a::before,
     .login__button,
+    .button-set button._active,
     #to-top {
         background-color: <?=$themeColor1 ?>;
     }
@@ -44,6 +45,10 @@ $themeColor2 = $settings->get('theme_color2', '#E77E15');
     .datepicker--cell.-selected-.-current- {
         color: #fff;
         background: <?=$themeColor2 ?>;
+    }
+
+    .button-set button._active {
+        border-color: <?=$themeColor1 ?>;
     }
 
 </style>
