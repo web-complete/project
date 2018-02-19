@@ -5,6 +5,7 @@ namespace cubes\ecommerce\product;
 use cubes\ecommerce\category\Category;
 use cubes\ecommerce\category\CategoryService;
 use cubes\ecommerce\interfaces\ProductOfferInterface;
+use cubes\ecommerce\property\property\PropertyAbstract;
 use cubes\ecommerce\property\PropertyBag;
 use cubes\ecommerce\property\PropertyService;
 use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
@@ -118,14 +119,34 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
     }
 
     /**
-     * @param array $propertiesValues [code => value]
+     * @param string $code
+     *
+     * @return PropertyAbstract|null
      */
-    public function setPropertiesValues(array $propertiesValues)
+    public function getProperty(string $code)
+    {
+        return $this->getPropertyBag()->one($code);
+    }
+
+    /**
+     * @param string $code
+     * @param null $default
+     *
+     * @return mixed|null
+     */
+    public function getPropertyValue(string $code, $default = null)
+    {
+        $property = $this->getProperty($code);
+        return $property ? $property->getValue() : $default;
+    }
+
+    /**
+     * @param array $propertiesValues [code => value]
+     * @param array $multilangData [code => [langCode => value]]
+     */
+    public function setPropertiesValues(array $propertiesValues, array $multilangData = [])
     {
         if ($category = $this->getCategory()) {
-            $propertiesMultilangData = (array)($propertiesValues['multilang'] ?? []);
-            unset($propertiesValues['multilang']);
-
             $propertyBag = $category->getPropertyBag(true);
             $values = [];
             foreach ($propertiesValues as $code => $value) {
@@ -134,7 +155,7 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
                 }
             }
             $this->set('properties', $values);
-            $this->set('properties_multilang', $propertiesMultilangData);
+            $this->set('properties_multilang', $multilangData);
         }
     }
 }

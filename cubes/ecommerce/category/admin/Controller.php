@@ -4,6 +4,8 @@ namespace cubes\ecommerce\category\admin;
 
 use cubes\ecommerce\category\Category;
 use cubes\ecommerce\category\CategoryConfig;
+use cubes\ecommerce\category\CategoryFactory;
+use cubes\ecommerce\category\CategoryPropertySettings;
 use cubes\ecommerce\property\PropertyService;
 use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
 use modules\admin\controllers\AbstractEntityController;
@@ -93,12 +95,13 @@ class Controller extends AbstractEntityController
             }
         }
         $propertyBag->sort();
-        $category->set('properties', $propertyBag->mapToArray());
-        $category->set('properties_settings', [
-            'enabled' => $enabled,
-            'for_main' => $forMain,
-            'for_list' => $forList,
-            'for_filter' => $forFilter,
-        ]);
+
+        $categoryFactory = $this->container->get(CategoryFactory::class);
+        $propertySettings = $categoryFactory->createCategoryPropertySettings();
+        $propertySettings->enabled = $enabled;
+        $propertySettings->for_main = $forMain;
+        $propertySettings->for_list = $forList;
+        $propertySettings->for_filter = $forFilter;
+        $category->setProperties($propertyBag, $propertySettings);
     }
 }

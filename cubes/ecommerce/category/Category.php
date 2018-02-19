@@ -64,4 +64,14 @@ class Category extends AbstractMultilangEntity
         }
         return $properties;
     }
+
+    /**
+     * @param PropertyBag $propertyBag
+     * @param CategoryPropertySettings $settings
+     */
+    public function setProperties(PropertyBag $propertyBag, CategoryPropertySettings $settings)
+    {
+        $this->set('properties', $propertyBag->mapToArray());
+        $this->set('properties_settings', $settings->mapToArray());
+    }
 }

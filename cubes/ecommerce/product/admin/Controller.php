@@ -72,8 +72,11 @@ class Controller extends AbstractEntityController
     {
         $data = (array)($this->request->get('data') ?? []);
         $propertiesData = (array)($data['propertiesData'] ?? []);
+        $multilangData = (array)($propertiesData['multilang'] ?? []);
+        unset($propertiesData['multilang']);
+
         $item->category_id = $form->getValue('category_id');
-        $item->setPropertiesValues($propertiesData);
+        $item->setPropertiesValues($propertiesData, $multilangData);
         return parent::beforeSave($item, $form);
     }
 
