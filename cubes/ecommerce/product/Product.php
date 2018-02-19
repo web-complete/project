@@ -9,6 +9,9 @@ use cubes\ecommerce\property\property\PropertyAbstract;
 use cubes\ecommerce\property\PropertyBag;
 use cubes\ecommerce\property\PropertyService;
 use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
+use cubes\system\search\search\Searchable;
+use cubes\system\search\search\SearchDoc;
+use cubes\system\seo\seo\SeoEntityTrait;
 use WebComplete\core\utils\cache\CacheRuntime;
 
 /**
@@ -17,8 +20,10 @@ use WebComplete\core\utils\cache\CacheRuntime;
 * @property string $category_id
 * @property float $price
 */
-class Product extends AbstractMultilangEntity implements ProductOfferInterface
+class Product extends AbstractMultilangEntity implements ProductOfferInterface, Searchable
 {
+    use SeoEntityTrait;
+
     /**
      * @var CategoryService
      */
@@ -157,5 +162,17 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface
             $this->set('properties', $values);
             $this->set('properties_multilang', $multilangData);
         }
+    }
+
+    /**
+     * @param SearchDoc $doc
+     */
+    public function prepareSearchDoc(SearchDoc $doc)
+    {
+        $doc->type = 'product';
+        $doc->item_id = $this->getId();
+        $doc->title = $this->name;
+        $doc->url = $this->getUrl();
+        $doc->weight = 1;
     }
 }

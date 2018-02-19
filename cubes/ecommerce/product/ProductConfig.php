@@ -25,6 +25,8 @@ class ProductConfig extends EntityConfig
     public $menuItemSort = 140;
     public $entityServiceClass = ProductService::class;
     public $controllerClass = Controller::class;
+    public $entitySeoClass = ProductSeo::class;
+    public $searchable = true;
 
     /**
      * @return array
