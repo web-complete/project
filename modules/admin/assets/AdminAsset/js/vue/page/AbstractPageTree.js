@@ -69,6 +69,7 @@ AbstractPageTree = {
             this.detailFields = [];
             Request.get(this.apiUrl + this.entityId, {}, function(response){
                 this.detailFields = response.detailFields;
+                this.isMultilang = response.isMultilang;
             }.bind(this));
         },
         moveItem(parentId, childrenIds){

@@ -2,7 +2,7 @@
 
 namespace cubes\ecommerce\classifier;
 
-use WebComplete\core\entity\AbstractEntity;
+use cubes\system\multilang\lang\classes\AbstractMultilangEntity;
 
 /**
  *
@@ -10,7 +10,7 @@ use WebComplete\core\entity\AbstractEntity;
  * @property $sort
  * @property $title
  */
-class ClassifierItem extends AbstractEntity
+class ClassifierItem extends AbstractMultilangEntity
 {
 
     /**

@@ -16,7 +16,7 @@ VuePageEcommerceClassifier = extendVuePage(AbstractPageTree, {
                 ></vue-tree>
                 <hr class="mb10 clear">
                 <form v-if="this.detailFields.length" @submit.prevent="saveItem" class="form-detail">
-                    <vue-multilang-select @input="currentLang = $event"></vue-multilang-select>
+                    <vue-multilang-select v-if="isMultilang" @input="currentLang = $event"></vue-multilang-select>
                     <vue-field v-for="field in detailFields"
                                :field="field"
                                :currentLang="currentLang || $store.getters.mainLang.code"
