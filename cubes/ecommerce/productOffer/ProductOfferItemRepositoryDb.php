@@ -6,7 +6,7 @@ use Doctrine\DBAL\Connection;
 use WebComplete\core\condition\ConditionDbParser;
 use WebComplete\core\entity\AbstractEntityRepositoryDb;
 
-class ProductOfferRepositoryDb extends AbstractEntityRepositoryDb implements ProductOfferRepositoryInterface
+class ProductOfferItemRepositoryDb extends AbstractEntityRepositoryDb implements ProductOfferItemRepositoryInterface
 {
 
     protected $table = 'product_offer';
@@ -14,12 +14,12 @@ class ProductOfferRepositoryDb extends AbstractEntityRepositoryDb implements Pro
     protected $serializeFields = ['multilang', 'properties', 'properties_multilang'];
 
     /**
-     * @param ProductOfferFactory $factory
+     * @param ProductOfferItemFactory $factory
      * @param ConditionDbParser $conditionParser
      * @param Connection $db
      */
     public function __construct(
-        ProductOfferFactory $factory,
+        ProductOfferItemFactory $factory,
         ConditionDbParser $conditionParser,
         Connection $db
     ) {

@@ -2,28 +2,23 @@
 
 namespace cubes\ecommerce\productOffer;
 
-use WebComplete\core\entity\AbstractEntity;
+use cubes\ecommerce\interfaces\ProductOfferInterface;
+use cubes\ecommerce\product\ProductAbstract;
 use WebComplete\core\utils\typecast\Cast;
 
 /**
-*
-* @property $name
-*/
-class ProductOffer extends AbstractEntity
+ *
+ * @property string $product_id
+ */
+class ProductOffer extends ProductAbstract implements ProductOfferInterface
 {
-
     /**
      * @return array
      */
     public static function fields(): array
     {
-        return [
+        return \array_merge(parent::fields(), [
             'product_id' => Cast::INT,
-            'sku' => Cast::STRING,
-            'name' => Cast::STRING,
-            'price' => Cast::STRING,
-            'properties' => Cast::ARRAY,
-            'properties_multilang' => Cast::ARRAY,
-        ];
+        ]);
     }
 }
