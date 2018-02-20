@@ -16,6 +16,7 @@ use WebComplete\core\utils\cache\CacheRuntime;
 
 /**
 *
+* @property string $sku
 * @property string $name
 * @property string $category_id
 * @property float $price
@@ -68,7 +69,7 @@ class Product extends AbstractMultilangEntity implements ProductOfferInterface, 
      */
     public function getSku(): string
     {
-        return (string)$this->getId();
+        return (string)$this->sku;
     }
 
     /**

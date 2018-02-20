@@ -1,12 +1,12 @@
 <?php
 
-namespace cubes\ecommerce\product\migrations;
+namespace cubes\ecommerce\productOffer\migrations;
 
 use Doctrine\DBAL\Connection;
 use WebComplete\core\utils\migration\MigrationInterface;
 use WebComplete\microDb\MicroDb;
 
-class ProductMigration implements MigrationInterface
+class ProductOfferMigration implements MigrationInterface
 {
 
     /**
@@ -30,11 +30,11 @@ class ProductMigration implements MigrationInterface
 
     public function up()
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS `product` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `product_offer` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `sku` varchar(50) DEFAULT NULL,
         `name` varchar(500) DEFAULT NULL,
-        `category_id` INT(11),
+        `product_id` INT(11),
         `price` DECIMAL(10,2),
         `properties` text,
         `properties_multilang` text,
@@ -43,13 +43,13 @@ class ProductMigration implements MigrationInterface
         ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8';
 
         $this->db->exec($sql);
-        $this->db->exec('CREATE UNIQUE INDEX product_idx1 ON `product` (`sku`)');
+        $this->db->exec('CREATE UNIQUE INDEX offer_idx1 ON `product_offer` (`sku`)');
     }
 
     public function down()
     {
-        $sql = 'DROP TABLE IF EXISTS `product`';
+        $sql = 'DROP TABLE IF EXISTS `product_offer`';
         $this->db->exec($sql);
-        $this->microDb->getCollection('product')->drop();
+        $this->microDb->getCollection('product_offer')->drop();
     }
 }

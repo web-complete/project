@@ -18,7 +18,7 @@ Vue.component('VueEcommercePropertyList', {
                 </tr>
                 </thead>
                 <draggable element="tbody" v-model="properties" :options="{handle: '._sort', draggable: '._item'}" class="_list">
-                    <template v-for="property in properties">
+                    <template v-for="(property,k) in properties">
                         <tr is="VueEcommercePropertyItem"
                             @remove="removeProperty(property.uid)"
                             @enumPopup="enumPopup(property)"
@@ -26,7 +26,7 @@ Vue.component('VueEcommercePropertyList', {
                             :property="property"
                             :global="global"
                             :extended="extended"
-                            :key="property.uid"
+                            :key="property.uid+k"
                         ></tr>
                     </template>
                     <tr>
