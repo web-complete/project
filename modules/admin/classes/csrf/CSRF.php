@@ -42,18 +42,24 @@ class CSRF
     }
 
     /**
+     * @throws \InvalidArgumentException
      * @throws NotAllowedException
      */
     public function process()
     {
-        if ($this->request->getMethod() !== 'GET' &&
-            ($currentToken = $this->session->get(self::KEY_SET)) &&
-            $this->request->cookies->get(self::KEY_GET) !== $currentToken) {
-            throw new NotAllowedException('CSRF protection');
+        $storedTokens = (array)$this->session->get(self::KEY_SET, []);
+        $currentToken = $this->request->cookies->get(self::KEY_GET);
+
+        if ($this->request->getMethod() !== 'GET') {
+            if (!\in_array($currentToken, $storedTokens, true)) {
+                throw new NotAllowedException('CSRF protection');
+            }
         }
 
         $this->token = $this->generateToken();
-        $this->session->set(self::KEY_SET, $this->token);
+        $storedTokens[] = $this->token;
+        $storedTokens = \array_slice($storedTokens, -3);
+        $this->session->set(self::KEY_SET, $storedTokens);
         $cookie = new Cookie(self::KEY_SET, $this->token, 0, '/', null, false, false, false, Cookie::SAMESITE_STRICT);
         $this->response->headers->setCookie($cookie);
     }
