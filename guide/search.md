@@ -81,7 +81,7 @@ $ php console.php search:reindex
 
 Текущий используемый адаптер необходимо зарегистрировать в definitions.php:
 ```php
-    \cubes\system\search\search\SearchInterface::class => \DI\object(\cubes\system\search\search\adapters\NullSearchAdapter::class),
+    \cubes\system\search\search\SearchInterface::class => \DI\autowire(\cubes\system\search\search\adapters\NullSearchAdapter::class),
 ```
 
 В платформе предусмотрены следующие адаптеры:
@@ -98,7 +98,7 @@ ElasticSearch помимо гибкости настройки и релеван
     \cubes\system\elastic\ElasticSearchDriver::class => function () {
         return new ElasticSearchDriver('wcp', ['localhost:9200']);
     },
-    SearchInterface::class => \DI\object(\cubes\system\search\search\adapters\ElasticSearchAdapter::class),
+    SearchInterface::class => \DI\autowire(\cubes\system\search\search\adapters\ElasticSearchAdapter::class),
 ```
 
 **ElasticSearchDriver** используется для доступа к elastic-серверу классами-индексами **AbstractElasticIndex**.

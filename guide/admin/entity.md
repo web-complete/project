@@ -265,7 +265,7 @@ $fields->image('Изображение', 'image')->multiple(true),
 
 В простом случае это выглядит вот так:
 ```php
-    $definitions[ArticleRepositoryInterface::class] = \DI\object(ArticleRepositoryMicro::class);
+    $definitions[ArticleRepositoryInterface::class] = \DI\autowire(ArticleRepositoryMicro::class);
 ```
 
 Хелпер RepositorySelector выбирает тип репозитория на основании константы DB_TYPE из config/const.php

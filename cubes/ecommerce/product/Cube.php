@@ -39,7 +39,7 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[ProductOfferServiceInterface::class] = \DI\object(ProductService::class);
+        $definitions[ProductOfferServiceInterface::class] = \DI\autowire(ProductService::class);
         $definitions[ProductRepositoryInterface::class] = RepositorySelector::get(
             ProductRepositoryMicro::class,
             ProductRepositoryDb::class

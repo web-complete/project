@@ -15,7 +15,7 @@ defined('ENV') or define('ENV', in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1',
 По умолчанию в качестве **ErrorController** используется **modules\admin\controllers\ErrorController**.
 Свой **ErrorController** можно установить в **config/definitions.php**:
 ```php
-    'errorController' => \DI\object(modules\pub\controllers\ErrorController::class),
+    'errorController' => \DI\autowire(modules\pub\controllers\ErrorController::class),
 ```
 Он должен наследоваться от **AbstractErrorController**.
 

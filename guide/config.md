@@ -66,7 +66,7 @@ return 'mysql://root@127.0.0.1/project?charset=UTF8';
 ```php
 return [
     'db' => require 'db.php',
-    'errorController' => \DI\object(ErrorController::class),
+    'errorController' => \DI\autowire(ErrorController::class),
     Request::class => function () {
         $request = Request::createFromGlobals();
         $request->setSession(new Session());

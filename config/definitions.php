@@ -13,13 +13,13 @@ use WebComplete\rbac\resource\ResourceInterface;
 
 return [
     'db' => require 'db.php',
-    'errorController' => \DI\object(ErrorController::class),
+    'errorController' => \DI\autowire(ErrorController::class),
     Request::class => function () {
         $request = Request::createFromGlobals();
         $request->setSession(new Session());
         return $request;
     },
-    MigrationRegistryInterface::class => \DI\object(MigrationRegistryMysql::class),
+    MigrationRegistryInterface::class => \DI\autowire(MigrationRegistryMysql::class),
     CacheService::class => function () {
         $systemCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
         $userCache = new \Symfony\Component\Cache\Adapter\NullAdapter();
@@ -53,6 +53,6 @@ return [
     Swift_Transport::class => function () {
         return new \Swift_Transport_NullTransport(new Swift_Events_SimpleEventDispatcher());
     },
-    \cubes\system\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
-    SearchInterface::class => \DI\object(\cubes\system\search\search\adapters\NullSearchAdapter::class),
+    \cubes\system\seo\sitemap\SeoSitemapInterface::class => \DI\autowire(\modules\pub\classes\SeoSitemap::class),
+    SearchInterface::class => \DI\autowire(\cubes\system\search\search\adapters\NullSearchAdapter::class),
 ];

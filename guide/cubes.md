@@ -63,7 +63,7 @@ $enabled = false.
 ```php
     public function registerDependencies(array &$definitions)
     {
-        $definitions[ArticleRepositoryInterface::class] = \DI\object(ArticleRepositoryMicro::class);
+        $definitions[ArticleRepositoryInterface::class] = \DI\autowire(ArticleRepositoryMicro::class);
     }
 ```
 

@@ -131,7 +131,7 @@ php console.php sitemap:generate
  
 По умолчанию в definitions зарегистрирован и создан следующий класс:
 ```php
-    \cubes\system\seo\sitemap\SeoSitemapInterface::class => \DI\object(\modules\pub\classes\SeoSitemap::class),
+    \cubes\system\seo\sitemap\SeoSitemapInterface::class => \DI\autowire(\modules\pub\classes\SeoSitemap::class),
 ```
 
 Данный класс будет передан в **SeoSitemapProcessor**, который запустит процесс генерации.

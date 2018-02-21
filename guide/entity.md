@@ -48,7 +48,7 @@
 ```php
     public function registerDependencies(array &$definitions)
     {
-        $definitions[ArticleRepositoryInterface::class] = \DI\object(ArticleRepositoryDb::class);
+        $definitions[ArticleRepositoryInterface::class] = \DI\autowire(ArticleRepositoryDb::class);
     }
 ```
 

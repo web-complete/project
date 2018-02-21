@@ -15,14 +15,14 @@ class RepositorySelector
     {
         switch (\DB_TYPE) {
             case 'mongo':
-                return \DI\object($mongoClass);
+                return \DI\autowire($mongoClass);
                 break;
             case 'mysql':
-                return \DI\object($mysqlClass);
+                return \DI\autowire($mysqlClass);
                 break;
             case 'micro':
             default:
-                return \DI\object($microClass);
+                return \DI\autowire($microClass);
                 break;
         }
     }
