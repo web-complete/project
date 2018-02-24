@@ -51,7 +51,7 @@ class CSRF
         $currentToken = $this->request->cookies->get(self::KEY_GET);
 
         if ($this->request->getMethod() !== 'GET') {
-            if (!\in_array($currentToken, $storedTokens, true)) {
+            if ($storedTokens && !\in_array($currentToken, $storedTokens, true)) {
                 throw new NotAllowedException('CSRF protection');
             }
         }

@@ -1,3 +1,5 @@
 <?php
 
-return 'mysql://root@127.0.0.1/project?charset=UTF8';
+return [
+    'db' => 'mysql://root@127.0.0.1/project?charset=UTF8'
+];
