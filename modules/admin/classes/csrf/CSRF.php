@@ -48,7 +48,9 @@ class CSRF
     public function process()
     {
         $storedTokens = (array)$this->session->get(self::KEY_SET, []);
-        $currentToken = $this->request->cookies->get(self::KEY_GET);
+        if (!$currentToken = $this->request->cookies->get(self::KEY_GET)) {
+            $currentToken = $this->request->get(self::KEY_GET);
+        }
 
         if ($this->request->getMethod() !== 'GET') {
             if ($storedTokens && !\in_array($currentToken, $storedTokens, true)) {

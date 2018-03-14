@@ -9,6 +9,7 @@ use cubes\content\staticBlock\StaticBlockHelper;
 $settings = $this->getContainer()->get(\cubes\system\settings\Settings::class);
 $search = $application->getContainer()->get(\cubes\system\search\search\SearchService::class);
 $docs = $search->search(new \WebComplete\core\utils\paginator\Paginator(), 'aaa');
+
 ?>
 
 <?php $fields = 'first_name,last_name,bdate,sex,phone,photo,photo_big,city,country'; ?>
