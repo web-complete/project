@@ -23,7 +23,7 @@ $.ajaxSetup({
 
 Если необходимо отправлять обычную форму (не ajax), то необходимо добавить поле:
 ```php
-<input type="hidden" name="_csrf_check" value="<?=$this->getContainer()->get(Request::class)->cookies->get('_csrf') ?>" />
+<input type="hidden" name="_csrf_check" value="<?=$this->getContainer()->get(CSRF::class)->getToken() ?>" />
 ```
 
 Далее: [Публичная часть](pub.md)<br>
