@@ -5,7 +5,12 @@ namespace cubes\ecommerce\product;
 use cubes\ecommerce\interfaces\ProductOfferServiceInterface;
 use cubes\ecommerce\product\admin\Controller;
 use cubes\ecommerce\product\assets\AdminAsset;
+use cubes\ecommerce\product\repository\ProductRepositoryDb;
+use cubes\ecommerce\product\repository\ProductRepositoryInterface;
+use cubes\ecommerce\product\repository\ProductRepositoryMicro;
+use cubes\ecommerce\product\repository\ProductRepositoryMongo;
 use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\MigrationSelector;
 use WebComplete\core\cube\AbstractCube;
 use cubes\ecommerce\product\migrations\ProductMigration;
 use modules\admin\classes\cube\RepositorySelector;
@@ -39,10 +44,10 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[ProductOfferServiceInterface::class] = \DI\autowire(ProductService::class);
         $definitions[ProductRepositoryInterface::class] = RepositorySelector::get(
             ProductRepositoryMicro::class,
-            ProductRepositoryDb::class
+            ProductRepositoryDb::class,
+            ProductRepositoryMongo::class
         );
     }
 
@@ -51,8 +56,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => ProductMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => ProductMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

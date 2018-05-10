@@ -10,6 +10,7 @@ use cubes\ecommerce\interfaces\CheckoutInterface;
 use cubes\ecommerce\interfaces\OrderInterface;
 use cubes\ecommerce\interfaces\OrderItemInterface;
 use cubes\ecommerce\interfaces\OrderServiceInterface;
+use cubes\ecommerce\order\repository\OrderRepositoryInterface;
 use cubes\ecommerce\orderItem\OrderItem;
 use cubes\ecommerce\orderItem\OrderItemFactory;
 use cubes\ecommerce\orderItem\OrderItemService;

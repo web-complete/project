@@ -2,6 +2,11 @@
 
 namespace cubes\system\seo\meta;
 
+use cubes\system\seo\meta\repository\MetaRepositoryDb;
+use cubes\system\seo\meta\repository\MetaRepositoryInterface;
+use cubes\system\seo\meta\repository\MetaRepositoryMicro;
+use cubes\system\seo\meta\repository\MetaRepositoryMongo;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -31,7 +36,8 @@ class Cube extends AbstractCube
     {
         $definitions[MetaRepositoryInterface::class] = RepositorySelector::get(
             MetaRepositoryMicro::class,
-            MetaRepositoryDb::class
+            MetaRepositoryDb::class,
+            MetaRepositoryMongo::class
         );
     }
 
@@ -40,8 +46,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => MetaMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => MetaMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

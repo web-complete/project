@@ -2,9 +2,13 @@
 
 namespace cubes\ecommerce\orderItem;
 
-use WebComplete\core\cube\AbstractCube;
 use cubes\ecommerce\orderItem\migrations\OrderItemMigration;
+use cubes\ecommerce\orderItem\repository\OrderItemRepositoryDb;
+use cubes\ecommerce\orderItem\repository\OrderItemRepositoryInterface;
+use cubes\ecommerce\orderItem\repository\OrderItemRepositoryMicro;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
+use WebComplete\core\cube\AbstractCube;
 
 class Cube extends AbstractCube
 {
@@ -26,8 +30,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => OrderItemMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => OrderItemMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

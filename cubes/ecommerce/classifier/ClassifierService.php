@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\classifier;
 
+use cubes\ecommerce\classifier\repository\ClassifierItemRepositoryInterface;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\cache\Cache;

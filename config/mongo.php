@@ -1,6 +1,6 @@
 <?php
 
-use modules\admin\classes\mongo\Mongo;
+use cubes\system\mongo\Mongo;
 use MongoDB\Client;
 
 return [

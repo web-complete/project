@@ -5,7 +5,12 @@ namespace cubes\content\menu;
 use cubes\content\menu\admin\Controller;
 use cubes\content\menu\assets\AdminAsset;
 use cubes\content\menu\migrations\MenuMigration;
+use cubes\content\menu\repository\MenuItemRepositoryDb;
+use cubes\content\menu\repository\MenuItemRepositoryInterface;
+use cubes\content\menu\repository\MenuItemRepositoryMicro;
+use cubes\content\menu\repository\MenuItemRepositoryMongo;
 use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -40,7 +45,8 @@ class Cube extends AbstractCube
     {
         $definitions[MenuItemRepositoryInterface::class] = RepositorySelector::get(
             MenuItemRepositoryMicro::class,
-            MenuItemRepositoryDb::class
+            MenuItemRepositoryDb::class,
+            MenuItemRepositoryMongo::class
         );
     }
 
@@ -49,8 +55,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => MenuMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => MenuMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

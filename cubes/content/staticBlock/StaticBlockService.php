@@ -2,6 +2,7 @@
 
 namespace cubes\content\staticBlock;
 
+use cubes\content\staticBlock\repository\StaticBlockRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class StaticBlockService extends AbstractEntityService implements StaticBlockRepositoryInterface

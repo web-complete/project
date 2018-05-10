@@ -2,9 +2,16 @@
 
 namespace cubes\ecommerce\cartItem;
 
-use WebComplete\core\cube\AbstractCube;
 use cubes\ecommerce\cartItem\migrations\CartItemMigration;
+use cubes\ecommerce\cartItem\repository\CartItemRepositoryDb;
+use cubes\ecommerce\cartItem\repository\CartItemRepositoryInterface;
+use cubes\ecommerce\cartItem\repository\CartItemRepositoryMicro;
+use cubes\ecommerce\cartItem\repository\CartItemRepositoryMongo;
+use cubes\ecommerce\interfaces\ProductOfferServiceInterface;
+use cubes\ecommerce\productOffer\ProductOfferItemService;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
+use WebComplete\core\cube\AbstractCube;
 
 class Cube extends AbstractCube
 {
@@ -17,8 +24,10 @@ class Cube extends AbstractCube
     {
         $definitions[CartItemRepositoryInterface::class] = RepositorySelector::get(
             CartItemRepositoryMicro::class,
-            CartItemRepositoryDb::class
+            CartItemRepositoryDb::class,
+            CartItemRepositoryMongo::class
         );
+        $definitions[ProductOfferServiceInterface::class] = \DI\autowire(ProductOfferItemService::class);
     }
 
     /**
@@ -26,8 +35,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => CartItemMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => CartItemMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

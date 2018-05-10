@@ -3,10 +3,16 @@
 namespace cubes\system\multilang\lang;
 
 use cubes\system\multilang\lang\assets\AdminAsset;
+use cubes\system\multilang\lang\migrations\mongo\LangMongoMigration;
+use cubes\system\multilang\lang\migrations\mysql\LangMigration;
+use cubes\system\multilang\lang\repository\LangRepositoryDb;
+use cubes\system\multilang\lang\repository\LangRepositoryInterface;
+use cubes\system\multilang\lang\repository\LangRepositoryMicro;
+use cubes\system\multilang\lang\repository\LangRepositoryMongo;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
-use cubes\system\multilang\lang\migrations\LangMigration;
 use modules\admin\classes\cube\CubeHelper;
 
 class Cube extends AbstractCube
@@ -35,7 +41,8 @@ class Cube extends AbstractCube
     {
         $definitions[LangRepositoryInterface::class] = RepositorySelector::get(
             LangRepositoryMicro::class,
-            LangRepositoryDb::class
+            LangRepositoryDb::class,
+            LangRepositoryMongo::class
         );
     }
 
@@ -44,8 +51,10 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => LangMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => LangMigration::class],
+            'mongo' => ['001_001' => LangMongoMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

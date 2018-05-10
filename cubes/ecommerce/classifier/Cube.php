@@ -3,12 +3,17 @@
 namespace cubes\ecommerce\classifier;
 
 use cubes\ecommerce\classifier\admin\Controller;
+use cubes\ecommerce\classifier\assets\AdminAsset;
+use cubes\ecommerce\classifier\migrations\ClassifierMigration;
+use cubes\ecommerce\classifier\repository\ClassifierItemRepositoryDb;
+use cubes\ecommerce\classifier\repository\ClassifierItemRepositoryInterface;
+use cubes\ecommerce\classifier\repository\ClassifierItemRepositoryMicro;
+use cubes\ecommerce\classifier\repository\ClassifierItemRepositoryMongo;
+use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\MigrationSelector;
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
-use cubes\ecommerce\classifier\migrations\ClassifierMigration;
-use modules\admin\classes\cube\CubeHelper;
-use modules\admin\classes\cube\RepositorySelector;
-use cubes\ecommerce\classifier\assets\AdminAsset;
 
 class Cube extends AbstractCube
 {
@@ -40,7 +45,8 @@ class Cube extends AbstractCube
     {
         $definitions[ClassifierItemRepositoryInterface::class] = RepositorySelector::get(
             ClassifierItemRepositoryMicro::class,
-            ClassifierItemRepositoryDb::class
+            ClassifierItemRepositoryDb::class,
+            ClassifierItemRepositoryMongo::class
         );
     }
 
@@ -49,8 +55,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => ClassifierMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => ClassifierMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

@@ -2,9 +2,13 @@
 
 namespace cubes\ecommerce\order;
 
-use WebComplete\core\cube\AbstractCube;
 use cubes\ecommerce\order\migrations\OrderMigration;
+use cubes\ecommerce\order\repository\OrderRepositoryDb;
+use cubes\ecommerce\order\repository\OrderRepositoryInterface;
+use cubes\ecommerce\order\repository\OrderRepositoryMicro;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
+use WebComplete\core\cube\AbstractCube;
 
 class Cube extends AbstractCube
 {
@@ -15,10 +19,8 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[OrderRepositoryInterface::class] = RepositorySelector::get(
-            OrderRepositoryMicro::class,
-            OrderRepositoryDb::class
-        );
+        $definitions[OrderRepositoryInterface::class] = RepositorySelector::get(OrderRepositoryMicro::class,
+            OrderRepositoryDb::class);
     }
 
     /**
@@ -26,8 +28,11 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => OrderMigration::class
+        $migrations['mysql'] = [
+            '001_001' => OrderMigration::class,
         ];
+
+        return MigrationSelector::get($migrations);
     }
+
 }

@@ -2,6 +2,11 @@
 
 namespace cubes\system\seo\redirect;
 
+use cubes\system\seo\redirect\repository\RedirectRepositoryDb;
+use cubes\system\seo\redirect\repository\RedirectRepositoryInterface;
+use cubes\system\seo\redirect\repository\RedirectRepositoryMicro;
+use cubes\system\seo\redirect\repository\RedirectRepositoryMongo;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -33,7 +38,8 @@ class Cube extends AbstractCube
     {
         $definitions[RedirectRepositoryInterface::class] = RepositorySelector::get(
             RedirectRepositoryMicro::class,
-            RedirectRepositoryDb::class
+            RedirectRepositoryDb::class,
+            RedirectRepositoryMongo::class
         );
     }
 
@@ -42,8 +48,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => RedirectMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => RedirectMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

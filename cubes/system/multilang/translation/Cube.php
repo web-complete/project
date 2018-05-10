@@ -3,6 +3,11 @@
 namespace cubes\system\multilang\translation;
 
 use cubes\system\multilang\translation\admin\TranslationController;
+use cubes\system\multilang\translation\repository\TranslationRepositoryDb;
+use cubes\system\multilang\translation\repository\TranslationRepositoryInterface;
+use cubes\system\multilang\translation\repository\TranslationRepositoryMicro;
+use cubes\system\multilang\translation\repository\TranslationRepositoryMongo;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use modules\pub\assets\PubAsset;
 use WebComplete\core\cube\AbstractCube;
@@ -40,7 +45,8 @@ class Cube extends AbstractCube
     {
         $definitions[TranslationRepositoryInterface::class] = RepositorySelector::get(
             TranslationRepositoryMicro::class,
-            TranslationRepositoryDb::class
+            TranslationRepositoryDb::class,
+            TranslationRepositoryMongo::class
         );
     }
 
@@ -49,8 +55,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => TranslationMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => TranslationMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

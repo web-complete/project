@@ -5,6 +5,7 @@ namespace cubes\ecommerce\order\tests;
 use cubes\ecommerce\cart\CartService;
 use cubes\ecommerce\order\OrderService;
 use cubes\ecommerce\product\ProductService;
+use cubes\ecommerce\productOffer\ProductOfferItemService;
 
 class OrderServiceTest extends \AppTestCase
 {
@@ -12,20 +13,24 @@ class OrderServiceTest extends \AppTestCase
     public function testCreateOrder()
     {
         // создать товары
-        $productService = $this->container->get(ProductService::class);
-        $product1 = $productService->create();
-        $product2 = $productService->create();
-        $product3 = $productService->create();
-        $productService->save($product1);
-        $productService->save($product2);
-        $productService->save($product3);
+        $productService = $this->container->get(ProductOfferItemService::class);
+        $products = [];
+        for ($i= 1; $i <= 3; $i++) {
+            $product = $productService->create();
+            $product->setId($i);
+            $product->sku = 'sku' . $i;
+            $product->name = 'product' . $i;
+            $product->price = $i;
+            $productService->save($product);
+            $products[] = $product;
+        }
 
         // добавить в корзину
         $cartService = $this->container->get(CartService::class);
         $cart = $cartService->current();
-        $cart->addProductOffer($product1);
-        $cart->addProductOffer($product2);
-        $cart->addProductOffer($product3);
+        $cart->addProductOffer($products[0]);
+        $cart->addProductOffer($products[1]);
+        $cart->addProductOffer($products[2]);
         $cartService->save($cart);
         $this->assertNotEmpty($cart->getId());
 

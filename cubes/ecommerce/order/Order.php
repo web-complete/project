@@ -39,7 +39,7 @@ class Order extends AbstractEntity implements OrderInterface
     public static function fields(): array
     {
         return [
-            'user_id' => Cast::STRING,
+            'user_id' => Cast::INT,
             'checkout_data' => Cast::ARRAY,
             'status' => Cast::INT,
             'totals' => Cast::ARRAY,

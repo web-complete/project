@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\category;
 
+use cubes\ecommerce\category\repository\CategoryRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class CategoryService extends AbstractEntityService implements CategoryRepositoryInterface

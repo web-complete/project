@@ -49,7 +49,7 @@ class Cart extends AbstractEntity implements CartInterface
     public static function fields(): array
     {
         return [
-            'user_id' => Cast::STRING,
+            'user_id' => Cast::INT,
             'hash' => Cast::STRING,
             'checkout_data' => Cast::ARRAY,
             'totals' => Cast::ARRAY,
@@ -148,7 +148,8 @@ class Cart extends AbstractEntity implements CartInterface
     public function getItemBySku($sku)
     {
         foreach ($this->items as $item) {
-            if (($productOffer = $item->getProductOffer()) && (string)$productOffer->getSku() === (string)$sku) {
+            $productOffer = $item->getProductOffer();
+            if ($productOffer && $productOffer->getSku() === (string)$sku) {
                 return $item;
             }
         }

@@ -2,6 +2,7 @@
 
 namespace cubes\system\seo\slug;
 
+use cubes\system\seo\slug\repository\SlugRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class SlugService extends AbstractEntityService implements SlugRepositoryInterface

@@ -82,16 +82,16 @@ class ElasticSearchDocIndex extends AbstractElasticIndex
                 'mappings' => [
                     '_default_' => [
                         'properties' => [
-                            'type'      => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'type'      => ['type' => 'keyword'],
                             'auto'      => ['type' => 'text', 'analyzer' => 'index_autocomplete'],
                             'title'     => ['type' => 'text', 'analyzer' => 'index_text',
                                             'term_vector' => 'with_positions_offsets'],
                             'content'   => ['type' => 'text', 'analyzer' => 'index_text',
                                             'term_vector' => 'with_positions_offsets'],
-                            'extra'     => ['type' => 'keyword', 'index' => 'not_analyzed'],
-                            'image'     => ['type' => 'keyword', 'index' => 'not_analyzed'],
-                            'url'       => ['type' => 'keyword', 'index' => 'not_analyzed'],
-                            'lang_code' => ['type' => 'keyword', 'index' => 'not_analyzed'],
+                            'extra'     => ['type' => 'keyword'],
+                            'image'     => ['type' => 'keyword'],
+                            'url'       => ['type' => 'keyword'],
+                            'lang_code' => ['type' => 'keyword'],
                             'weight'    => ['type' => 'integer'],
                         ]
                     ],

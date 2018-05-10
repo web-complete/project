@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\cartItem;
 
+use cubes\ecommerce\cartItem\repository\CartItemRepositoryInterface;
 use cubes\ecommerce\interfaces\CartItemInterface;
 use WebComplete\core\entity\AbstractEntityService;
 

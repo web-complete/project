@@ -2,6 +2,7 @@
 
 namespace cubes\ecommerce\cart;
 
+use cubes\ecommerce\cart\repository\CartRepositoryInterface;
 use cubes\ecommerce\cartItem\CartItem;
 use cubes\ecommerce\cartItem\CartItemService;
 use cubes\ecommerce\interfaces\CartInterface;
@@ -184,7 +185,8 @@ class CartService extends AbstractEntityService implements CartRepositoryInterfa
     {
         $hasChanges = false;
         foreach ($cartFrom->getItems() as $item) {
-            if (($productOffer = $item->getProductOffer()) && !$cartTo->getItemBySku($productOffer->getSku())) {
+            $productOffer = $item->getProductOffer();
+            if ($productOffer && !$cartTo->getItemBySku($productOffer->getSku())) {
                 $cartTo->addProductOffer($productOffer, $item->getQty());
                 $hasChanges = true;
             }

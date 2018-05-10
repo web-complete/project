@@ -103,7 +103,7 @@ class ElasticSearchTest extends \AppTestCase
         $this->assertEquals(7, $docs[0]->item_id, $this->driver->getLastSearchQuery());
         $this->assertEquals(9, $docs[1]->item_id, $this->driver->getLastSearchQuery());
         $this->assertEquals(103, (int)$docs[0]->weight, $this->driver->getLastSearchQuery());
-        $this->assertEquals(85, (int)$docs[1]->weight, $this->driver->getLastSearchQuery());
+        $this->assertEquals(88, (int)$docs[1]->weight, $this->driver->getLastSearchQuery());
 
         $this->assertEquals(4, $this->searchService->count(), $this->driver->getLastSearchQuery());
         $this->assertEquals(3, $this->searchService->count('test_search'), $this->driver->getLastSearchQuery());
@@ -166,7 +166,7 @@ class ElasticSearchTest extends \AppTestCase
         $this->assertCount(1, $this->searchService->search($paginator, 'news', null, 'ru'));
         $this->assertCount(1, $this->searchService->search($paginator, 'news', null, 'en'));
         $this->searchService->deleteDoc('test_multilang', 5);
-        \sleep(1);
+        \sleep(5);
         $this->assertCount(0, $this->searchService->search($paginator, 'news'));
         $this->assertEquals(1, $this->searchService->count('test_multilang'));
         $this->searchService->clear();

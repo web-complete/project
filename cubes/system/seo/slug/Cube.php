@@ -2,6 +2,11 @@
 
 namespace cubes\system\seo\slug;
 
+use cubes\system\seo\slug\repository\SlugRepositoryDb;
+use cubes\system\seo\slug\repository\SlugRepositoryInterface;
+use cubes\system\seo\slug\repository\SlugRepositoryMicro;
+use cubes\system\seo\slug\repository\SlugRepositoryMongo;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -31,7 +36,8 @@ class Cube extends AbstractCube
     {
         $definitions[SlugRepositoryInterface::class] = RepositorySelector::get(
             SlugRepositoryMicro::class,
-            SlugRepositoryDb::class
+            SlugRepositoryDb::class,
+            SlugRepositoryMongo::class
         );
     }
 
@@ -40,8 +46,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => SlugMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => SlugMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

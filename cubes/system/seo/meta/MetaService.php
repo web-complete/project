@@ -2,6 +2,7 @@
 
 namespace cubes\system\seo\meta;
 
+use cubes\system\seo\meta\repository\MetaRepositoryInterface;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 

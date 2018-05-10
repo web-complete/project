@@ -2,6 +2,11 @@
 
 namespace cubes\ecommerce\cart;
 
+use cubes\ecommerce\cart\repository\CartRepositoryDb;
+use cubes\ecommerce\cart\repository\CartRepositoryInterface;
+use cubes\ecommerce\cart\repository\CartRepositoryMicro;
+use cubes\ecommerce\cart\repository\CartRepositoryMongo;
+use modules\admin\classes\cube\MigrationSelector;
 use WebComplete\core\cube\AbstractCube;
 use cubes\ecommerce\cart\migrations\CartMigration;
 use modules\admin\classes\cube\RepositorySelector;
@@ -17,7 +22,8 @@ class Cube extends AbstractCube
     {
         $definitions[CartRepositoryInterface::class] = RepositorySelector::get(
             CartRepositoryMicro::class,
-            CartRepositoryDb::class
+            CartRepositoryDb::class,
+            CartRepositoryMongo::class
         );
     }
 
@@ -26,8 +32,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => CartMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => CartMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

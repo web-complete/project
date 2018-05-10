@@ -6,6 +6,8 @@ use cubes\ecommerce\cart\CartService;
 use cubes\ecommerce\cartItem\CartItemFactory;
 use cubes\ecommerce\cartItem\CartItemService;
 use cubes\ecommerce\product\ProductService;
+use cubes\ecommerce\productOffer\ProductOfferItem;
+use cubes\ecommerce\productOffer\ProductOfferItemService;
 
 class CartTest extends \AppTestCase
 {
@@ -28,9 +30,10 @@ class CartTest extends \AppTestCase
 
     public function testAddProductOffer()
     {
-        $productService = $this->container->get(ProductService::class);
+        $productService = $this->container->get(ProductOfferItemService::class);
         $product = $productService->create();
         $product->setId(1);
+        $product->sku = 'sku1';
         $product->name = 'product1';
         $product->price = 110;
 
@@ -39,7 +42,7 @@ class CartTest extends \AppTestCase
         $this->assertEquals([], $cart->getItems());
         $item = $cart->addProductOffer($product, 3);
         $this->assertEquals([$item], $cart->getItems());
-        $this->assertEquals(1, $item->getSku());
+        $this->assertEquals('sku1', $item->getSku());
         $this->assertEquals('product1', $item->getName());
         $this->assertEquals(110, $item->getPrice());
         $this->assertEquals(3, $item->getQty());
@@ -64,18 +67,23 @@ class CartTest extends \AppTestCase
 
     public function testGetItemBy()
     {
-        $productService = $this->container->get(ProductService::class);
-        $product1 = $productService->create();
-        $product2 = $productService->create();
-        $product3 = $productService->create();
-        $productService->save($product1);
-        $productService->save($product2);
-        $productService->save($product3);
+        $productService = $this->container->get(ProductOfferItemService::class);
+
+        $products = [];
+        for ($i= 1; $i <= 3; $i++) {
+            $product = $productService->create();
+            $product->setId($i);
+            $product->sku = 'sku' . $i;
+            $product->name = 'product' . $i;
+            $product->price = $i;
+            $productService->save($product);
+            $products[] = $product;
+        }
 
         $cartItemFactory = $this->container->get(CartItemFactory::class);
-        $item1 = $cartItemFactory->createFromProductOffer($product1);
-        $item2 = $cartItemFactory->createFromProductOffer($product2);
-        $item3 = $cartItemFactory->createFromProductOffer($product3);
+        $item1 = $cartItemFactory->createFromProductOffer($products[0]);
+        $item2 = $cartItemFactory->createFromProductOffer($products[1]);
+        $item3 = $cartItemFactory->createFromProductOffer($products[2]);
 
         $cartItemService = $this->container->get(CartItemService::class);
         $cartItemService->save($item1);
@@ -91,9 +99,9 @@ class CartTest extends \AppTestCase
         $this->assertEquals($item1->getId(), $cart->getItemById(1)->getId());
         $this->assertEquals($item2->getId(), $cart->getItemById(2)->getId());
         $this->assertEquals($item3->getId(), $cart->getItemById(3)->getId());
-        $this->assertEquals($item1->getId(), $cart->getItemBySku(1)->getId());
-        $this->assertEquals($item2->getId(), $cart->getItemBySku(2)->getId());
-        $this->assertEquals($item3->getId(), $cart->getItemBySku(3)->getId());
+        $this->assertEquals($item1->getId(), $cart->getItemBySku('sku1')->getId());
+        $this->assertEquals($item2->getId(), $cart->getItemBySku('sku2')->getId());
+        $this->assertEquals($item3->getId(), $cart->getItemBySku('sku3')->getId());
     }
 
     public function testGetSetTotals()

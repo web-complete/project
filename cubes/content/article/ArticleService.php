@@ -2,6 +2,7 @@
 
 namespace cubes\content\article;
 
+use cubes\content\article\repository\ArticleRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class ArticleService extends AbstractEntityService implements ArticleRepositoryInterface

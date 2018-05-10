@@ -2,6 +2,7 @@
 
 namespace cubes\notification\template;
 
+use cubes\notification\template\repository\TemplateRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class TemplateService extends AbstractEntityService implements TemplateRepositoryInterface

@@ -2,12 +2,17 @@
 
 namespace cubes\ecommerce\category;
 
+use cubes\ecommerce\category\assets\AdminAsset;
+use cubes\ecommerce\category\migrations\CategoryMigration;
+use cubes\ecommerce\category\repository\CategoryRepositoryDb;
+use cubes\ecommerce\category\repository\CategoryRepositoryInterface;
+use cubes\ecommerce\category\repository\CategoryRepositoryMicro;
+use cubes\ecommerce\category\repository\CategoryRepositoryMongo;
+use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\MigrationSelector;
+use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
-use cubes\ecommerce\category\migrations\CategoryMigration;
-use modules\admin\classes\cube\CubeHelper;
-use modules\admin\classes\cube\RepositorySelector;
-use cubes\ecommerce\category\assets\AdminAsset;
 
 class Cube extends AbstractCube
 {
@@ -36,7 +41,8 @@ class Cube extends AbstractCube
     {
         $definitions[CategoryRepositoryInterface::class] = RepositorySelector::get(
             CategoryRepositoryMicro::class,
-            CategoryRepositoryDb::class
+            CategoryRepositoryDb::class,
+            CategoryRepositoryMongo::class
         );
     }
 
@@ -45,8 +51,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => CategoryMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => CategoryMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

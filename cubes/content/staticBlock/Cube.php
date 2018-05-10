@@ -4,6 +4,10 @@ namespace cubes\content\staticBlock;
 
 use cubes\content\staticBlock\assets\AdminAsset;
 use cubes\content\staticBlock\migrations\StaticBlockMigration;
+use cubes\content\staticBlock\repository\StaticBlockRepositoryDb;
+use cubes\content\staticBlock\repository\StaticBlockRepositoryInterface;
+use cubes\content\staticBlock\repository\StaticBlockRepositoryMicro;
+use cubes\content\staticBlock\repository\StaticBlockRepositoryMongo;
 use modules\admin\classes\cube\CubeHelper;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
@@ -36,7 +40,8 @@ class Cube extends AbstractCube
     {
         $definitions[StaticBlockRepositoryInterface::class] = RepositorySelector::get(
             StaticBlockRepositoryMicro::class,
-            StaticBlockRepositoryDb::class
+            StaticBlockRepositoryDb::class,
+            StaticBlockRepositoryMongo::class
         );
     }
 

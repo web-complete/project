@@ -6,6 +6,8 @@ use cubes\ecommerce\cart\CartHelper;
 use cubes\ecommerce\cart\CartService;
 use cubes\ecommerce\interfaces\ProductOfferInterface;
 use cubes\ecommerce\product\ProductService;
+use cubes\ecommerce\productOffer\ProductOfferItem;
+use cubes\ecommerce\productOffer\ProductOfferItemService;
 use cubes\system\auth\IdentityInterface;
 use cubes\system\user\User;
 use cubes\system\user\UserService;
@@ -104,11 +106,11 @@ class CartServiceTest extends \AppTestCase
         // проверить итемы user cart
         $items = $cart->getItems();
         $this->assertCount(5, $items);
-        $this->assertEquals(1, $items[0]->getProductOffer()->getSku());
-        $this->assertEquals(2, $items[1]->getProductOffer()->getSku());
-        $this->assertEquals(3, $items[2]->getProductOffer()->getSku());
-        $this->assertEquals(4, $items[3]->getProductOffer()->getSku());
-        $this->assertEquals(5, $items[4]->getProductOffer()->getSku());
+        $this->assertEquals('sku_1', $items[0]->getProductOffer()->getSku());
+        $this->assertEquals('sku_2', $items[1]->getProductOffer()->getSku());
+        $this->assertEquals('sku_3', $items[2]->getProductOffer()->getSku());
+        $this->assertEquals('sku_4', $items[3]->getProductOffer()->getSku());
+        $this->assertEquals('sku_5', $items[4]->getProductOffer()->getSku());
         $this->assertEquals(1, $items[0]->getQty());
         $this->assertEquals(1, $items[1]->getQty());
         $this->assertEquals(1, $items[2]->getQty());
@@ -129,6 +131,7 @@ class CartServiceTest extends \AppTestCase
         /** @var IdentityInterface|User $user */
         $user = $userService->create();
         $userService->save($user);
+
         return $user;
     }
 
@@ -140,12 +143,17 @@ class CartServiceTest extends \AppTestCase
     private function createOffers(int $count = 5)
     {
         $result = [];
-        $productService = $this->container->get(ProductService::class);
-        for ($i=1; $i<=$count; $i++) {
-            $product = $productService->create();
-            $productService->save($product);
-            $result[] = $product;
+        $service = $this->container->get(ProductOfferItemService::class);
+        for ($i = 1; $i <= $count; $i++) {
+            /** @var ProductOfferItem $offerItem */
+            $offerItem = $service->create();
+            $offerItem->sku = 'sku_' . $i;
+            $offerItem->name = 'name_' . $i;
+            $offerItem->price = random_int(1000, 10000);
+            $service->save($offerItem);
+            $result[] = $offerItem;
         }
+
         return $result;
     }
 }

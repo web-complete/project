@@ -2,6 +2,7 @@
 
 namespace cubes\system\tags;
 
+use cubes\system\tags\repository\TagRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\helpers\StringHelper;
 

@@ -4,7 +4,12 @@ namespace cubes\system\file;
 
 use cubes\system\file\admin\Controller;
 use cubes\system\file\migrations\FileMigration;
+use cubes\system\file\repository\FileRepositoryDb;
+use cubes\system\file\repository\FileRepositoryInterface;
+use cubes\system\file\repository\FileRepositoryMicro;
+use cubes\system\file\repository\FileRepositoryMongo;
 use modules\admin\classes\cube\CubeHelper;
+use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
@@ -32,7 +37,8 @@ class Cube extends AbstractCube
     {
         $definitions[FileRepositoryInterface::class] = RepositorySelector::get(
             FileRepositoryMicro::class,
-            FileRepositoryDb::class
+            FileRepositoryDb::class,
+            FileRepositoryMongo::class
         );
     }
 
@@ -41,8 +47,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => FileMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => FileMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }

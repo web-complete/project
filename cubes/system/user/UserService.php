@@ -4,6 +4,7 @@ namespace cubes\system\user;
 
 use cubes\system\auth\IdentityInterface;
 use cubes\system\auth\IdentityServiceInterface;
+use cubes\system\user\repository\UserRepositoryInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;

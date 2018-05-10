@@ -2,6 +2,7 @@
 
 namespace cubes\system\seo\redirect;
 
+use cubes\system\seo\redirect\repository\RedirectRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;

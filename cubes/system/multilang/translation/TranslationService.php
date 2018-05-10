@@ -2,6 +2,7 @@
 
 namespace cubes\system\multilang\translation;
 
+use cubes\system\multilang\translation\repository\TranslationRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class TranslationService extends AbstractEntityService implements TranslationRepositoryInterface

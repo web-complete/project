@@ -2,7 +2,7 @@
 
 namespace modules\admin\tests;
 
-use modules\admin\classes\mongo\Mongo;
+use cubes\system\mongo\Mongo;
 
 class MongoSequenceTest extends \AppTestCase
 {

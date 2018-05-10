@@ -2,6 +2,7 @@
 
 namespace cubes\system\storage;
 
+use cubes\system\storage\repository\StorageRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class StorageService extends AbstractEntityService implements StorageRepositoryInterface

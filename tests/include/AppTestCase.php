@@ -20,7 +20,7 @@ class AppTestCase extends \PHPUnit\Framework\TestCase
         parent::setUp();
         Mocker::init($this);
         $this->initApplication();
-        $this->db->beginTransaction();
+        //$this->db->beginTransaction();
         \WebComplete\microDb\StorageRuntime::clear();
     }
 
@@ -29,7 +29,7 @@ class AppTestCase extends \PHPUnit\Framework\TestCase
      */
     public function tearDown()
     {
-        $this->db->rollBack();
+        //$this->db->rollBack();
         parent::tearDown();
     }
 
@@ -43,6 +43,6 @@ class AppTestCase extends \PHPUnit\Framework\TestCase
 
         $this->container = $application->getContainer();
         $this->config = $this->container->get(ApplicationConfig::class);
-        $this->db = $this->container->get(Connection::class); // original db instance
+        //$this->db = $this->container->get(Connection::class); // original db instance
     }
 }

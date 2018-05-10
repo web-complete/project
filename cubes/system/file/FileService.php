@@ -2,6 +2,7 @@
 
 namespace cubes\system\file;
 
+use cubes\system\file\repository\FileRepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;

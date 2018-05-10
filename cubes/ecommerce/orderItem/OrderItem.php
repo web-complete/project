@@ -25,7 +25,7 @@ class OrderItem extends AbstractEntity implements OrderItemInterface
     public static function fields(): array
     {
         return [
-            'order_id' => Cast::STRING,
+            'order_id' => Cast::INT,
             'product_data' => Cast::ARRAY,
             'sku' => Cast::STRING,
             'name' => Cast::STRING,

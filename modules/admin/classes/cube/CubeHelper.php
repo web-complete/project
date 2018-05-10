@@ -60,6 +60,7 @@ class CubeHelper
     public function appendAsset(AbstractAsset $asset): self
     {
         $this->adminAsset->addAssetAfter($asset);
+
         return $this;
     }
 
@@ -71,11 +72,12 @@ class CubeHelper
     public function prependAsset(AbstractAsset $asset): self
     {
         $this->adminAsset->addAssetBefore($asset);
+
         return $this;
     }
 
     /**
-     * @param array $routeDefinition ex: ['GET', '/admin/settings', [Controller::class, 'actionIndex']]
+     * @param array       $routeDefinition ex: ['GET', '/admin/settings', [Controller::class, 'actionIndex']]
      * @param string|null $beforeRoute
      *
      * @return $this
@@ -86,38 +88,41 @@ class CubeHelper
         $routes = $this->config['routes'];
         $routes->addRoute($routeDefinition, $beforeRoute);
         $this->config['routes'] = $routes;
+
         return $this;
     }
 
     /**
      * @param array $routeDefinition ex: ['path' => '/settings', 'component' => 'VuePageSettings']
-     * @param int $position
+     * @param int   $position
      *
      * @return $this
      */
     public function addVueRoute(array $routeDefinition, int $position = 100): self
     {
         $this->pageRoutes->addRoute($position, $routeDefinition);
+
         return $this;
     }
 
     /**
      * @param string $name
-     * @param int $sort
+     * @param int    $sort
      *
      * @return $this
      */
     public function addMenuSection(string $name, int $sort): self
     {
         $this->navigation->addSection($name, $sort);
+
         return $this;
     }
 
     /**
-     * @param string $sectionName
-     * @param string $name
-     * @param string $frontUrl
-     * @param int $sort
+     * @param string      $sectionName
+     * @param string      $name
+     * @param string      $frontUrl
+     * @param int         $sort
      *
      * @param string|null $permission
      *
@@ -131,6 +136,7 @@ class CubeHelper
         string $permission = null
     ): self {
         $this->navigation->addItem($sectionName, $name, $frontUrl, $sort, $permission);
+
         return $this;
     }
 
@@ -154,13 +160,14 @@ class CubeHelper
                 throw new \RuntimeException('Permission not found: ' . $parentName);
             }
         }
+
         return $this;
     }
 
     /**
      * @param EntityConfig $entityConfig
-     * @param string $suffix
-     * @param string $title
+     * @param string       $suffix
+     * @param string       $title
      *
      * @return $this
      * @throws \Exception
@@ -171,6 +178,7 @@ class CubeHelper
         $titleList = $entityConfig->titleList;
         $permissionName = 'admin:cubes:' . $sysName . ':' . $suffix;
         $permissionTitle = $titleList . ' [' . $title . ']';
+
         return $this->addPermission($permissionName, $permissionTitle);
     }
 
@@ -186,6 +194,7 @@ class CubeHelper
             $tagObserver = $this->container->get(TagObserver::class);
             $tagObserver->listen($entityService, $entityConfig->tagField);
         }
+
         return $this;
     }
 
@@ -207,6 +216,7 @@ class CubeHelper
             $searchObserver = $this->container->get(SearchObserver::class);
             $searchObserver->listen($entityService);
         }
+
         return $this;
     }
 
@@ -220,9 +230,10 @@ class CubeHelper
         if ($entityConfig->entitySeoClass) {
             $entityService = $this->container->get($entityConfig->entityServiceClass);
             $entitySeo = $this->container->get($entityConfig->entitySeoClass);
-            $seoObserver = $this->container->get(SeoEntityObserver::class);
+            $seoObserver = $this->container->make(SeoEntityObserver::class);
             $seoObserver->listen($entityService, $entitySeo);
         }
+
         return $this;
     }
 
@@ -241,27 +252,34 @@ class CubeHelper
         $menuItemSort = $entityConfig->menuItemSort;
         $menuSectionSort = $entityConfig->menuSectionSort;
 
-        $this
-            ->addBackendRoute(['GET', "/admin/api/entity/$sysName", [$controllerClass, 'actionList']])
-            ->addBackendRoute(['GET', "/admin/api/entity/$sysName/{id}", [$controllerClass, 'actionDetail']])
-            ->addBackendRoute(['POST', "/admin/api/entity/$sysName/{id}", [$controllerClass, 'actionSave']])
-            ->addBackendRoute(['DELETE', "/admin/api/entity/$sysName/{id}", [$controllerClass, 'actionDelete']])
-            ->observeEntityTagField($entityConfig)
-            ->observeEntitySearch($entityConfig)
-            ->observeEntitySeo($entityConfig);
+        $this->addBackendRoute([
+            'GET',
+            "/admin/api/entity/$sysName",
+            [$controllerClass, 'actionList'],
+        ])->addBackendRoute([
+            'GET',
+            "/admin/api/entity/$sysName/{id}",
+            [$controllerClass, 'actionDetail'],
+        ])->addBackendRoute([
+            'POST',
+            "/admin/api/entity/$sysName/{id}",
+            [$controllerClass, 'actionSave'],
+        ])->addBackendRoute([
+            'DELETE',
+            "/admin/api/entity/$sysName/{id}",
+            [$controllerClass, 'actionDelete'],
+        ])->observeEntityTagField($entityConfig)->observeEntitySearch($entityConfig)->observeEntitySeo($entityConfig);
 
         $permissionView = null;
         if ($entityConfig->rbac) {
             $permissionView = 'admin:cubes:' . $sysName . ':view';
-            $this
-                ->addPermissionSimple($entityConfig, 'view', 'просмотр')
-                ->addPermissionSimple($entityConfig, 'edit', 'редактирование');
+            $this->addPermissionSimple($entityConfig, 'view', 'просмотр')->addPermissionSimple($entityConfig, 'edit',
+                'редактирование');
         }
 
         if ($entityConfig->menuEnabled) {
-            $this
-                ->addMenuSection($menuSectionName, $menuSectionSort)
-                ->addMenuItem($menuSectionName, $titleList, "/list/$sysName", $menuItemSort, $permissionView);
+            $this->addMenuSection($menuSectionName, $menuSectionSort)->addMenuItem($menuSectionName, $titleList,
+                "/list/$sysName", $menuItemSort, $permissionView);
         }
 
         return $this;

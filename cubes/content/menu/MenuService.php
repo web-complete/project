@@ -2,6 +2,7 @@
 
 namespace cubes\content\menu;
 
+use cubes\content\menu\repository\MenuItemRepositoryInterface;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 use WebComplete\core\utils\cache\Cache;

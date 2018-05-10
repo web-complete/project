@@ -2,6 +2,7 @@
 
 namespace cubes\content\staticPage;
 
+use cubes\content\staticPage\repository\StaticPageRepositoryInterface;
 use WebComplete\core\entity\AbstractEntityService;
 
 class StaticPageService extends AbstractEntityService implements StaticPageRepositoryInterface

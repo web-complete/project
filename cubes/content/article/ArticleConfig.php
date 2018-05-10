@@ -33,8 +33,8 @@ class ArticleConfig extends EntityConfig
     {
         return [
             'title' => Cast::STRING,
-            'image_list' => Cast::STRING,
-            'image_detail' => Cast::STRING,
+            'image_list' => Cast::INT,
+            'image_detail' => Cast::INT,
             'description' => Cast::STRING,
             'text' => Cast::STRING,
             'tags' => Cast::STRING,

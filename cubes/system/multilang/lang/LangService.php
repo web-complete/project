@@ -2,6 +2,7 @@
 
 namespace cubes\system\multilang\lang;
 
+use cubes\system\multilang\lang\repository\LangRepositoryInterface;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 

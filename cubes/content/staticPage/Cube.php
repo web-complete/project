@@ -2,6 +2,11 @@
 
 namespace cubes\content\staticPage;
 
+use cubes\content\staticPage\repository\StaticPageRepositoryDb;
+use cubes\content\staticPage\repository\StaticPageRepositoryInterface;
+use cubes\content\staticPage\repository\StaticPageRepositoryMicro;
+use cubes\content\staticPage\repository\StaticPageRepositoryMongo;
+use modules\admin\classes\cube\MigrationSelector;
 use WebComplete\core\cube\AbstractCube;
 use WebComplete\core\utils\container\ContainerInterface;
 use cubes\content\staticPage\migrations\StaticPageMigration;
@@ -31,7 +36,8 @@ class Cube extends AbstractCube
     {
         $definitions[StaticPageRepositoryInterface::class] = RepositorySelector::get(
             StaticPageRepositoryMicro::class,
-            StaticPageRepositoryDb::class
+            StaticPageRepositoryDb::class,
+            StaticPageRepositoryMongo::class
         );
     }
 
@@ -40,8 +46,9 @@ class Cube extends AbstractCube
      */
     public function getMigrations(): array
     {
-        return [
-            '001_001' => StaticPageMigration::class
+        $migrations = [
+            'mysql' => ['001_001' => StaticPageMigration::class]
         ];
+        return MigrationSelector::get($migrations);
     }
 }
