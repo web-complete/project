@@ -6,8 +6,8 @@ use cubes\ecommerce\cart\CartHelper;
 use cubes\ecommerce\cart\CartService;
 use cubes\ecommerce\interfaces\ProductOfferInterface;
 use cubes\ecommerce\product\ProductService;
-use cubes\ecommerce\productOffer\ProductOfferItem;
-use cubes\ecommerce\productOffer\ProductOfferItemService;
+use cubes\ecommerce\productOffer\ProductOffer;
+use cubes\ecommerce\productOffer\ProductOfferService;
 use cubes\system\auth\IdentityInterface;
 use cubes\system\user\User;
 use cubes\system\user\UserService;
@@ -143,15 +143,15 @@ class CartServiceTest extends \AppTestCase
     private function createOffers(int $count = 5)
     {
         $result = [];
-        $service = $this->container->get(ProductOfferItemService::class);
+        $service = $this->container->get(ProductOfferService::class);
         for ($i = 1; $i <= $count; $i++) {
-            /** @var ProductOfferItem $offerItem */
-            $offerItem = $service->create();
-            $offerItem->sku = 'sku_' . $i;
-            $offerItem->name = 'name_' . $i;
-            $offerItem->price = random_int(1000, 10000);
-            $service->save($offerItem);
-            $result[] = $offerItem;
+            /** @var ProductOffer $offer */
+            $offer = $service->create();
+            $offer->sku = 'sku_' . $i;
+            $offer->name = 'name_' . $i;
+            $offer->price = random_int(1000, 10000);
+            $service->save($offer);
+            $result[] = $offer;
         }
 
         return $result;

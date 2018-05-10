@@ -5,7 +5,7 @@ namespace cubes\ecommerce\order\tests;
 use cubes\ecommerce\cart\CartService;
 use cubes\ecommerce\order\OrderService;
 use cubes\ecommerce\product\ProductService;
-use cubes\ecommerce\productOffer\ProductOfferItemService;
+use cubes\ecommerce\productOffer\ProductOfferService;
 
 class OrderServiceTest extends \AppTestCase
 {
@@ -13,7 +13,7 @@ class OrderServiceTest extends \AppTestCase
     public function testCreateOrder()
     {
         // создать товары
-        $productService = $this->container->get(ProductOfferItemService::class);
+        $productService = $this->container->get(ProductOfferService::class);
         $products = [];
         for ($i= 1; $i <= 3; $i++) {
             $product = $productService->create();

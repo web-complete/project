@@ -4,23 +4,23 @@ namespace cubes\ecommerce\productOffer;
 
 use cubes\ecommerce\interfaces\ProductOfferInterface;
 use cubes\ecommerce\interfaces\ProductOfferServiceInterface;
-use cubes\ecommerce\productOffer\repository\ProductOfferItemRepositoryInterface;
+use cubes\ecommerce\productOffer\repository\ProductOfferRepositoryInterface;
 use WebComplete\core\condition\Condition;
 use WebComplete\core\entity\AbstractEntity;
 use WebComplete\core\entity\AbstractEntityService;
 
-class ProductOfferItemService extends AbstractEntityService implements ProductOfferItemRepositoryInterface, ProductOfferServiceInterface
+class ProductOfferService extends AbstractEntityService implements ProductOfferRepositoryInterface, ProductOfferServiceInterface
 {
 
     /**
-     * @var ProductOfferItemRepositoryInterface
+     * @var ProductOfferRepositoryInterface
      */
     protected $repository;
 
     /**
-     * @param ProductOfferItemRepositoryInterface $repository
+     * @param ProductOfferRepositoryInterface $repository
      */
-    public function __construct(ProductOfferItemRepositoryInterface $repository)
+    public function __construct(ProductOfferRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }

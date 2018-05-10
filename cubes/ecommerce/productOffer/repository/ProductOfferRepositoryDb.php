@@ -2,12 +2,12 @@
 
 namespace cubes\ecommerce\productOffer\repository;
 
-use cubes\ecommerce\productOffer\ProductOfferItemFactory;
+use cubes\ecommerce\productOffer\ProductOfferFactory;
 use Doctrine\DBAL\Connection;
 use WebComplete\core\condition\ConditionDbParser;
 use WebComplete\core\entity\AbstractEntityRepositoryDb;
 
-class ProductOfferItemRepositoryDb extends AbstractEntityRepositoryDb implements ProductOfferItemRepositoryInterface
+class ProductOfferRepositoryDb extends AbstractEntityRepositoryDb implements ProductOfferRepositoryInterface
 {
 
     protected $table = 'product_offer';
@@ -15,12 +15,12 @@ class ProductOfferItemRepositoryDb extends AbstractEntityRepositoryDb implements
     protected $serializeFields = ['multilang', 'properties', 'properties_multilang'];
 
     /**
-     * @param ProductOfferItemFactory $factory
-     * @param ConditionDbParser $conditionParser
-     * @param Connection $db
+     * @param ProductOfferFactory $factory
+     * @param ConditionDbParser   $conditionParser
+     * @param Connection          $db
      */
     public function __construct(
-        ProductOfferItemFactory $factory,
+        ProductOfferFactory $factory,
         ConditionDbParser $conditionParser,
         Connection $db
     ) {

@@ -6,8 +6,8 @@ use cubes\ecommerce\cart\CartService;
 use cubes\ecommerce\cartItem\CartItemFactory;
 use cubes\ecommerce\cartItem\CartItemService;
 use cubes\ecommerce\product\ProductService;
-use cubes\ecommerce\productOffer\ProductOfferItem;
-use cubes\ecommerce\productOffer\ProductOfferItemService;
+use cubes\ecommerce\productOffer\ProductOffer;
+use cubes\ecommerce\productOffer\ProductOfferService;
 
 class CartTest extends \AppTestCase
 {
@@ -30,7 +30,7 @@ class CartTest extends \AppTestCase
 
     public function testAddProductOffer()
     {
-        $productService = $this->container->get(ProductOfferItemService::class);
+        $productService = $this->container->get(ProductOfferService::class);
         $product = $productService->create();
         $product->setId(1);
         $product->sku = 'sku1';
@@ -67,7 +67,7 @@ class CartTest extends \AppTestCase
 
     public function testGetItemBy()
     {
-        $productService = $this->container->get(ProductOfferItemService::class);
+        $productService = $this->container->get(ProductOfferService::class);
 
         $products = [];
         for ($i= 1; $i <= 3; $i++) {

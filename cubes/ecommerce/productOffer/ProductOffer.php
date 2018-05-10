@@ -13,7 +13,7 @@ use WebComplete\core\utils\typecast\Cast;
 * @property $product_id
 * @property $price
 */
-class ProductOfferItem extends AbstractEntity implements ProductOfferInterface
+class ProductOffer extends AbstractEntity implements ProductOfferInterface
 {
 
     /**

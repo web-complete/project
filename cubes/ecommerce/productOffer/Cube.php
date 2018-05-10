@@ -2,10 +2,10 @@
 
 namespace cubes\ecommerce\productOffer;
 
-use cubes\ecommerce\productOffer\repository\ProductOfferItemRepositoryDb;
-use cubes\ecommerce\productOffer\repository\ProductOfferItemRepositoryInterface;
-use cubes\ecommerce\productOffer\repository\ProductOfferItemRepositoryMicro;
-use cubes\ecommerce\productOffer\repository\ProductOfferItemRepositoryMongo;
+use cubes\ecommerce\productOffer\repository\ProductOfferRepositoryDb;
+use cubes\ecommerce\productOffer\repository\ProductOfferRepositoryInterface;
+use cubes\ecommerce\productOffer\repository\ProductOfferRepositoryMicro;
+use cubes\ecommerce\productOffer\repository\ProductOfferRepositoryMongo;
 use modules\admin\classes\cube\MigrationSelector;
 use WebComplete\core\cube\AbstractCube;
 use cubes\ecommerce\productOffer\migrations\ProductOfferMigration;
@@ -20,10 +20,10 @@ class Cube extends AbstractCube
      */
     public function registerDependencies(array &$definitions)
     {
-        $definitions[ProductOfferItemRepositoryInterface::class] = RepositorySelector::get(
-            ProductOfferItemRepositoryMicro::class,
-            ProductOfferItemRepositoryDb::class,
-            ProductOfferItemRepositoryMongo::class
+        $definitions[ProductOfferRepositoryInterface::class] = RepositorySelector::get(
+            ProductOfferRepositoryMicro::class,
+            ProductOfferRepositoryDb::class,
+            ProductOfferRepositoryMongo::class
         );
     }
 

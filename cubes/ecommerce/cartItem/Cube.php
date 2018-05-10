@@ -8,7 +8,7 @@ use cubes\ecommerce\cartItem\repository\CartItemRepositoryInterface;
 use cubes\ecommerce\cartItem\repository\CartItemRepositoryMicro;
 use cubes\ecommerce\cartItem\repository\CartItemRepositoryMongo;
 use cubes\ecommerce\interfaces\ProductOfferServiceInterface;
-use cubes\ecommerce\productOffer\ProductOfferItemService;
+use cubes\ecommerce\productOffer\ProductOfferService;
 use modules\admin\classes\cube\MigrationSelector;
 use modules\admin\classes\cube\RepositorySelector;
 use WebComplete\core\cube\AbstractCube;
@@ -27,7 +27,7 @@ class Cube extends AbstractCube
             CartItemRepositoryDb::class,
             CartItemRepositoryMongo::class
         );
-        $definitions[ProductOfferServiceInterface::class] = \DI\autowire(ProductOfferItemService::class);
+        $definitions[ProductOfferServiceInterface::class] = \DI\autowire(ProductOfferService::class);
     }
 
     /**
