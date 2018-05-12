@@ -1,0 +1,14 @@
+{
+  "extends": ["airbnb", "plugin:flowtype/recommended"],
+  "parser": "babel-eslint",
+  "plugins": ["flowtype"],
+  "rules": {
+    "no-console": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "class-methods-use-this": "off",
+    "no-trailing-spaces": "off",
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+    "react/forbid-prop-types": "off"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.1",
     "web-complete/core": "dev-master",
     "web-complete/mvc": "dev-master",
     "web-complete/form": "^1",

@@ -1,0 +1,141 @@
+@media (min-width: 992px) {
+    .mfp-3d-unfold {
+        /* start state */
+        /* animate in */
+        /* animate out */
+    }
+    .mfp-3d-unfold .mfp-content {
+        perspective: 0;
+    }
+    .mfp-3d-unfold .mfp-with-anim {
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+        transform-style: preserve-3d;
+        transform: rotateY(-60deg);
+    }
+    .mfp-3d-unfold.mfp-bg {
+        opacity: 0;
+        transition: all 0.5s;
+    }
+    .mfp-3d-unfold.mfp-ready .mfp-with-anim {
+        opacity: 1;
+        transform: rotateY(0deg);
+    }
+    .mfp-3d-unfold.mfp-ready.mfp-bg {
+        opacity: 0.8;
+    }
+    .mfp-3d-unfold.mfp-removing .mfp-with-anim {
+        transform: rotateY(60deg);
+        opacity: 0;
+    }
+    .mfp-3d-unfold.mfp-removing.mfp-bg {
+        opacity: 0;
+    }
+}
+.mfp-iframe-scaler iframe {
+    background: #fff;
+}
+.white-popup {
+    position: relative;
+    background: #FFF;
+    padding: 0;
+    width: auto;
+    max-width: 1200px;
+    margin: 50px auto;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.mfp-theme {
+
+}
+.mfp-theme.mfp-bg {
+    opacity: 0;
+    transition: all 0.5s;
+    background: #000;
+}
+.mfp-theme.mfp-ready.mfp-bg {
+    opacity: 0.3;
+}
+.mfp-theme .white-popup {
+    top: -30px;
+    transition: all 0.5s ease;
+}
+.mfp-theme.mfp-ready .white-popup {
+    top: 0;
+}
+.mfp-close-btn-in .mfp-close {
+    color: #333;
+    right: 10px;
+    top: 15px;
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.white-popup h1 {
+    font-size: 20px;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+.white-popup .content {
+    padding: 0 15px;
+    min-height: 50px;
+}
+.mfp-confirm .white-popup {
+    width: 270px;
+}
+.mfp-content .white-popup.bigPopup {
+    width: auto;
+    max-width: 800px;
+}
+.mfp-image-holder .mfp-content {
+    background: #fff;
+    margin: 40px auto;
+    padding: 20px 20px 0 20px;
+    border-radius: 10px;
+}
+.mfp-image-holder .mfp-content figure {
+    margin: 0;
+}
+.mfp-figure::after {
+    background: #fff;
+    box-shadow: none;
+}
+.mfp-buttons {
+    height: 44px;
+    width: 210px;
+    margin: 20px auto 20px auto;
+}
+.mfp-buttons button {
+    font-size: 14px;
+    float: left;
+}
+.mfp-buttons button.no {
+    margin-right: 10px;
+}
+.mfp-buttons button.btn50:first-child {
+    float: left;
+}
+.mfp-buttons button.btn50 {
+    float: right;
+    display: block;
+    width: 49%;
+}
+.white-popup input.input {
+    display: block;
+    margin: 20px auto 0 auto;
+    padding: 0 10px;
+    height: 40px;
+    width: 210px;
+    border: 2px solid #aaa;
+    border-radius: 3px;
+}
+.white-popup input.input:focus {
+    border-color: #4e6784;
+}
